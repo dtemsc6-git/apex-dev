@@ -1,0 +1,1662 @@
+---
+# ====== Page: SGT_FORM_RACKS ================================
+id: 12
+identification: 
+  name: SGT_FORM_RACKS
+  alias: SGT-FORM-RACKS
+  title: Formulario Racks
+  page-group: Implementadores # 57024536698229459190
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+css: 
+  file-urls: 
+  - '#APP_FILES#racks.css'
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: VISTA_FRONT =================================
+  id: 29962990744487667701
+  identification: 
+    name: VISTA_FRONT
+    title: Vista Frontal Rack
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      WITH Pisos(posicion_u) AS (
+        SELECT 1 FROM dual
+        UNION ALL
+        SELECT posicion_u + 1 FROM Pisos
+        WHERE posicion_u + 1 <= (
+          SELECT altura_u FROM sgt_Racks WHERE id=:P12_ID
+        )
+      )
+      
+      SELECT 
+        'U'||p.posicion_u as "U", 
+        CASE 
+          WHEN EXISTS (
+            SELECT 1 FROM sgt_Equipos e
+            WHERE e.rack_id = :P12_ID
+              AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)
+              AND e.posicion = 'Front'
+          ) THEN 
+            '<span class="u-ocupada u-clickable">'|| 
+            (SELECT e.nombre FROM sgt_Equipos e
+             WHERE e.rack_id = :P12_ID
+               AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)
+               AND e.posicion = 'Front'
+             AND ROWNUM = 1) ||'</span>'
+          ELSE
+            '<span class="u-libre u-clickable" data-ua="'|| p.posicion_u ||'">Seleccionar Aqui</span>'
+        END AS Equipo
+      FROM Pisos p
+      ORDER BY p.posicion_u DESC;
+    page-items-to-submit: 
+    - P12_ID
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 20
+    parent-region: Equipos # 29962991639128667710
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 60
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: U ===========================================
+    id: 51494079330282384801
+    identification: 
+      column-name: U
+      type: Plain Text
+
+    heading: 
+      heading: U
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EQUIPO ======================================
+    id: 51494079451723384802
+    identification: 
+      column-name: EQUIPO
+      type: Rich Text
+
+    heading: 
+      heading: Equipo
+      alignment: start
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    settings: 
+      format: HTML
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+- # ====== Region: Tabs ========================================
+  id: 29962991380543667707
+  identification: 
+    name: Tabs
+    title: Seleccione
+    type: Region Display Selector
+
+  layout: 
+    sequence: 10
+    parent-region: SGT_RACKS_FORM # 200718415171211803890
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      mode: View Single Region
+      display-region-icons: true
+      include-'show-all': false
+      remember-selection: By User
+
+- # ====== Region: Datos =======================================
+  id: 29962991573714667709
+  identification: 
+    name: Datos
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: Tabs # 29962991380543667707
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Equipos =====================================
+  id: 29962991639128667710
+  identification: 
+    name: Equipos
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: Tabs # 29962991380543667707
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    column-css-classes: 
+    - racks
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: VISTA_BACK ==================================
+  id: 51494079562800384803
+  identification: 
+    name: VISTA_BACK
+    title: Vista Posterior Rack
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      WITH Pisos(posicion_u) AS (
+        SELECT 1 FROM dual
+        UNION ALL
+        SELECT posicion_u + 1 FROM Pisos
+        WHERE posicion_u + 1 <= (
+          SELECT altura_u FROM sgt_Racks WHERE id=:P12_ID
+        )
+      )
+      
+      SELECT 
+        'U'||p.posicion_u as "U", 
+        CASE 
+          WHEN EXISTS (
+            SELECT 1 FROM sgt_Equipos e
+            WHERE e.rack_id = :P12_ID
+              AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)
+              AND e.posicion = 'Back'
+          ) THEN 
+            '<span class="u-ocupada u-clickable">'|| 
+            (SELECT e.nombre FROM sgt_Equipos e
+             WHERE e.rack_id = :P12_ID
+               AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)
+               AND e.posicion = 'Back'
+             AND ROWNUM = 1) ||'</span>'
+          ELSE
+            '<span class="u-libre u-clickable" data-ua="'|| p.posicion_u ||'">Seleccionar Aqui</span>'
+        END AS Equipo
+      FROM Pisos p
+      ORDER BY p.posicion_u DESC;
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 30
+    parent-region: Equipos # 29962991639128667710
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    column-css-classes: 
+    - back
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 60
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: U ===========================================
+    id: 51494079675743384804
+    identification: 
+      column-name: U
+      type: Plain Text
+
+    heading: 
+      heading: U
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EQUIPO ======================================
+    id: 51494079786979384805
+    identification: 
+      column-name: EQUIPO
+      type: Rich Text
+
+    heading: 
+      heading: Equipo
+      alignment: start
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    settings: 
+      format: HTML
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+- # ====== Region: Datos =======================================
+  id: 64554407306447252531
+  identification: 
+    name: Datos
+    type: Static Content
+
+  source: 
+    html-code: 'Rack: &P12_NOMBRE.'
+
+  layout: 
+    sequence: 10
+    parent-region: Equipos # 29962991639128667710
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    css-classes: 
+    - u-libre
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: SGT_RACKS_FORM ==============================
+  id: 200718415171211803890
+  identification: 
+    name: SGT_RACKS_FORM
+    type: Form
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_RACKS
+    include-rowid-column: false
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Add Row
+      - Update Row
+      - Delete Row
+      lost-update-type: Row Values
+
+- # ====== Region: Buttons =====================================
+  id: 200718420389393803894
+  identification: 
+    name: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: SGT_RACKS_FORM # 200718415171211803890
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
+
+page-items: 
+- # ====== Page Item: P12_ALTURA_U =============================
+  id: 42592132186274121688
+  identification: 
+    name: P12_ALTURA_U
+    type: Text Field
+
+  label: 
+    label: Cantidad de U
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 80
+    region: Datos # 29962991573714667709
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+    value-placeholder: Ingrese aquí la cantidad de U del rack
+
+  validation: 
+    value-required: true
+    maximum-length: 50
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_RACKS_FORM # 200718415171211803890
+    column: ALTURA_U
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P12_DIMENCIONES ==========================
+  id: 42592132305097121689
+  identification: 
+    name: P12_DIMENCIONES
+    type: Text Field
+
+  label: 
+    label: Dimenciones
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 90
+    region: Datos # 29962991573714667709
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_RACKS_FORM # 200718415171211803890
+    column: DIMENSIONES
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P12_MARCA ================================
+  id: 42592132425381121690
+  identification: 
+    name: P12_MARCA
+    type: Text Field
+
+  label: 
+    label: Marca
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 50
+    region: Datos # 29962991573714667709
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_RACKS_FORM # 200718415171211803890
+    column: MARCA
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P12_TITULO ===============================
+  id: 117089387609062048098
+  identification: 
+    name: P12_TITULO
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Datos # 29962991573714667709
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P12_SITIO ================================
+  id: 117089387709215048099
+  identification: 
+    name: P12_SITIO
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 100
+    region: Datos # 29962991573714667709
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P12_CIUDAD ===============================
+  id: 117089387813610048100
+  identification: 
+    name: P12_CIUDAD
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 110
+    region: Datos # 29962991573714667709
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P12_DEPARTAMENTO =========================
+  id: 117089387865272048101
+  identification: 
+    name: P12_DEPARTAMENTO
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 120
+    region: Datos # 29962991573714667709
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P12_ID ===================================
+  id: 200718415492251803890
+  identification: 
+    name: P12_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 130
+    region: Datos # 29962991573714667709
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_RACKS_FORM # 200718415171211803890
+    column: ID
+    data-type: NUMBER
+    query-only: true
+    primary-key: true
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P12_UNIDAD_ENCARGADA =====================
+  id: 200718415849596803891
+  identification: 
+    name: P12_UNIDAD_ENCARGADA
+    type: Select Many
+
+  label: 
+    label: Unidad Encargada
+    alignment: Left
+
+  settings: 
+    fetch-on-search: false
+    use-defaults: true
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: Delimited List
+    separator: ':'
+
+  layout: 
+    sequence: 20
+    region: Datos # 29962991573714667709
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: LOV_UNI_ENCAR # 200719442741094818409
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_RACKS_FORM # 200718415171211803890
+    column: UNIDAD_ENCARGADA
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P12_MODELO ===============================
+  id: 200718417514962803892
+  identification: 
+    name: P12_MODELO
+    type: Text Field
+
+  label: 
+    label: Modelo
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 60
+    region: Datos # 29962991573714667709
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_RACKS_FORM # 200718415171211803890
+    column: MODELO
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P12_DETALLE ==============================
+  id: 200718417851159803892
+  identification: 
+    name: P12_DETALLE
+    type: Text Field
+
+  label: 
+    label: Detalle
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: None
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 140
+    region: Datos # 29962991573714667709
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_RACKS_FORM # 200718415171211803890
+    column: DETALLE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P12_NOMBRE ===============================
+  id: 202816056687892564098
+  identification: 
+    name: P12_NOMBRE
+    type: Text Field
+
+  label: 
+    label: Nombre
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 40
+    region: Datos # 29962991573714667709
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+    maximum-length: 50
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_RACKS_FORM # 200718415171211803890
+    column: NOMBRE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P12_SALA_ID ==============================
+  id: 202816057904285564109
+  identification: 
+    name: P12_SALA_ID
+    type: Popup LOV
+
+  label: 
+    label: Sala
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 30
+    region: Datos # 29962991573714667709
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: SALAS.NOMBRE # 18963831332535051533
+    display-extra-values: true
+    display-null-value: true
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P12_SITIO
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_RACKS_FORM # 200718415171211803890
+    column: SALA_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 200718420787408803895
+  identification: 
+    button-name: CANCEL
+    label: Cancelar
+
+  layout: 
+    sequence: 10
+    region: Buttons # 200718420389393803894
+    slot: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:11:&SESSION.::&DEBUG.:::'
+      page: 11 # SGT_LST_RACKS
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: DELETE ======================================
+  id: 200718422174543803896
+  identification: 
+    button-name: DELETE
+    label: DELETE
+
+  layout: 
+    sequence: 20
+    region: Buttons # 200718420389393803894
+    slot: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  confirmation: 
+    message: '&APP_TEXT$DELETE_MSG!RAW.'
+    style: Danger
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P12_ID
+
+- # ====== Button: SAVE ========================================
+  id: 200718422529026803896
+  identification: 
+    button-name: SAVE
+    label: '&APP_TEXT$BTN_APLICAR_CAMBIOS!RAW.'
+
+  layout: 
+    sequence: 30
+    region: Buttons # 200718420389393803894
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P12_ID
+
+- # ====== Button: CREATE ======================================
+  id: 200718422949256803896
+  identification: 
+    button-name: CREATE
+    label: '&APP_TEXT$BTN_CREAR!RAW.'
+
+  layout: 
+    sequence: 40
+    region: Buttons # 200718420389393803894
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P12_ID
+
+dynamic-actions: 
+- # ====== Dynamic Action: CHECK_NOMBRE ========================
+  id: 51494081790371384825
+  identification: 
+    name: CHECK_NOMBRE
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P12_NOMBRE
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 51494081881580384826
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        apex.server.process("CHECK_RACK_DUPLICADO", {
+            pageItems: "#P12_ID,#P12_NOMBRE,#P12_SALA_ID",
+            loadingIndicator: "#P12_NOMBRE",  // opcional: puedes asociar el spinner a este campo
+            showWait: true
+        }, {
+            success: function(pData) {
+                apex.message.clearErrors();
+            },
+            error: function(pData) {
+                if (pData.responseJSON.error) {
+                    apex.message.showErrors([
+                        {
+                            type: "error",
+                            location: ["inline"],
+                            pageItem: "P12_NOMBRE",
+                            message: pData.responseJSON.error,
+                            unsafe: false
+                        }
+                    ]);
+                    let $campo = $("#P12_NOMBRE");
+                    $campo.addClass("apex-page-item-error");
+        
+                }
+            }
+        });
+
+    execution: 
+      sequence: 10
+      event: CHECK_NOMBRE # 51494081790371384825
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Actualizar titulo de página =========
+  id: 117089387499476048097
+  identification: 
+    name: Actualizar titulo de página
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+
+  when: 
+    event: Page Load
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 117089387382893048096
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        $(document).ready(function() {
+        
+        apex.util.getTopApex().jQuery(".t-Body-title").dialog("option", "title", "&P12_TITULO.");
+        });
+
+    execution: 
+      sequence: 10
+      event: Actualizar titulo de página # 117089387499476048097
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: CHECK_RACK_DUPLICADO =======================
+  id: 51494081674121384824
+  identification: 
+    name: CHECK_RACK_DUPLICADO
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      DECLARE
+          v_count NUMBER;
+          v_sugerencias  VARCHAR2(1000);
+          v_id number;
+      BEGIN
+          IF :P12_ID IS NULL OR TRIM(:P12_ID) = '' THEN
+            v_id := NULL;
+         ELSE
+            v_id := TO_NUMBER(:P12_ID);
+         END IF;  
+      
+          SELECT COUNT(*)
+            INTO v_count
+            FROM SGT_RACKS
+           WHERE NOMBRE = UPPER(:P12_NOMBRE)
+             AND SALA_ID = :P12_SALA_ID
+             AND (v_id IS NULL OR ID != v_id); 
+             
+          IF v_count > 0 THEN
+              -- Devuelve un mensaje de error al cliente (en JSON)
+              -- Sugerencias: buscar racks similares del mismo sitio
+              APEX_JSON.OPEN_OBJECT;
+              APEX_JSON.WRITE('success', false);
+              APEX_JSON.WRITE('error_code', 'ORA-00001');
+              APEX_JSON.WRITE('error', 'Ya existe un rack con ese nombre en la sala seleccionada.');
+              APEX_JSON.CLOSE_OBJECT;
+      
+      
+      
+          ELSE
+              APEX_JSON.OPEN_OBJECT;
+              APEX_JSON.WRITE('success', 'OK');
+              APEX_JSON.CLOSE_OBJECT;
+          END IF;
+      END;
+
+  execution: 
+    sequence: 10
+    point: Ajax Callback
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Initialize form SGT_RACKS_FORM =============
+  id: 200718423400314803897
+  identification: 
+    name: Initialize form SGT_RACKS_FORM
+    type: Form - Initialization
+    execution-chain: None
+    form-region: SGT_RACKS_FORM # 200718415171211803890
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Process form SGT_RACKS_FORM ================
+  id: 200718423742843803897
+  identification: 
+    name: Process form SGT_RACKS_FORM
+    type: Form - Automatic Row Processing (DML)
+    execution-chain: None
+    form-region: SGT_RACKS_FORM # 200718415171211803890
+
+  settings: 
+    target-type: Region Source
+    prevent-lost-updates: true
+    lock-row: Yes
+    return-primary-key(s)-after-insert: true
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,SAVE,DELETE
+
+- # ====== Process: Close Dialog ===============================
+  id: 200718424184193803897
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+    execution-chain: None
+
+  settings: 
+    show-success-messages: true
+
+  execution: 
+    sequence: 50
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,SAVE,DELETE
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+branches: 
+- # ====== Branch: LISTADO =====================================
+  id: 51494083588785384843
+  identification: 
+    name: LISTADO
+
+  execution: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:11:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 11 # SGT_LST_RACKS
+

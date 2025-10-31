@@ -1,0 +1,542 @@
+---
+# ====== Page: Step 2 ========================================
+id: 51
+identification: 
+  name: Step 2
+  alias: STEP-2
+  title: Seleccionar Nodos Transito
+  page-group: Implementadores # 57024536698229459190
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Wizard Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  height: 400
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+javascript: 
+  function-and-global-variable-declaration: |
+    function filtrarShuttle() {
+    var filtro = $("#P51_BUSCAR_SITIOS").val();
+        var filtroLower = filtro.toLowerCase();
+        var opciones = document.querySelectorAll("#P51_SITIOS_TRANSITO_LEFT option");
+    
+        opciones.forEach(function (opt) {
+            if (opt.text.toLowerCase().includes(filtroLower)) {
+                opt.style.display = "";   // mostrar
+            } else {
+                opt.style.display = "none"; // ocultar
+            }
+        });
+    }
+        
+
+header-and-footer: 
+  header-text: <div class="">Seleccione los sitios por donde pasa el servicio a ser creado, desde un origen a un destino. <br/> </div>
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Wizard Progress =============================
+  id: 67812697655290518417
+  identification: 
+    name: Wizard Progress
+    type: List
+
+  source: 
+    list: Asistente Servicios # 67812692495749518409
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      list-template: Wizard Progress
+
+- # ====== Region: Step 2 ======================================
+  id: 67812697754226518417
+  identification: 
+    name: Step 2
+    title: Crear Enlace Lógico
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Buttons =====================================
+  id: 67812697823931518417
+  identification: 
+    name: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P51_SITIOS_TRANSITO ======================
+  id: 78443844233356367122
+  identification: 
+    name: P51_SITIOS_TRANSITO
+    type: Shuttle
+
+  label: 
+    label: Sitios Transito
+    alignment: Left
+
+  settings: 
+    show-controls: All
+
+  multiple-values: 
+    type: Delimited List
+    separator: ','
+
+  layout: 
+    sequence: 50
+    region: Step 2 # 67812697754226518417
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Required - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 5
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT S.SIGLAS, S.ID FROM SGT_SITIOS S
+      
+      --where s.id not in (:P50_LADO_A, :P50_LADO_Z)
+      --WHERE 1=1 and S.SIGLAS LIKE '%' || upper(:P51_BUSCAR_SITIOS )|| '%'
+      /*
+      where 
+      
+      (
+      :P51_BUSCAR_SITIOS IS NULL 
+             OR S.SIGLAS LIKE '%' || upper(:P51_BUSCAR_SITIOS )|| '%')
+         OR id IN (SELECT column_value 
+                   FROM TABLE(apex_string.split(:P51_SITIOS_TRANSITO, ':')))*/
+    display-extra-values: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return multiple values)
+    sql-query: |
+      select sitio_id from sgt_sitios_servicio
+      where servicio_id = :P50_ID
+      order by seq
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P51_BUSCAR_SITIOS ========================
+  id: 78443844350970367123
+  identification: 
+    name: P51_BUSCAR_SITIOS
+    type: Text Field
+
+  label: 
+    label: Buscar Sitios
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 30
+    region: Step 2 # 67812697754226518417
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 67812699327317518418
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 67812697823931518417
+    slot: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: PREVIOUS ====================================
+  id: 67812699599879518418
+  identification: 
+    button-name: PREVIOUS
+    label: Previous
+
+  layout: 
+    sequence: 20
+    region: Buttons # 67812697823931518417
+    slot: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-chevron-left
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: NEXT ========================================
+  id: 67812699622219518418
+  identification: 
+    button-name: NEXT
+    label: Next
+
+  layout: 
+    sequence: 30
+    region: Buttons # 67812697823931518417
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon
+    hot: true
+    template-options: 
+    - t-Button--iconRight
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel Dialog =======================
+  id: 67812699777882518418
+  identification: 
+    name: Cancel Dialog
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: CANCEL # 67812699327317518418
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 67812700523088518419
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel Dialog # 67812699777882518418
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Filtrar =============================
+  id: 78443844679962367126
+  identification: 
+    name: Filtrar
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P51_BUSCAR_SITIOS
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 78443844769807367127
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        //function filtrarShuttle(filtro) {
+          console.log("filtrar datos")
+          filtrarShuttle();
+        //}
+
+    execution: 
+      sequence: 10
+      event: Filtrar # 78443844679962367126
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: NoSubmit ============================
+  id: 78443845112317367131
+  identification: 
+    name: NoSubmit
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Key Press
+    selection-type: Item(s)
+    item(s): 
+    - P51_BUSCAR_SITIOS
+
+  actions: 
+  - # ====== Action: Filtrar =====================================
+    id: 78443845237339367132
+    identification: 
+      name: Filtrar
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        if (event.key === "Enter") {
+        
+            filtrarShuttle();
+        
+        
+        
+            event.preventDefault(); // evita el submit
+            return false;
+        }
+
+    execution: 
+      sequence: 10
+      event: NoSubmit # 78443845112317367131
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+branches: 
+- # ====== Branch: Go To Page 50 ===============================
+  id: 67812701224695518419
+  identification: 
+    name: Go To Page 50
+
+  execution: 
+    sequence: 10
+    point: Validating
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:50:&APP_SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 50 # Step 1
+
+  server-side-condition: 
+    when-button-pressed: PREVIOUS # 67812699599879518418
+
+- # ====== Branch: Go To Page 53 ===============================
+  id: 67812701988734518420
+  identification: 
+    name: Go To Page 53
+
+  execution: 
+    sequence: 20
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:53:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 53 # Paso 3
+
+  server-side-condition: 
+    when-button-pressed: NEXT # 67812699622219518418
+

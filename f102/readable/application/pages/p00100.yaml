@@ -1,0 +1,1370 @@
+---
+# ====== Page: Dashboard de Gestión de Auditoría - Últimos 30 
+id: 100
+identification: 
+  name: Dashboard de Gestión de Auditoría - Últimos 30 días
+  alias: DASHBOARD-DE-GESTIÓN-DE-AUDITORÍA
+  title: Dashboard de Gestión de Auditoría - Últimos 30 días
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+css: 
+  inline: |
+    .dashboard-page {
+        background-color: #f8f9fc;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+    }
+    
+    .dashboard-card {
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 20px;
+        background: white;
+    }
+    
+    .dashboard-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Estilos para Cards de métricas */
+    .metric-card {
+        text-align: center;
+        padding: 25px;
+        border-left: 4px solid #3498db;
+    }
+    
+    .metric-card.is-danger {
+        border-left-color: #e74c3c;
+        background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+    }
+    
+    .metric-card.is-warning {
+        border-left-color: #f39c12;
+        background: linear-gradient(135deg, #fffbf0 0%, #feebcb 100%);
+    }
+    
+    .metric-card.is-success {
+        border-left-color: #27ae60;
+        background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+    }
+    
+    .metric-card.is-info {
+        border-left-color: #3498db;
+        background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+    }
+    
+    .metric-value {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 15px 0;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    .metric-subtitle {
+        color: #7f8c8d;
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+    
+    /* Estilos para gráficos */
+    .chart-container {
+        background: white;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    
+    .chart-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        text-align: center;
+        border-bottom: 2px solid #ecf0f1;
+        padding-bottom: 10px;
+    }
+    
+    /* Estilos para tabla */
+    .audit-table {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .table-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 20px;
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+    
+    /* Filtros */
+    .filter-container {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #3498db;
+    }
+    
+    .filter-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 15px;
+    }
+    
+    /* Botones */
+    .btn-refresh {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-refresh:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Header del dashboard */
+    .dashboard-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .dashboard-title {
+        font-size: 2.2rem;
+        font-weight: 300;
+        margin-bottom: 10px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    .dashboard-subtitle {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        font-weight: 400;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .metric-value {
+            font-size: 2rem;
+        }
+        
+        .dashboard-card {
+            margin-bottom: 15px;
+            padding: 15px;
+        }
+        
+        .chart-container {
+            padding: 15px;
+        }
+        
+        .dashboard-title {
+            font-size: 1.8rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .metric-value {
+            font-size: 1.6rem;
+        }
+        
+        .dashboard-header {
+            padding: 20px;
+        }
+        
+        .filter-container {
+            padding: 15px;
+        }
+    }
+    
+    /* Animaciones */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .dashboard-card {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    /* Optimización para gráficos compactos */
+    .chart-container-small {
+        padding: 15px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .chart-container-small .a-Region-body {
+        padding: 10px !important;
+    }
+    
+    /* Ajustar altura específica para pie chart */
+    .apex-chart-pie {
+        max-height: 250px !important;
+    }
+    
+    /* Mejorar spacing entre regiones */
+    .t-Region {
+        margin-bottom: 15px;
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Métricas Principales ========================
+  id: 59781394462816353026
+  identification: 
+    name: Métricas Principales
+    title: Métricas Principales
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          'TOTAL CAMBIOS' as CARD_TITLE,
+          TO_CHAR(TOTAL_CAMBIOS, '999,999') as CARD_VALUE,
+          'En los últimos 30 días' as CARD_SUBTITLE,
+          'fa fa-edit' as CARD_ICON,
+          CASE 
+              WHEN TOTAL_CAMBIOS > 1000 THEN 'is-warning'
+              WHEN TOTAL_CAMBIOS > 500 THEN 'is-info'
+              ELSE 'is-success'
+          END as CARD_COLOR
+      FROM V_AUDIT_DASHBOARD_EJECUTIVO 
+      WHERE MODULO = 'RESUMEN GENERAL'
+      
+      UNION ALL
+      
+      SELECT 
+          'CAMBIOS CRÍTICOS' as CARD_TITLE,
+          TO_CHAR(CAMBIOS_CRITICOS, '999,999') as CARD_VALUE,
+          ROUND(PCT_CRITICOS, 1) || '% del total' as CARD_SUBTITLE,
+          'fa fa-exclamation-triangle' as CARD_ICON,
+          CASE 
+              WHEN PCT_CRITICOS > 20 THEN 'is-danger'
+              WHEN PCT_CRITICOS > 10 THEN 'is-warning'
+              ELSE 'is-success'
+          END as CARD_COLOR
+      FROM V_AUDIT_DASHBOARD_EJECUTIVO 
+      WHERE MODULO = 'RESUMEN GENERAL'
+      
+      UNION ALL
+      
+      SELECT 
+          'USUARIOS ACTIVOS' as CARD_TITLE,
+          TO_CHAR(USUARIOS_ACTIVOS, '999,999') as CARD_VALUE,
+          'Usuarios con actividad' as CARD_SUBTITLE,
+          'fa fa-users' as CARD_ICON,
+          'is-info' as CARD_COLOR
+      FROM V_AUDIT_DASHBOARD_EJECUTIVO 
+      WHERE MODULO = 'RESUMEN GENERAL'
+      
+      UNION ALL
+      
+      SELECT 
+          'CAMBIOS HOY' as CARD_TITLE,
+          TO_CHAR(CAMBIOS_HOY, '999,999') as CARD_VALUE,
+          ROUND(PCT_HOY, 1) || '% del total' as CARD_SUBTITLE,
+          'fa fa-calendar-day' as CARD_ICON,
+          CASE 
+              WHEN CAMBIOS_HOY > 100 THEN 'is-warning'
+              WHEN CAMBIOS_HOY > 50 THEN 'is-info'
+              ELSE 'is-success'
+          END as CARD_COLOR
+      FROM V_AUDIT_DASHBOARD_EJECUTIVO 
+      WHERE MODULO = 'RESUMEN GENERAL';
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 59781394527864353027
+    appearance: 
+      layout: Grid
+      grid-columns: Auto
+
+    title: 
+      advanced-formatting: false
+      column: CARD_TITLE
+
+    subtitle: 
+      advanced-formatting: false
+      column: CARD_SUBTITLE
+
+    body: 
+      advanced-formatting: false
+      column: CARD_VALUE
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: Icon Class Column
+      icon-column: CARD_ICON
+      icon-position: Start
+
+    media: 
+      advanced-formatting: false
+      source: No Media
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+- # ====== Region: Distribución por Criticidad =================
+  id: 59781394688444353028
+  identification: 
+    name: Distribución por Criticidad
+    title: Distribución por Criticidad
+    type: Chart
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          CASE 
+              WHEN CAMBIOS_CRITICOS > 0 THEN 'Críticos'
+              ELSE NULL
+          END as LABEL,
+          CAMBIOS_CRITICOS as VALUE
+      FROM V_AUDIT_DASHBOARD_EJECUTIVO 
+      WHERE MODULO = 'RESUMEN GENERAL' AND CAMBIOS_CRITICOS > 0
+      
+      UNION ALL
+      
+      SELECT 
+          CASE 
+              WHEN CAMBIOS_MEDIOS > 0 THEN 'Medios'
+              ELSE NULL
+          END as LABEL,
+          CAMBIOS_MEDIOS as VALUE
+      FROM V_AUDIT_DASHBOARD_EJECUTIVO 
+      WHERE MODULO = 'RESUMEN GENERAL' AND CAMBIOS_MEDIOS > 0
+      
+      UNION ALL
+      
+      SELECT 
+          CASE 
+              WHEN CAMBIOS_BAJOS > 0 THEN 'Bajos'
+              ELSE NULL
+          END as LABEL,
+          CAMBIOS_BAJOS as VALUE
+      FROM V_AUDIT_DASHBOARD_EJECUTIVO 
+      WHERE MODULO = 'RESUMEN GENERAL' AND CAMBIOS_BAJOS > 0;
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 4
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    css-classes: 
+    - chart-container-small
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 59781394785638353029
+    chart: 
+      type: Pie
+
+    layout: 
+      height: 200
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    settings: 
+      pie-selection-effect: Highlight
+
+    value: 
+      pie-chart-other-threshold: 0
+      format: Decimal
+      decimal-places: 0
+      format-scaling: None
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-value: true
+
+    legend: 
+      show: true
+      position: Automatic
+      hide-and-show-behavior: Rescale
+
+    advanced: 
+      initialization-javascript-function: |
+        function (options) {
+            options.dataFilter = function(data){
+                data.series[0].color = "red";
+                data.series[1].color = "orange";
+                data.series[2].color = "green";
+                return data;
+            };
+            return options;
+        
+        }
+
+    series: 
+    - # ====== Series: Distribución por Criticidad =================
+      id: 59781394829078353030
+      identification: 
+        name: Distribución por Criticidad
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Region Source
+
+      column-mapping: 
+        label: LABEL
+        value-aggregation: No Aggregation
+        value: VALUE
+
+      label: 
+        show: true
+        position: Automatic
+        display-as: Percentage
+
+- # ====== Region: Actividad por Módulo ========================
+  id: 59781395122304353033
+  identification: 
+    name: Actividad por Módulo
+    title: Actividad por Módulo
+    type: Chart
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          MODULO as LABEL,
+          TOTAL_CAMBIOS as VALUE
+      FROM V_AUDIT_DASHBOARD_EJECUTIVO 
+      WHERE MODULO != 'RESUMEN GENERAL'
+      ORDER BY TOTAL_CAMBIOS DESC;
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: 8
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 59781395232407353034
+    chart: 
+      type: Bar
+
+    appearance: 
+      orientation: Vertical
+      stack: false
+
+    layout: 
+      height: 280
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    multi-series-chart-data: 
+      fill-gaps-in-chart-data: true
+      sort-order: Label - Ascending
+      render-gap-as-zero: true
+
+    settings: 
+      zoom-and-scroll: No
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-group-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Cambios por Módulo ==========================
+      id: 59781395332908353035
+      identification: 
+        name: Cambios por Módulo
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Region Source
+
+      column-mapping: 
+        label: LABEL
+        value-aggregation: No Aggregation
+        value: VALUE
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      label: 
+        show: false
+
+    axes: 
+    - # ====== Axis: x =============================================
+      id: 59781395440558353036
+      identification: 
+        name: x
+        show-axis: true
+
+      value: 
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+        rotation: true
+        position: Outside
+
+    - # ====== Axis: y =============================================
+      id: 59781395568080353037
+      identification: 
+        name: y
+        show-axis: true
+
+      value: 
+        format: Decimal
+        decimal-places: 0
+        format-scaling: None
+        baseline-scaling: Zero
+        scale: Linear
+
+      appearance: 
+        position: Automatic
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+
+- # ====== Region: Resumen por Módulo ==========================
+  id: 59781395675561353038
+  identification: 
+    name: Resumen por Módulo
+    title: Resumen por Módulo
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          MODULO,
+          TOTAL_CAMBIOS,
+          REGISTROS_AFECTADOS,
+          USUARIOS_ACTIVOS,
+          CAMBIOS_CRITICOS,
+          CAMBIOS_HOY,
+          CAMBIOS_SEMANA,
+          CAMBIOS_MES,
+          PCT_CRITICOS || '%' as "% CRÍTICOS",
+          PRIMER_CAMBIO,
+          ULTIMO_CAMBIO
+      FROM V_AUDIT_DASHBOARD_EJECUTIVO 
+      WHERE MODULO != 'RESUMEN GENERAL'
+      ORDER BY RANKING_ACTIVIDAD;
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 59781395749029353039
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 1000000
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: false
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 62082364491712181506
+      identification: 
+        name: Primary Report
+        alias: 620823645
+
+    columns: 
+    - # ====== Column: MODULO ======================================
+      id: 59781395874410353040
+      identification: 
+        column-name: MODULO
+        type: Plain Text
+
+      heading: 
+        heading: Modulo
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TOTAL_CAMBIOS ===============================
+      id: 59781395907519353041
+      identification: 
+        column-name: TOTAL_CAMBIOS
+        type: Plain Text
+
+      heading: 
+        heading: Total Cambios
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: REGISTROS_AFECTADOS =========================
+      id: 59781396005970353042
+      identification: 
+        column-name: REGISTROS_AFECTADOS
+        type: Plain Text
+
+      heading: 
+        heading: Registros Afectados
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: USUARIOS_ACTIVOS ============================
+      id: 59781396141528353043
+      identification: 
+        column-name: USUARIOS_ACTIVOS
+        type: Plain Text
+
+      heading: 
+        heading: Usuarios Activos
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CAMBIOS_CRITICOS ============================
+      id: 59781396296218353044
+      identification: 
+        column-name: CAMBIOS_CRITICOS
+        type: Plain Text
+
+      heading: 
+        heading: Cambios Criticos
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CAMBIOS_HOY =================================
+      id: 59781396396855353045
+      identification: 
+        column-name: CAMBIOS_HOY
+        type: Plain Text
+
+      heading: 
+        heading: Cambios Hoy
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CAMBIOS_SEMANA ==============================
+      id: 59781396484073353046
+      identification: 
+        column-name: CAMBIOS_SEMANA
+        type: Plain Text
+
+      heading: 
+        heading: Cambios Semana
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 70
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CAMBIOS_MES =================================
+      id: 59781396561310353047
+      identification: 
+        column-name: CAMBIOS_MES
+        type: Plain Text
+
+      heading: 
+        heading: Cambios Mes
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: % CRÍTICOS ==================================
+      id: 59781396695196353048
+      identification: 
+        column-name: '% CRÍTICOS'
+        type: Plain Text
+
+      heading: 
+        heading: '% Críticos'
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 90
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PRIMER_CAMBIO ===============================
+      id: 59781396786605353049
+      identification: 
+        column-name: PRIMER_CAMBIO
+        type: Plain Text
+
+      heading: 
+        heading: Primer Cambio
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 100
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ULTIMO_CAMBIO ===============================
+      id: 59781396825500353050
+      identification: 
+        column-name: ULTIMO_CAMBIO
+        type: Plain Text
+
+      heading: 
+        heading: Ultimo Cambio
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 110
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    printing: 
+      output: 
+        layout: Default Report Layout
+        view-file-as: Attachment
+
+      page: 
+        size: A4
+        orientation: Landscape
+        units: Millimeters
+        width: 297
+        height: 210
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+        page-header-text: Resumen por Módulo
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+- # ====== Region: Breadcrumb ==================================
+  id: 62045886377203196968
+  identification: 
+    name: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 197180072443235446203
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb
+      template-options: 
+      - '#DEFAULT#'
+

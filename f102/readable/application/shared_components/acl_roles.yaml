@@ -1,0 +1,71 @@
+---
+- # ====== Role: Administrator =================================
+  id: 56800655552426124099
+  identification: 
+    name: Administrator
+
+  advanced: 
+    static-id: ADMINISTRATOR
+
+  description: 
+    description: Role assigned to application administrators.
+
+  subscription: 
+    version-number: 15633301325395
+
+- # ====== Role: Lector ========================================
+  id: 56800655839137124100
+  identification: 
+    name: Lector
+
+  advanced: 
+    static-id: LECTOR
+
+  description: 
+    description: Role assigned to application readers.
+
+  subscription: 
+    version-number: 15633346867883
+
+- # ====== Role: Tecnico =======================================
+  id: 56840602545141053283
+  identification: 
+    name: Tecnico
+
+  advanced: 
+    static-id: TECNICO
+
+  description: 
+    description: Perfil para los técnicos de campo
+
+  subscription: 
+    version-number: 15633346840867
+
+- # ====== Role: Jefatura ======================================
+  id: 56843539246983965994
+  identification: 
+    name: Jefatura
+
+  advanced: 
+    static-id: JEFATURA
+
+  description: 
+    description: Rol asignado a los Jefes de unidades
+
+  subscription: 
+    version-number: 15633351954891
+
+- # ====== Role: Implementador =================================
+  id: 56843572507589977791
+  identification: 
+    name: Implementador
+
+  advanced: 
+    static-id: IMPLEMENTADOR
+
+  description: 
+    description: Rol asignado a los implementadores de sistemas
+
+  subscription: 
+    version-number: 15633352378774
+

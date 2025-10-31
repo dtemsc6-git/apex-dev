@@ -1,0 +1,1975 @@
+---
+# ====== Page: equipos_interface_dl ==========================
+id: 29
+identification: 
+  name: equipos_interface_dl
+  alias: EQUIPOS-INTERFACE-DL
+  title: Interfaces En Uso / Libres
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+css: 
+  file-urls: 
+  - '#APP_FILES#racks#MIN#.css'
+
+security: 
+  authorization-scheme: Implementador Rights # 56843702980053272617
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: INTERFACES_LIBRES ===========================
+  id: 2361763298276201
+  identification: 
+    name: INTERFACES_LIBRES
+    title: Interfaces libres
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT nombre AS interfaz, etiqueta, '<span class="u-libre">LIBRE</span>' AS estado  
+      FROM sgt_interfaces
+      WHERE equipo_id = :P29_EQUIPO
+      AND id NOT IN (
+          SELECT interfaz_a_id FROM sgt_enlaces_tramos WHERE equipo_a_id = :P29_EQUIPO
+          UNION
+          SELECT interfaz_b_id FROM sgt_enlaces_tramos WHERE equipo_b_id = :P29_EQUIPO
+      )
+      
+      ORDER BY interfaz;
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 40
+    parent-region: New # 2362165470276205
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 30
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+      css-classes: 
+      - tabla-front
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: INTERFAZ ====================================
+    id: 2361930635276202
+    identification: 
+      column-name: INTERFAZ
+      type: Plain Text
+
+    heading: 
+      heading: Interfaz
+      alignment: end
+
+    layout: 
+      sequence: 10
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ETIQUETA ====================================
+    id: 2362012456276203
+    identification: 
+      column-name: ETIQUETA
+      type: Plain Text
+
+    heading: 
+      heading: Etiqueta
+      alignment: start
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ESTADO ======================================
+    id: 2362103977276204
+    identification: 
+      column-name: ESTADO
+      type: Rich Text
+
+    heading: 
+      heading: Estado
+      alignment: start
+
+    layout: 
+      sequence: 30
+      column-alignment: start
+
+    settings: 
+      format: HTML
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+- # ====== Region: New =========================================
+  id: 2362165470276205
+  identification: 
+    name: New
+    type: Static Content
+
+  layout: 
+    sequence: 25
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    css-classes: 
+    - racks
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: DATA_SOURCE =================================
+  id: 32677704196844831939
+  identification: 
+    name: DATA_SOURCE
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: CARGAR_DATOS # 47902967355520091036
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader js-addHiddenHeadingRoleDesc
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: UPLOAD_FILE =================================
+  id: 32677704298710831940
+  identification: 
+    name: UPLOAD_FILE
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: DATA_SOURCE # 32677704196844831939
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader js-addHiddenHeadingRoleDesc
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P29_FILE
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Preview =====================================
+  id: 32677704377819831941
+  identification: 
+    name: Preview
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select p.line_number,
+             p.col001, p.col002, p.col003, p.col004, p.col005, p.col006, p.col007, p.col008, p.col009, p.col010
+             -- add more columns (col011 to col300) here.
+        from apex_application_temp_files f, 
+             table( apex_data_parser.parse(
+                        p_content           => f.blob_content,
+                        p_file_name         => f.filename,
+                        p_xlsx_sheet_name   => case when :P29_XLSX_WORKSHEET is not null then :P29_XLSX_WORKSHEET end,
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'dl_interfaces' ),
+                        p_max_rows          => 100 ) ) p
+       where f.name = :P29_FILE
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 25
+    parent-region: CARGAR_DATOS # 47902967355520091036
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--hideHeader js-addHiddenHeadingRoleDesc
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+      - t-Report--hideNoPagination
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: true
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: LINE_NUMBER =================================
+    id: 40618570196518809112
+    identification: 
+      column-name: LINE_NUMBER
+      type: Plain Text
+
+    heading: 
+      heading: Line Number
+      alignment: end
+
+    layout: 
+      sequence: 10
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL001 ======================================
+    id: 40618570240108809113
+    identification: 
+      column-name: COL001
+      type: Plain Text
+
+    heading: 
+      heading: Col001
+      alignment: start
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL002 ======================================
+    id: 40618570350053809114
+    identification: 
+      column-name: COL002
+      type: Plain Text
+
+    heading: 
+      heading: Col002
+      alignment: start
+
+    layout: 
+      sequence: 30
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL003 ======================================
+    id: 40618570402828809115
+    identification: 
+      column-name: COL003
+      type: Plain Text
+
+    heading: 
+      heading: Col003
+      alignment: start
+
+    layout: 
+      sequence: 40
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL004 ======================================
+    id: 40618570518041809116
+    identification: 
+      column-name: COL004
+      type: Plain Text
+
+    heading: 
+      heading: Col004
+      alignment: start
+
+    layout: 
+      sequence: 50
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL005 ======================================
+    id: 40618570604241809117
+    identification: 
+      column-name: COL005
+      type: Plain Text
+
+    heading: 
+      heading: Col005
+      alignment: start
+
+    layout: 
+      sequence: 60
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL006 ======================================
+    id: 40618570731303809118
+    identification: 
+      column-name: COL006
+      type: Plain Text
+
+    heading: 
+      heading: Col006
+      alignment: start
+
+    layout: 
+      sequence: 70
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL007 ======================================
+    id: 40618570873442809119
+    identification: 
+      column-name: COL007
+      type: Plain Text
+
+    heading: 
+      heading: Col007
+      alignment: start
+
+    layout: 
+      sequence: 80
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL008 ======================================
+    id: 40618570938046809120
+    identification: 
+      column-name: COL008
+      type: Plain Text
+
+    heading: 
+      heading: Col008
+      alignment: start
+
+    layout: 
+      sequence: 90
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL009 ======================================
+    id: 40618571030951809121
+    identification: 
+      column-name: COL009
+      type: Plain Text
+
+    heading: 
+      heading: Col009
+      alignment: start
+
+    layout: 
+      sequence: 100
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL010 ======================================
+    id: 40618571113594809122
+    identification: 
+      column-name: COL010
+      type: Plain Text
+
+    heading: 
+      heading: Col010
+      alignment: start
+
+    layout: 
+      sequence: 110
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: LOADED_FILE =================================
+  id: 32677704882678831946
+  identification: 
+    name: LOADED_FILE
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: DATA_SOURCE # 32677704196844831939
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader js-addHiddenHeadingRoleDesc
+    - t-Region--noUI
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P29_FILE
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: BOTONES =====================================
+  id: 40618571311050809124
+  identification: 
+    name: BOTONES
+    type: Static Content
+
+  layout: 
+    sequence: 80
+    parent-region: CARGAR_DATOS # 47902967355520091036
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader js-addHiddenHeadingRoleDesc
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P29_FILE
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: TABBS =======================================
+  id: 47902966692630091029
+  identification: 
+    name: TABBS
+    title: OPCIONES
+    type: Region Display Selector
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+  attributes: 
+    settings: 
+      mode: View Single Region
+      display-region-icons: false
+      include-'show-all': false
+      remember-selection: By User
+
+- # ====== Region: INTERFACES_USADAS ===========================
+  id: 47902966756636091030
+  identification: 
+    name: INTERFACES_USADAS
+    title: Interfaces en uso
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT nombre interfaz, etiqueta, '<a><span class="u-ocupada">'||'EN USO'||'</span></a>' estado
+      FROM sgt_interfaces i
+      WHERE i.id IN (
+          SELECT interfaz_a_id FROM sgt_enlaces_tramos WHERE equipo_a_id = :P29_EQUIPO
+          UNION 
+          SELECT interfaz_b_id FROM sgt_enlaces_tramos WHERE equipo_b_id = :P29_EQUIPO
+      )
+      
+      /*
+      UNION ALL
+      
+      SELECT nombre AS interfaz, etiqueta, '<span class="u-libre> LIBRE </span>' AS estado  
+      FROM sgt_interfaces
+      WHERE equipo_id = :P29_EQUIPO
+      AND id NOT IN (
+          SELECT interfaz_a_id FROM sgt_enlaces_tramos WHERE equipo_a_id = :P29_EQUIPO
+          UNION
+          SELECT interfaz_b_id FROM sgt_enlaces_tramos WHERE equipo_b_id = :P29_EQUIPO
+      )
+      */
+      ORDER BY interfaz;
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 30
+    parent-region: New # 2362165470276205
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    css-classes: 
+    - table-front
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 30
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+      css-classes: 
+      - tabla-front
+
+    pagination: 
+      type: No Pagination (Show All Rows)
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: ETIQUETA ====================================
+    id: 2361724664276200
+    identification: 
+      column-name: ETIQUETA
+      type: Plain Text
+
+    heading: 
+      heading: Etiqueta
+      alignment: start
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: INTERFAZ ====================================
+    id: 47902967175091091034
+    identification: 
+      column-name: INTERFAZ
+      type: Plain Text
+
+    heading: 
+      heading: Interfaz
+      alignment: end
+
+    layout: 
+      sequence: 10
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ESTADO ======================================
+    id: 47902967570337091038
+    identification: 
+      column-name: ESTADO
+      type: Plain Text
+
+    heading: 
+      heading: Estado
+      alignment: start
+
+    layout: 
+      sequence: 30
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: false
+
+- # ====== Region: CARGAR_DATOS ================================
+  id: 47902967355520091036
+  identification: 
+    name: CARGAR_DATOS
+    title: Cargar datos
+    type: Static Content
+
+  layout: 
+    sequence: 40
+    parent-region: TABBS # 47902966692630091029
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P29_EQUIPO ===============================
+  id: 32677703799508831935
+  identification: 
+    name: P29_EQUIPO
+    type: Popup LOV
+
+  label: 
+    label: Equipo
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: EQUIPOS.NOMBRE-COMPUESTO # 99183333741246371784
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+- # ====== Page Item: P29_FILE =================================
+  id: 32677703872781831936
+  identification: 
+    name: P29_FILE
+    type: File Upload
+
+  label: 
+    label: File
+    alignment: Left
+
+  display: 
+    display-as: Block Dropzone
+    dropzone-description: Formatos admitidos [XLSX]
+    capture-using: NONE
+
+  storage:: 
+    type: Table APEX_APPLICATION_TEMP_FILES
+    purge-file-at: End of Session
+    allow-multiple-files: false
+
+  layout: 
+    sequence: 10
+    region: UPLOAD_FILE # 32677704298710831940
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P29_FILE_NAME ============================
+  id: 32677704946649831947
+  identification: 
+    name: P29_FILE_NAME
+    type: Display Only
+
+  label: 
+    label: File Name
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 10
+    region: LOADED_FILE # 32677704882678831946
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P29_XLSX_WORKSHEET =======================
+  id: 32677705029181831948
+  identification: 
+    name: P29_XLSX_WORKSHEET
+    type: Select List
+
+  label: 
+    label: Hoja XLSX
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 20
+    region: LOADED_FILE # 32677704882678831946
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select p.sheet_display_name,
+             p.sheet_file_name
+        from apex_application_temp_files f,
+             table( apex_data_parser.get_xlsx_worksheets( p_content => f.blob_content ) ) p
+       where f.name = :P29_FILE
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  server-side-condition: 
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: |
+      declare
+          l_sheet_count number;
+      begin
+          select count(*)
+            into l_sheet_count
+            from apex_application_temp_files f,
+                 table( apex_data_parser.get_xlsx_worksheets( p_content => f.blob_content ) ) p
+           where f.name = :P28_FILE;
+          
+           -- display if the XSLX file contains multiple worksheets
+          return ( l_sheet_count > 1 );
+      exception
+          when others then 
+              return false;
+      end;
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P29_TOTALES_FILAS ========================
+  id: 40618571517398809126
+  identification: 
+    name: P29_TOTALES_FILAS
+    type: Display Only
+
+  label: 
+    label: Totales Filas
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 90
+    region: CARGAR_DATOS # 47902967355520091036
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+- # ====== Page Item: P29_DEBUG_INFO ===========================
+  id: 42101939087200121402
+  identification: 
+    name: P29_DEBUG_INFO
+    type: Text Field
+
+  label: 
+    label: Debug Info
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 30
+    region: LOADED_FILE # 32677704882678831946
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+buttons: 
+- # ====== Button: CARGAR ======================================
+  id: 32677703943795831937
+  identification: 
+    button-name: CARGAR
+    label: Cargar
+
+  layout: 
+    sequence: 30
+    region: BOTONES # 40618571311050809124
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: LIMPIAR =====================================
+  id: 32677704092178831938
+  identification: 
+    button-name: LIMPIAR
+    label: Limpiar
+
+  layout: 
+    sequence: 20
+    region: BOTONES # 40618571311050809124
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: Debug =======================================
+  id: 42101939169215121403
+  identification: 
+    button-name: Debug
+    label: Debug
+
+  layout: 
+    sequence: 40
+    region: BOTONES # 40618571311050809124
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+dynamic-actions: 
+- # ====== Dynamic Action: UPLOAD_FILE =========================
+  id: 32677704647760831944
+  identification: 
+    name: UPLOAD_FILE
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P29_FILE
+
+  actions: 
+  - # ====== Action: Submit Page =================================
+    id: 32677704768642831945
+    identification: 
+      action: Submit Page
+
+    settings: 
+      show-processing: true
+
+    execution: 
+      sequence: 10
+      event: UPLOAD_FILE # 32677704647760831944
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+validations: 
+- # ====== Validation: isValidFile =============================
+  id: 32677704524567831943
+  identification: 
+    name: isValidFile
+
+  execution: 
+    sequence: 10
+
+  validation: 
+    type: Function Body (returning Boolean)
+    language: PL/SQL
+    pl/sql-function-body: |
+      if apex_data_parser.assert_file_type(
+             p_file_name => :P29_FILE_NAME,
+             p_file_type => apex_data_parser.c_file_type_xlsx )
+      then
+          return true;
+      else
+          :P29_FILE := null;
+          return false;
+      end if;
+    always-execute: false
+
+  error: 
+    error-message: El Archivo no es valido!
+    display-location: Inline with Field and in Notification
+    associated-item: P29_FILE # 32677703872781831936
+
+computations: 
+- # ====== Computation: P29_FILE_NAME ==========================
+  id: 32677705126064831949
+  identification: 
+    item-name: P29_FILE_NAME
+
+  execution: 
+    sequence: 10
+    point: After Submit
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select filename
+        from apex_application_temp_files 
+       where name = :P29_FILE
+
+processes: 
+- # ====== Process: CargarInterfaces ===========================
+  id: 40618571239773809123
+  identification: 
+    name: CargarInterfaces
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      DECLARE
+             
+          l_Masterqry CLOB;
+          TYPE r_interface IS RECORD (
+              NOMBRE VARCHAR2(4000),
+              ETIQUETA VARCHAR2(4000),
+              ESTADO VARCHAR2(4000),
+              MODO VARCHAR2(4000),
+              DUPLEX VARCHAR2(4000),
+              SGT_TIPO_INTERFACE_ID VARCHAR2(4000),
+              TX_EN_DBM VARCHAR2(4000),
+              RX_EN_DBM VARCHAR2(4000),
+              MAC_ADDRESS VARCHAR2(4000),
+              HW_VERSION VARCHAR2(4000),
+              SW_VERSION VARCHAR2(4000)
+          );
+          TYPE t_interfaces IS TABLE OF r_interface;
+          TabOut t_interfaces;
+          Refcursor SYS_REFCURSOR;
+      BEGIN
+          -- Construir la consulta correctamente formada
+          l_Masterqry := 
+          'with Parseo_Datos as (
+             SELECT p.col001 AS NOMBRE,
+                    p.col002 AS ETIQUETA,
+                    p.col003 AS ESTADO, 
+                    p.col004 AS MODO, 
+                    p.col005 AS DUPLEX, 
+                    p.col006 AS SGT_TIPO_INTERFACE_ID, 
+                    p.col007 AS TX_EN_DBM, 
+                    p.col008 AS RX_EN_DBM,  
+                    p.col009 AS MAC_ADDRESS, 
+                    p.col010 AS HW_VERSION, 
+                    p.col011 AS SW_VERSION  
+             FROM apex_application_temp_files f, 
+                  table(apex_data_parser.parse(
+                    p_content => f.blob_content, 
+                    p_file_name => f.filename,
+                    p_skip_rows => 1,
+                    p_xlsx_sheet_name => ''' || :P29_XLSX_WORKSHEET ||'''
+                  )) p 
+             WHERE f.name = ''' || :P29_FILE || ''') select * from Parseo_Datos
+            ';
+          
+          -- Depuración: ver la consulta generada
+          apex_debug.info('Consulta ejecutada: ' || SUBSTR(l_Masterqry, 1, 4000));    
+          
+          -- Abrir cursor y cargar datos
+          OPEN Refcursor FOR l_Masterqry;
+          FETCH Refcursor BULK COLLECT INTO TabOut;
+          CLOSE Refcursor;
+      
+          apex_debug.info('Consulta TabOut: ' || TabOut.COUNT);
+          
+          -- Procesar los resultados
+           forall indx in indices of TabOut
+              insert into SGT_INTERFACES (SGT_EQUIPOS_ID, 
+              NOMBRE, 
+              ETIQUETA, 
+              ESTADO, 
+              MODO,
+              DUPLEX, 
+              SGT_TIPO_INTERFACE_ID ,
+              TX_EN_DBM, 
+              RX_EN_DBM,
+              MAC_ADDRESS,
+              HW_VERSION,
+              SW_VERSION)
+                      values 
+                      (:P29_EQUIPO, 
+                      TabOut(indx).NOMBRE, 
+                      TabOut(indx).ETIQUETA, 
+                      TabOut(indx).ESTADO, 
+                      TabOut(indx).MODO, 
+                      TabOut(indx).DUPLEX, 
+                      TabOut(indx).SGT_TIPO_INTERFACE_ID, 
+                      TabOut(indx).TX_EN_DBM, 
+      				TabOut(indx).RX_EN_DBM, 
+                      TabOut(indx).MAC_ADDRESS, 
+                      TabOut(indx).HW_VERSION, 
+                      TabOut(indx).SW_VERSION);
+      
+          --:P29_TOTALES_FILAS := TabOut.COUNT;
+          
+          --APEX_APPLICATION.G_PRINT_SUCCESS_MESSAGE(p_message => TabOut.COUNT || ' registros cargados correctamente asociados al ítem ' || v_item_id);
+           :P29_FILE := NULL;
+           :P29_FILE_NAME := NULL;
+          
+      EXCEPTION
+          WHEN OTHERS THEN
+              IF Refcursor%ISOPEN THEN
+                  apex_debug.error('Se detecto un error: ' );
+                  CLOSE Refcursor;
+              END IF;
+                apex_debug.error('Se detecto un error: ' || SQLERRM );
+              --APEX_APPLICATION.G_PRINT_ERROR_MESSAGE(p_message => 'Error al procesar archivo: ' || SQLERRM);
+              RAISE;
+      END;
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: 'Proceso de cargar ejecutado, registros: &P29_TOTALES_FILAS.'
+
+  error: 
+    error-message: Se produjeron errores al procesar los datos
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: CARGAR # 32677703943795831937
+
+- # ====== Process: Clear ======================================
+  id: 40618571433463809125
+  identification: 
+    name: Clear
+    type: Clear Session State
+    execution-chain: None
+
+  settings: 
+    type: Clear all Items on the Current Page
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: LIMPIAR # 32677704092178831938
+
+- # ====== Process: VerArchivo =================================
+  id: 42101938983257121401
+  identification: 
+    name: VerArchivo
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      --DECLARE
+      --    v_file_exists NUMBER;
+      --    v_sheet_exists NUMBER;
+      --    v_row_count NUMBER;
+      --BEGIN
+          -- 1. Verificar si el archivo existe
+      --    SELECT COUNT(*) INTO v_file_exists
+      --    FROM apex_application_temp_files
+      --    WHERE name = :P29_FILE;
+          
+      --    APEX_DEBUG.INFO('Archivo encontrado: ' ||:29_FILE || v_file_exists);
+          
+          -- 2. Verificar estructura del archivo
+      --    FOR c IN (
+      --        SELECT p.col_name, p.col_type, p.col_max_length
+      --        FROM apex_application_temp_files f, 
+      --             TABLE(apex_data_parser.get_columns(
+      --               p_content => f.blob_content,
+      --               p_file_name => f.filename,
+      --               p_xlsx_sheet_name => :P29_XLSX_WORKSHEET
+      --             )) p
+      --        WHERE f.name = :P29_FILE
+      --    ) LOOP
+      --        APEX_DEBUG.INFO('Columna: ' || c.col_name || ' - Tipo: ' || c.col_type);
+      --    END LOOP;
+          
+          -- 3. Contar filas reales
+      --    SELECT COUNT(*) INTO v_row_count
+      --    FROM apex_application_temp_files f, 
+      --         TABLE(apex_data_parser.parse(
+      --           p_content => f.blob_content,
+      --           p_file_name => f.filename,
+      --           p_xlsx_sheet_name => :P29_XLSX_WORKSHEET
+      --         )) p
+      --    WHERE f.name = :P29_FILE;
+          
+      --    APEX_DEBUG.INFO('Filas encontradas: ' || v_row_count);
+          
+          -- Mostrar resultados en página
+      --    :P29_DEBUG_INFO := 'Archivo: ' || v_file_exists || 'Nombre: ' || :P29_FILE ||
+      --                      ' | Filas: ' || v_row_count;
+          
+      --EXCEPTION
+      --    WHEN OTHERS THEN
+      --        APEX_DEBUG.ERROR('Error en diagnóstico: ' || SQLERRM);
+      --        :P29_DEBUG_INFO := 'Error: ' || SQLERRM;
+      --END;
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: Debug # 42101939169215121403
+
+branches: 
+- # ====== Branch: VOLVER_EQUIPOS ==============================
+  id: 42101939237229121404
+  identification: 
+    name: VOLVER_EQUIPOS
+
+  execution: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:13:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 13 # SGT_LST_EQUIPOS
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+

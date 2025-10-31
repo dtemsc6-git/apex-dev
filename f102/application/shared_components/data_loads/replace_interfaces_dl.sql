@@ -1,0 +1,189 @@
+prompt --application/shared_components/data_loads/replace_interfaces_dl
+begin
+--   Manifest
+--     DATA LOAD: replace-interfaces-dl
+--   Manifest End
+wwv_flow_imp.component_begin (
+ p_version_yyyy_mm_dd=>'2024.11.30'
+,p_release=>'24.2.9'
+,p_default_workspace_id=>71533046799736978747
+,p_default_application_id=>24839
+,p_default_id_offset=>9071155675752509
+,p_default_owner=>'WKSP_DTESC'
+);
+wwv_flow_imp_shared.create_data_profile(
+ p_id=>wwv_flow_imp.id(38941734341273197843)
+,p_name=>'Copy of agregar-interfaces-dl'
+,p_format=>'XLSX'
+,p_encoding=>'utf-8'
+,p_has_header_row=>true
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(38942480426700935376)
+,p_data_profile_id=>wwv_flow_imp.id(38941734341273197843)
+,p_name=>'ID'
+,p_sequence=>1
+,p_is_primary_key=>true
+,p_column_type=>'DATA'
+,p_data_type=>'NUMBER'
+,p_selector_type=>'NAME'
+,p_selector=>'id'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(38941735343682197846)
+,p_data_profile_id=>wwv_flow_imp.id(38941734341273197843)
+,p_name=>'SGT_EQUIPOS_ID'
+,p_sequence=>2
+,p_column_type=>'DATA'
+,p_data_type=>'NUMBER'
+,p_selector_type=>'NAME'
+,p_selector=>'SGT_EQUIPOS_ID'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(38941735693500197847)
+,p_data_profile_id=>wwv_flow_imp.id(38941734341273197843)
+,p_name=>'NOMBRE'
+,p_sequence=>3
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>400
+,p_selector_type=>'NAME'
+,p_selector=>'NOMBRE'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(38941735936651197847)
+,p_data_profile_id=>wwv_flow_imp.id(38941734341273197843)
+,p_name=>'ETIQUETA'
+,p_sequence=>4
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>1020
+,p_selector_type=>'NAME'
+,p_selector=>'ETIQUETA'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(38941736299207197847)
+,p_data_profile_id=>wwv_flow_imp.id(38941734341273197843)
+,p_name=>'ESTADO'
+,p_sequence=>5
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>4000
+,p_selector_type=>'NAME'
+,p_selector=>'ESTADO'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(38941734731456197846)
+,p_data_profile_id=>wwv_flow_imp.id(38941734341273197843)
+,p_name=>'TIPO_INTERFACE_ID'
+,p_sequence=>6
+,p_column_type=>'DATA'
+,p_data_type=>'NUMBER'
+,p_selector_type=>'NAME'
+,p_selector=>'TIPO_INTERFACE_ID'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(38941735096060197846)
+,p_data_profile_id=>wwv_flow_imp.id(38941734341273197843)
+,p_name=>'TX_EN_DBM'
+,p_sequence=>7
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>40
+,p_selector_type=>'NAME'
+,p_selector=>'TX_EN_DBM'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(38941736586677197847)
+,p_data_profile_id=>wwv_flow_imp.id(38941734341273197843)
+,p_name=>'RX_EN_DBM'
+,p_sequence=>8
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>40
+,p_selector_type=>'NAME'
+,p_selector=>'RX_EN_DBM'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(38941736889524197847)
+,p_data_profile_id=>wwv_flow_imp.id(38941734341273197843)
+,p_name=>'MAC_ADDRESS'
+,p_sequence=>9
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>100
+,p_selector_type=>'NAME'
+,p_selector=>'MAC_ADDRESS'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(38941737195435197847)
+,p_data_profile_id=>wwv_flow_imp.id(38941734341273197843)
+,p_name=>'NUMERO_SERIE'
+,p_sequence=>10
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>1020
+,p_selector_type=>'NAME'
+,p_selector=>'NUMERO_SERIE'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(38941737404082197847)
+,p_data_profile_id=>wwv_flow_imp.id(38941734341273197843)
+,p_name=>'HW_VERSION'
+,p_sequence=>11
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>400
+,p_selector_type=>'NAME'
+,p_selector=>'HW_VERSION'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(38941737745469197848)
+,p_data_profile_id=>wwv_flow_imp.id(38941734341273197843)
+,p_name=>'SW_VERSION'
+,p_sequence=>12
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>400
+,p_selector_type=>'NAME'
+,p_selector=>'SW_VERSION'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(38941738023525197848)
+,p_data_profile_id=>wwv_flow_imp.id(38941734341273197843)
+,p_name=>'DUPLEX'
+,p_sequence=>13
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>4000
+,p_selector_type=>'NAME'
+,p_selector=>'DUPLEX'
+);
+wwv_flow_imp_shared.create_data_profile_col(
+ p_id=>wwv_flow_imp.id(38941734477295197845)
+,p_data_profile_id=>wwv_flow_imp.id(38941734341273197843)
+,p_name=>'MODO'
+,p_sequence=>14
+,p_column_type=>'DATA'
+,p_data_type=>'VARCHAR2'
+,p_max_length=>4000
+,p_selector_type=>'NAME'
+,p_selector=>'MODO'
+);
+wwv_flow_imp_shared.create_load_table(
+ p_id=>wwv_flow_imp.id(38941738468709197849)
+,p_name=>'replace-interfaces-dl'
+,p_static_id=>'replace_interfaces_dl'
+,p_target_type=>'TABLE'
+,p_table_name=>'SGT_INTERFACES'
+,p_data_profile_id=>wwv_flow_imp.id(38941734341273197843)
+,p_loading_method=>'REPLACE'
+,p_commit_interval=>200
+,p_error_handling=>'ABORT'
+,p_skip_validation=>'N'
+,p_version_scn=>15622640432945
+,p_comments=>'Prueba para agregar campos via data load'
+);
+wwv_flow_imp.component_end;
+end;
+/

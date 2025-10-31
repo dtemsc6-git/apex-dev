@@ -1,0 +1,363 @@
+---
+- # ====== Breadcrumb: Breadcrumb ==============================
+  id: 197180072443235446203
+  identification: 
+    name: Breadcrumb
+
+  entries: 
+  - # ====== Entry: Mapa Sitios ==================================
+    id: 2245132638776954
+    identification: 
+      name: Mapa Sitios
+      page-number: 47
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:47:&SESSION.::&DEBUG.:::'
+        page: 47 # MAPA_SITIOS
+
+  - # ====== Entry: Enlaces ======================================
+    id: 16823534894042212508
+    identification: 
+      name: Enlaces
+      page-number: 7
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:7:&APP_SESSION.::&DEBUG.:::'
+        page: 7 # TEST_Enlaces
+
+  - # ====== Entry: Enlaces2 =====================================
+    id: 16844080318703906768
+    identification: 
+      name: Enlaces2
+      page-number: 16
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:16:&APP_SESSION.::&DEBUG.:::'
+        page: 16 # TEST_ENLACES_2
+
+  - # ====== Entry: Interfaces ===================================
+    id: 37204295089123013533
+    identification: 
+      name: Interfaces
+      page-number: 8
+
+    execution: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Equipos # 200805781466576280031
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:8:&SESSION.::&DEBUG.:::'
+        page: 8 # SGT_LST_INTERFACES
+
+  - # ====== Entry: SGT_CABLES ===================================
+    id: 41049503005705235047
+    identification: 
+      name: SGT_CABLES
+      page-number: 32
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:32:&APP_SESSION.::&DEBUG.:::'
+        page: 32 # SGT_CABLES
+
+  - # ====== Entry: Enlaces Wan ==================================
+    id: 43769697891503608887
+    identification: 
+      name: Enlaces Wan
+      page-number: 34
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:::'
+        page: 34 # SGT_LST_ENLACES_LOGICOS
+
+  - # ====== Entry: Enlaces FO ===================================
+    id: 43997219234025517996
+    identification: 
+      name: Enlaces FO
+      page-number: 36
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:36:&SESSION.::&DEBUG.:::'
+        page: 36 # SGT_LST_ENLACES_FO_2
+
+  - # ====== Entry: Servicios ====================================
+    id: 44129486238859328243
+    identification: 
+      name: Servicios
+      page-number: 19
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:19:&SESSION.::&DEBUG.:::'
+        page: 19 # SGT_LST_SERVICIOS
+
+  - # ====== Entry: Conexiones ===================================
+    id: 44132907443677381963
+    identification: 
+      name: Conexiones
+      page-number: 39
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:39:&SESSION.::&DEBUG.:::'
+        page: 39 # SGT_LST_ENLACE_TRAMOS_FO
+
+  - # ====== Entry: Vista de conexiones ==========================
+    id: 47197334404430019195
+    identification: 
+      name: Vista de conexiones
+      page-number: 43
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:43:&SESSION.::&DEBUG.:::'
+        page: 43 # SGT_SERVICIOS_VIEW
+
+  - # ====== Entry: Control de Accesos ===========================
+    id: 56800692870322124528
+    identification: 
+      name: Control de Accesos
+      page-number: 10000
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10000:&APP_SESSION.::&DEBUG.:::'
+        page: 10000 # Control de Accesos
+
+  - # ====== Entry: Auditoría General ============================
+    id: 59777350785241233353
+    identification: 
+      name: Auditoría General
+      page-number: 46
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:46:&SESSION.::&DEBUG.:::'
+        page: 46 # Auditoría General del Sistema
+
+  - # ====== Entry: Dashboard de Gestión de Auditoría - Últimos 30
+    id: 62045886816914196969
+    identification: 
+      name: Dashboard de Gestión de Auditoría - Últimos 30 días
+      page-number: 100
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:100:&SESSION.::&DEBUG.:::'
+        page: 100 # Dashboard de Gestión de Auditoría - Últimos 30 días
+
+  - # ====== Entry: Dashboard de Cumplimiento de políticas y patro
+    id: 64079793723434440105
+    identification: 
+      name: Dashboard de Cumplimiento de políticas y patrones de riesgo - Últimos 90 días
+      page-number: 200
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:200:&SESSION.::&DEBUG.:::'
+        page: 200 # Dashboard de Cumplimiento
+
+  - # ====== Entry: Visualizar Topología =========================
+    id: 79639294754475205028
+    identification: 
+      name: Visualizar Topología
+      page-number: 400
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:400:&SESSION.::&DEBUG.:::'
+        page: 400 # PruebaTopologia
+
+  - # ====== Entry: Vista Servicios ==============================
+    id: 86192634127870544724
+    identification: 
+      name: Vista Servicios
+      page-number: 410
+
+    execution: 
+      sequence: 10
+
+    appearance: 
+      long-name: Vista General de los servicios
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:410:&SESSION.::&DEBUG.:::'
+        page: 410 # PRUEBA_SERVICIOS
+
+  - # ====== Entry: Sitios =======================================
+    id: 117115182895578411768
+    identification: 
+      name: Sitios
+      page-number: 25
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:25:&SESSION.::&DEBUG.:::'
+        page: 25 # SGT_LST_SITIOS
+
+  - # ====== Entry: Ciudades =====================================
+    id: 117116224489950765985
+    identification: 
+      name: Ciudades
+      page-number: 23
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:23:&SESSION.::&DEBUG.:::'
+        page: 23 # SGT_CIUDADES
+
+  - # ====== Entry: Departamentos ================================
+    id: 118015534741522003225
+    identification: 
+      name: Departamentos
+      page-number: 21
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:21:&SESSION.::&DEBUG.:::'
+        page: 21 # SGT_DEPTO
+
+  - # ====== Entry: Home =========================================
+    id: 197180072625137446203
+    identification: 
+      name: Home
+      page-number: 1
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:1:&APP_SESSION.::&DEBUG.:::'
+        page: 1 # Home
+
+  - # ====== Entry: Sitios 2 =====================================
+    id: 200703031338888282559
+    identification: 
+      name: Sitios 2
+      page-number: 9
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:9:&SESSION.::&DEBUG.:::'
+        page: 9 # TEST_LST_SITIOS
+
+  - # ====== Entry: Racks ========================================
+    id: 200718430323993803903
+    identification: 
+      name: Racks
+      page-number: 11
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:11:&SESSION.::&DEBUG.:::'
+        page: 11 # SGT_LST_RACKS
+
+  - # ====== Entry: Equipos ======================================
+    id: 200805781466576280031
+    identification: 
+      name: Equipos
+      page-number: 13
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:13:&SESSION.::&DEBUG.:::'
+        page: 13 # SGT_LST_EQUIPOS
+
+  - # ====== Entry: Zonas ========================================
+    id: 202695224080943202497
+    identification: 
+      name: Zonas
+      page-number: 2
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:2:&SESSION.::&DEBUG.:::'
+        page: 2 # SGT_ZONAS
+
+  - # ====== Entry: Salas ========================================
+    id: 202814184707018557272
+    identification: 
+      name: Salas
+      page-number: 4
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:4:&SESSION.::&DEBUG.:::'
+        page: 4 # SGT_LST_SALAS
+

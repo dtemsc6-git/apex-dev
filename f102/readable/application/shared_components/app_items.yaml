@@ -1,0 +1,17 @@
+---
+- # ====== Application Item: DEPTO_ID ==========================
+  id: 17306282514286614204
+  identification: 
+    name: DEPTO_ID
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: true
+
+  comments: 
+    comments: Prueba para pasar parametros a la LOV
+
+  subscription: 
+    version-number: 15610020409736
+

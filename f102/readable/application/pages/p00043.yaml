@@ -1,0 +1,693 @@
+---
+# ====== Page: SGT_SERVICIOS_VIEW ============================
+id: 43
+identification: 
+  name: SGT_SERVICIOS_VIEW
+  alias: SGT-SERVICIOS-VIEW
+  title: Vista de conexiones
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Breadcrumb ==================================
+  id: 47197333908589019193
+  identification: 
+    name: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 197180072443235446203
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: SGT_SERVICIOS_VIEW ==========================
+  id: 47197334666193019195
+  identification: 
+    name: SGT_SERVICIOS_VIEW
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+        et.id tramo, 
+        et.equipo_a_id equipo, 
+        et.interfaz_a_id interfaz, 
+        et.interfaz_b_id interfaz_b,
+        et.equipo_b_id equipo_b,  
+        cs.servicio_id servicio,
+        elt.enlace_logico_id enlace_logico, 
+        et.enlace_id enlace_fo,
+      
+        -- Extraer los dos IDs
+        
+        SUBSTR(et.enlace_id, INSTR(et.enlace_id, ':') + 1) AS enlace_1,
+        SUBSTR(et.enlace_id ,1 , INSTR(et.enlace_id, ':') -1 ) AS enlace_2,
+        el.grupo_red Grupo_de_Red
+      
+      
+      FROM 
+        sgt_enlaces_tramos et
+      left JOIN 
+        sgt_conexiones_servicio cs ON cs.enlace_tramo_id = et.id
+      LEFT JOIN 
+        sgt_enlace_logico_tramo elt ON elt.tramo_id = et.id
+      left join 
+         sgt_enlaces_logicos el on el.id = elt.enlace_logico_id
+      ORDER BY tramo;
+      
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 47197334745626019195
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+
+    messages: 
+      when-no-data-found: No data found.
+      when-more-data-found: 'The maximum row count for this report is #MAX_ROW_COUNT# rows.  Please apply a filter to reduce the number of records in your query.'
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: false
+      highlight: false
+      compute: false
+      aggregate: false
+      chart: false
+      group-by: false
+      pivot: false
+      flashback: false
+      save-report: false
+      reset: false
+      help: false
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 47197346531379019961
+      identification: 
+        name: Primary Report
+        alias: 471973466
+
+    columns: 
+    - # ====== Column: EQUIPO ======================================
+      id: 45026641633807173726
+      identification: 
+        column-name: EQUIPO
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: EQUIPOS.NOMBRE # 16838483136411509974
+
+      heading: 
+        heading: Equipo A
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: INTERFAZ ====================================
+      id: 45026641786394173727
+      identification: 
+        column-name: INTERFAZ
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: SGT_INTERFACES.NOMBRE # 43769671252068608862
+
+      heading: 
+        heading: Interfaz A
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: SERVICIO ====================================
+      id: 45026641857917173728
+      identification: 
+        column-name: SERVICIO
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: SGT_SERVICIOS.NOMBRE # 44132876898299381933
+
+      heading: 
+        heading: Servicio
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: ENLACE_LOGICO ===============================
+      id: 45026641914211173729
+      identification: 
+        column-name: ENLACE_LOGICO
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: ENLACES_LOGICOS.NOMBRE # 47255876122802445010
+
+      heading: 
+        heading: Enlace Logico
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: TRAMO =======================================
+      id: 45026642074284173730
+      identification: 
+        column-name: TRAMO
+        type: Hidden
+
+      heading: 
+        heading: Tramo
+
+      layout: 
+        sequence: 50
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ENLACE_2 ====================================
+      id: 45026642393809173733
+      identification: 
+        column-name: ENLACE_2
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: SGT_ENLACES_FO.NOMBRE # 43769668587515608859
+
+      heading: 
+        heading: Enlace 2
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: ENLACE_FO ===================================
+      id: 45026642486837173734
+      identification: 
+        column-name: ENLACE_FO
+        type: Plain Text
+
+      heading: 
+        heading: Enlace Fo
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
+    - # ====== Column: ENLACE_1 ====================================
+      id: 45026642506101173735
+      identification: 
+        column-name: ENLACE_1
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: SGT_ENLACES_FO.NOMBRE # 43769668587515608859
+
+      heading: 
+        heading: Enlace 1
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 90
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: GRUPO_DE_RED ================================
+      id: 45026642696464173736
+      identification: 
+        column-name: GRUPO_DE_RED
+        type: Plain Text
+
+      heading: 
+        heading: Grupo De Red
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 100
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: INTERFAZ_B ==================================
+      id: 45026642793435173737
+      identification: 
+        column-name: INTERFAZ_B
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: SGT_INTERFACES.NOMBRE # 43769671252068608862
+
+      heading: 
+        heading: Interfaz B
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 110
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: EQUIPO_B ====================================
+      id: 45026642887965173738
+      identification: 
+        column-name: EQUIPO_B
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: EQUIPOS.NOMBRE # 16838483136411509974
+
+      heading: 
+        heading: Equipo B
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 120
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    printing: 
+      output: 
+        layout: Default Report Layout
+        view-file-as: Attachment
+
+      page: 
+        size: Letter
+        orientation: Landscape
+        units: Inches
+        width: 11
+        height: 8.5
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+        page-header-text: SGT_SERVICIOS_VIEW
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+

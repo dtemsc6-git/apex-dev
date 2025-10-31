@@ -1,0 +1,1754 @@
+---
+# ====== Page: SGT_FROM_INTERFACES ===========================
+id: 30
+identification: 
+  name: SGT_FROM_INTERFACES
+  alias: SGT-FROM-INTERFACES
+  title: Agregar / Editar
+  page-group: Implementadores # 57024536698229459190
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Drawer
+  template-options: 
+  - '#DEFAULT#'
+  - js-dialog-class-t-Drawer--pullOutEnd
+
+dialog: 
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: SGT_FROM_INTERFACES =========================
+  id: 43191653727341446998
+  identification: 
+    name: SGT_FROM_INTERFACES
+    type: Form
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_INTERFACES
+    include-rowid-column: false
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Add Row
+      - Update Row
+      - Delete Row
+      lost-update-type: Row Values
+
+- # ====== Region: Buttons =====================================
+  id: 43191667442169447013
+  identification: 
+    name: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
+
+- # ====== Region: EN_USO ======================================
+  id: 64554407550391252533
+  identification: 
+    name: EN_USO
+    title: Atención
+    type: Static Content
+
+  source: 
+    html-code: 'Esta interfaz esta en uso, modificar los datos podría afectar: Servicios / Enlaces / Otros.-'
+
+  layout: 
+    sequence: 10
+    parent-region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--warning
+    css-classes: 
+    - warning
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Function Body
+    language: PL/SQL
+    pl/sql-function-body: |
+      DECLARE
+         v_id_interfaz CONSTANT sgt_interfaces.id%TYPE := :P30_ID;
+         v_existe NUMBER;
+      BEGIN
+         -- Consulta combinada
+         BEGIN
+            SELECT 1 INTO v_existe
+            FROM dual
+            WHERE EXISTS (
+               SELECT 1 FROM sgt_enlaces_logicos
+               WHERE interfaz_a_id = v_id_interfaz OR interfaz_b_id = v_id_interfaz
+            ) OR EXISTS (
+               SELECT 1 FROM sgt_enlaces_tramos
+               WHERE interfaz_a_id = v_id_interfaz OR interfaz_b_id = v_id_interfaz
+            );
+            
+            RETURN TRUE; -- Existe en alguna tabla
+         EXCEPTION
+            WHEN NO_DATA_FOUND THEN
+               RETURN FALSE; -- No existe en ninguna tabla
+         END;
+      END;
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P30_ID ===================================
+  id: 43191654077773446999
+  identification: 
+    name: P30_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: ID
+    data-type: NUMBER
+    query-only: true
+    primary-key: true
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_NOMBRE ===============================
+  id: 43191654893734447001
+  identification: 
+    name: P30_NOMBRE
+    type: Text Field
+
+  label: 
+    label: Nombre
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 70
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: true
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: NOMBRE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: 'Ingrese nombre, puede agregar rangos[1-30] para crear varios items '
+    help-text: |
+      Ingrese nombre, puede agregar rangos ejemplo: 
+      ge/[0-2]/[0-3]/[0-10] para crear varios Items.
+      La cantidad maxima de items por creación esta limitada a 100 registros. 
+
+- # ====== Page Item: P30_ETIQUETA =============================
+  id: 43191655271762447001
+  identification: 
+    name: P30_ETIQUETA
+    type: Text Field
+
+  label: 
+    label: Etiqueta
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 80
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: ETIQUETA
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: |
+      Ingrese etiqueta, puede agregar rangos ejemplo: 
+      ge/[0-2]/[0-3]/[0-10] para crear varios Items.
+      La cantidad maxima de items por creación esta limitada a 100 registros. 
+
+- # ====== Page Item: P30_ESTADO ===============================
+  id: 43191655605756447002
+  identification: 
+    name: P30_ESTADO
+    type: Select List
+
+  label: 
+    label: Estado
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 90
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: INTERFAZ_ESTADO # 43199625631148317953
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: ESTADO
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Static
+    static-value: up
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_MODO =================================
+  id: 43191656020797447002
+  identification: 
+    name: P30_MODO
+    type: Select List
+
+  label: 
+    label: Modo
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 100
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: INTERFACE_MODO # 43201033517964343837
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: MODO
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Static
+    static-value: access
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_DUPLEX ===============================
+  id: 43191656485241447002
+  identification: 
+    name: P30_DUPLEX
+    type: Select List
+
+  label: 
+    label: Duplex
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 110
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: INTERFACE_DUPLEX # 43201969178408363692
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: DUPLEX
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Static
+    static-value: auto
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_TX_EN_DBM ============================
+  id: 43191657228678447003
+  identification: 
+    name: P30_TX_EN_DBM
+    type: Text Field
+
+  label: 
+    label: Tx En Dbm
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 120
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 10
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: TX_EN_DBM
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Static
+    static-value: 0
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_RX_EN_DBM ============================
+  id: 43191657680538447004
+  identification: 
+    name: P30_RX_EN_DBM
+    type: Text Field
+
+  label: 
+    label: Rx En Dbm
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 130
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 10
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: RX_EN_DBM
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  default: 
+    type: Static
+    static-value: 0
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_MAC_ADDRESS ==========================
+  id: 43191658080249447004
+  identification: 
+    name: P30_MAC_ADDRESS
+    type: Text Field
+
+  label: 
+    label: Mac Address
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 140
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 25
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: MAC_ADDRESS
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_NUMERO_SERIE =========================
+  id: 43191658415147447005
+  identification: 
+    name: P30_NUMERO_SERIE
+    type: Text Field
+
+  label: 
+    label: Numero Serie
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 150
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: NUMERO_SERIE
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_HW_VERSION ===========================
+  id: 43191658800781447005
+  identification: 
+    name: P30_HW_VERSION
+    type: Text Field
+
+  label: 
+    label: Hw Version
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 160
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: HW_VERSION
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_SW_VERSION ===========================
+  id: 43191659331577447006
+  identification: 
+    name: P30_SW_VERSION
+    type: Text Field
+
+  label: 
+    label: Sw Version
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 170
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 100
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: SW_VERSION
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_CREADO_EL ============================
+  id: 43191659610484447006
+  identification: 
+    name: P30_CREADO_EL
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 180
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: CREADO_EL
+    data-type: TIMESTAMP
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_ACTUALIZADO_EL =======================
+  id: 43191660455438447008
+  identification: 
+    name: P30_ACTUALIZADO_EL
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 190
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: ACTUALIZADO_EL
+    data-type: TIMESTAMP
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_ACTUALIZADO_POR ======================
+  id: 43191661245158447008
+  identification: 
+    name: P30_ACTUALIZADO_POR
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 200
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: ACTUALIZADO_POR
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_CREADO_POR ===========================
+  id: 43191661646367447009
+  identification: 
+    name: P30_CREADO_POR
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 210
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: CREADO_POR
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_EQUIPO_ID ============================
+  id: 47902963828692091001
+  identification: 
+    name: P30_EQUIPO_ID
+    type: Popup LOV
+
+  label: 
+    label: Equipo
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 50
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: EQUIPOS.NOMBRE-COMPUESTO # 99183333741246371784
+    display-extra-values: true
+    display-null-value: true
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P30_SITIO
+    items-to-submit: 
+    - P30_SITIO
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: EQUIPO_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_TIPO_INTERFACE_ID ====================
+  id: 47902963934699091002
+  identification: 
+    name: P30_TIPO_INTERFACE_ID
+    type: Popup LOV
+
+  label: 
+    label: Tipo Interface Id
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 60
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: LOV_TIPO_INTERFAZ # 41082575549472967716
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: TIPO_INTERFACE_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P30_SITIO ================================
+  id: 88034738700254770430
+  identification: 
+    name: P30_SITIO
+    type: Popup LOV
+
+  label: 
+    label: Sitio
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 40
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: SGT_SITIOS.SIGLAS # 202814172118838557260
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+buttons: 
+- # ====== Button: VARIOS ======================================
+  id: 42101940047736121412
+  identification: 
+    button-name: VARIOS
+    label: '&APP_TEXT$BTN_CREAR_VARIOS!RAW.'
+
+  layout: 
+    sequence: 50
+    region: Buttons # 43191667442169447013
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P30_ID
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+- # ====== Button: CANCEL ======================================
+  id: 43191667812177447013
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 43191667442169447013
+    slot: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: DELETE ======================================
+  id: 43191669240405447015
+  identification: 
+    button-name: DELETE
+    label: '&APP_TEXT$BTN_BORRAR!RAW.'
+
+  layout: 
+    sequence: 20
+    region: Buttons # 43191667442169447013
+    slot: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  confirmation: 
+    message: '&APP_TEXT$DELETE_MSG!RAW.'
+    style: Danger
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P30_ID
+
+- # ====== Button: SAVE ========================================
+  id: 43191669653579447015
+  identification: 
+    button-name: SAVE
+    label: '&APP_TEXT$BTN_APLICAR_CAMBIOS!RAW.'
+
+  layout: 
+    sequence: 30
+    region: Buttons # 43191667442169447013
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P30_ID
+
+- # ====== Button: CREATE ======================================
+  id: 43191670112430447015
+  identification: 
+    button-name: CREATE
+    label: '&APP_TEXT$BTN_CREAR!RAW.'
+
+  layout: 
+    sequence: 40
+    region: Buttons # 43191667442169447013
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P30_ID
+
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel Dialog =======================
+  id: 43191667993711447013
+  identification: 
+    name: Cancel Dialog
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: CANCEL # 43191667812177447013
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 43191668723764447014
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel Dialog # 43191667993711447013
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+validations: 
+- # ====== Validation: P30_CREADO_EL must be timestamp =========
+  id: 43191660172644447007
+  identification: 
+    name: P30_CREADO_EL must be timestamp
+
+  execution: 
+    sequence: 140
+
+  validation: 
+    type: Item is a valid timestamp
+    item: P30_CREADO_EL
+    always-execute: false
+
+  error: 
+    error-message: '#LABEL# must be a valid timestamp.'
+    display-location: Inline with Field and in Notification
+    associated-item: P30_CREADO_EL # 43191659610484447006
+
+- # ====== Validation: P30_ACTUALIZADO_EL must be timestamp ====
+  id: 43191660982229447008
+  identification: 
+    name: P30_ACTUALIZADO_EL must be timestamp
+
+  execution: 
+    sequence: 150
+
+  validation: 
+    type: Item is a valid timestamp
+    item: P30_ACTUALIZADO_EL
+    always-execute: false
+
+  error: 
+    error-message: '#LABEL# must be a valid timestamp.'
+    display-location: Inline with Field and in Notification
+    associated-item: P30_ACTUALIZADO_EL # 43191660455438447008
+
+processes: 
+- # ====== Process: AgregarVarios ==============================
+  id: 42101939500166121407
+  identification: 
+    name: AgregarVarios
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      DECLARE
+        v_input VARCHAR2(100) := :P30_NOMBRE; 
+        v_prefix VARCHAR2(10);
+        v_start_num NUMBER;
+        v_end_num NUMBER;
+        v_count NUMBER := 0;
+        
+      BEGIN
+        --Desea eliminar el registro?
+        IF :REQUEST = 'DELETE' THEN
+          APEX_APPLICATION.G_PRINT_SUCCESS_MESSAGE := 'El usuario presiono DELETE'; 
+          delete from sgt_interfaces where id = :P30_ID;
+          return;
+        else 
+        --Chequear si quiere actualizar
+        if :P30_ID is not null then
+          SELECT COUNT(*) INTO v_count 
+          FROM sgt_interfaces 
+          WHERE id = :P30_ID;
+          
+          IF v_count = 0 THEN
+              RAISE_APPLICATION_ERROR(-20001, 'El registro no existe');
+          END IF;
+           update sgt_interfaces set 
+           equipo_id = :P30_EQUIPO_ID,
+            nombre = :P30_NOMBRE, 
+            etiqueta = :P30_ETIQUETA,
+            estado = :P30_ESTADO,
+            modo = :P30_MODO,
+            duplex = :P30_DUPLEX,
+            TIPO_INTERFACE_ID = :P30_TIPO_INTERFACE_ID,
+            TX_EN_DBM = :P30_TX_EN_DBM,
+            RX_EN_DBM = :P30_RX_EN_DBM,
+            MAC_ADDRESS =:P30_MAC_ADDRESS,
+            NUMERO_SERIE =:P30_NUMERO_SERIE,
+            HW_VERSION = :P30_HW_VERSION,
+            SW_VERSION = :P30_SW_VERSION
+            where id = :P30_ID;
+      
+          
+          APEX_APPLICATION.G_PRINT_SUCCESS_MESSAGE := 'El usuario esta actualizando datos';
+         
+          return;
+          end if; 
+        end if;
+      
+        -- Extraer el prefijo (ge) y los números del rango [0-10]
+        v_prefix := REGEXP_SUBSTR(v_input, '^([^\[]+)', 1, 1, '', 1);
+        v_start_num := TO_NUMBER(REGEXP_SUBSTR(v_input, '\[(\d+)-(\d+)\]', 1, 1, '', 1));
+        v_end_num := TO_NUMBER(REGEXP_SUBSTR(v_input, '\[(\d+)-(\d+)\]', 1, 1, '', 2));
+      
+        --Chequear un solo registro
+      
+        IF v_prefix = v_input  THEN
+      
+          INSERT INTO sgt_interfaces(
+            equipo_id,
+            nombre, 
+            etiqueta,
+            estado,
+            modo,
+            duplex,
+            TIPO_INTERFACE_ID,
+            TX_EN_DBM,
+            RX_EN_DBM,
+            MAC_ADDRESS,
+            NUMERO_SERIE,
+            HW_VERSION,
+            SW_VERSION
+            ) VALUES (
+            
+            :P30_EQUIPO_ID,
+            v_prefix,
+            :P30_etiqueta ,
+            :P30_estado,
+            :P30_modo,
+            :P30_duplex,
+            :P30_TIPO_INTERFACE_ID,
+            :P30_TX_EN_DBM,
+            :P30_RX_EN_DBM,
+            :P30_MAC_ADDRESS,
+            :P30_NUMERO_SERIE,
+            :P30_HW_VERSION,
+            :P30_SW_VERSION
+          );  
+        ELSE
+            IF v_end_num - v_start_num + 1 > 48 THEN
+              v_end_num := v_start_num + 47;
+              APEX_APPLICATION.G_PRINT_SUCCESS_MESSAGE := 'Se ha limitado la creación a 48 registros';
+            END IF;
+            -- Generar los registros
+            FOR i IN v_start_num..v_end_num LOOP
+              INSERT INTO sgt_interfaces(
+                equipo_id,
+                nombre, 
+                etiqueta,
+                estado,
+                modo,
+                duplex,
+                TIPO_INTERFACE_ID,
+                TX_EN_DBM,
+                RX_EN_DBM,
+                MAC_ADDRESS,
+                NUMERO_SERIE,
+                HW_VERSION,
+                SW_VERSION
+                ) VALUES (
+                
+                :P30_EQUIPO_ID,
+                v_prefix || i,
+                :P30_etiqueta ,
+                :P30_estado,
+                :P30_modo,
+                :P30_duplex,
+                :P30_TIPO_INTERFACE_ID,
+                :P30_TX_EN_DBM,
+                :P30_RX_EN_DBM,
+                :P30_MAC_ADDRESS,
+                :P30_NUMERO_SERIE,
+                :P30_HW_VERSION,
+                :P30_SW_VERSION
+                
+              );
+              
+              v_count := v_count + 1;
+            END LOOP;
+          END IF;  
+        
+        -- Mensaje de éxito
+        APEX_APPLICATION.G_PRINT_SUCCESS_MESSAGE := 'Se han creado ' || v_count || ' registros correctamente';
+      EXCEPTION
+        WHEN OTHERS THEN
+          APEX_APPLICATION.G_PRINT_SUCCESS_MESSAGE:= 'Error: ' || SQLERRM;
+          RAISE;
+      END;
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: SAVE,CREATE,VARIOS
+
+- # ====== Process: Initialize form SGT_FROM_INTERFACES ========
+  id: 43191670508660447015
+  identification: 
+    name: Initialize form SGT_FROM_INTERFACES
+    type: Form - Initialization
+    execution-chain: None
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Process form SGT_FROM_INTERFACES ===========
+  id: 43191670908989447016
+  identification: 
+    name: Process form SGT_FROM_INTERFACES
+    type: Form - Automatic Row Processing (DML)
+    execution-chain: None
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+
+  settings: 
+    target-type: Region Source
+    prevent-lost-updates: true
+    lock-row: Yes
+    return-primary-key(s)-after-insert: true
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: 'Se procesaron :ROWS'
+
+  error: 
+    error-message: 'Error al procesar :ROWS'
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: DELETE # 43191669240405447015
+    type: Request is contained in Value
+    value: DELETE
+
+- # ====== Process: Close Dialog ===============================
+  id: 43191671388602447016
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+    execution-chain: None
+
+  settings: 
+    show-success-messages: true
+
+  execution: 
+    sequence: 50
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,SAVE,DELETE
+

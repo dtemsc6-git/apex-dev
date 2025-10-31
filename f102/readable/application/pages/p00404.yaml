@@ -1,0 +1,955 @@
+---
+# ====== Page: Verificar las instrucciones ===================
+id: 404
+identification: 
+  name: Verificar las instrucciones
+  alias: VERIFICAR-LAS-INSTRUCCIONES
+  title: Verificar las instrucciones
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Wizard Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  height: 400
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+javascript: 
+  file-urls: 
+  - 'https://unpkg.com/vis-network/standalone/umd/vis-network.min.js'
+  function-and-global-variable-declaration: |
+    /*
+    Para crear el grafo en esta ventana siempre sera una union del primero con el siguiente. si la cantidad de 
+    nodos es mayor a dos ver si vale la pena crear un enlace entre el primero y el ultimo
+     */
+    
+    apex.server.process(
+        'DATOS_GRAFO', { pageItems: '' },
+        {
+            success: function (apiData) {
+                console.log(apiData.data); // Acceder a los datos
+    
+                const nodes = [];
+                const edges = [];
+                var destino = null;
+    
+                apiData.data.forEach(connection => {
+    
+                    console.log(connection);
+                    nodes.push({
+                        id: connection.ORIGEN_ID,
+                        label: connection.ORIGEN,
+                        group: "sitios",
+                        shape: "box", //
+                        color: "#FF9900"
+                    });
+    
+                    if (destino != null) {
+                        edges.push({
+                            from: destino.ORIGEN_ID,
+                            to: connection.ORIGEN_ID ,
+                            arrows: "to", // Flecha indica dirección
+                            color: "#848484" // Color de la línea
+                        });
+                    }
+                    destino = connection;
+    
+                });
+                
+                nodes.reverse();
+    
+                var data = { nodes: nodes, edges: edges };
+                
+    
+                var container = document.getElementById("network");
+                var network = new vis.Network(container, data, {
+                    layout: { hierarchical: { enabled: true, direction: "LR" }, },
+                    physics: { enabled: false, solver: "forceAtlas2Based" }
+                });
+            }
+    
+    
+            ,
+            error: function (pError) {
+                console.error('Error:', pError);
+            }
+        }
+    );
+    
+
+css: 
+  inline: |
+    .summary-label {
+        font-weight: bold;
+        color: #1a5276;
+        display: inline-block;
+        
+    }
+    .summary-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    .summary-list li {
+        padding: 8px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .ocultable {
+       display: none;
+    }
+    
+    .capitalize {
+        text-transform: capitalize;
+        font-weight: bold;
+        color: #6624bd;
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Wizard Progress =============================
+  id: 85027405264778935793
+  identification: 
+    name: Wizard Progress
+    type: List
+
+  source: 
+    list: WZRD_CONEXIONES_WAN # 85027390009745935778
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      list-template: Wizard Progress
+
+- # ====== Region: Verificar las instrucciones =================
+  id: 85027405378790935793
+  identification: 
+    name: Verificar las instrucciones
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Buttons =====================================
+  id: 85027405443039935793
+  identification: 
+    name: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: ENLACE_WAN ==================================
+  id: 85693681447078747621
+  identification: 
+    name: ENLACE_WAN
+    type: Static Content
+
+  source: 
+    html-code: |
+      <div class="summary-container">
+          
+          <h3> <span class="summary-label">Enlace WAN: </span></h3>
+             <ul class="summary-list">
+                 <li >Nombre: <span class="capitalize">&P401_NOMBRE.</span></li> 
+                 <li>Grupo de Red: <span class="capitalize">&P401_GRUPO_RED.</span></li>
+             </ul>
+      </div>
+      
+
+  layout: 
+    sequence: 10
+    parent-region: Verificar las instrucciones # 85027405378790935793
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: SITIOS ======================================
+  id: 85693681519527747622
+  identification: 
+    name: SITIOS
+    type: Static Content
+
+  source: 
+    html-code: |
+      <div id="network">
+      </div>
+
+  layout: 
+    sequence: 20
+    parent-region: Verificar las instrucciones # 85027405378790935793
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: CONEXIONES ==================================
+  id: 85693681667589747623
+  identification: 
+    name: CONEXIONES
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: Verificar las instrucciones # 85027405378790935793
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: New =========================================
+  id: 85693681719678747624
+  identification: 
+    name: New
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          t.id as Elemento,
+          t.equipo_a || ':'|| t.interfaz_a ||'►'|| t.equipo_b || ':'|| t.interfaz_b Conexión
+          
+      FROM 
+          V_TRAMOS_NOMBRES t
+      WHERE 
+          t.id IN (
+              SELECT column_value 
+              FROM apex_string.split_numbers(:P403_CONEXIONES, ',')
+          )
+
+  layout: 
+    sequence: 10
+    parent-region: CONEXIONES # 85693681667589747623
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 85693681809874747625
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 1000000
+
+    search-bar: 
+      include-search-bar: false
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 85733839266163652302
+      identification: 
+        name: Primary Report
+        alias: 857338393
+
+    columns: 
+    - # ====== Column: ELEMENTO ====================================
+      id: 85693682287122747629
+      identification: 
+        column-name: ELEMENTO
+        type: Plain Text
+
+      heading: 
+        heading: Elemento
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
+    - # ====== Column: CONEXIÓN ====================================
+      id: 85693682340240747630
+      identification: 
+        column-name: CONEXIÓN
+        type: Plain Text
+
+      heading: 
+        heading: Conexión
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 85027406975700935795
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 85027405443039935793
+    slot: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: FINISH ======================================
+  id: 85027407059183935795
+  identification: 
+    button-name: FINISH
+    label: Finish
+
+  layout: 
+    sequence: 40
+    region: Buttons # 85027405443039935793
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: PREVIOUS ====================================
+  id: 85027407127601935795
+  identification: 
+    button-name: PREVIOUS
+    label: Previous
+
+  layout: 
+    sequence: 20
+    region: Buttons # 85027405443039935793
+    slot: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-chevron-left
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: DELETE ======================================
+  id: 88034739535313770438
+  identification: 
+    button-name: DELETE
+    label: '&APP_TEXT$BTN_BORRAR!RAW.'
+
+  layout: 
+    sequence: 10
+    region: Buttons # 85027405443039935793
+    slot: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--danger
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+  confirmation: 
+    message: '&APP_TEXT$DELETE_MSG!RAW.'
+    style: Default
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P401_ID
+
+  security: 
+    authorization-scheme: Implementador Rights # 56843702980053272617
+
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel Dialog =======================
+  id: 85027407349265935795
+  identification: 
+    name: Cancel Dialog
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: CANCEL # 85027406975700935795
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 85027408186156935796
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel Dialog # 85027407349265935795
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: Close Dialog ===============================
+  id: 85027409694589935797
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+    execution-chain: None
+
+  settings: 
+    show-success-messages: true
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: DATOS_GRAFO ================================
+  id: 85693682171725747628
+  identification: 
+    name: DATOS_GRAFO
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      declare
+      l_cursor SYS_REFCURSOR;
+      begin
+      
+      open l_cursor for
+      
+      select s.id ORIGEN_ID, s.siglas ORIGEN
+      from sgt_sitios s 
+      where s.id in (SELECT column_value 
+              FROM apex_string.split_numbers(:P402_SITIOS, ',')
+      );
+      
+      APEX_JSON.OPEN_OBJECT;
+          APEX_JSON.WRITE('data', l_cursor); -- Convierte el cursor a JSON array
+          APEX_JSON.CLOSE_OBJECT;
+      
+          end;
+
+  execution: 
+    sequence: 10
+    point: Ajax Callback
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: PROCESAR_DATOS =============================
+  id: 85693683290250747639
+  identification: 
+    name: PROCESAR_DATOS
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      DECLARE
+          l_seq NUMBER := 10;
+      BEGIN
+          -- ===========================================
+          -- 1. BORRAR datos relacionados existentes
+          -- ===========================================
+          DELETE FROM sgt_sitios_enlace_wan
+          WHERE enlace_wan_id = :P401_ID;
+      
+          DELETE FROM sgt_conexiones_enlace_wan
+          WHERE enlace_wan_id = :P401_ID;
+      
+          -- ===========================================
+          -- 2. INSERTAR o ACTUALIZAR datos del ENLACE_WAN
+          -- ===========================================
+          IF :P401_ID IS NULL THEN
+          -- Nuevo registro
+          INSERT INTO sgt_enlaces_wan (nombre, grupo_red)
+          VALUES (:P401_NOMBRE, :P401_GRUPO_RED)
+          RETURNING id INTO :P401_ID;
+      ELSE
+          -- Actualizar existente
+          UPDATE sgt_enlaces_wan
+          SET nombre    = :P401_NOMBRE,
+              grupo_red = :P401_GRUPO_RED
+          WHERE id = :P401_ID;
+      END IF;
+      
+      
+          -- ===========================================
+          -- 3. INSERTAR datos en SITIOS_ENLACE_WAN
+          -- ===========================================
+          l_seq := 10;
+          FOR rec IN (
+              SELECT column_value AS sitio_id
+              FROM TABLE(apex_string.split_numbers(:P402_SITIOS, ','))
+              ORDER BY ROWNUM
+          )
+          LOOP
+              INSERT INTO sgt_sitios_enlace_wan (
+                  sitio_id,
+                  enlace_wan_id,
+                  seq
+              ) VALUES (
+                  rec.sitio_id,
+                  :P401_ID,
+                  l_seq
+              );
+              l_seq := l_seq + 10;
+          END LOOP;
+      
+          -- ===========================================
+          -- 4. INSERTAR datos en CONEXIONES_ENLACE_WAN
+          -- ===========================================
+          l_seq := 10;
+          FOR rec IN (
+              SELECT column_value AS tramo_id
+              FROM TABLE(apex_string.split_numbers(:P403_CONEXIONES, ','))
+              ORDER BY ROWNUM
+          )
+          LOOP
+              INSERT INTO sgt_conexiones_enlace_wan (
+                  enlace_tramo_id,
+                  enlace_wan_id,
+                  secuencia
+              ) VALUES (
+                  rec.tramo_id,
+                  :P401_ID,
+                  l_seq
+              );
+              l_seq := l_seq + 10;
+          END LOOP;
+      END;
+      
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Se ha creado el enlace WAN
+
+  error: 
+    error-message: No se pudo crear el enlace WAN
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: FINISH # 85027407059183935795
+
+  security: 
+    authorization-scheme: Implementador Rights # 56843702980053272617
+
+- # ====== Process: CLEAR_CACHE ================================
+  id: 85693683597011747642
+  identification: 
+    name: CLEAR_CACHE
+    type: Clear Session State
+    execution-chain: None
+
+  settings: 
+    type: Clear all Items on Page(s)
+    page(s): 
+    - 401
+    - 402
+    - 403
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: BORRAR =====================================
+  id: 88034739652343770439
+  identification: 
+    name: BORRAR
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      BEGIN
+          -- ===========================================
+          -- 1. BORRAR datos relacionados existentes
+          -- ===========================================
+          DELETE FROM sgt_sitios_enlace_wan
+          WHERE enlace_wan_id = :P401_ID;
+      
+          DELETE FROM sgt_conexiones_enlace_wan
+          WHERE enlace_wan_id = :P401_ID;
+      
+          ---Borrar el servicio
+          DELETE FROM SGT_ENLACES_WAN
+          WHERE ID = :P401_ID;
+      
+       END;  
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Se ha borrado el enlace WAN
+
+  error: 
+    error-message: Error al intentar borrar el enlace WAN
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: DELETE # 88034739535313770438
+
+  security: 
+    authorization-scheme: Implementador Rights # 56843702980053272617
+
+branches: 
+- # ====== Branch: Go To Page 403 ==============================
+  id: 85027408890995935797
+  identification: 
+    name: Go To Page 403
+
+  execution: 
+    sequence: 10
+    point: Validating
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:403:&APP_SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 403 # Seleccionar las conexiones
+
+  server-side-condition: 
+    when-button-pressed: PREVIOUS # 85027407127601935795
+

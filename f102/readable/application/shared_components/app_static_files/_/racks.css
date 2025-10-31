@@ -1,0 +1,23 @@
+.racks .u-ocupada {
+  background-color: #FF6F69; /* rojo */
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+}
+.racks .u-libre {
+  background-color: #58D68D; /* verde */
+  color: white;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.racks .t-Region.u-libre, .racks .t-Region-header{
+    font-weight: bold !important;
+    background-color: #58D68D !important; 
+    color: white !important;
+    text-align: center !important;
+}
+
+.racks .back .t-Region-header{
+    background-color: #29dce2 !important; /* Verde claro */
+}

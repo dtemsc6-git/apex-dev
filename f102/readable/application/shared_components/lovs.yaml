@@ -1,0 +1,1378 @@
+---
+- # ====== List of Values: CIUDAD.NOMBRE-COMPUESTO =============
+  id: 2341386040577256
+  identification: 
+    name: CIUDAD.NOMBRE-COMPUESTO
+
+  subscription: 
+    version-number: 39022125130998
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select C.ID VALOR, D.NOMBRE||', '||C.NOMBRE  DISPLAY, D.ID DEPTO_ID from SGT_CIUDAD C
+      JOIN SGT_DEPTO D ON C.DEPTO_ID = D.ID
+      ORDER BY DISPLAY
+
+  column-mapping: 
+    return: VALOR
+    display: DISPLAY
+    default-sort: Use Order By from Query
+
+- # ====== List of Values: GRUPO_RED ===========================
+  id: 2352388603111525
+  identification: 
+    name: GRUPO_RED
+
+  subscription: 
+    version-number: 39022127381201
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: AVIAT ========================================
+    id: 2352678389111527
+    entry: 
+      sequence: 1
+      display: AVIAT
+      return: AVIAT
+
+  - # ====== Entry: ECI_ECCA =====================================
+    id: 2353110358111527
+    entry: 
+      sequence: 2
+      display: ECI_ECCA
+      return: ECI_ECCA
+
+  - # ====== Entry: ECI_SDH ======================================
+    id: 2353505654111528
+    entry: 
+      sequence: 3
+      display: ECI_SDH
+      return: ECI_SDH
+
+  - # ====== Entry: FOX ==========================================
+    id: 2353879686111528
+    entry: 
+      sequence: 4
+      display: FOX
+      return: FOX
+
+  - # ====== Entry: JUMBO_SW =====================================
+    id: 2354289759111528
+    entry: 
+      sequence: 5
+      display: JUMBO_SW
+      return: JUMBO_SW
+
+  - # ====== Entry: LOOP_TC ======================================
+    id: 2354685606111528
+    entry: 
+      sequence: 6
+      display: LOOP_TC
+      return: LOOOP_TC
+
+  - # ====== Entry: NEC ==========================================
+    id: 2355070315111528
+    entry: 
+      sequence: 7
+      display: NEC
+      return: NEC
+
+  - # ====== Entry: HUAWEI_DWDM ==================================
+    id: 2355451632111528
+    entry: 
+      sequence: 8
+      display: HUAWEI_DWDM
+      return: HUAWEI_DWDM
+
+  - # ====== Entry: HUAWEI_MPLS ==================================
+    id: 2355849200111528
+    entry: 
+      sequence: 9
+      display: HUAWEI_MPLS
+      return: HUAWEI_MPLS
+
+  - # ====== Entry: FOX_MPLS =====================================
+    id: 2356322960111528
+    entry: 
+      sequence: 10
+      display: FOX_MPLS
+      return: FOX_MPLS
+
+- # ====== List of Values: TIPO_CABLE ==========================
+  id: 16824711784220248610
+  identification: 
+    name: TIPO_CABLE
+
+  subscription: 
+    version-number: 15652208728781
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: ADSS =========================================
+    id: 16824712104991248611
+    entry: 
+      sequence: 1
+      display: ADSS
+      return: ADSS
+
+  - # ====== Entry: OPGW =========================================
+    id: 16824712559843248613
+    entry: 
+      sequence: 2
+      display: OPGW
+      return: OPGW
+
+  - # ====== Entry: ARMORED ======================================
+    id: 16824712881740248613
+    entry: 
+      sequence: 3
+      display: ARMORED
+      return: ARMORED
+
+  - # ====== Entry: PDC ==========================================
+    id: 16824713302178248614
+    entry: 
+      sequence: 4
+      display: PDC
+      return: PDC
+
+  - # ====== Entry: DROP =========================================
+    id: 16824713726022248614
+    entry: 
+      sequence: 5
+      display: DROP
+      return: DROP
+
+- # ====== List of Values: MODO_FO =============================
+  id: 16824834299877558860
+  identification: 
+    name: MODO_FO
+
+  subscription: 
+    version-number: 15652208688775
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: SM ===========================================
+    id: 16824834569477558861
+    entry: 
+      sequence: 1
+      display: SM
+      return: SM
+
+  - # ====== Entry: MM ===========================================
+    id: 16824834990728558862
+    entry: 
+      sequence: 2
+      display: MM
+      return: MM
+
+- # ====== List of Values: LOV_SGT_ZONAS =======================
+  id: 16829957726745633025
+  identification: 
+    name: LOV_SGT_ZONAS
+
+  subscription: 
+    version-number: 15599647248550
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_ZONAS
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: TIPO_CONECTOR =======================
+  id: 16833195677697386387
+  identification: 
+    name: TIPO_CONECTOR
+
+  subscription: 
+    version-number: 15652209047220
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: SC/UPC =======================================
+    id: 16833196227972386388
+    entry: 
+      sequence: 1
+      display: SC/UPC
+      return: SC/UPC
+
+  - # ====== Entry: SC/APC =======================================
+    id: 16833196654780386388
+    entry: 
+      sequence: 2
+      display: SC/APC
+      return: SC/APC
+
+  - # ====== Entry: SC/PC ========================================
+    id: 16833197025796386388
+    entry: 
+      sequence: 3
+      display: SC/PC
+      return: SC/PC
+
+  - # ====== Entry: LC/UPC =======================================
+    id: 16833197418049386389
+    entry: 
+      sequence: 4
+      display: LC/UPC
+      return: LC/UPC
+
+  - # ====== Entry: E2000 ========================================
+    id: 16833197855348386389
+    entry: 
+      sequence: 5
+      display: E2000
+      return: E2000
+
+  - # ====== Entry: ST/PC ========================================
+    id: 52387713189827545124
+    entry: 
+      sequence: 6
+      display: ST/PC
+      return: ST/PC
+
+- # ====== List of Values: TIPO_FO =============================
+  id: 16833235324014392556
+  identification: 
+    name: TIPO_FO
+
+  subscription: 
+    version-number: 15652209098900
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: G.652 ========================================
+    id: 16833235564546392558
+    entry: 
+      sequence: 1
+      display: G.652
+      return: G.652
+
+  - # ====== Entry: G.653 ========================================
+    id: 16833236042772392558
+    entry: 
+      sequence: 2
+      display: G.653
+      return: G.653
+
+  - # ====== Entry: G.654 ========================================
+    id: 16833236443478392559
+    entry: 
+      sequence: 3
+      display: G.654
+      return: G.654
+
+  - # ====== Entry: G.655 ========================================
+    id: 16833236795596392559
+    entry: 
+      sequence: 4
+      display: G.655
+      return: G.655
+
+  - # ====== Entry: G.656 ========================================
+    id: 16833237262029392559
+    entry: 
+      sequence: 5
+      display: G.656
+      return: G.656
+
+  - # ====== Entry: G.657 ========================================
+    id: 16833237570431392559
+    entry: 
+      sequence: 6
+      display: G.657
+      return: G.657
+
+  - # ====== Entry: G.656D =======================================
+    id: 52386545170660518546
+    entry: 
+      sequence: 7
+      display: G.656D
+      return: G.656D
+
+- # ====== List of Values: EQUIPOS.NOMBRE ======================
+  id: 16838483136411509974
+  identification: 
+    name: EQUIPOS.NOMBRE
+
+  subscription: 
+    version-number: 15662090176704
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_EQUIPOS
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: LOV_TIPO_EQUIPOS ====================
+  id: 17289756602724474033
+  identification: 
+    name: LOV_TIPO_EQUIPOS
+
+  subscription: 
+    version-number: 15610003941328
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_TIPO_EQUIPOS
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: LOV_SGT_RACKS_FILTRADO ==============
+  id: 17290052017182763958
+  identification: 
+    name: LOV_SGT_RACKS_FILTRADO
+
+  subscription: 
+    version-number: 15638121453211
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select 
+             S.SIGLAS||'-'||R.NOMBRE MOSTRAR,
+             R.ID VALOR        
+        from SGT_RACKS R
+        LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID
+        left join SGT_SITIOS SS ON S.SITIO_ID = SS.ID
+       where
+       SS.ID = :P14_SITIO_ID
+
+  column-mapping: 
+    return: VALOR
+    display: MOSTRAR
+    default-sort: Use Order By from Query
+
+- # ====== List of Values: TIPO_RED ============================
+  id: 17291432086166556461
+  identification: 
+    name: TIPO_RED
+
+  subscription: 
+    version-number: 15652209137227
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: Desconocido ==================================
+    id: 17291432345857556463
+    entry: 
+      sequence: 1
+      display: Desconocido
+      return: Desconocido
+
+  - # ====== Entry: Externa ======================================
+    id: 17291432779145556463
+    entry: 
+      sequence: 2
+      display: Externa
+      return: Externa
+
+  - # ====== Entry: Miscelaneas ==================================
+    id: 17291433133476556464
+    entry: 
+      sequence: 3
+      display: Miscelaneas
+      return: Miscelaneas
+
+  - # ====== Entry: Red Corporativa ==============================
+    id: 17291433520615556464
+    entry: 
+      sequence: 4
+      display: Red Corporativa
+      return: Red Corporativa
+
+  - # ====== Entry: Red ECCANDE ==================================
+    id: 17291433971063556465
+    entry: 
+      sequence: 5
+      display: Red ECCANDE
+      return: Red ECCANDE
+
+  - # ====== Entry: Red Radio DMR ================================
+    id: 17291434335691556465
+    entry: 
+      sequence: 6
+      display: Red Radio DMR
+      return: Red Radio DMR
+
+  - # ====== Entry: Red SCADA ====================================
+    id: 17291434773170556465
+    entry: 
+      sequence: 7
+      display: Red SCADA
+      return: Red SCADA
+
+  - # ====== Entry: Red Telefonía ================================
+    id: 17291435119701556465
+    entry: 
+      sequence: 8
+      display: Red Telefonía
+      return: Red Telefonía
+
+  - # ====== Entry: Red Transporte ===============================
+    id: 17291435583458556465
+    entry: 
+      sequence: 9
+      display: Red Transporte
+      return: Red Transporte
+
+- # ====== List of Values: SUB_TIPO_EQUIPO =====================
+  id: 17292525545179850352
+  identification: 
+    name: SUB_TIPO_EQUIPO
+
+  subscription: 
+    version-number: 15652208716321
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: Activo =======================================
+    id: 17292525895987850353
+    entry: 
+      sequence: 1
+      display: Activo
+      return: Activo
+
+  - # ====== Entry: Pasivo =======================================
+    id: 17292526210753850354
+    entry: 
+      sequence: 2
+      display: Pasivo
+      return: Pasivo
+
+  - # ====== Entry: Energía ======================================
+    id: 17292526613330850354
+    entry: 
+      sequence: 3
+      display: Energía
+      return: Energía
+
+- # ====== List of Values: SALAS.NOMBRE ========================
+  id: 18963831332535051533
+  identification: 
+    name: SALAS.NOMBRE
+
+  subscription: 
+    version-number: 15662646196351
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT SGT_SITIOS.SIGLAS || '.'|| SGT_SALAS.SIGLAS AS MOSTRAR , SGT_SALAS.ID AS CLAVE
+      FROM SGT_SALAS INNER JOIN
+      SGT_SITIOS ON SGT_SALAS.SITIO_ID = SGT_SITIOS.ID
+
+  column-mapping: 
+    return: CLAVE
+    display: MOSTRAR
+    default-sort: Use Order By from Query
+
+- # ====== List of Values: RACKS.NOMBRES =======================
+  id: 18965791847251143770
+  identification: 
+    name: RACKS.NOMBRES
+
+  subscription: 
+    version-number: 15662646168361
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT SGT_SITIOS.SIGLAS || '.'|| SGT_SALAS.SIGLAS ||'.'||SGT_RACKS.NOMBRE AS MOSTRAR , SGT_RACKS.ID AS CLAVE
+      FROM SGT_RACKS INNER JOIN
+      SGT_SALAS ON SGT_RACKS.SALA_ID = SGT_SALAS.ID
+      INNER JOIN
+      SGT_SITIOS ON SGT_SALAS.SITIO_ID = SGT_SITIOS.ID
+
+  column-mapping: 
+    return: CLAVE
+    display: MOSTRAR
+    default-sort: Use Order By from Query
+
+- # ====== List of Values: SGT_TIPO_CABLE.NOMBRE ===============
+  id: 41049504750268235210
+  identification: 
+    name: SGT_TIPO_CABLE.NOMBRE
+
+  subscription: 
+    version-number: 15624450289438
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_TIPO_CABLE
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+    group: GRUPO_CABLES
+    group-sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: LOV_TIPO_INTERFAZ ===================
+  id: 41082575549472967716
+  identification: 
+    name: LOV_TIPO_INTERFAZ
+
+  subscription: 
+    version-number: 15623515567168
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_TIPO_INTERFAZ
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: LOV_SITIOS_SF =======================
+  id: 43095952120864982568
+  identification: 
+    name: LOV_SITIOS_SF
+
+  subscription: 
+    version-number: 15624440313532
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_SITIOS
+
+  column-mapping: 
+    return: ID
+    display: SIGLAS
+    default-sort: SIGLAS
+    sort-direction: Ascending (Nulls Last)
+    group: CIUDAD_ID
+    group-sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: TIPO_ENLACE =========================
+  id: 43126193997789167292
+  identification: 
+    name: TIPO_ENLACE
+
+  subscription: 
+    version-number: 15652209081831
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: Troncal ======================================
+    id: 43126194379680167293
+    entry: 
+      sequence: 1
+      display: Troncal
+      return: Troncal
+
+  - # ====== Entry: Interno ======================================
+    id: 43126194709193167294
+    entry: 
+      sequence: 2
+      display: Interno
+      return: Interno
+
+  - # ====== Entry: De terceros ==================================
+    id: 43126195104628167294
+    entry: 
+      sequence: 3
+      display: De terceros
+      return: De terceros
+
+- # ====== List of Values: TIPO_LT =============================
+  id: 43130638651458210618
+  identification: 
+    name: TIPO_LT
+
+  subscription: 
+    version-number: 15652209118624
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: ALI-23KV =====================================
+    id: 43130638966643210620
+    entry: 
+      sequence: 1
+      display: ALI-23KV
+      return: ALI-23KV
+
+  - # ====== Entry: LT-66KV ======================================
+    id: 43130639318406210621
+    entry: 
+      sequence: 2
+      display: LT-66KV
+      return: LT-66KV
+
+  - # ====== Entry: LT-220KV =====================================
+    id: 43130639711754210621
+    entry: 
+      sequence: 3
+      display: LT-220KV
+      return: LT-220KV
+
+  - # ====== Entry: LT-500KV =====================================
+    id: 43130640166397210621
+    entry: 
+      sequence: 4
+      display: LT-500KV
+      return: LT-500KV
+
+- # ====== List of Values: INTERFAZ_ESTADO =====================
+  id: 43199625631148317953
+  identification: 
+    name: INTERFAZ_ESTADO
+
+  subscription: 
+    version-number: 15652208674366
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: up ===========================================
+    id: 43199625998691317954
+    entry: 
+      sequence: 1
+      display: up
+      return: up
+
+  - # ====== Entry: down =========================================
+    id: 43199626337993317954
+    entry: 
+      sequence: 2
+      display: down
+      return: down
+
+  - # ====== Entry: administratively down ========================
+    id: 43199826764691317955
+    entry: 
+      sequence: 3
+      display: administratively down
+      return: administratively down
+
+- # ====== List of Values: INTERFACE_MODO ======================
+  id: 43201033517964343837
+  identification: 
+    name: INTERFACE_MODO
+
+  subscription: 
+    version-number: 15652208662159
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: access =======================================
+    id: 43201033858993343838
+    entry: 
+      sequence: 1
+      display: access
+      return: access
+
+  - # ====== Entry: trunk ========================================
+    id: 43201034239216343839
+    entry: 
+      sequence: 2
+      display: trunk
+      return: trunk
+
+  - # ====== Entry: tagged =======================================
+    id: 43201034684445343839
+    entry: 
+      sequence: 3
+      display: tagged
+      return: tagged
+
+  - # ====== Entry: tagged-all ===================================
+    id: 43201655520954634051
+    entry: 
+      sequence: 4
+      display: tagged-all
+      return: tagged-all
+
+  - # ====== Entry: hibryd =======================================
+    id: 43201655917813634051
+    entry: 
+      sequence: 5
+      display: hibryd
+      return: hibryd
+
+  - # ====== Entry: q-in-q =======================================
+    id: 43201656394159634052
+    entry: 
+      sequence: 6
+      display: q-in-q
+      return: q-in-q
+
+- # ====== List of Values: INTERFACE_DUPLEX ====================
+  id: 43201969178408363692
+  identification: 
+    name: INTERFACE_DUPLEX
+
+  subscription: 
+    version-number: 15652208652355
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: auto =========================================
+    id: 43201969509925363694
+    entry: 
+      sequence: 1
+      display: auto
+      return: auto
+
+  - # ====== Entry: full =========================================
+    id: 43201969936959363695
+    entry: 
+      sequence: 2
+      display: full
+      return: full
+
+  - # ====== Entry: half =========================================
+    id: 43201970324847363695
+    entry: 
+      sequence: 3
+      display: half
+      return: half
+
+- # ====== List of Values: SGT_ENLACES_FO.NOMBRE ===============
+  id: 43769668587515608859
+  identification: 
+    name: SGT_ENLACES_FO.NOMBRE
+
+  subscription: 
+    version-number: 15624723738900
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_ENLACES_FO
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: SGT_INTERFACES.NOMBRE ===============
+  id: 43769671252068608862
+  identification: 
+    name: SGT_INTERFACES.NOMBRE
+
+  subscription: 
+    version-number: 15624723738994
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_INTERFACES
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: SGT_SERVICIOS.NOMBRE ================
+  id: 44132876898299381933
+  identification: 
+    name: SGT_SERVICIOS.NOMBRE
+
+  subscription: 
+    version-number: 15624889444856
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_SERVICIOS
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: ENLACES_LOGICOS.NOMBRE ==============
+  id: 47255876122802445010
+  identification: 
+    name: ENLACES_LOGICOS.NOMBRE
+
+  subscription: 
+    version-number: 15662646226349
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_ENLACES_LOGICOS
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: RACKS.NOMBRE-COMPUESTO ==============
+  id: 48295171823567292693
+  identification: 
+    name: RACKS.NOMBRE-COMPUESTO
+
+  subscription: 
+    version-number: 39021905783434
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select 
+             SS.SIGLAS||'.'||S.SIGLAS||'.'||R.NOMBRE MOSTRAR,
+             R.ID VALOR        
+        from SGT_RACKS R
+        LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID
+        LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID
+
+  column-mapping: 
+    return: VALOR
+    display: MOSTRAR
+    default-sort: MOSTRAR
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: ESTADO_ENLACE_FO ====================
+  id: 52385217569870497397
+  identification: 
+    name: ESTADO_ENLACE_FO
+
+  subscription: 
+    version-number: 15652208579374
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: Activo =======================================
+    id: 52385217849707497399
+    entry: 
+      sequence: 1
+      display: Activo
+      return: Activo
+
+  - # ====== Entry: Planificado ==================================
+    id: 52385218233504497399
+    entry: 
+      sequence: 2
+      display: Planificado
+      return: Planificado
+
+  - # ====== Entry: Comisionamiento ==============================
+    id: 52385218675755497399
+    entry: 
+      sequence: 3
+      display: Comisionamiento
+      return: Comisionamiento
+
+  - # ====== Entry: Falla ========================================
+    id: 52385219079385497400
+    entry: 
+      sequence: 4
+      display: Falla
+      return: Falla
+
+  - # ====== Entry: Mantenimiento ================================
+    id: 52385219411082497400
+    entry: 
+      sequence: 5
+      display: Mantenimiento
+      return: Mantenimiento
+
+  - # ====== Entry: Sin supervisión ==============================
+    id: 52385219878390497400
+    entry: 
+      sequence: 6
+      display: Sin supervisión
+      return: Sin supervisión
+
+  - # ====== Entry: Decomisionado ================================
+    id: 52385220216597497400
+    entry: 
+      sequence: 7
+      display: Decomisionado
+      return: Decomisionado
+
+  - # ====== Entry: Retirado =====================================
+    id: 52385220628337497400
+    entry: 
+      sequence: 8
+      display: Retirado
+      return: Retirado
+
+- # ====== List of Values: ACCESS_ROLES ========================
+  id: 56800672530592124131
+  identification: 
+    name: ACCESS_ROLES
+
+  subscription: 
+    version-number: 15633301326013
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select role_name d, role_id r
+      from APEX_APPL_ACL_ROLES where application_id = :APP_ID 
+      order by 1
+
+  column-mapping: 
+    return: R
+    display: D
+    default-sort: Use Order By from Query
+
+- # ====== List of Values: EMAIL_USERNAME_FORMAT ===============
+  id: 56800680113856124143
+  identification: 
+    name: EMAIL_USERNAME_FORMAT
+
+  subscription: 
+    version-number: 15633301326113
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: Email Addresses ==============================
+    id: 56800680465942124143
+    entry: 
+      sequence: 1
+      display: Email Addresses
+      return: EMAIL
+
+- # ====== List of Values: NIVEL_PRIORIDAD =====================
+  id: 83355472626096331408
+  identification: 
+    name: NIVEL_PRIORIDAD
+
+  subscription: 
+    version-number: 15657376900796
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: Crítico  =====================================
+    id: 83355472944643331409
+    entry: 
+      sequence: 1
+      display: 'Crítico '
+      return: 10
+
+  - # ====== Entry: Alta =========================================
+    id: 83355473371844331410
+    entry: 
+      sequence: 2
+      display: Alta
+      return: 20
+
+  - # ====== Entry: Media ========================================
+    id: 83355473705856331410
+    entry: 
+      sequence: 3
+      display: Media
+      return: 30
+
+  - # ====== Entry: Baja =========================================
+    id: 83355474136670331410
+    entry: 
+      sequence: 4
+      display: Baja
+      return: 40
+
+  - # ====== Entry: Estándar =====================================
+    id: 83355474562202331410
+    entry: 
+      sequence: 5
+      display: Estándar
+      return: 50
+
+  - # ====== Entry: Experimental =================================
+    id: 83355474928532331410
+    entry: 
+      sequence: 6
+      display: Experimental
+      return: 60
+
+  - # ====== Entry: Otros ========================================
+    id: 83355475349037331411
+    entry: 
+      sequence: 7
+      display: Otros
+      return: 70
+
+- # ====== List of Values: ENLACES_WAN =========================
+  id: 84737308969826577554
+  identification: 
+    name: ENLACES_WAN
+
+  subscription: 
+    version-number: 15652977991549
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_ENLACES_WAN
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: EQUIPOS.NOMBRE-COMPUESTO ============
+  id: 99183333741246371784
+  identification: 
+    name: EQUIPOS.NOMBRE-COMPUESTO
+
+  subscription: 
+    version-number: 15662645814288
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select 
+             SS.SIGLAS ||'.'|| S.SIGLAS ||'.'|| R.NOMBRE || '.'|| E.NOMBRE MOSTRAR,
+             E.ID VALOR        
+        from SGT_EQUIPOS E
+        LEFT JOIN SGT_RACKS R ON E.RACK_ID = R.ID
+        LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID
+        LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID
+
+  column-mapping: 
+    return: VALOR
+    display: MOSTRAR
+    default-sort: VALOR
+    sort-direction: Descending (Nulls Last)
+
+- # ====== List of Values: LOV_SGT_SALAS =======================
+  id: 117050275762244460766
+  identification: 
+    name: LOV_SGT_SALAS
+
+  subscription: 
+    version-number: 15610008812074
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_SALAS
+    where-clause: 'SITIO_ID = :SITIO_ID'
+
+  column-mapping: 
+    return: ID
+    display: SIGLAS
+    default-sort: SIGLAS
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: CIUDAD.NOMBRE =======================
+  id: 117115199952560411783
+  identification: 
+    name: CIUDAD.NOMBRE
+
+  subscription: 
+    version-number: 39022124967687
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_CIUDAD
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: LOV_SGT_SITIOS ======================
+  id: 122658656065915391705
+  identification: 
+    name: LOV_SGT_SITIOS
+
+  subscription: 
+    version-number: 15610018144639
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_SITIOS
+    where-clause: 'CIUDAD_ID = :CIUDAD_ID'
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: LOV_SGT_CIUDAD ======================
+  id: 122659340527202417666
+  identification: 
+    name: LOV_SGT_CIUDAD
+
+  subscription: 
+    version-number: 15610021364893
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_CIUDAD
+    where-clause: DEPTO_ID = V('DEPTO_ID')
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: LOV_SGT_DPTO ========================
+  id: 122659355781875420604
+  identification: 
+    name: LOV_SGT_DPTO
+
+  subscription: 
+    version-number: 15602622100967
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_DEPTO
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: TIPO_SITIO ==========================
+  id: 200544013714325726183
+  identification: 
+    name: TIPO_SITIO
+
+  subscription: 
+    version-number: 39022127803009
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: Estación/Subestación Eléctrica ===============
+    id: 200544014004291726183
+    entry: 
+      sequence: 1
+      display: Estación/Subestación Eléctrica
+      return: Estación/Subestación Eléctrica
+
+  - # ====== Entry: Caseta Repetidora de Radiocomunicaciones =====
+    id: 200544014407655726184
+    entry: 
+      sequence: 2
+      display: Caseta Repetidora de Radiocomunicaciones
+      return: Caseta Repetidora de Radiocomunicaciones
+
+  - # ====== Entry: Agencia Comercial y/o de Reclamo =============
+    id: 200544014737088726184
+    entry: 
+      sequence: 3
+      display: Agencia Comercial y/o de Reclamo
+      return: Agencia Comercial y/o de Reclamo
+
+  - # ====== Entry: Central Hidroeléctrica =======================
+    id: 200544015170316726184
+    entry: 
+      sequence: 4
+      display: Central Hidroeléctrica
+      return: Central Hidroeléctrica
+
+  - # ====== Entry: Centro de Control ============================
+    id: 200544015609130726185
+    entry: 
+      sequence: 5
+      display: Centro de Control
+      return: Centro de Control
+
+  - # ====== Entry: Otro =========================================
+    id: 200544015942454726185
+    entry: 
+      sequence: 6
+      display: Otro
+      return: Otro
+
+- # ====== List of Values: LOV_UNI_ENCAR =======================
+  id: 200719442741094818409
+  identification: 
+    name: LOV_UNI_ENCAR
+
+  subscription: 
+    version-number: 15589438822245
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: DTE/DIC ======================================
+    id: 200719443085789818410
+    entry: 
+      sequence: 1
+      display: DTE/DIC
+      return: DTE_DIC
+
+  - # ====== Entry: DTE/MSC ======================================
+    id: 200719443461200818410
+    entry: 
+      sequence: 2
+      display: DTE/MSC
+      return: DTE_MSC
+
+  - # ====== Entry: DTE/ISC ======================================
+    id: 200719443916766818410
+    entry: 
+      sequence: 3
+      display: DTE/ISC
+      return: DTE_ISC
+
+  - # ====== Entry: DTE/MCO ======================================
+    id: 200719444301256818411
+    entry: 
+      sequence: 4
+      display: DTE/MCO
+      return: DTE_MCO
+
+- # ====== List of Values: SGT_SITIOS.SIGLAS ===================
+  id: 202814172118838557260
+  identification: 
+    name: SGT_SITIOS.SIGLAS
+
+  subscription: 
+    version-number: 15589933126585
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_SITIOS
+
+  column-mapping: 
+    return: ID
+    display: SIGLAS
+    default-sort: SIGLAS
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: ESTADO_EQUIPO =======================
+  id: 203663371051164540142
+  identification: 
+    name: ESTADO_EQUIPO
+
+  subscription: 
+    version-number: 15652208638821
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: No utilizado =================================
+    id: 17291005545094836159
+    entry: 
+      sequence: 3
+      display: No utilizado
+      return: No utilizado
+
+  - # ====== Entry: S/D ==========================================
+    id: 17291025687869838470
+    entry: 
+      sequence: 4
+      display: S/D
+      return: S/D
+
+  - # ====== Entry: Desconocido ==================================
+    id: 17292442094612840685
+    entry: 
+      sequence: 5
+      display: Desconocido
+      return: Desconocido
+
+  - # ====== Entry: Retirado =====================================
+    id: 42523351391228099593
+    entry: 
+      sequence: 6
+      display: Retirado
+      return: Retirado
+
+  - # ====== Entry: Apagado ======================================
+    id: 203663371403443540142
+    entry: 
+      sequence: 1
+      display: Apagado
+      return: Apagado
+
+  - # ====== Entry: Utilizado ====================================
+    id: 203663371724885540143
+    entry: 
+      sequence: 2
+      display: Utilizado
+      return: Utilizado
+

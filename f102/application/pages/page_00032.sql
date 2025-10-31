@@ -1,0 +1,206 @@
+prompt --application/pages/page_00032
+begin
+--   Manifest
+--     PAGE: 00032
+--   Manifest End
+wwv_flow_imp.component_begin (
+ p_version_yyyy_mm_dd=>'2024.11.30'
+,p_release=>'24.2.9'
+,p_default_workspace_id=>71533046799736978747
+,p_default_application_id=>24839
+,p_default_id_offset=>9071155675752509
+,p_default_owner=>'WKSP_DTESC'
+);
+wwv_flow_imp_page.create_page(
+ p_id=>32
+,p_name=>'SGT_CABLES'
+,p_alias=>'SGT-CABLES'
+,p_step_title=>'SGT_CABLES'
+,p_autocomplete_on_off=>'OFF'
+,p_page_template_options=>'#DEFAULT#'
+,p_protection_level=>'C'
+,p_page_component_map=>'03'
+);
+wwv_flow_imp_page.create_page_plug(
+ p_id=>wwv_flow_imp.id(41049502505223235046)
+,p_plug_name=>'Breadcrumb'
+,p_region_template_options=>'#DEFAULT#:t-BreadcrumbRegion--useBreadcrumbTitle'
+,p_component_template_options=>'#DEFAULT#'
+,p_plug_template=>2531463326621247859
+,p_plug_display_sequence=>10
+,p_plug_display_point=>'REGION_POSITION_01'
+,p_menu_id=>wwv_flow_imp.id(197180072443235446203)
+,p_plug_source_type=>'NATIVE_BREADCRUMB'
+,p_menu_template_id=>4072363345357175094
+);
+wwv_flow_imp_page.create_report_region(
+ p_id=>wwv_flow_imp.id(41049503275683235047)
+,p_name=>'SGT_CABLES'
+,p_template=>4072358936313175081
+,p_display_sequence=>10
+,p_region_template_options=>'#DEFAULT#:t-Region--noPadding:t-Region--hideHeader js-addHiddenHeadingRoleDesc:t-Region--scrollBody'
+,p_component_template_options=>'#DEFAULT#:t-Report--stretch:t-Report--staticRowColors:t-Report--rowHighlight:t-Report--inline:t-Report--hideNoPagination'
+,p_source_type=>'NATIVE_SQL_REPORT'
+,p_query_type=>'TABLE'
+,p_query_table=>'SGT_CABLES'
+,p_include_rowid_column=>false
+,p_ajax_enabled=>'Y'
+,p_lazy_loading=>false
+,p_query_row_template=>2538654340625403440
+,p_query_num_rows=>50
+,p_query_options=>'DERIVED_REPORT_COLUMNS'
+,p_query_no_data_found=>'no data found'
+,p_query_num_rows_type=>'NEXT_PREVIOUS_LINKS'
+,p_query_row_count_max=>500
+,p_pagination_display_position=>'BOTTOM_RIGHT'
+,p_prn_output=>'N'
+,p_prn_format=>'PDF'
+,p_sort_null=>'L'
+,p_plug_query_strip_html=>'N'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(41049505214031235211)
+,p_query_column_id=>1
+,p_column_alias=>'ID'
+,p_column_display_sequence=>0
+,p_column_heading=>'ID'
+,p_heading_alignment=>'LEFT'
+,p_disable_sort_column=>'N'
+,p_hidden_column=>'Y'
+,p_include_in_export=>'N'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(41049505657123235212)
+,p_query_column_id=>2
+,p_column_alias=>'SGT_TIPO_CABLE_ID'
+,p_column_display_sequence=>2
+,p_column_heading=>'Sgt Tipo Cable'
+,p_heading_alignment=>'LEFT'
+,p_default_sort_column_sequence=>1
+,p_disable_sort_column=>'N'
+,p_display_as=>'TEXT_FROM_LOV_ESC'
+,p_named_lov=>wwv_flow_imp.id(41049504750268235210)
+,p_include_in_export=>'Y'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(41049506020394235212)
+,p_query_column_id=>3
+,p_column_alias=>'UNIDAD_ENCARGADA'
+,p_column_display_sequence=>3
+,p_column_heading=>'Unidad Encargada'
+,p_heading_alignment=>'LEFT'
+,p_default_sort_column_sequence=>1
+,p_disable_sort_column=>'N'
+,p_include_in_export=>'Y'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(41049506418486235212)
+,p_query_column_id=>4
+,p_column_alias=>'NOMBRE'
+,p_column_display_sequence=>4
+,p_column_heading=>'Nombre'
+,p_heading_alignment=>'LEFT'
+,p_default_sort_column_sequence=>1
+,p_disable_sort_column=>'N'
+,p_include_in_export=>'Y'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(41049506893161235212)
+,p_query_column_id=>5
+,p_column_alias=>'ETIQUETA'
+,p_column_display_sequence=>5
+,p_column_heading=>'Etiqueta'
+,p_heading_alignment=>'LEFT'
+,p_default_sort_column_sequence=>1
+,p_disable_sort_column=>'N'
+,p_include_in_export=>'Y'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(41049507287428235213)
+,p_query_column_id=>6
+,p_column_alias=>'DESCRIPCION'
+,p_column_display_sequence=>6
+,p_column_heading=>'Descripcion'
+,p_heading_alignment=>'LEFT'
+,p_default_sort_column_sequence=>1
+,p_disable_sort_column=>'N'
+,p_include_in_export=>'Y'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(41049507626083235213)
+,p_query_column_id=>7
+,p_column_alias=>'COMENTARIOS'
+,p_column_display_sequence=>7
+,p_column_heading=>'Comentarios'
+,p_heading_alignment=>'LEFT'
+,p_default_sort_column_sequence=>1
+,p_disable_sort_column=>'N'
+,p_include_in_export=>'Y'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(41049508023851235213)
+,p_query_column_id=>8
+,p_column_alias=>'ESTADO_CONEXION'
+,p_column_display_sequence=>8
+,p_column_heading=>'Estado Conexion'
+,p_heading_alignment=>'LEFT'
+,p_default_sort_column_sequence=>1
+,p_disable_sort_column=>'N'
+,p_include_in_export=>'Y'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(41049508447133235213)
+,p_query_column_id=>9
+,p_column_alias=>'LONGITUD'
+,p_column_display_sequence=>9
+,p_column_heading=>'Longitud'
+,p_column_alignment=>'RIGHT'
+,p_heading_alignment=>'RIGHT'
+,p_disable_sort_column=>'N'
+,p_include_in_export=>'Y'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(41049508837368235214)
+,p_query_column_id=>10
+,p_column_alias=>'UNIDAD_MEDIDA'
+,p_column_display_sequence=>10
+,p_column_heading=>'Unidad Medida'
+,p_heading_alignment=>'LEFT'
+,p_default_sort_column_sequence=>1
+,p_disable_sort_column=>'N'
+,p_include_in_export=>'Y'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(41049509298642235214)
+,p_query_column_id=>11
+,p_column_alias=>'ABS_LONGITUD'
+,p_column_display_sequence=>11
+,p_column_heading=>'Abs Longitud'
+,p_column_alignment=>'RIGHT'
+,p_heading_alignment=>'RIGHT'
+,p_disable_sort_column=>'N'
+,p_include_in_export=>'Y'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(41049509684475235214)
+,p_query_column_id=>12
+,p_column_alias=>'CREADO_EL'
+,p_column_display_sequence=>12
+,p_column_heading=>'Creado El'
+,p_heading_alignment=>'LEFT'
+,p_disable_sort_column=>'N'
+,p_include_in_export=>'Y'
+);
+wwv_flow_imp_page.create_report_columns(
+ p_id=>wwv_flow_imp.id(41049510093507235214)
+,p_query_column_id=>13
+,p_column_alias=>'ACTUALIZADO_EL'
+,p_column_display_sequence=>13
+,p_column_heading=>'Actualizado El'
+,p_heading_alignment=>'LEFT'
+,p_disable_sort_column=>'N'
+,p_include_in_export=>'Y'
+);
+wwv_flow_imp.component_end;
+end;
+/

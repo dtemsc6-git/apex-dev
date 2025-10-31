@@ -1,0 +1,1386 @@
+---
+# ====== Page: Step 5 ========================================
+id: 54
+identification: 
+  name: Step 5
+  alias: STEP-5
+  title: Verificar los datos
+  page-group: Implementadores # 57024536698229459190
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Wizard Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  height: 400
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+javascript: 
+  file-urls: 
+  - 'https://unpkg.com/vis-network/standalone/umd/vis-network.min.js'
+  execute-when-page-loads: |
+    apex.server.process(
+        'DATOS_GRAFO', { pageItems: '#P54_NIVEL_TEXTO' },
+        {
+            success: function (data) {
+                console.log(data); // Acceder a los datos
+    
+    
+                var nodes = new vis.DataSet(data.nodes);
+                var edges = new vis.DataSet(data.edges);
+    
+                var data = { nodes: nodes, edges: edges };
+                
+                var container = document.getElementById("network");
+                var network = new vis.Network(container, data, {
+                    layout: { hierarchical: { enabled: true, direction: "RL" }, },
+                    physics: { enabled: false, solver: "forceAtlas2Based" }
+                });
+            }
+    
+    
+            ,
+            error: function (pError) {
+                console.error('Error:', pError);
+            }
+        }
+    );
+    
+    
+    
+    
+    
+    
+
+css: 
+  inline: |
+    .summary-label {
+        font-weight: bold;
+        color: #1a5276;
+        display: inline-block;
+        
+    }
+    .summary-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    .summary-list li {
+        padding: 8px 0;
+        border-bottom: 1px solid #f0f0f0;
+    }
+    
+    .ocultable {
+       display: none;
+    }
+    
+    .capitalize {
+        text-transform: capitalize;
+        font-weight: bold;
+        color: #6624bd;
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Wizard Progress =============================
+  id: 67812707636275518424
+  identification: 
+    name: Wizard Progress
+    type: List
+
+  source: 
+    list: Asistente Servicios # 67812692495749518409
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      list-template: Wizard Progress
+
+- # ====== Region: Step 4 ======================================
+  id: 67812707774765518424
+  identification: 
+    name: Step 4
+    type: Static Content
+
+  source: 
+    html-code: |
+      <div class="summary-container">
+          
+          <h3> <span class="summary-label">Servicios: </span></h3>
+             <ul class="summary-list">
+                 <li > Nombre: <span class="capitalize">&P50_NOMBRE.</span>, 
+                 Nivel de Prioridad: <span class="capitalize">&P50_NIVEL_DE_PRIORIDAD.:&P54_NIVEL_TEXTO.</span>,
+                 Observación: <span class="capitalize">&P50_DESCRIPCION.</span></li>
+             </ul>
+      
+       <!--   
+          <ul class="summary-list">
+                 <li><span class="summary-label">Lado A:</span> <span class="">&P54_SITIO_A.::&P54_EQUIPO_A.::&P54_INTERFAZ_A.</span></li>
+             </ul>
+           <ul class="summary-list">
+                 <li><span class="summary-label">Lado B:</span> <span class="">&P54_SITIO_B.::&P54_EQUIPO_B.::&P54_INTERFAZ_B.</span></li>
+             </ul>
+             -->
+      
+      
+      
+          
+      
+      </div>
+      
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Buttons =====================================
+  id: 67812707818255518424
+  identification: 
+    name: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Conexiones ==================================
+  id: 68028420772429161411
+  identification: 
+    name: Conexiones
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          t.id as title,
+          t.equipo_a || ':'|| t.interfaz_a ||'►'|| t.equipo_b || ':'|| t.interfaz_b description,
+          'fa-check-circle' as icon,
+          t.id as card_id
+      FROM 
+          V_TRAMOS_NOMBRES t
+      WHERE 
+          t.id IN (
+              SELECT column_value 
+              FROM apex_string.split_numbers(:P52_CIRCUITOS_FISICOS, ',')
+          )
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 30
+    parent-region: Step 4 # 67812707774765518424
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: <h3><span class="summary-label">Conexiones físicas</span></h3>
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: TITLE =======================================
+    id: 68028421028394161414
+    identification: 
+      column-name: TITLE
+      type: Plain Text
+
+    heading: 
+      heading: Title
+      alignment: end
+
+    layout: 
+      sequence: 20
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
+
+  - # ====== Column: DESCRIPTION =================================
+    id: 68028421101465161415
+    identification: 
+      column-name: DESCRIPTION
+      type: Plain Text
+
+    heading: 
+      heading: Description
+      alignment: start
+
+    layout: 
+      sequence: 30
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ICON ========================================
+    id: 68028421276481161416
+    identification: 
+      column-name: ICON
+      type: Plain Text
+
+    heading: 
+      heading: Icon
+      alignment: start
+
+    layout: 
+      sequence: 40
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
+
+  - # ====== Column: CARD_ID =====================================
+    id: 68028421368812161417
+    identification: 
+      column-name: CARD_ID
+      type: Plain Text
+
+    heading: 
+      heading: Card Id
+      alignment: end
+
+    layout: 
+      sequence: 50
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
+
+- # ====== Region: Enlaces WAN =================================
+  id: 68028423381033161437
+  identification: 
+    name: Enlaces WAN
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select wan.nombre
+      
+      from sgt_enlaces_wan wan
+      
+      where 
+      wan.id in (
+      SELECT column_value 
+              FROM apex_string.split_numbers(:P53_ENLACES_WAN, ',') 
+              
+      )
+      
+      
+      
+      
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 20
+    parent-region: Step 4 # 67812707774765518424
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: '<h3><span class="summary-label">Enlace WAN: </span></h3>'
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: NOMBRE ======================================
+    id: 85693683633721747643
+    identification: 
+      column-name: NOMBRE
+      type: Plain Text
+
+    heading: 
+      heading: Nombre
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+- # ====== Region: Nodos_Origen_Trazado ========================
+  id: 78443845780960367137
+  identification: 
+    name: Nodos_Origen_Trazado
+    title: Vista Origen a destino
+    type: Static Content
+
+  source: 
+    html-code: |
+      <div id="network">
+      </div>
+
+  layout: 
+    sequence: 10
+    parent-region: Step 4 # 67812707774765518424
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P54_EQUIPO_A =============================
+  id: 68028421603352161420
+  identification: 
+    name: P54_EQUIPO_A
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Step 4 # 67812707774765518424
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P54_INTERFAZ_A ===========================
+  id: 68028421818726161422
+  identification: 
+    name: P54_INTERFAZ_A
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 50
+    region: Step 4 # 67812707774765518424
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P54_SITIO_A ==============================
+  id: 68028422113916161425
+  identification: 
+    name: P54_SITIO_A
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Step 4 # 67812707774765518424
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P54_SITIO_B ==============================
+  id: 68028422236329161426
+  identification: 
+    name: P54_SITIO_B
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Step 4 # 67812707774765518424
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P54_EQUIPO_B =============================
+  id: 68028422322246161427
+  identification: 
+    name: P54_EQUIPO_B
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 40
+    region: Step 4 # 67812707774765518424
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P54_INTERFAZ_B ===========================
+  id: 68028422465368161428
+  identification: 
+    name: P54_INTERFAZ_B
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 60
+    region: Step 4 # 67812707774765518424
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P54_NIVEL_TEXTO ==========================
+  id: 78443844830718367128
+  identification: 
+    name: P54_NIVEL_TEXTO
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 70
+    region: Step 4 # 67812707774765518424
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 67812709381181518426
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 67812707818255518424
+    slot: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: FINISH ======================================
+  id: 67812709412413518426
+  identification: 
+    button-name: FINISH
+    label: Finish
+
+  layout: 
+    sequence: 40
+    region: Buttons # 67812707818255518424
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: PREVIOUS ====================================
+  id: 67812709584798518426
+  identification: 
+    button-name: PREVIOUS
+    label: Previous
+
+  layout: 
+    sequence: 20
+    region: Buttons # 67812707818255518424
+    slot: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-chevron-left
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: DELETE ======================================
+  id: 88034739401241770437
+  identification: 
+    button-name: DELETE
+    label: '&APP_TEXT$BTN_BORRAR!RAW.'
+
+  layout: 
+    sequence: 10
+    region: Buttons # 67812707818255518424
+    slot: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--danger
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+  confirmation: 
+    message: '&APP_TEXT$DELETE_MSG!RAW.'
+    style: Default
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P50_ID
+
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel Dialog =======================
+  id: 67812709757777518426
+  identification: 
+    name: Cancel Dialog
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: CANCEL # 67812709381181518426
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 67812710563538518427
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel Dialog # 67812709757777518426
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: Close Dialog ===============================
+  id: 67812712072660518428
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+    execution-chain: None
+
+  settings: 
+    show-success-messages: true
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: CONSULTAR_NIVEL_PRIORIDAD ==================
+  id: 68028422015193161424
+  identification: 
+    name: CONSULTAR_NIVEL_PRIORIDAD
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      DECLARE
+              v_resultado VARCHAR2(200);
+              V_NIVEL_TEXTO VARCHAR2(255);
+          BEGIN
+              -- Ejemplo: Consulta a base de datos
+              --select siglas into :P54_SITIO_A from sgt_sitios where id = :P51_LADO_A;
+              --select NVL(NOMBRE, 'S/D') into :P54_EQUIPO_A from sgt_EQUIPOS where id = :P51_EQUIPO_A;
+              --select NVL(NOMBRE, 'S/D') into :P54_INTERFAZ_A from sgt_interfaces where id = :P51_INTERFAZ_A;
+              --select siglas into :P54_SITIO_B from sgt_sitios where id = :P51_LADO_B;
+              
+              /*if (:P51_EQUIPO_B is not null ) then
+                 select NVL(NOMBRE, 'S/D') into :P54_EQUIPO_B from sgt_EQUIPOS where id = :P51_EQUIPO_B;
+              end if;
+              if :P51_INTERFAZ_B is NOT NULL then
+                 select NOMBRE into :P54_INTERFAZ_B from sgt_interfaces where id = :P51_INTERFAZ_B;
+              end if;*/
+      
+              SELECT display_value INTO :P54_NIVEL_TEXTO
+                 FROM   apex_application_lov_entries
+                 WHERE  application_id = :APP_ID
+                 AND    list_of_values_name = 'NIVEL_PRIORIDAD'
+                 AND    return_value = :P50_NIVEL_DE_PRIORIDAD;
+          END;
+      
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: DATOS_GRAFO ================================
+  id: 78443845881263367138
+  identification: 
+    name: DATOS_GRAFO
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      DECLARE
+          l_nodes CLOB;
+          l_edges CLOB;
+      BEGIN
+          -- NODOS: lista única de sitios (solo los de los enlaces seleccionados)
+          SELECT JSON_ARRAYAGG(
+                   JSON_OBJECT('id' VALUE id, 'label' VALUE label, 'shape' VALUE 'box', 'color' VALUE '#00AAFF')
+                 RETURNING CLOB)
+          INTO l_nodes
+          FROM (
+            SELECT 
+              S.ID, S.SIGLAS LABEL FROM SGT_SITIOS S
+            WHERE S.ID IN (
+              SELECT column_value FROM TABLE(apex_string.split_numbers(:P51_SITIOS_TRANSITO, ','))
+            )
+          );
+      
+          IF l_nodes IS NULL THEN
+            l_nodes := '[]';
+          END IF;
+          
+          -- EDGES: calculo de LEAD() en una CTE/consulta intermedia y luego agregación JSON
+          WITH ordered AS (
+            SELECT
+              s.id   AS origen_id,
+              
+              LEAD(s.id) OVER (PARTITION BY wan.id ORDER BY sw.seq)       AS destino_id,
+              wan.id AS edge_id,
+              wan.nombre AS edge_label
+            FROM sgt_sitios_enlace_wan sw
+            JOIN sgt_enlaces_wan wan ON wan.id = sw.enlace_wan_id
+            JOIN sgt_sitios s ON s.id = sw.sitio_id
+            WHERE sw.enlace_wan_id IN (
+              SELECT column_value FROM TABLE(apex_string.split_numbers(:P53_ENLACES_WAN, ','))
+            )
+          )
+          SELECT JSON_ARRAYAGG(
+                   JSON_OBJECT(
+                     'from' VALUE origen_id,
+                     'to'   VALUE destino_id,
+                     'label' VALUE edge_label,
+                     'edge_id' VALUE edge_id
+                   ) RETURNING CLOB)
+          INTO l_edges
+          FROM ordered
+          WHERE destino_id IS NOT NULL; -- ahora es válido porque destino_id fue calculado en la CTE
+      
+          IF l_edges IS NULL THEN
+            l_edges := '[]';
+          END IF;
+      
+          -- Devolvemos JSON final (anidando los JSON ya generados; FORMAT JSON no es necesario aquí
+          -- porque pasamos l_nodes/l_edges como literales JSON y usamos RETURNING CLOB en JSON_OBJECT).
+          htp.p(
+            JSON_OBJECT(
+              'nodes' VALUE l_nodes FORMAT JSON,
+              'edges' VALUE l_edges FORMAT JSON
+            ) 
+          );
+      END;
+      
+
+  execution: 
+    sequence: 10
+    point: Ajax Callback
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: PROCESAR_DATOS =============================
+  id: 85693683733012747644
+  identification: 
+    name: PROCESAR_DATOS
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      DECLARE
+      seq NUMBER;
+      BEGIN
+        seq:=10;
+        
+        IF :P50_ID IS NULL THEN
+          --INSERTAR LOS DATOS Y GUARDAR EL ID EN EL CAMPO ID
+          INSERT INTO sgt_servicios (nombre, nivel_de_prioridad, DESCRIPCION)
+          VALUES (:P50_NOMBRE, :P50_NIVEL_DE_PRIORIDAD, :P50_DESCRIPCION)
+          RETURNING id INTO :P50_ID;
+          
+        ELSE 
+          --=================
+          --Actualizar los datos de la tabla servicios
+          --==================
+          UPDATE sgt_servicios 
+          set nombre = :P50_NOMBRE, 
+          nivel_de_prioridad = :P50_NIVEL_DE_PRIORIDAD, 
+          DESCRIPCION = :P50_DESCRIPCION
+          where id = :P50_ID ;
+          
+          --BORRAR LOS DATOS DE SITIOS_SERVICIOS
+         DELETE FROM SGT_SITIOS_SERVICIO
+         WHERE SERVICIO_ID = :P50_ID;
+         --BORRAR LOS DATOS DE ENLACE_WAN_SERVICIOS
+         DELETE FROM SGT_ENLACES_WAN_SERVICIO
+         WHERE SERVICIO_ID = :P50_ID;
+        --BORRAR LOS DATOS DE CONEXIONES_SERVICIOS
+         DELETE FROM SGT_CONEXIONES_SERVICIO
+         WHERE SERVICIO_ID = :P50_ID;
+        -- INSERTAR LOS DATOS DE LOS SITIOS
+          SEQ:=10;
+        --INSERTAR LOS DATOS DE LAS WAN
+        --INSERTAR LAS CONEXIONES  
+        END IF;
+      
+         
+          
+        --=====================
+        --INSERTAR LOS DATOS DE LOS SITIOS
+        --======================
+        
+        FOR rec IN (
+              SELECT column_value AS sitio_id
+              FROM TABLE(apex_string.split_numbers(:P51_SITIOS_TRANSITO, ','))
+              ORDER BY ROWNUM
+          )
+          LOOP
+              INSERT INTO sgt_sitios_servicio (
+                  sitio_id,
+                  servicio_id,
+                  seq
+              ) VALUES (
+                  rec.sitio_id,
+                  :P50_ID,
+                  seq
+              );
+              seq := seq + 10;
+          END LOOP;
+          seq := 10;
+          ---=================
+          ---INSERTAR DATOS DE ENLACES WAN SERVICIO
+          ---=======================================
+          FOR rec IN (
+              SELECT column_value AS ENLACE_ID
+              FROM TABLE(apex_string.split_numbers(:P53_ENLACES_WAN, ','))
+              ORDER BY ROWNUM
+          )
+          LOOP
+              INSERT INTO sgt_enlaces_wan_servicio (
+                  
+                  servicio_id,
+                  enlace_id,
+                  seq
+              ) VALUES (
+                  :P50_ID,
+                  rec.ENLACE_ID,
+                  seq
+              );
+              seq := seq + 10;
+          END LOOP;
+      
+          ---====================================
+          ---INSERTAR LOS DATOS DE LAS CONEXIONES SELECCIONADAS 
+          ---====================================
+          seq :=10;
+          FOR rec IN (
+              SELECT column_value AS ENLACE_TRAMO_ID
+              FROM TABLE (apex_string.split_numbers(:P52_CIRCUITOS_FISICOS, ','))
+              ORDER BY ROWNUM
+          )
+          LOOP
+              INSERT INTO sgt_conexiones_servicio (
+                  
+                  servicio_id,
+                  enlace_tramo_id,
+                  seq
+              ) VALUES (
+                  :P50_ID,
+                  rec.ENLACE_TRAMO_ID,
+                  seq
+              );
+              seq := seq + 10;
+          END LOOP;
+      
+      END;
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Se ha creado el enlace Servicio
+
+  error: 
+    error-message: No se pudo crear el Servicio
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: FINISH # 67812709412413518426
+
+  security: 
+    authorization-scheme: Implementador Rights # 56843702980053272617
+
+- # ====== Process: CLEAR_SESSION ==============================
+  id: 85693683811872747645
+  identification: 
+    name: CLEAR_SESSION
+    type: Clear Session State
+    execution-chain: None
+
+  settings: 
+    type: Clear all Items on Page(s)
+    page(s): 
+    - 50
+    - 51
+    - 52
+    - 53
+    - 54
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: BORRAR_SERVICIO ============================
+  id: 88034739792624770440
+  identification: 
+    name: BORRAR_SERVICIO
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      --BORRAR LOS DATOS DE SITIOS_SERVICIOS
+         DELETE FROM SGT_SITIOS_SERVICIO
+         WHERE SERVICIO_ID = :P50_ID;
+         --BORRAR LOS DATOS DE ENLACE_WAN_SERVICIOS
+         DELETE FROM SGT_ENLACES_WAN_SERVICIO
+         WHERE SERVICIO_ID = :P50_ID;
+        --BORRAR LOS DATOS DE CONEXIONES_SERVICIOS
+         DELETE FROM SGT_CONEXIONES_SERVICIO
+         WHERE SERVICIO_ID = :P50_ID;
+         --BORRAR LOS DATOS DEL SERVICIO
+         DELETE FROM SGT_SERVICIOS
+         WHERE ID = :P50_ID;
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Se ha borrado el servicio
+
+  error: 
+    error-message: Error al intentar borrar el servicio
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: DELETE # 88034739401241770437
+
+  security: 
+    authorization-scheme: Implementador Rights # 56843702980053272617
+
+branches: 
+- # ====== Branch: Go To Page 52 ===============================
+  id: 67812711268788518427
+  identification: 
+    name: Go To Page 52
+
+  execution: 
+    sequence: 10
+    point: Validating
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:52:&APP_SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 52 # Step 4
+
+  server-side-condition: 
+    when-button-pressed: PREVIOUS # 67812709584798518426
+

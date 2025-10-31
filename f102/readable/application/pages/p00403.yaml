@@ -1,0 +1,527 @@
+---
+# ====== Page: Seleccionar las conexiones ====================
+id: 403
+identification: 
+  name: Seleccionar las conexiones
+  alias: SELECCIONAR-LAS-CONEXIONES
+  title: Seleccionar las conexiones
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Wizard Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  height: 400
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+javascript: 
+  function-and-global-variable-declaration: |
+    function filtrarShuttle() {
+    var filtro = $("#P403_FILTRAR_CONEXIONES").val();
+        var filtroLower = filtro.toLowerCase();
+        var opciones = document.querySelectorAll("#P403_CONEXIONES_LEFT option");
+    
+        opciones.forEach(function (opt) {
+            if (opt.text.toLowerCase().includes(filtroLower)) {
+                opt.style.display = "";   // mostrar
+            } else {
+                opt.style.display = "none"; // ocultar
+            }
+        });
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Wizard Progress =============================
+  id: 85027400233403935790
+  identification: 
+    name: Wizard Progress
+    type: List
+
+  source: 
+    list: WZRD_CONEXIONES_WAN # 85027390009745935778
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      list-template: Wizard Progress
+
+- # ====== Region: Seleccionar las conexiones ==================
+  id: 85027400348108935790
+  identification: 
+    name: Seleccionar las conexiones
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Buttons =====================================
+  id: 85027400480820935790
+  identification: 
+    name: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P403_FILTRAR_CONEXIONES ==================
+  id: 85693680819376747615
+  identification: 
+    name: P403_FILTRAR_CONEXIONES
+    type: Text Field
+
+  label: 
+    label: Filtrar Conexiones
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 10
+    region: Seleccionar las conexiones # 85027400348108935790
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P403_CONEXIONES ==========================
+  id: 85693681339263747620
+  identification: 
+    name: P403_CONEXIONES
+    type: Shuttle
+
+  label: 
+    label: Conexiones
+    alignment: Left
+
+  settings: 
+    show-controls: All
+
+  multiple-values: 
+    type: Delimited List
+    separator: ','
+
+  layout: 
+    sequence: 20
+    region: Seleccionar las conexiones # 85027400348108935790
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 5
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT 
+         SITIO_A||'.'||EQUIPO_A || ':' || INTERFAZ_A || '>'|| SITIO_B ||'.'|| EQUIPO_B || ':' || INTERFAZ_B AS display_value,
+          conexiones.id AS return_value
+      FROM v_tramos_nombres conexiones
+      WHERE conexiones.sitio_a_id IN (
+         
+          SELECT column_value FROM apex_string.split_numbers(:P402_SITIOS, ',')
+      
+          
+      )
+    display-extra-values: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return multiple values)
+    sql-query: |
+      SELECT ENLACE_TRAMO_ID FROM SGT_CONEXIONES_ENLACE_WAN wan
+      where wan.enlace_wan_id = :P401_ID
+      ORDER BY SECUENCIA
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 85027401980974935792
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 85027400480820935790
+    slot: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: PREVIOUS ====================================
+  id: 85027402128292935792
+  identification: 
+    button-name: PREVIOUS
+    label: Previous
+
+  layout: 
+    sequence: 20
+    region: Buttons # 85027400480820935790
+    slot: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-chevron-left
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: NEXT ========================================
+  id: 85027402287385935792
+  identification: 
+    button-name: NEXT
+    label: Next
+
+  layout: 
+    sequence: 30
+    region: Buttons # 85027400480820935790
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon
+    hot: true
+    template-options: 
+    - t-Button--iconRight
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel Dialog =======================
+  id: 85027402384485935792
+  identification: 
+    name: Cancel Dialog
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: CANCEL # 85027401980974935792
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 85027403198407935792
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel Dialog # 85027402384485935792
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: NO_SUBMIT ===========================
+  id: 85693680957433747616
+  identification: 
+    name: NO_SUBMIT
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Key Press
+    selection-type: Item(s)
+    item(s): 
+    - P403_FILTRAR_CONEXIONES
+
+  actions: 
+  - # ====== Action: NO_SUBMIT ===================================
+    id: 85693681055006747617
+    identification: 
+      name: NO_SUBMIT
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        if (event.key === "Enter") {
+            filtrarShuttle();
+            event.preventDefault();
+            return false;
+        }
+
+    execution: 
+      sequence: 10
+      event: NO_SUBMIT # 85693680957433747616
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Filtrar =============================
+  id: 85693681112331747618
+  identification: 
+    name: Filtrar
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P403_FILTRAR_CONEXIONES
+
+  actions: 
+  - # ====== Action: FILTRAR_SHUTTLE =============================
+    id: 85693681251368747619
+    identification: 
+      name: FILTRAR_SHUTTLE
+      action: Execute JavaScript Code
+
+    settings: 
+      code: filtrarShuttle();
+
+    execution: 
+      sequence: 10
+      event: Filtrar # 85693681112331747618
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+branches: 
+- # ====== Branch: Go To Page 402 ==============================
+  id: 85027403818117935793
+  identification: 
+    name: Go To Page 402
+
+  execution: 
+    sequence: 10
+    point: Validating
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:402:&APP_SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 402 # Seleccionar los sitios
+
+  server-side-condition: 
+    when-button-pressed: PREVIOUS # 85027402128292935792
+
+- # ====== Branch: Go To Page 404 ==============================
+  id: 85027404537760935793
+  identification: 
+    name: Go To Page 404
+
+  execution: 
+    sequence: 20
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:404:&APP_SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 404 # Verificar las instrucciones
+
+  server-side-condition: 
+    when-button-pressed: NEXT # 85027402287385935792
+

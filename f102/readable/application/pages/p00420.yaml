@@ -1,0 +1,717 @@
+---
+# ====== Page: TEST_MAP_WAN ==================================
+id: 420
+identification: 
+  name: TEST_MAP_WAN
+  alias: TEST-MAP-WAN
+  title: TEST_MAP_WAN
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: FILTRO_MAPA =================================
+  id: 521217083364905
+  identification: 
+    name: FILTRO_MAPA
+    title: Filtrar
+    type: Faceted Search
+
+  source: 
+    filtered-region: TEST_MAP_WAN # 91234824068233944300
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+  attributes: 
+    settings: 
+      batch-facet-changes: false
+      compact-numbers-threshold: 10000
+      show-current-facets: No
+      show-total-row-count: No
+      show-charts: Dialog
+      display-chart-for-top-n-values: 10
+
+  facets: 
+  - # ====== Facet: P420_SEARCH ==================================
+    id: 521319335364906
+    identification: 
+      name: P420_SEARCH
+      type: Search
+
+    label: 
+      label: Search
+
+    settings: 
+      search-type: Row Search
+      input-field: Top of Faceted Search Region
+
+    layout: 
+      sequence: 10
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Facet: P420_ZONA ====================================
+    id: 522544787364919
+    identification: 
+      name: P420_ZONA
+      type: Radio Group
+
+    label: 
+      label: ZONA
+      show-label-for-current-facet: true
+
+    settings: 
+      hide-radio-buttons: false
+
+    layout: 
+      sequence: 40
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Disable
+      sort-by-top-counts: false
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: ZONA
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Facet: P420_TIPO_SITIO ==============================
+    id: 522824987364921
+    identification: 
+      name: P420_TIPO_SITIO
+      type: Checkbox Group
+
+    label: 
+      label: TIPO_SITIO
+      show-label-for-current-facet: true
+
+    layout: 
+      sequence: 60
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: TIPO_SITIO
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  filters: 
+  - # ====== Filter: P420_SEARCH =================================
+    id: 521319335364906
+    identification: 
+      name: P420_SEARCH
+      type: Search
+
+    label: 
+      label: Search
+
+    settings: 
+      search-type: Row Search
+      collapsed-search-field: false
+
+    layout: 
+      sequence: 10
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Filter: P420_ZONA ===================================
+    id: 522544787364919
+    identification: 
+      name: P420_ZONA
+      type: Radio Group
+
+    label: 
+      label: ZONA
+
+    layout: 
+      sequence: 40
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Disable
+      sort-by-top-counts: false
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: ZONA
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Filter: P420_TIPO_SITIO =============================
+    id: 522824987364921
+    identification: 
+      name: P420_TIPO_SITIO
+      type: Checkbox Group
+
+    label: 
+      label: TIPO_SITIO
+
+    layout: 
+      sequence: 60
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: TIPO_SITIO
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+- # ====== Region: TEST_MAP_WAN ================================
+  id: 91234824068233944300
+  identification: 
+    name: TEST_MAP_WAN
+    title: Mapas WAN
+    type: Map
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: V_SITIOS_GPS
+    include-rowid-column: false
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes (No Grid)
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: TEST_MAP_WAN
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 91234824400933944301
+    map: 
+      background: Default
+      height: 640
+
+    controls: 
+      navigation-bar: Zoom and Compass
+      navigation-bar-position: End
+      options: 
+      - Rectangle Zoom
+      - Scale Bar
+      - Infinite Map
+      - Distance Tool
+
+    initial-position-and-zoom: 
+      type: Based on Spatial Results
+
+    legend: 
+      show: true
+      position: End
+
+    attributes: 
+      messages-position: Below
+      unit-system: Metric
+
+    performance: 
+      lazy-loading: true
+
+    layers: 
+    - # ====== Layer: SITIOS =======================================
+      id: 88034740070463770443
+      identification: 
+        name: SITIOS
+        layer-type: Points
+
+      label: 
+        label: SITIOS
+
+      layout: 
+        sequence: 20
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      column-mapping: 
+        geometry-column-data-type: Longitude/Latitude
+        longitude-column: LON
+        latitude-column: LAT
+        primary-key-column: ID
+
+      point-objects: 
+        style: SVG
+        shape: Default
+
+      point-clustering: 
+        enable: false
+
+      tooltip: 
+        advanced-formatting: false
+        column: SIGLAS
+
+      info-window: 
+        advanced-formatting: false
+        title-column: SIGLAS
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+      messages: 
+        when-no-data-found: No data
+        when-more-data-found: More data
+
+    - # ====== Layer: Trazado ======================================
+      id: 91234824973903944302
+      identification: 
+        name: Trazado
+        layer-type: Lines
+
+      layout: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: "select 'TRAZADO' TRAZADO, CREAR_RUTA_WAN(:P420_WAN) FROM DUAL;"
+        page-items-to-submit: 
+        - P420_WAN
+        use-spatial-index: false
+
+      column-mapping: 
+        geometry-column-data-type: SDO_GEOMETRY
+        geometry-column: 'CREAR_RUTA_WAN(:P420_WAN)'
+
+      appearance: 
+        stroke-style: Solid
+
+      tooltip: 
+        advanced-formatting: false
+
+      info-window: 
+        advanced-formatting: false
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+page-items: 
+- # ====== Page Item: P420_WAN =================================
+  id: 88034739989969770442
+  identification: 
+    name: P420_WAN
+    type: Popup LOV
+
+  label: 
+    label: Wan
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ENLACES_WAN # 84737308969826577554
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+dynamic-actions: 
+- # ====== Dynamic Action: Refrescar ===========================
+  id: 88034740127484770444
+  identification: 
+    name: Refrescar
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P420_WAN
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 88034740247773770445
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: TEST_MAP_WAN # 91234824068233944300
+
+    execution: 
+      sequence: 10
+      event: Refrescar # 88034740127484770444
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: SetearListener ======================
+  id: 88034740385908770446
+  identification: 
+    name: SetearListener
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P420_WAN
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 88034740414340770447
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        /*
+        var mapRegion = apex.region("TEST_MAP_WAN"); // Static ID de tu mapa
+        console.log(mapRegion);
+        
+        
+        mapRegion.widget().one("spatialmapchanged", function(){
+            // Obtener capa con las geometrías cargadas
+            var layerGroup = mapRegion.getLayer("features");
+            if (layerGroup && layerGroup.getLayers().length > 0) {
+                // Ajustar la vista a los puntos cargados
+                mapRegion.getMap().fitBounds(layerGroup.getBounds());
+            }
+        });
+        */
+        
+        
+        apex.server.process(
+            'GET_ONE_LNG_LAT', { pageItems: '#P420_WAN' },
+            {
+                success: function (apiData) {
+                    console.log(apiData.data);
+                    if (apiData.data) {
+                        apex.region("TEST_MAP_WAN").call("getMapObject").flyTo({
+                            center: [apiData.data[0].LON, apiData.data[0].LAT],
+                            screenSpeed: 0.8
+                        });
+                    }
+                }
+            }
+        );
+        
+        /*var region = apex.region("TEST_MAP_WAN");
+        console.log(region);
+        
+        region.widget().one("spatialmapchanged", function () {
+            var map = region.getMap();
+            var bounds = null;
+            console.log("spatialmapchanged");
+            map.eachLayer(function (layer) {
+                try {
+                    // 🟢 CAPA DE PUNTOS (marcadores)
+                    if (layer.getLatLng) {
+                        var ll = layer.getLatLng();
+                        if (!bounds) bounds = L.latLngBounds(ll, ll);
+                        else bounds.extend(ll);
+                    }
+        
+                    // 🔵 CAPA DE RUTAS (líneas o polígonos)
+                    else if (layer.getLatLngs) {
+                        var addLatLngs = function (arr) {
+                            arr.forEach(function (item) {
+                                if (Array.isArray(item)) {
+                                    addLatLngs(item);
+                                } else {
+                                    if (!bounds) bounds = L.latLngBounds(item, item);
+                                    else bounds.extend(item);
+                                }
+                            });
+                        };
+                        addLatLngs(layer.getLatLngs());
+                    }
+        
+                    // 🟣 GeoJSON (por si APEX devuelve datos como feature collection)
+                    else if (layer.feature && layer.feature.geometry) {
+                        var coords = layer.feature.geometry.coordinates;
+                        var addCoords = function (c) {
+                            if (Array.isArray(c[0])) c.forEach(addCoords);
+                            else {
+                                var ll = L.latLng(c[1], c[0]);
+                                if (!bounds) bounds = L.latLngBounds(ll, ll);
+                                else bounds.extend(ll);
+                            }
+                        };
+                        addCoords(coords);
+                    }
+                } catch (e) {
+                    console.error("Error procesando capa:", e);
+                }
+            });
+        
+            // Ajustar cámara si hay datos válidos
+            if (bounds && bounds.isValid()) {
+                map.fitBounds(bounds, { padding: [20, 20] }); // padding para no pegarse a los bordes
+            } else {
+                console.log("⚠️ No se encontraron coordenadas para centrar el mapa.");
+            }
+        });
+        */
+
+    execution: 
+      sequence: 10
+      event: SetearListener # 88034740385908770446
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: GET_ONE_LNG_LAT ============================
+  id: 88034740753693770450
+  identification: 
+    name: GET_ONE_LNG_LAT
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      --OBTIENE UNA LNG Y LAT PARA MOVER EL MAPA
+      declare
+      l_cursor SYS_REFCURSOR;
+      BEGIN
+      
+          open l_cursor for
+          SELECT LON, LAT FROM V_SITIOS_GPS V
+          INNER JOIN SGT_SITIOS_ENLACE_WAN SW ON V.ID = SW.SITIO_ID
+          WHERE SW.ENLACE_WAN_ID = :P420_WAN;
+      
+          -- DEBO RETORNAR EL PRIMER ELEMENTO NOMAS 
+          APEX_JSON.OPEN_OBJECT;
+          APEX_JSON.WRITE('data', l_cursor); -- Convierte el cursor a JSON array
+          APEX_JSON.CLOSE_OBJECT;
+      END;
+
+  execution: 
+    sequence: 10
+    point: Ajax Callback
+    run-process: Once Per Page Visit (default)
+

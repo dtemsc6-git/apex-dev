@@ -1,0 +1,83 @@
+prompt --application/shared_components/user_interface/lovs/grupo_red
+begin
+--   Manifest
+--     GRUPO_RED
+--   Manifest End
+wwv_flow_imp.component_begin (
+ p_version_yyyy_mm_dd=>'2024.11.30'
+,p_release=>'24.2.9'
+,p_default_workspace_id=>71533046799736978747
+,p_default_application_id=>24839
+,p_default_id_offset=>9071155675752509
+,p_default_owner=>'WKSP_DTESC'
+);
+wwv_flow_imp_shared.create_list_of_values(
+ p_id=>wwv_flow_imp.id(2352388603111525)
+,p_lov_name=>'GRUPO_RED'
+,p_lov_query=>'.'||wwv_flow_imp.id(2352388603111525)||'.'
+,p_location=>'STATIC'
+,p_version_scn=>39022127381201
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(2352678389111527)
+,p_lov_disp_sequence=>1
+,p_lov_disp_value=>'AVIAT'
+,p_lov_return_value=>'AVIAT'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(2353110358111527)
+,p_lov_disp_sequence=>2
+,p_lov_disp_value=>'ECI_ECCA'
+,p_lov_return_value=>'ECI_ECCA'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(2353505654111528)
+,p_lov_disp_sequence=>3
+,p_lov_disp_value=>'ECI_SDH'
+,p_lov_return_value=>'ECI_SDH'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(2353879686111528)
+,p_lov_disp_sequence=>4
+,p_lov_disp_value=>'FOX'
+,p_lov_return_value=>'FOX'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(2354289759111528)
+,p_lov_disp_sequence=>5
+,p_lov_disp_value=>'JUMBO_SW'
+,p_lov_return_value=>'JUMBO_SW'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(2354685606111528)
+,p_lov_disp_sequence=>6
+,p_lov_disp_value=>'LOOP_TC'
+,p_lov_return_value=>'LOOOP_TC'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(2355070315111528)
+,p_lov_disp_sequence=>7
+,p_lov_disp_value=>'NEC'
+,p_lov_return_value=>'NEC'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(2355451632111528)
+,p_lov_disp_sequence=>8
+,p_lov_disp_value=>'HUAWEI_DWDM'
+,p_lov_return_value=>'HUAWEI_DWDM'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(2355849200111528)
+,p_lov_disp_sequence=>9
+,p_lov_disp_value=>'HUAWEI_MPLS'
+,p_lov_return_value=>'HUAWEI_MPLS'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(2356322960111528)
+,p_lov_disp_sequence=>10
+,p_lov_disp_value=>'FOX_MPLS'
+,p_lov_return_value=>'FOX_MPLS'
+);
+wwv_flow_imp.component_end;
+end;
+/

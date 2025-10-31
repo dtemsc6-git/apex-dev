@@ -1,0 +1,1308 @@
+---
+# ====== Page: Auditoría General del Sistema =================
+id: 46
+identification: 
+  name: Auditoría General del Sistema
+  alias: AUDITORÍA-GENERAL
+  title: Auditoría General del Sistema
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Breadcrumb ==================================
+  id: 59777350365839233351
+  identification: 
+    name: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 197180072443235446203
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: Auditoría General del Sistema ===============
+  id: 59777350912163233353
+  identification: 
+    name: Auditoría General del Sistema
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          USUARIO,
+          TIPO_OPERACION,
+          FECHA,
+          HORA,
+          MODULO as SISTEMA,
+          TABLA as ORIGEN, 
+          CAMPO,
+          CATEGORIA_CAMPO AS CATEGORIA,
+          VALOR_ANTERIOR,
+          VALOR_NUEVO,
+          ID_REGISTRO,
+          IP_ADDRESS,
+          CASE 
+              WHEN HORA BETWEEN '00:00:00' AND '07:59:59' THEN 'Nocturno'
+              WHEN HORA BETWEEN '08:00:00' AND '17:59:59' THEN 'Laboral'
+              ELSE 'Vespertino'
+          END as TURNO,
+          CASE 
+              WHEN TABLA IN ('USUARIOS', 'ROLES', 'PERMISOS', 'SGT_USUARIOS') THEN 'Crítico'
+              WHEN TABLA LIKE '%CONFIG%' OR TABLA LIKE '%PARAM%' OR TABLA LIKE '%CONFIGURACION%' THEN 'Alto'
+              WHEN TIPO_OPERACION = 'DELETE' OR TIPO_OPERACION = 'Eliminación' THEN 'Alto'
+              ELSE 'Normal'
+          END as NIVEL_CRITICIDAD,
+          CASE 
+              WHEN TRUNC(FECHA_HORA) = TRUNC(SYSDATE) THEN 'Hoy'
+              WHEN TRUNC(FECHA_HORA) = TRUNC(SYSDATE - 1) THEN 'Ayer'
+              WHEN TRUNC(FECHA_HORA) >= TRUNC(SYSDATE - 7) THEN 'Esta Semana'
+              ELSE 'Anterior'
+          END as PERIODO
+      FROM V_AUDIT_GENERAL
+      WHERE 1=1
+          AND (:P46_FECHA_DESDE IS NULL OR 
+               LENGTH(TRIM(:P46_FECHA_DESDE)) = 0 OR
+               TRUNC(FECHA_HORA) >= TO_DATE(:P46_FECHA_DESDE, 'DD/MM/YYYY'))
+          AND (:P46_FECHA_HASTA IS NULL OR 
+               LENGTH(TRIM(:P46_FECHA_HASTA)) = 0 OR
+               TRUNC(FECHA_HORA) <= TO_DATE(:P46_FECHA_HASTA, 'DD/MM/YYYY'))
+          
+      AND (:P46_USUARIO IS NULL OR 
+           :P46_USUARIO = '%' OR 
+           TRIM(:P46_USUARIO) = '' OR
+           UPPER(TRIM(USUARIO)) = UPPER(TRIM(:P46_USUARIO)))
+          AND (:P46_TIPO_OPERACION IS NULL OR 
+               :P46_TIPO_OPERACION = '%' OR 
+               TIPO_OPERACION = :P46_TIPO_OPERACION)
+          AND (:P46_MODULO IS NULL OR 
+               :P46_MODULO = '%' OR 
+               MODULO = :P46_MODULO)
+               
+      ORDER BY FECHA_HORA DESC
+    page-items-to-submit: 
+    - P46_FECHA_DESDE
+    - P46_FECHA_HASTA
+    - P46_USUARIO
+    - P46_TIPO_OPERACION
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 59777351057680233353
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+
+    messages: 
+      when-no-data-found: No data found.
+      when-more-data-found: 'The maximum row count for this report is #MAX_ROW_COUNT# rows.  Please apply a filter to reduce the number of records in your query.'
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: false
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 59786800032218492269
+      identification: 
+        name: Primary Report
+        alias: 597868001
+
+    columns: 
+    - # ====== Column: USUARIO =====================================
+      id: 59777352287590233355
+      identification: 
+        column-name: USUARIO
+        type: Plain Text
+
+      heading: 
+        heading: Usuario
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TIPO_OPERACION ==============================
+      id: 59777352687091233356
+      identification: 
+        column-name: TIPO_OPERACION
+        type: Plain Text
+
+      heading: 
+        heading: Tipo Operacion
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: FECHA =======================================
+      id: 59777353003906233356
+      identification: 
+        column-name: FECHA
+        type: Plain Text
+
+      heading: 
+        heading: Fecha
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: HORA ========================================
+      id: 59777353438990233357
+      identification: 
+        column-name: HORA
+        type: Plain Text
+
+      heading: 
+        heading: Hora
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CAMPO =======================================
+      id: 59777353865646233357
+      identification: 
+        column-name: CAMPO
+        type: Plain Text
+
+      heading: 
+        heading: Campo
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 70
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VALOR_ANTERIOR ==============================
+      id: 59777354294456233357
+      identification: 
+        column-name: VALOR_ANTERIOR
+        type: Plain Text
+
+      heading: 
+        heading: Valor Anterior
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 90
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VALOR_NUEVO =================================
+      id: 59777354625971233358
+      identification: 
+        column-name: VALOR_NUEVO
+        type: Plain Text
+
+      heading: 
+        heading: Valor Nuevo
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 100
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: IP_ADDRESS ==================================
+      id: 59781393332916353015
+      identification: 
+        column-name: IP_ADDRESS
+        type: Plain Text
+
+      heading: 
+        heading: Ip Address
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 110
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: None
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ID_REGISTRO =================================
+      id: 59781394126231353023
+      identification: 
+        column-name: ID_REGISTRO
+        type: Plain Text
+
+      heading: 
+        heading: Id Registro
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 120
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: None
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: SISTEMA =====================================
+      id: 59781394261954353024
+      identification: 
+        column-name: SISTEMA
+        type: Plain Text
+
+      heading: 
+        heading: Sistema
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: true
+
+      column-filter: 
+        type: None
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ORIGEN ======================================
+      id: 59781394321113353025
+      identification: 
+        column-name: ORIGEN
+        type: Plain Text
+
+      heading: 
+        heading: Origen
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: true
+
+      column-filter: 
+        type: None
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TURNO =======================================
+      id: 65484004831026582202
+      identification: 
+        column-name: TURNO
+        type: Plain Text
+
+      heading: 
+        heading: Turno
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 130
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: NIVEL_CRITICIDAD ============================
+      id: 65484004944073582203
+      identification: 
+        column-name: NIVEL_CRITICIDAD
+        type: Plain Text
+
+      heading: 
+        heading: Nivel Criticidad
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 140
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: PERIODO =====================================
+      id: 65484005010883582204
+      identification: 
+        column-name: PERIODO
+        type: Plain Text
+
+      heading: 
+        heading: Periodo
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 150
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CATEGORIA ===================================
+      id: 65484005105656582205
+      identification: 
+        column-name: CATEGORIA
+        type: Plain Text
+
+      heading: 
+        heading: Categoria
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    printing: 
+      output: 
+        layout: Default Report Layout
+        view-file-as: Attachment
+
+      page: 
+        size: Letter
+        orientation: Landscape
+        units: Inches
+        width: 11
+        height: 8.5
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+        page-header-text: Auditoría de Sitios
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+- # ====== Region: Filtros =====================================
+  id: 59781391984076353001
+  identification: 
+    name: Filtros
+    title: Filtros de búsquedas
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P46_FECHA_DESDE ==========================
+  id: 59781392022898353002
+  identification: 
+    name: P46_FECHA_DESDE
+    type: Date Picker
+
+  label: 
+    label: Fecha Desde
+    alignment: Left
+
+  settings: 
+    show-time: false
+    display-as: Popup
+    minimum-date: None
+    maximum-date: None
+    multiple-months: No
+    use-defaults: true
+
+  layout: 
+    sequence: 10
+    region: Filtros # 59781391984076353001
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    format-mask: DD-MM-YYYY
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P46_FECHA_HASTA ==========================
+  id: 59781392118414353003
+  identification: 
+    name: P46_FECHA_HASTA
+    type: Date Picker
+
+  label: 
+    label: Fecha Hasta
+    alignment: Left
+
+  settings: 
+    show-time: false
+    display-as: Popup
+    minimum-date: None
+    maximum-date: None
+    multiple-months: No
+    use-defaults: true
+
+  layout: 
+    sequence: 20
+    region: Filtros # 59781391984076353001
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    format-mask: DD-MM-YYYY
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P46_USUARIO ==============================
+  id: 59781392237661353004
+  identification: 
+    name: P46_USUARIO
+    type: Select List
+
+  label: 
+    label: Usuario
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 40
+    region: Filtros # 59781391984076353001
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT DISTINCT 
+          USUARIO as display_value,
+          USUARIO as return_value
+      FROM V_AUDIT_GENERAL
+      WHERE USUARIO IS NOT NULL
+      ORDER BY 1
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: TODOS
+    null-return-value: '%'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P46_TIPO_OPERACION =======================
+  id: 59781392317117353005
+  identification: 
+    name: P46_TIPO_OPERACION
+    type: Select List
+
+  label: 
+    label: Tipo de Operacion
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 50
+    region: Filtros # 59781391984076353001
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT DISTINCT
+          CASE TIPO_OPERACION
+              WHEN 'INSERT' THEN 'Inserción'
+              WHEN 'UPDATE' THEN 'Modificación'  
+              WHEN 'DELETE' THEN 'Eliminación'
+              WHEN 'Creación' THEN 'Creación'
+              WHEN 'Modificación' THEN 'Modificación'
+              WHEN 'Eliminación' THEN 'Eliminación'
+              ELSE TIPO_OPERACION
+          END as display_value,
+          TIPO_OPERACION as return_value
+      FROM V_AUDIT_GENERAL
+      WHERE TIPO_OPERACION IS NOT NULL
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: TODOS
+    null-return-value: '%'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P46_MODULO ===============================
+  id: 59781393009019353012
+  identification: 
+    name: P46_MODULO
+    type: Select List
+
+  label: 
+    label: Módulo del Sistema
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 70
+    region: Filtros # 59781391984076353001
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT DISTINCT 
+          MODULO as display_value,
+          MODULO as return_value
+      FROM V_AUDIT_GENERAL
+      WHERE MODULO IS NOT NULL
+      ORDER BY 1
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: TODOS
+    null-return-value: '%'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: BUSCAR ======================================
+  id: 59781392582636353007
+  identification: 
+    button-name: BUSCAR
+    label: Buscar
+
+  layout: 
+    sequence: 100
+    region: Filtros # 59781391984076353001
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+

@@ -1,0 +1,1968 @@
+---
+- # ====== Data Load Definition: agregar-interfaces-dl =========
+  id: 38498375037021783605
+  identification: 
+    name: agregar-interfaces-dl
+
+  subscription: 
+    version-number: 15622642025093
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: SGT_INTERFACES
+    loading-method: Append
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: agregar_interfaces_dl
+
+  comments: 
+    comments: Prueba para agregar campos via data load
+
+  data-profiles: 
+    id: 38498370325150783512
+    identification: 
+      name: dl-interfaces
+
+    data-profile: 
+      format: XLSX
+
+    advanced: 
+      encoding: Unicode UTF-8
+      first-line-contains-headers: true
+
+    columns: 
+    - # ====== Column: SGT_EQUIPOS_ID ==============================
+      id: 38498370940413783602
+      identification: 
+        column-name: SGT_EQUIPOS_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: SGT_EQUIPOS_ID
+
+      advanced: 
+        sequence: 2
+        hidden: false
+
+    - # ====== Column: NOMBRE ======================================
+      id: 38498371226942783602
+      identification: 
+        column-name: NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 400
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: NOMBRE
+
+      advanced: 
+        sequence: 3
+        hidden: false
+
+    - # ====== Column: ETIQUETA ====================================
+      id: 38498371538445783602
+      identification: 
+        column-name: ETIQUETA
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1020
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ETIQUETA
+
+      advanced: 
+        sequence: 4
+        hidden: false
+
+    - # ====== Column: ESTADO ======================================
+      id: 38498371890772783602
+      identification: 
+        column-name: ESTADO
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ESTADO
+
+      advanced: 
+        sequence: 5
+        hidden: false
+
+    - # ====== Column: SGT_TIPO_INTERFACE_ID =======================
+      id: 38498372190354783603
+      identification: 
+        column-name: SGT_TIPO_INTERFACE_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: TIPO_INTERFACE_ID
+
+      advanced: 
+        sequence: 6
+        hidden: false
+
+    - # ====== Column: TX_EN_DBM ===================================
+      id: 38498372428102783603
+      identification: 
+        column-name: TX_EN_DBM
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 40
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: TX_EN_DBM
+
+      advanced: 
+        sequence: 7
+        hidden: false
+
+    - # ====== Column: RX_EN_DBM ===================================
+      id: 38498372715411783603
+      identification: 
+        column-name: RX_EN_DBM
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 40
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: RX_EN_DBM
+
+      advanced: 
+        sequence: 8
+        hidden: false
+
+    - # ====== Column: MAC_ADDRESS =================================
+      id: 38498373096392783603
+      identification: 
+        column-name: MAC_ADDRESS
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 100
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: MAC_ADDRESS
+
+      advanced: 
+        sequence: 9
+        hidden: false
+
+    - # ====== Column: NUMERO_SERIE ================================
+      id: 38498373352048783603
+      identification: 
+        column-name: NUMERO_SERIE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1020
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: NUMERO_SERIE
+
+      advanced: 
+        sequence: 10
+        hidden: false
+
+    - # ====== Column: HW_VERSION ==================================
+      id: 38498373688333783604
+      identification: 
+        column-name: HW_VERSION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 400
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: HW_VERSION
+
+      advanced: 
+        sequence: 11
+        hidden: false
+
+    - # ====== Column: SW_VERSION ==================================
+      id: 38498373924359783604
+      identification: 
+        column-name: SW_VERSION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 400
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: SW_VERSION
+
+      advanced: 
+        sequence: 12
+        hidden: false
+
+    - # ====== Column: DUPLEX ======================================
+      id: 38498374230939783604
+      identification: 
+        column-name: DUPLEX
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: DUPLEX
+
+      advanced: 
+        sequence: 13
+        hidden: false
+
+    - # ====== Column: MODO ========================================
+      id: 38941858733103920217
+      identification: 
+        column-name: MODO
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: MODO
+
+      advanced: 
+        sequence: 14
+        hidden: false
+
+- # ====== Data Load Definition: replace-interfaces-dl =========
+  id: 38941738468709197849
+  identification: 
+    name: replace-interfaces-dl
+
+  subscription: 
+    version-number: 15622640432945
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: SGT_INTERFACES
+    loading-method: Replace
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: replace_interfaces_dl
+
+  comments: 
+    comments: Prueba para agregar campos via data load
+
+  data-profiles: 
+    id: 38941734341273197843
+    identification: 
+      name: Copy of agregar-interfaces-dl
+
+    data-profile: 
+      format: XLSX
+
+    advanced: 
+      encoding: Unicode UTF-8
+      first-line-contains-headers: true
+
+    columns: 
+    - # ====== Column: MODO ========================================
+      id: 38941734477295197845
+      identification: 
+        column-name: MODO
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: MODO
+
+      advanced: 
+        sequence: 14
+        hidden: false
+
+    - # ====== Column: TIPO_INTERFACE_ID ===========================
+      id: 38941734731456197846
+      identification: 
+        column-name: TIPO_INTERFACE_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: TIPO_INTERFACE_ID
+
+      advanced: 
+        sequence: 6
+        hidden: false
+
+    - # ====== Column: TX_EN_DBM ===================================
+      id: 38941735096060197846
+      identification: 
+        column-name: TX_EN_DBM
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 40
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: TX_EN_DBM
+
+      advanced: 
+        sequence: 7
+        hidden: false
+
+    - # ====== Column: SGT_EQUIPOS_ID ==============================
+      id: 38941735343682197846
+      identification: 
+        column-name: SGT_EQUIPOS_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: SGT_EQUIPOS_ID
+
+      advanced: 
+        sequence: 2
+        hidden: false
+
+    - # ====== Column: NOMBRE ======================================
+      id: 38941735693500197847
+      identification: 
+        column-name: NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 400
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: NOMBRE
+
+      advanced: 
+        sequence: 3
+        hidden: false
+
+    - # ====== Column: ETIQUETA ====================================
+      id: 38941735936651197847
+      identification: 
+        column-name: ETIQUETA
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1020
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ETIQUETA
+
+      advanced: 
+        sequence: 4
+        hidden: false
+
+    - # ====== Column: ESTADO ======================================
+      id: 38941736299207197847
+      identification: 
+        column-name: ESTADO
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ESTADO
+
+      advanced: 
+        sequence: 5
+        hidden: false
+
+    - # ====== Column: RX_EN_DBM ===================================
+      id: 38941736586677197847
+      identification: 
+        column-name: RX_EN_DBM
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 40
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: RX_EN_DBM
+
+      advanced: 
+        sequence: 8
+        hidden: false
+
+    - # ====== Column: MAC_ADDRESS =================================
+      id: 38941736889524197847
+      identification: 
+        column-name: MAC_ADDRESS
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 100
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: MAC_ADDRESS
+
+      advanced: 
+        sequence: 9
+        hidden: false
+
+    - # ====== Column: NUMERO_SERIE ================================
+      id: 38941737195435197847
+      identification: 
+        column-name: NUMERO_SERIE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1020
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: NUMERO_SERIE
+
+      advanced: 
+        sequence: 10
+        hidden: false
+
+    - # ====== Column: HW_VERSION ==================================
+      id: 38941737404082197847
+      identification: 
+        column-name: HW_VERSION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 400
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: HW_VERSION
+
+      advanced: 
+        sequence: 11
+        hidden: false
+
+    - # ====== Column: SW_VERSION ==================================
+      id: 38941737745469197848
+      identification: 
+        column-name: SW_VERSION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 400
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: SW_VERSION
+
+      advanced: 
+        sequence: 12
+        hidden: false
+
+    - # ====== Column: DUPLEX ======================================
+      id: 38941738023525197848
+      identification: 
+        column-name: DUPLEX
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: DUPLEX
+
+      advanced: 
+        sequence: 13
+        hidden: false
+
+    - # ====== Column: ID ==========================================
+      id: 38942480426700935376
+      identification: 
+        column-name: ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: true
+
+      parsing: 
+        selector-type: Name
+        selector: id
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+- # ====== Data Load Definition: enlaces_fo_dataload ===========
+  id: 44193684855153580471
+  identification: 
+    name: enlaces_fo_dataload
+
+  subscription: 
+    version-number: 15624912765728
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: SGT_ENLACES_FO
+    loading-method: Merge
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: enlaces_fo_dataload
+
+  data-profiles: 
+    id: 44193676368834580465
+    identification: 
+      name: enlaces_fo_dataload
+
+    data-profile: 
+      format: XLSX
+
+    advanced: 
+      encoding: Unicode UTF-8
+      default-xlsx-sheet-name: sheet1.xml
+      first-line-contains-headers: true
+
+    columns: 
+    - # ====== Column: ID ==========================================
+      id: 44193676838143580466
+      identification: 
+        column-name: ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: true
+
+      parsing: 
+        selector-type: Name
+        selector: ID
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+    - # ====== Column: NOMBRE ======================================
+      id: 44193677184396580466
+      identification: 
+        column-name: NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: NOMBRE
+
+      advanced: 
+        sequence: 2
+        hidden: false
+
+    - # ====== Column: SITIO_ID_A ==================================
+      id: 44193677494037580466
+      identification: 
+        column-name: SITIO_ID_A
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: SITIO_ID_A
+
+      advanced: 
+        sequence: 3
+        hidden: false
+
+    - # ====== Column: EQUIPO_ID_A =================================
+      id: 44193677785573580466
+      identification: 
+        column-name: EQUIPO_ID_A
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: EQUIPO_ID_A
+
+      advanced: 
+        sequence: 4
+        hidden: false
+
+    - # ====== Column: SITIO_ID_B ==================================
+      id: 44193678059592580467
+      identification: 
+        column-name: SITIO_ID_B
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: SITIO_ID_B
+
+      advanced: 
+        sequence: 5
+        hidden: false
+
+    - # ====== Column: EQUIPO_ID_B =================================
+      id: 44193678342736580467
+      identification: 
+        column-name: EQUIPO_ID_B
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: EQUIPO_ID_B
+
+      advanced: 
+        sequence: 6
+        hidden: false
+
+    - # ====== Column: CERTIFICACIÓN ===============================
+      id: 44193678655517580467
+      identification: 
+        column-name: CERTIFICACIÓN
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: CERTIFICACIÓN
+
+      advanced: 
+        sequence: 7
+        hidden: false
+
+    - # ====== Column: UNIDAD_MEDIDA ===============================
+      id: 44193678935316580467
+      identification: 
+        column-name: UNIDAD_MEDIDA
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 3
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: UNIDAD_MEDIDA
+
+      advanced: 
+        sequence: 8
+        hidden: false
+
+    - # ====== Column: ABS_LONGITUD ================================
+      id: 44193679273303580468
+      identification: 
+        column-name: ABS_LONGITUD
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ABS_LONGITUD
+
+      advanced: 
+        sequence: 9
+        hidden: false
+
+    - # ====== Column: CANTIDAD_DE_PELOS ===========================
+      id: 44193679564903580468
+      identification: 
+        column-name: CANTIDAD_DE_PELOS
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: CANTIDAD_DE_PELOS
+
+      advanced: 
+        sequence: 10
+        hidden: false
+
+    - # ====== Column: TIPO_DE_FO ==================================
+      id: 44193679818347580468
+      identification: 
+        column-name: TIPO_DE_FO
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 50
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: TIPO_DE_FO
+
+      advanced: 
+        sequence: 11
+        hidden: false
+
+    - # ====== Column: TIPO ========================================
+      id: 44193680108343580468
+      identification: 
+        column-name: TIPO
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 50
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: TIPO
+
+      advanced: 
+        sequence: 12
+        hidden: false
+
+    - # ====== Column: LT ==========================================
+      id: 44193680476157580468
+      identification: 
+        column-name: LT
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 50
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: LT
+
+      advanced: 
+        sequence: 13
+        hidden: false
+
+    - # ====== Column: CONECTOR ====================================
+      id: 44193680701259580469
+      identification: 
+        column-name: CONECTOR
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 50
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: CONECTOR
+
+      advanced: 
+        sequence: 14
+        hidden: false
+
+    - # ====== Column: ESTADO ======================================
+      id: 44193681016393580469
+      identification: 
+        column-name: ESTADO
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 50
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ESTADO
+
+      advanced: 
+        sequence: 15
+        hidden: false
+
+    - # ====== Column: COMENTARIOS =================================
+      id: 44193681334947580469
+      identification: 
+        column-name: COMENTARIOS
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: COMENTARIOS
+
+      advanced: 
+        sequence: 16
+        hidden: false
+
+    - # ====== Column: PROYECTO_DE_IMPLEMENTACIÓN ==================
+      id: 44193681645441580469
+      identification: 
+        column-name: PROYECTO_DE_IMPLEMENTACIÓN
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: PROYECTO_DE_IMPLEMENTACIÓN
+
+      advanced: 
+        sequence: 17
+        hidden: false
+
+    - # ====== Column: FECHA_IMPLEMENTACIÓN ========================
+      id: 44193681995767580469
+      identification: 
+        column-name: FECHA_IMPLEMENTACIÓN
+
+      source: 
+        type: Data
+        data-type: TIMESTAMP
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: FECHA_IMPLEMENTACIÓN
+        has-time-zone: true
+
+      advanced: 
+        sequence: 18
+        hidden: false
+
+    - # ====== Column: UNIDAD_ENCARGADA_ACTUAL =====================
+      id: 44193682277479580470
+      identification: 
+        column-name: UNIDAD_ENCARGADA_ACTUAL
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: UNIDAD_ENCARGADA_ACTUAL
+
+      advanced: 
+        sequence: 19
+        hidden: false
+
+    - # ====== Column: CREADO_POR ==================================
+      id: 44193682521390580470
+      identification: 
+        column-name: CREADO_POR
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: CREADO_POR
+
+      advanced: 
+        sequence: 20
+        hidden: false
+
+    - # ====== Column: CREADO_EL ===================================
+      id: 44193682806133580470
+      identification: 
+        column-name: CREADO_EL
+
+      source: 
+        type: Data
+        data-type: TIMESTAMP
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: CREADO_EL
+        has-time-zone: true
+
+      advanced: 
+        sequence: 21
+        hidden: false
+
+    - # ====== Column: ACTUALIZADO_POR =============================
+      id: 44193683109204580470
+      identification: 
+        column-name: ACTUALIZADO_POR
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ACTUALIZADO_POR
+
+      advanced: 
+        sequence: 22
+        hidden: false
+
+    - # ====== Column: ACTUALIZADO_EL ==============================
+      id: 44193683495612580470
+      identification: 
+        column-name: ACTUALIZADO_EL
+
+      source: 
+        type: Data
+        data-type: TIMESTAMP
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ACTUALIZADO_EL
+        has-time-zone: true
+
+      advanced: 
+        sequence: 23
+        hidden: false
+
+    - # ====== Column: EQUIPO_B_NOMBRE =============================
+      id: 44193683783421580471
+      identification: 
+        column-name: EQUIPO_B_NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: EQUIPO_B_NOMBRE
+
+      advanced: 
+        sequence: 24
+        hidden: false
+
+    - # ====== Column: SITIO_A_NOMBRE ==============================
+      id: 44193684039936580471
+      identification: 
+        column-name: SITIO_A_NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: SITIO_A_NOMBRE
+
+      advanced: 
+        sequence: 25
+        hidden: false
+
+    - # ====== Column: SITIO_B_NOMBRE ==============================
+      id: 44193684383286580471
+      identification: 
+        column-name: SITIO_B_NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: SITIO_B_NOMBRE
+
+      advanced: 
+        sequence: 26
+        hidden: false
+
+    - # ====== Column: EQUIPO_A_NOMBRE =============================
+      id: 44193684631848580471
+      identification: 
+        column-name: EQUIPO_A_NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: EQUIPO_A_NOMBRE
+
+      advanced: 
+        sequence: 27
+        hidden: false
+
+- # ====== Data Load Definition: ENLACES_TRAMOS_DATALOAD =======
+  id: 44704159467494626128
+  identification: 
+    name: ENLACES_TRAMOS_DATALOAD
+
+  subscription: 
+    version-number: 15625141303767
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: SGT_ENLACES_TRAMOS
+    loading-method: Append
+
+  error-handling: 
+    when-on-error: Log into Error Log
+
+  advanced: 
+    commit-interval: 200
+    static-id: enlaces_tramos_dataload
+
+  data-profiles: 
+    id: 44704156291736626124
+    identification: 
+      name: ENLACES_TRAMOS_DATALOAD
+
+    data-profile: 
+      format: XLSX
+
+    advanced: 
+      encoding: Unicode UTF-8
+      default-xlsx-sheet-name: sheet5.xml
+      first-line-contains-headers: true
+
+    columns: 
+    - # ====== Column: ID ==========================================
+      id: 44704156581467626125
+      identification: 
+        column-name: ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: true
+
+      parsing: 
+        selector-type: Name
+        selector: ID
+
+      advanced: 
+        sequence: 10
+        hidden: false
+
+    - # ====== Column: NOMBRE ======================================
+      id: 44704156806886626125
+      identification: 
+        column-name: NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 50
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: NOMBRE
+
+      advanced: 
+        sequence: 20
+        hidden: false
+
+    - # ====== Column: ENLACE_NOMBRE ===============================
+      id: 44704157155872626126
+      identification: 
+        column-name: ENLACE_NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ENLACE_NOMBRE
+
+      advanced: 
+        sequence: 45
+        hidden: false
+
+    - # ====== Column: SERVICIO_NOMBRE =============================
+      id: 44704157417514626126
+      identification: 
+        column-name: SERVICIO_NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: SERVICIO_NOMBRE
+
+      advanced: 
+        sequence: 30
+        hidden: false
+
+    - # ====== Column: SITIO_A_NOMBRE ==============================
+      id: 44704157744846626127
+      identification: 
+        column-name: SITIO_A_NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: SITIO_A_NOMBRE
+
+      advanced: 
+        sequence: 55
+        hidden: false
+
+    - # ====== Column: EQUIPO_A_NOMBRE =============================
+      id: 44704158024054626127
+      identification: 
+        column-name: EQUIPO_A_NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: EQUIPO_A_NOMBRE
+
+      advanced: 
+        sequence: 65
+        hidden: false
+
+    - # ====== Column: INTERFAZ_A_NOMBRE ===========================
+      id: 44704158312211626127
+      identification: 
+        column-name: INTERFAZ_A_NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: INTERFAZ_A_NOMBRE
+
+      advanced: 
+        sequence: 75
+        hidden: false
+
+    - # ====== Column: SITIO_B_NOMBRE ==============================
+      id: 44704158662188626127
+      identification: 
+        column-name: SITIO_B_NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: SITIO_B_NOMBRE
+
+      advanced: 
+        sequence: 90
+        hidden: false
+
+    - # ====== Column: EQUIPO_B_NOMBRE =============================
+      id: 44704158922396626127
+      identification: 
+        column-name: EQUIPO_B_NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: EQUIPO_B_NOMBRE
+
+      advanced: 
+        sequence: 110
+        hidden: false
+
+    - # ====== Column: INTERFAZ_B_NOMBRE ===========================
+      id: 44704159249126626128
+      identification: 
+        column-name: INTERFAZ_B_NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: INTERFAZ_B_NOMBRE
+
+      advanced: 
+        sequence: 130
+        hidden: false
+
+    - # ====== Column: ENLACE_ID ===================================
+      id: 44704795589866643074
+      identification: 
+        column-name: ENLACE_ID
+
+      source: 
+        type: Lookup
+        data-type: NUMBER
+        primary-key: false
+
+      lookup: 
+        table-owner: WKSP_DTESC
+        table-name: SGT_ENLACES_FO
+        return-column: ID
+        table-column-1: NOMBRE
+        data-column-1: ENLACE_NOMBRE
+
+      advanced: 
+        sequence: 40
+        hidden: false
+
+    - # ====== Column: SERVICIO_ID =================================
+      id: 44709926380689789366
+      identification: 
+        column-name: SERVICIO_ID
+
+      source: 
+        type: Lookup
+        data-type: NUMBER
+        primary-key: false
+
+      lookup: 
+        table-owner: WKSP_DTESC
+        table-name: SGT_SERVICIOS
+        return-column: ID
+        table-column-1: NOMBRE
+        data-column-1: SERVICIO_NOMBRE
+
+      advanced: 
+        sequence: 25
+        hidden: false
+
+    - # ====== Column: SITIO_A_ID ==================================
+      id: 44711205239118537707
+      identification: 
+        column-name: SITIO_A_ID
+
+      source: 
+        type: Lookup
+        data-type: NUMBER
+        primary-key: false
+
+      lookup: 
+        table-owner: WKSP_DTESC
+        table-name: SGT_SITIOS
+        return-column: ID
+        table-column-1: SIGLAS
+        data-column-1: SITIO_A_NOMBRE
+
+      advanced: 
+        sequence: 50
+        hidden: false
+
+    - # ====== Column: EQUIPO_A_ID =================================
+      id: 44711808017640824974
+      identification: 
+        column-name: EQUIPO_A_ID
+
+      source: 
+        type: Lookup
+        data-type: NUMBER
+        primary-key: false
+
+      lookup: 
+        table-owner: WKSP_DTESC
+        table-name: SGT_EQUIPOS
+        return-column: ID
+        table-column-1: NOMBRE
+        data-column-1: EQUIPO_A_NOMBRE
+
+      advanced: 
+        sequence: 60
+        hidden: false
+
+    - # ====== Column: SITIO_B_ID ==================================
+      id: 44712505085512829248
+      identification: 
+        column-name: SITIO_B_ID
+
+      source: 
+        type: Lookup
+        data-type: NUMBER
+        primary-key: false
+
+      lookup: 
+        table-owner: WKSP_DTESC
+        table-name: SGT_SITIOS
+        return-column: ID
+        table-column-1: SIGLAS
+        data-column-1: SITIO_B_NOMBRE
+
+      advanced: 
+        sequence: 85
+        hidden: false
+
+    - # ====== Column: EQUIPO_B_ID =================================
+      id: 44721045091409933336
+      identification: 
+        column-name: EQUIPO_B_ID
+
+      source: 
+        type: Lookup
+        data-type: NUMBER
+        primary-key: false
+
+      lookup: 
+        table-owner: WKSP_DTESC
+        table-name: SGT_EQUIPOS
+        return-column: ID
+        table-column-1: NOMBRE
+        data-column-1: EQUIPO_B_NOMBRE
+
+      advanced: 
+        sequence: 105
+        hidden: false
+
+    - # ====== Column: INTERFAZ_A_ID ===============================
+      id: 44722949569326954544
+      identification: 
+        column-name: INTERFAZ_A_ID
+
+      source: 
+        type: Lookup
+        data-type: NUMBER
+        primary-key: false
+
+      lookup: 
+        table-owner: WKSP_DTESC
+        table-name: SGT_INTERFACES
+        return-column: ID
+        table-column-1: NOMBRE
+        data-column-1: INTERFAZ_A_NOMBRE
+        table-column-2: SGT_EQUIPOS_ID
+        data-column-2: EQUIPO_A_ID
+
+      advanced: 
+        sequence: 70
+        hidden: false
+
+    - # ====== Column: INTERFAZ_B_ID ===============================
+      id: 44723476846169966434
+      identification: 
+        column-name: INTERFAZ_B_ID
+
+      source: 
+        type: Lookup
+        data-type: NUMBER
+        primary-key: false
+
+      lookup: 
+        table-owner: WKSP_DTESC
+        table-name: SGT_INTERFACES
+        return-column: ID
+        table-column-1: NOMBRE
+        data-column-1: INTERFAZ_B_NOMBRE
+        table-column-2: SGT_EQUIPOS_ID
+        data-column-2: EQUIPO_B_ID
+
+      advanced: 
+        sequence: 125
+        hidden: false
+
+- # ====== Data Load Definition: SGT_DL_EQUIPOS ================
+  id: 203563300722479331029
+  identification: 
+    name: SGT_DL_EQUIPOS
+
+  subscription: 
+    version-number: 15590195522564
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: SGT_EQUIPOS
+    loading-method: Merge
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: sgt_dl_equipos
+
+  data-profiles: 
+    id: 203563294005003331020
+    identification: 
+      name: SGT_DL_EQUIPOS
+
+    data-profile: 
+      format: XLSX
+
+    advanced: 
+      encoding: Unicode UTF-8
+      default-xlsx-sheet-name: sheet1.xml
+      first-line-contains-headers: true
+
+    columns: 
+    - # ====== Column: ID ==========================================
+      id: 203563294295683331024
+      identification: 
+        column-name: ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: true
+
+      parsing: 
+        selector-type: Name
+        selector: ID
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+    - # ====== Column: RACK_ID =====================================
+      id: 203563294582836331025
+      identification: 
+        column-name: RACK_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: RACK_ID
+
+      advanced: 
+        sequence: 2
+        hidden: false
+
+    - # ====== Column: U ===========================================
+      id: 203563294896781331025
+      identification: 
+        column-name: U
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: U
+
+      advanced: 
+        sequence: 3
+        hidden: false
+
+    - # ====== Column: UNIDAD ======================================
+      id: 203563295190143331025
+      identification: 
+        column-name: UNIDAD
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: UNIDAD
+
+      advanced: 
+        sequence: 4
+        hidden: false
+
+    - # ====== Column: CODIGO_EQUIPO ===============================
+      id: 203563295499424331026
+      identification: 
+        column-name: CODIGO_EQUIPO
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: CODIGO_EQUIPO
+
+      advanced: 
+        sequence: 5
+        hidden: false
+
+    - # ====== Column: CODIGO_ANDE_NI ==============================
+      id: 203563295749510331026
+      identification: 
+        column-name: CODIGO_ANDE_NI
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: CODIGO_ANDE_NI
+
+      advanced: 
+        sequence: 6
+        hidden: false
+
+    - # ====== Column: DESCRIPCION =================================
+      id: 203563296052909331026
+      identification: 
+        column-name: DESCRIPCION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: DESCRIPCION
+
+      advanced: 
+        sequence: 7
+        hidden: false
+
+    - # ====== Column: TIPO_EQUIPO =================================
+      id: 203563296383367331026
+      identification: 
+        column-name: TIPO_EQUIPO
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: TIPO_EQUIPO
+
+      advanced: 
+        sequence: 8
+        hidden: false
+
+    - # ====== Column: ESTADO ======================================
+      id: 203563296670655331027
+      identification: 
+        column-name: ESTADO
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ESTADO
+
+      advanced: 
+        sequence: 9
+        hidden: false
+
+    - # ====== Column: MARCA =======================================
+      id: 203563296990767331027
+      identification: 
+        column-name: MARCA
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: MARCA
+
+      advanced: 
+        sequence: 10
+        hidden: false
+
+    - # ====== Column: MODELO ======================================
+      id: 203563297300184331027
+      identification: 
+        column-name: MODELO
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: MODELO
+
+      advanced: 
+        sequence: 11
+        hidden: false
+
+    - # ====== Column: SERIAL ======================================
+      id: 203563297519458331027
+      identification: 
+        column-name: SERIAL
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: SERIAL
+
+      advanced: 
+        sequence: 12
+        hidden: false
+
+    - # ====== Column: HARDWARE_VERSION ============================
+      id: 203563297858864331027
+      identification: 
+        column-name: HARDWARE_VERSION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: HARDWARE_VERSION
+
+      advanced: 
+        sequence: 13
+        hidden: false
+
+    - # ====== Column: SOFTWARE_VERSION ============================
+      id: 203563298126554331027
+      identification: 
+        column-name: SOFTWARE_VERSION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: SOFTWARE_VERSION
+
+      advanced: 
+        sequence: 14
+        hidden: false
+
+    - # ====== Column: PATCH_VERSION ===============================
+      id: 203563298489438331028
+      identification: 
+        column-name: PATCH_VERSION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: PATCH_VERSION
+
+      advanced: 
+        sequence: 15
+        hidden: false
+
+    - # ====== Column: IP_GESTION ==================================
+      id: 203563298726719331028
+      identification: 
+        column-name: IP_GESTION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: IP_GESTION
+
+      advanced: 
+        sequence: 16
+        hidden: false
+
+    - # ====== Column: CANTIDAD_PUERTOS ============================
+      id: 203563299049405331028
+      identification: 
+        column-name: CANTIDAD_PUERTOS
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: CANTIDAD_PUERTOS
+
+      advanced: 
+        sequence: 17
+        hidden: false
+
+    - # ====== Column: EQUIPO_ALIMENTADOR1_ID ======================
+      id: 203563299348961331028
+      identification: 
+        column-name: EQUIPO_ALIMENTADOR1_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: EQUIPO_ALIMENTADOR1_ID
+
+      advanced: 
+        sequence: 18
+        hidden: false
+
+    - # ====== Column: EQUIPO_ALIMENTADOR2_ID ======================
+      id: 203563299667809331028
+      identification: 
+        column-name: EQUIPO_ALIMENTADOR2_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: EQUIPO_ALIMENTADOR2_ID
+
+      advanced: 
+        sequence: 19
+        hidden: false
+
+    - # ====== Column: PROYECTO_ID =================================
+      id: 203563299958382331029
+      identification: 
+        column-name: PROYECTO_ID
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: PROYECTO_ID
+
+      advanced: 
+        sequence: 20
+        hidden: false
+
+    - # ====== Column: FECHA_IMPLEMENTACION ========================
+      id: 203563300241556331029
+      identification: 
+        column-name: FECHA_IMPLEMENTACION
+
+      source: 
+        type: Data
+        data-type: DATE
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: FECHA_IMPLEMENTACION
+        format-mask: YYYY"-"MM"-"DD
+        has-time-zone: false
+
+      advanced: 
+        sequence: 21
+        hidden: false
+
+    - # ====== Column: OBSERVACION =================================
+      id: 203563300579438331029
+      identification: 
+        column-name: OBSERVACION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 255
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: OBSERVACION
+
+      advanced: 
+        sequence: 22
+        hidden: false
+

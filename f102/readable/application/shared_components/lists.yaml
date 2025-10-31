@@ -1,0 +1,1118 @@
+---
+- # ====== List: Access Control ================================
+  id: 56800693009965124529
+  identification: 
+    name: Access Control
+
+  subscription: 
+    version-number: 15633301332570
+
+  source: 
+    type: Static Values
+
+  configuration: 
+    build-option: 'Feature: Access Control' # 56800655087424124095
+
+  entries: 
+  - # ====== Entry: Users ========================================
+    id: 56800693496681124529
+    label: 
+      label: Users
+
+    icon: 
+      image/icon-css-classes: fa-users
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10011:&APP_SESSION.::&DEBUG.:RP::'
+        page: 10011 # Manage User Access
+        clear-cache: RP
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Set level of access for authenticated users of this application
+
+  - # ====== Entry: Access Control ===============================
+    id: 56800693871832124530
+    label: 
+      label: Access Control
+
+    icon: 
+      image/icon-css-classes: fa-key
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10010:&APP_SESSION.::&DEBUG.:::'
+        page: 10010 # Configure Access Control
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Change access control settings and disable access control
+
+- # ====== List: Asistente Servicios ===========================
+  id: 67812692495749518409
+  identification: 
+    name: Asistente Servicios
+
+  subscription: 
+    version-number: 15652207663415
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Paso 1 =======================================
+    id: 67812693885511518413
+    label: 
+      label: Paso 1
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:50:&SESSION.::&DEBUG.::::'
+        page: 50 # Step 1
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Paso 2 =======================================
+    id: 67812698114385518417
+    label: 
+      label: Paso 2
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:51:&SESSION.::&DEBUG.::::'
+        page: 51 # Step 2
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Paso 3 =======================================
+    id: 67812703194364518420
+    label: 
+      label: Paso 3
+
+    layout: 
+      sequence: 30
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:53:&SESSION.::&DEBUG.::::'
+        page: 53 # Paso 3
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Paso 5 =======================================
+    id: 67812708114953518424
+    label: 
+      label: Paso 5
+
+    layout: 
+      sequence: 60
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:54:&SESSION.::&DEBUG.::::'
+        page: 54 # Step 5
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Paso 4 =======================================
+    id: 83278655706620590738
+    label: 
+      label: Paso 4
+
+    layout: 
+      sequence: 50
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:52:&SESSION.::&DEBUG.::::'
+        page: 52 # Step 4
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+- # ====== List: WZRD_CONEXIONES_WAN ===========================
+  id: 85027390009745935778
+  identification: 
+    name: WZRD_CONEXIONES_WAN
+
+  subscription: 
+    version-number: 15653174290726
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Crear el enlace WAN ==========================
+    id: 85027391402073935782
+    label: 
+      label: Crear el enlace WAN
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:401:&SESSION.::&DEBUG.::::'
+        page: 401 # Crear el enlace WAN
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Seleccionar los sitios =======================
+    id: 85027395725271935786
+    label: 
+      label: Seleccionar los sitios
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:402:&APP_SESSION.::&DEBUG.:::'
+        page: 402 # Seleccionar los sitios
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Seleccionar las conexiones ===================
+    id: 85027400765264935790
+    label: 
+      label: Seleccionar las conexiones
+
+    layout: 
+      sequence: 30
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:403:&APP_SESSION.::&DEBUG.:::'
+        page: 403 # Seleccionar las conexiones
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Verificar las instrucciones ==================
+    id: 85027405738428935794
+    label: 
+      label: Verificar las instrucciones
+
+    layout: 
+      sequence: 40
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:404:&APP_SESSION.::&DEBUG.:::'
+        page: 404 # Verificar las instrucciones
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+- # ====== List: Navigation Menu ===============================
+  id: 197180072959121446204
+  identification: 
+    name: Navigation Menu
+
+  subscription: 
+    version-number: 39022133197718
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Mapa Sitios ==================================
+    id: 2244218112776946
+    label: 
+      label: Mapa Sitios
+
+    icon: 
+      image/icon-css-classes: fa-map-marker
+
+    layout: 
+      sequence: 720
+      parent-entry: Sitios # 117115190120779411774
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 47
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:47:&SESSION.::&DEBUG.::::'
+        page: 47 # MAPA_SITIOS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Administración ===============================
+    id: 32254645328005181908
+    label: 
+      label: Administración
+
+    icon: 
+      image/icon-css-classes: fa-key
+
+    layout: 
+      sequence: 500
+
+    is-current: 
+      type: Target Page
+
+    user-defined-attributes: 
+      translatable: false
+
+    security: 
+      authorization-scheme: Administration Rights # 197180567855224446399
+
+  - # ====== Entry: Experimental =================================
+    id: 32254844724062918042
+    label: 
+      label: Experimental
+
+    icon: 
+      image/icon-css-classes: fa-vial
+
+    layout: 
+      sequence: 600
+
+    is-current: 
+      type: Target Page
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Interfaces ===================================
+    id: 37204294179255013530
+    label: 
+      label: Interfaces
+
+    icon: 
+      image/icon-css-classes: fa-table
+
+    layout: 
+      sequence: 130
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 8
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:8:&SESSION.::&DEBUG.::::'
+        page: 8 # SGT_LST_INTERFACES
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Enlaces Wan ==================================
+    id: 43769687185927608877
+    label: 
+      label: Enlaces Wan
+
+    icon: 
+      image/icon-css-classes: fa-accessor-more
+
+    layout: 
+      sequence: 180
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 34
+      - 35
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.::::'
+        page: 34 # SGT_LST_ENLACES_LOGICOS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Enlaces FO ===================================
+    id: 43997218319186517993
+    label: 
+      label: Enlaces FO
+
+    icon: 
+      image/icon-css-classes: fa-accessor-one
+
+    layout: 
+      sequence: 150
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 36
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:36:&SESSION.::&DEBUG.::::'
+        page: 36 # SGT_LST_ENLACES_FO_2
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Servicios ====================================
+    id: 44129480090934328234
+    label: 
+      label: Servicios
+
+    icon: 
+      image/icon-css-classes: fa-sitemap-horizontal
+
+    layout: 
+      sequence: 190
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 19
+      - 38
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:19:&SESSION.::&DEBUG.::::'
+        page: 19 # SGT_LST_SERVICIOS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Conexiones ===================================
+    id: 44132895707963381953
+    label: 
+      label: Conexiones
+
+    icon: 
+      image/icon-css-classes: fa-wizard
+
+    layout: 
+      sequence: 160
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 39
+      - 40
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:39:&SESSION.::&DEBUG.::::'
+        page: 39 # SGT_LST_ENLACE_TRAMOS_FO
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Vista conexiones =============================
+    id: 47197333522557019192
+    label: 
+      label: Vista conexiones
+
+    icon: 
+      image/icon-css-classes: fa-exchange
+
+    layout: 
+      sequence: 210
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 43
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:43:&SESSION.::&DEBUG.::::'
+        page: 43 # SGT_SERVICIOS_VIEW
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Control de Accesos ===========================
+    id: 57033634596017796135
+    label: 
+      label: Control de Accesos
+
+    icon: 
+      image/icon-css-classes: fa-user-secret
+
+    layout: 
+      sequence: 610
+      parent-entry: Administración # 32254645328005181908
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10000:&SESSION.::&DEBUG.::::'
+        page: 10000 # Control de Accesos
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    security: 
+      authorization-scheme: Administration Rights # 197180567855224446399
+
+  - # ====== Entry: Auditoría General ============================
+    id: 59777349972370233351
+    label: 
+      label: Auditoría General
+
+    icon: 
+      image/icon-css-classes: fa-table
+
+    layout: 
+      sequence: 620
+      parent-entry: Administración # 32254645328005181908
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 46
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:46:&SESSION.::&DEBUG.::::'
+        page: 46 # Auditoría General del Sistema
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Dashboard de Gestión de Auditoría ============
+    id: 62045885992698196967
+    label: 
+      label: Dashboard de Gestión de Auditoría
+
+    icon: 
+      image/icon-css-classes: fa-file-o
+
+    layout: 
+      sequence: 630
+      parent-entry: Administración # 32254645328005181908
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 100
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:100:&SESSION.::&DEBUG.::::'
+        page: 100 # Dashboard de Gestión de Auditoría - Últimos 30 días
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Dashboard de Cumplimiento ====================
+    id: 64079792807840440104
+    label: 
+      label: Dashboard de Cumplimiento
+
+    icon: 
+      image/icon-css-classes: fa-dashboard
+
+    layout: 
+      sequence: 640
+      parent-entry: Administración # 32254645328005181908
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 200
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:200:&APP_SESSION.::&DEBUG.:::'
+        page: 200 # Dashboard de Cumplimiento
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Visualizar Topología =========================
+    id: 79639293650156205027
+    label: 
+      label: Visualizar Topología
+
+    icon: 
+      image/icon-css-classes: fa-file-o
+
+    layout: 
+      sequence: 660
+      parent-entry: Experimental # 32254844724062918042
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 400
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:400:&SESSION.::&DEBUG.::::'
+        page: 400 # PruebaTopologia
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Visor de servicios ===========================
+    id: 86192633244466544722
+    label: 
+      label: Visor de servicios
+
+    icon: 
+      image/icon-css-classes: fa-address-book
+
+    layout: 
+      sequence: 199
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 410
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:410:&SESSION.::&DEBUG.::::'
+        page: 410 # PRUEBA_SERVICIOS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: IG_EQUIPOS ===================================
+    id: 88029814684260629634
+    label: 
+      label: IG_EQUIPOS
+
+    layout: 
+      sequence: 690
+      parent-entry: Equipos # 200805769463951280023
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 44
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:44:&APP_SESSION.::&DEBUG.:::'
+        page: 44 # IG_EQUIPOS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: IG_ENLACES_FO ================================
+    id: 88034632672614079354
+    label: 
+      label: IG_ENLACES_FO
+
+    layout: 
+      sequence: 700
+      parent-entry: Enlaces FO # 43997218319186517993
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 45
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:45:&APP_SESSION.::&DEBUG.:::'
+        page: 45 # IG_ENLACES_FO
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: TEST_MAP_WAN =================================
+    id: 91234823666936944300
+    label: 
+      label: TEST_MAP_WAN
+
+    icon: 
+      image/icon-css-classes: fa-map-marker
+
+    layout: 
+      sequence: 710
+      parent-entry: Experimental # 32254844724062918042
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 420
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:420:&SESSION.::&DEBUG.::::'
+        page: 420 # TEST_MAP_WAN
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Sitios =======================================
+    id: 117115190120779411774
+    label: 
+      label: Sitios
+
+    icon: 
+      image/icon-css-classes: fa-table
+
+    layout: 
+      sequence: 30
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 25
+      - 26
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:25:&SESSION.::&DEBUG.::::'
+        page: 25 # SGT_LST_SITIOS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Ciudades =====================================
+    id: 117116228478899765989
+    label: 
+      label: Ciudades
+
+    icon: 
+      image/icon-css-classes: fa-table
+
+    layout: 
+      sequence: 27
+      parent-entry: Administración # 32254645328005181908
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 23
+      - 24
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:23:&SESSION.::&DEBUG.::::'
+        page: 23 # SGT_CIUDADES
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Departamentos ================================
+    id: 118015538787074003229
+    label: 
+      label: Departamentos
+
+    icon: 
+      image/icon-css-classes: fa-table
+
+    layout: 
+      sequence: 25
+      parent-entry: Administración # 32254645328005181908
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 21
+      - 22
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:21:&SESSION.::&DEBUG.::::'
+        page: 21 # SGT_DEPTO
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Home =========================================
+    id: 197180574829265446406
+    label: 
+      label: Home
+
+    icon: 
+      image/icon-css-classes: fa-home
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:1:&APP_SESSION.::&DEBUG.:::'
+        page: 1 # Home
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Racks ========================================
+    id: 200718424736935803898
+    label: 
+      label: Racks
+
+    icon: 
+      image/icon-css-classes: fa-table
+
+    layout: 
+      sequence: 60
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 11
+      - 12
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:11:&SESSION.::&DEBUG.::::'
+        page: 11 # SGT_LST_RACKS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Equipos ======================================
+    id: 200805769463951280023
+    label: 
+      label: Equipos
+
+    icon: 
+      image/icon-css-classes: fa-table
+
+    layout: 
+      sequence: 70
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 13
+      - 14
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:13:&SESSION.::&DEBUG.::::'
+        page: 13 # SGT_LST_EQUIPOS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Estructura App ===============================
+    id: 201656198904739324770
+    label: 
+      label: Estructura App
+
+    icon: 
+      image/icon-css-classes: fa-tree-org
+
+    layout: 
+      sequence: 80
+      parent-entry: Experimental # 32254844724062918042
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 20
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:20:&SESSION.::&DEBUG.::::'
+        page: 20 # PRUEBATREE
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Zonas ========================================
+    id: 202695219457415202492
+    label: 
+      label: Zonas
+
+    icon: 
+      image/icon-css-classes: fa-table
+
+    layout: 
+      sequence: 20
+      parent-entry: Administración # 32254645328005181908
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 2
+      - 3
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:2:&SESSION.::&DEBUG.::::'
+        page: 2 # SGT_ZONAS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Salas ========================================
+    id: 202814179886904557267
+    label: 
+      label: Salas
+
+    icon: 
+      image/icon-css-classes: fa-table
+
+    layout: 
+      sequence: 40
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 4
+      - 5
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:4:&SESSION.::&DEBUG.::::'
+        page: 4 # SGT_LST_SALAS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+- # ====== List: Navigation Bar ================================
+  id: 197180564293910446393
+  identification: 
+    name: Navigation Bar
+
+  subscription: 
+    version-number: 15588698676432
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: &APP_USER. ===================================
+    id: 197180576417873446408
+    label: 
+      label: '&APP_USER.'
+
+    icon: 
+      image/icon-css-classes: fa-user
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '#'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      2.: has-username
+
+  - # ====== Entry: --- ==========================================
+    id: 197180576847153446408
+    label: 
+      label: '---'
+
+    layout: 
+      sequence: 20
+      parent-entry: '&APP_USER.' # 197180576417873446408
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: separator
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    server-side-condition: 
+      type: User is Authenticated (not public)
+
+  - # ====== Entry: Sign Out =====================================
+    id: 197180577251903446409
+    label: 
+      label: Sign Out
+
+    icon: 
+      image/icon-css-classes: fa-sign-out
+
+    layout: 
+      sequence: 30
+      parent-entry: '&APP_USER.' # 197180576417873446408
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: '&LOGOUT_URL.'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    server-side-condition: 
+      type: User is Authenticated (not public)
+

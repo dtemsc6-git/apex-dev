@@ -1,0 +1,65 @@
+prompt --application/shared_components/user_interface/lovs/tipo_fo
+begin
+--   Manifest
+--     TIPO_FO
+--   Manifest End
+wwv_flow_imp.component_begin (
+ p_version_yyyy_mm_dd=>'2024.11.30'
+,p_release=>'24.2.9'
+,p_default_workspace_id=>71533046799736978747
+,p_default_application_id=>24839
+,p_default_id_offset=>9071155675752509
+,p_default_owner=>'WKSP_DTESC'
+);
+wwv_flow_imp_shared.create_list_of_values(
+ p_id=>wwv_flow_imp.id(16833235324014392556)
+,p_lov_name=>'TIPO_FO'
+,p_lov_query=>'.'||wwv_flow_imp.id(16833235324014392556)||'.'
+,p_location=>'STATIC'
+,p_version_scn=>15652209098900
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(16833235564546392558)
+,p_lov_disp_sequence=>1
+,p_lov_disp_value=>'G.652'
+,p_lov_return_value=>'G.652'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(16833236042772392558)
+,p_lov_disp_sequence=>2
+,p_lov_disp_value=>'G.653'
+,p_lov_return_value=>'G.653'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(16833236443478392559)
+,p_lov_disp_sequence=>3
+,p_lov_disp_value=>'G.654'
+,p_lov_return_value=>'G.654'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(16833236795596392559)
+,p_lov_disp_sequence=>4
+,p_lov_disp_value=>'G.655'
+,p_lov_return_value=>'G.655'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(16833237262029392559)
+,p_lov_disp_sequence=>5
+,p_lov_disp_value=>'G.656'
+,p_lov_return_value=>'G.656'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(16833237570431392559)
+,p_lov_disp_sequence=>6
+,p_lov_disp_value=>'G.657'
+,p_lov_return_value=>'G.657'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(52386545170660518546)
+,p_lov_disp_sequence=>7
+,p_lov_disp_value=>'G.656D'
+,p_lov_return_value=>'G.656D'
+);
+wwv_flow_imp.component_end;
+end;
+/

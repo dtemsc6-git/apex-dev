@@ -1,0 +1,950 @@
+---
+# ====== Page: MAPA_SITIOS ===================================
+id: 47
+identification: 
+  name: MAPA_SITIOS
+  alias: MAPA-SITIOS
+  title: Mapa Sitios
+
+appearance: 
+  page-mode: Normal
+  page-template: Left Side Column
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: FILTRO_MAPA =================================
+  id: 523186641364925
+  identification: 
+    name: FILTRO_MAPA
+    title: Filtro Mapa
+    type: Faceted Search
+
+  source: 
+    filtered-region: MAPA_SITIOS # 2245319778776955
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_02
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      batch-facet-changes: false
+      compact-numbers-threshold: 10000
+      show-current-facets: No
+      show-total-row-count: No
+      show-charts: Dialog
+      display-chart-for-top-n-values: 10
+
+  facets: 
+  - # ====== Facet: P47_SEARCH ===================================
+    id: 523302737364926
+    identification: 
+      name: P47_SEARCH
+      type: Search
+
+    label: 
+      label: Search
+
+    settings: 
+      search-type: Row Search
+      input-field: Top of Faceted Search Region
+
+    layout: 
+      sequence: 10
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
+
+  - # ====== Facet: P47_ZONA =====================================
+    id: 523560515364929
+    identification: 
+      name: P47_ZONA
+      type: Checkbox Group
+
+    label: 
+      label: Zona
+      show-label-for-current-facet: true
+
+    layout: 
+      sequence: 40
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: ZONA
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Facet: P47_TIPO_SITIO ===============================
+    id: 523794692364931
+    identification: 
+      name: P47_TIPO_SITIO
+      type: Checkbox Group
+
+    label: 
+      label: Tipo Sitio
+      show-label-for-current-facet: true
+
+    layout: 
+      sequence: 70
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: TIPO_SITIO
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Facet: P47_CIUDAD ===================================
+    id: 524764091364941
+    identification: 
+      name: P47_CIUDAD
+      type: Checkbox Group
+
+    label: 
+      label: Ciudad
+      show-label-for-current-facet: true
+
+    layout: 
+      sequence: 60
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: CIUDAD
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Facet: P47_DEPARTAMENTO =============================
+    id: 2361124147276194
+    identification: 
+      name: P47_DEPARTAMENTO
+      type: Checkbox Group
+
+    label: 
+      label: DEPARTAMENTO
+      show-label-for-current-facet: true
+
+    layout: 
+      sequence: 50
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: DEPARTAMENTO
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  filters: 
+  - # ====== Filter: P47_SEARCH ==================================
+    id: 523302737364926
+    identification: 
+      name: P47_SEARCH
+      type: Search
+
+    label: 
+      label: Search
+
+    settings: 
+      search-type: Row Search
+      collapsed-search-field: false
+
+    layout: 
+      sequence: 10
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
+
+  - # ====== Filter: P47_ZONA ====================================
+    id: 523560515364929
+    identification: 
+      name: P47_ZONA
+      type: Checkbox Group
+
+    label: 
+      label: Zona
+
+    layout: 
+      sequence: 40
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: ZONA
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Filter: P47_TIPO_SITIO ==============================
+    id: 523794692364931
+    identification: 
+      name: P47_TIPO_SITIO
+      type: Checkbox Group
+
+    label: 
+      label: Tipo Sitio
+
+    layout: 
+      sequence: 70
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: TIPO_SITIO
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Filter: P47_CIUDAD ==================================
+    id: 524764091364941
+    identification: 
+      name: P47_CIUDAD
+      type: Checkbox Group
+
+    label: 
+      label: Ciudad
+
+    layout: 
+      sequence: 60
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: CIUDAD
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Filter: P47_DEPARTAMENTO ============================
+    id: 2361124147276194
+    identification: 
+      name: P47_DEPARTAMENTO
+      type: Checkbox Group
+
+    label: 
+      label: DEPARTAMENTO
+
+    layout: 
+      sequence: 50
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: DEPARTAMENTO
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+- # ====== Region: Breadcrumb ==================================
+  id: 2244565372776949
+  identification: 
+    name: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 197180072443235446203
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: MAPA_SITIOS =================================
+  id: 2245319778776955
+  identification: 
+    name: MAPA_SITIOS
+    type: Map
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: V_SITIOS_GPS
+    include-rowid-column: false
+    page-items-to-submit: 
+    - P47_ZONAS
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes (No Grid)
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 2245734854776955
+    map: 
+      background: Default
+      height: 640
+
+    controls: 
+      navigation-bar: Zoom and Compass
+      navigation-bar-position: End
+      options: 
+      - Mousewheel Zoom
+      - Rectangle Zoom
+      - Scale Bar
+      - Infinite Map
+      - Get Browser Location
+
+    initial-position-and-zoom: 
+      get-position-from-browser: false
+      type: Based on Spatial Results
+
+    legend: 
+      show: true
+      position: End
+
+    attributes: 
+      messages-position: Below
+      unit-system: Metric
+
+    performance: 
+      lazy-loading: true
+
+    layers: 
+    - # ====== Layer: Sitios =======================================
+      id: 520471075364898
+      identification: 
+        name: Sitios
+        layer-type: Points
+
+      layout: 
+        sequence: 20
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      column-mapping: 
+        geometry-column-data-type: Longitude/Latitude
+        longitude-column: LON
+        latitude-column: LAT
+        primary-key-column: ID
+
+      point-objects: 
+        style: SVG
+        shape: Default
+
+      appearance: 
+        fill-color: '#34aadc'
+        stroke-color: '#5856d6'
+
+      point-clustering: 
+        enable: false
+
+      tooltip: 
+        advanced-formatting: false
+        column: SIGLAS
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:26:&SESSION.::&DEBUG.::P26_ID:&ID.'
+          page: 26 # SGT_FORM_SITIOS
+          values: 
+            p26_id: '&ID.'
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+    - # ====== Layer: ES y SE ======================================
+      id: 520576170364899
+      identification: 
+        name: ES y SE
+        layer-type: Points
+
+      layout: 
+        sequence: 30
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      row-assignment: 
+        column: TIPO_SITIO
+        value-for-this-layer: Estación/Subestación Eléctrica
+
+      column-mapping: 
+        geometry-column-data-type: Longitude/Latitude
+        longitude-column: LON
+        latitude-column: LAT
+
+      point-objects: 
+        style: SVG
+        shape: Default
+
+      appearance: 
+        fill-color: '#ff3b30'
+
+      point-clustering: 
+        enable: false
+
+      tooltip: 
+        advanced-formatting: false
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:26:&SESSION.::&DEBUG.::P26_ID:&ID.'
+          page: 26 # SGT_FORM_SITIOS
+          values: 
+            p26_id: '&ID.'
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
+    - # ====== Layer: Centro Control ===============================
+      id: 520976006364903
+      identification: 
+        name: Centro Control
+        layer-type: Points
+
+      layout: 
+        sequence: 40
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      row-assignment: 
+        column: TIPO_SITIO
+        value-for-this-layer: Centro de Control
+
+      column-mapping: 
+        geometry-column-data-type: Longitude/Latitude
+        longitude-column: LON
+        latitude-column: LAT
+
+      point-objects: 
+        style: SVG
+        shape: Default
+
+      appearance: 
+        fill-color: '#5856d6'
+
+      point-clustering: 
+        enable: false
+
+      tooltip: 
+        advanced-formatting: false
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:26:&SESSION.::&DEBUG.::P26_ID:&ID.'
+          page: 26 # SGT_FORM_SITIOS
+          values: 
+            p26_id: '&ID.'
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
+    - # ====== Layer: Repetidoras ==================================
+      id: 521116770364904
+      identification: 
+        name: Repetidoras
+        layer-type: Points
+
+      layout: 
+        sequence: 50
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      row-assignment: 
+        column: TIPO_SITIO
+        value-for-this-layer: '%Caseta Repetidora%'
+
+      column-mapping: 
+        geometry-column-data-type: Longitude/Latitude
+        longitude-column: LON
+        latitude-column: LAT
+
+      point-objects: 
+        style: SVG
+        shape: Default
+
+      appearance: 
+        fill-color: '#c7c7cc'
+
+      point-clustering: 
+        enable: false
+
+      tooltip: 
+        advanced-formatting: false
+
+      link: 
+        type: Redirect to Page in this Application
+        target: 
+          url: 'f?p=&APP_ID.:26:&SESSION.::&DEBUG.::P26_ID:&ID.'
+          page: 26 # SGT_FORM_SITIOS
+          values: 
+            p26_id: '&ID.'
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
+    - # ====== Layer: Zonas ========================================
+      id: 2246243641776956
+      identification: 
+        name: Zonas
+        layer-type: Points
+
+      layout: 
+        sequence: 10
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      column-mapping: 
+        geometry-column-data-type: Longitude/Latitude
+        longitude-column: LON
+        latitude-column: LAT
+
+      point-objects: 
+        style: SVG
+        shape: Default
+
+      appearance: 
+        fill-color: '#007aff'
+
+      point-clustering: 
+        enable: false
+
+      tooltip: 
+        advanced-formatting: false
+        column: SIGLAS
+
+      info-window: 
+        advanced-formatting: false
+        title-column: ZONA
+        body-column: SIGLAS
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
+page-items: 
+- # ====== Page Item: P47_ZONAS ================================
+  id: 520714527364900
+  identification: 
+    name: P47_ZONAS
+    type: Popup LOV
+
+  label: 
+    label: Zonas
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: LOV_SGT_ZONAS # 16829957726745633025
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+dynamic-actions: 
+- # ====== Dynamic Action: New =================================
+  id: 520787727364901
+  identification: 
+    name: New
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P47_ZONAS
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 520869635364902
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: MAPA_SITIOS # 2245319778776955
+
+    execution: 
+      sequence: 10
+      event: New # 520787727364901
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+

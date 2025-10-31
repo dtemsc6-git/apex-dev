@@ -1,0 +1,30 @@
+---
+- # ====== Page Group: Técnicos ================================
+  id: 57023520474492442229
+  identification: 
+    name: Técnicos
+
+  description: 
+    description: Grupo de paginas para accesos de los técnicos
+
+- # ====== Page Group: Jefaturas ===============================
+  id: 57024513574816456779
+  identification: 
+    name: Jefaturas
+
+  description: 
+    description: Grupo de paginas accesibles solo para las Jefaturas
+
+- # ====== Page Group: Implementadores =========================
+  id: 57024536698229459190
+  identification: 
+    name: Implementadores
+
+  description: 
+    description: Grupo de paginas para los implementadores
+
+- # ====== Page Group: Administration ==========================
+  id: 197180568163528446399
+  identification: 
+    name: Administration
+

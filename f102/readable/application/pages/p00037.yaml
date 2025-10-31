@@ -1,0 +1,1054 @@
+---
+# ====== Page: SGT_UBICAR_EQUIPO_RACK ========================
+id: 37
+identification: 
+  name: SGT_UBICAR_EQUIPO_RACK
+  alias: UBICAR-EQUIPO-RACK
+  title: Ubicar Equipo
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: false
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+css: 
+  file-urls: 
+  - '#APP_FILES#racks#MIN#.css'
+  inline: |
+    
+    
+    
+    
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Contenido ===================================
+  id: 51494083692716384844
+  identification: 
+    name: Contenido
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Controles ===================================
+  id: 64554406512478252523
+  identification: 
+    name: Controles
+    type: Static Content
+
+  layout: 
+    sequence: 50
+    parent-region: Contenido # 51494083692716384844
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: NombreRack ==================================
+  id: 64554407007841252528
+  identification: 
+    name: NombreRack
+    type: Static Content
+
+  source: 
+    html-code: 'Rack: &P37_RACK_NOMBRE.'
+
+  layout: 
+    sequence: 10
+    parent-region: New # 64554407489940252532
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    css-classes: 
+    - u-libre
+    - null
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: New =========================================
+  id: 64554407489940252532
+  identification: 
+    name: New
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: Contenido # 51494083692716384844
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    column-css-classes: 
+    - racks
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: VISTA_FRONT =================================
+  id: 94299977311860057527
+  identification: 
+    name: VISTA_FRONT
+    title: Vista Frontal Rack
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      WITH Pisos(posicion_u) AS (
+        SELECT 1 FROM dual
+        UNION ALL
+        SELECT posicion_u + 1 FROM Pisos
+        WHERE posicion_u + 1 <= (
+          SELECT altura_u FROM sgt_Racks WHERE id=:P37_RACK_ID
+        )
+      )
+      
+      SELECT 
+        'U'||p.posicion_u as "U", 
+        CASE 
+          WHEN EXISTS (
+            SELECT 1 FROM sgt_Equipos e
+            WHERE e.rack_id = :P37_RACK_ID
+              AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)
+              AND e.posicion = 'Front'
+          ) THEN 
+            '<span class="u-ocupada u-clickable">'|| 
+            (SELECT e.nombre FROM sgt_Equipos e
+             WHERE e.rack_id = :P37_RACK_ID
+               AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)
+               AND e.posicion = 'Front'
+             AND ROWNUM = 1) ||'</span>'
+          ELSE
+            '<span class="u-libre u-clickable" data-ua="'|| p.posicion_u ||'">Seleccionar Aqui</span>'
+        END AS Equipo
+      FROM Pisos p
+      ORDER BY p.posicion_u DESC;
+    page-items-to-submit: 
+    - P37_ID
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 20
+    parent-region: New # 64554407489940252532
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    css-classes: 
+    - table-front
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 60
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+      css-classes: 
+      - tabla-front
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: U ===========================================
+    id: 64554406041898252518
+    identification: 
+      column-name: U
+      type: Plain Text
+
+    heading: 
+      heading: U
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EQUIPO ======================================
+    id: 64554406142777252519
+    identification: 
+      column-name: EQUIPO
+      type: Rich Text
+
+    heading: 
+      heading: Equipo
+      alignment: start
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    settings: 
+      format: HTML
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+- # ====== Region: VISTA_BACK ==================================
+  id: 115831090010031778407
+  identification: 
+    name: VISTA_BACK
+    title: Vista Posterior Rack
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      WITH Pisos(posicion_u) AS (
+        SELECT 1 FROM dual
+        UNION ALL
+        SELECT posicion_u + 1 FROM Pisos
+        WHERE posicion_u + 1 <= (
+          SELECT altura_u FROM sgt_Racks WHERE id=:P37_RACK_ID
+        )
+      )
+      
+      SELECT 
+        'U'||p.posicion_u as "U", 
+        CASE 
+          WHEN EXISTS (
+            SELECT 1 FROM sgt_Equipos e
+            WHERE e.rack_id = :P37_RACK_ID
+              AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)
+              AND e.posicion = 'Back'
+          ) THEN 
+            '<span class="u-ocupada u-clickable">'|| 
+            (SELECT e.nombre FROM sgt_Equipos e
+             WHERE e.rack_id = :P37_RACK_ID
+               AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)
+               AND e.posicion = 'Back'
+             AND ROWNUM = 1) ||'</span>'
+          ELSE
+            '<span class="u-libre u-clickable" data-pos="'|| p.posicion_u ||'">Seleccionar Aqui</span>'
+        END AS Equipo
+      FROM Pisos p
+      ORDER BY p.posicion_u DESC;
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 30
+    parent-region: New # 64554407489940252532
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    column-css-classes: 
+    - back
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 60
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: U ===========================================
+    id: 64337010723613393608
+    identification: 
+      column-name: U
+      type: Plain Text
+
+    heading: 
+      heading: U
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EQUIPO ======================================
+    id: 64337011126394393609
+    identification: 
+      column-name: EQUIPO
+      type: Rich Text
+
+    heading: 
+      heading: Equipo
+      alignment: start
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    settings: 
+      format: HTML
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+page-items: 
+- # ====== Page Item: P37_RACK_ID ==============================
+  id: 51494084043959384848
+  identification: 
+    name: P37_RACK_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Contenido # 51494083692716384844
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+- # ====== Page Item: P37_ALTURA_U =============================
+  id: 64554404386239252501
+  identification: 
+    name: P37_ALTURA_U
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Contenido # 51494083692716384844
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P37_POSICION =============================
+  id: 64554404445112252502
+  identification: 
+    name: P37_POSICION
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 40
+    region: Contenido # 51494083692716384844
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P37_U ====================================
+  id: 64554404500312252503
+  identification: 
+    name: P37_U
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 50
+    region: Contenido # 51494083692716384844
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P37_NOMBRE ===============================
+  id: 64554406900422252527
+  identification: 
+    name: P37_NOMBRE
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 60
+    region: Contenido # 51494083692716384844
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P37_RACK_NOMBRE ==========================
+  id: 64554407150703252529
+  identification: 
+    name: P37_RACK_NOMBRE
+    type: Text Field
+
+  label: 
+    label: New
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 20
+    region: Contenido # 51494083692716384844
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+buttons: 
+- # ====== Button: Clear =======================================
+  id: 64554406248135252520
+  identification: 
+    button-name: Clear
+    label: Limpiar Selección
+
+  layout: 
+    sequence: 10
+    region: Controles # 64554406512478252523
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: Asignar =====================================
+  id: 64554406625542252524
+  identification: 
+    button-name: Asignar
+    label: Asignar
+
+  layout: 
+    sequence: 20
+    region: Controles # 64554406512478252523
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+dynamic-actions: 
+- # ====== Dynamic Action: AsignarU ============================
+  id: 64554404937528252507
+  identification: 
+    name: AsignarU
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: jQuery Selector
+    jquery-selector: .u-clickable
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 64554405021201252508
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        /*
+        DMF: Chequear la altura en U de equipo a ubicar, verificar
+        que la u esta disponible y que la altura no coliciona con otras U Ocupadas.
+        
+        Obtener el punto donde se hizo click y preguntar el estado de los 
+        que estan abajo de ese punto 
+        
+        Determinar si esta en la vista frontal o back
+        
+        Proceso: 
+        Obtener el elemento donde se hace click.
+        Preguntar si las ubicaciones estan libres
+        iterar la tabla y chequear que todas las u necesarias estan disponibles
+        Si no se puede asignar alguna de las U notificar al usuario y normalizar la vista
+        Si pasa las validaciones asignar al equipo.
+        
+        Validación:
+        Si ya se tiene una selección no se puede volver a seleccionar, se debe limpiar 
+        Examinar opciones para las ediciones:
+           Al presionar Limpiar debe limpiar las U donde coinciden los nombres de los equipos o las 
+           U que digan asignado.
+        
+        2 la u seleccionada + la altura del equipo no puede superar la altura del rack
+        2 Si alguna de las U estan en uso en el intervalo u seleccionada alturaU cancelar y notificar
+        3 Si pasa las validaciones asignar
+        
+        */
+        
+        
+        let elementosModificados = [];
+        
+        console.log((this));
+        console.log(this.triggeringElement.getAttribute('data-ua'));
+        
+        if (apex.item("P37_POSICION").getValue().length > 0 ){
+            alert("Presione el boton limpiar para realizar una nueva seleción")
+            return false;
+        }
+        
+        
+        var alturaEquipo = Number(apex.item("P37_ALTURA_U").getValue());
+        
+        
+        // Preguntar si el elemento tiene la propiedad data-pos si tiene estamos en la vista posterior
+        var posicion = this.triggeringElement.hasAttribute('data-pos') ? "Back" : "Front";
+        
+        
+        // elemento que disparó el evento
+        var $elem = $(this.triggeringElement);  
+        var uSeleccionada = $elem.closest('tr').index();
+        // Obtener la tabla más cercana a ese elemento
+        var $tabla = $elem.closest('table');
+        //
+        var alturaRack = $tabla.find('tbody tr').length;
+        // Iterar sobre las filas del tbody
+        console.log('Altura rack: '+alturaRack);
+        //var validacion = uSeleccionada + alturaEquipo-1
+        //console.log('Validacion 1: '+ (validacion));
+        /*if (alturaRack < validacion) {
+            alert("Val1 No se puede seleccionar esa U");
+            return false;
+        }
+        
+        var index = alturaRack - uSeleccionada - alturaEquipo + 1;
+        */
+        //validar si la uSeleccionada - la alturaEquipo es menor a cero
+        if (uSeleccionada + 1 - alturaEquipo < 0) {
+            alert("Val 1: No se puede seleccionar la U, no hay espacio")
+            return false;
+        }
+        for (i=uSeleccionada; i>uSeleccionada-alturaEquipo; i-- ) {
+            var $span = $tabla.find('tbody tr').eq(i).find('td').eq(1).find('span');
+            var textoCol = $tabla.find('tbody tr').eq(i).find('td').eq(1).text().trim().toLowerCase();
+            console.log('Bucle for: '+i+',text: '+textoCol);
+            if (textoCol !== "seleccionar aqui") {
+                alert("Val2 No se puede seleccionar esa U");
+                elementosModificados.forEach((i) => {
+                    i.removeClass('u-ocupada').addClass('u-libre');
+                    i.text("Seleccionar Aqui");
+                });
+                return false;
+            }
+            else {
+                $span.removeClass('u-libre').addClass('u-ocupada');
+                $span.text("Asignado");
+                //Guardar las U asignadas en caso de necesitar revertir
+                elementosModificados.push ($span);
+        
+            }
+        
+        } 
+        
+        //Asignar los datos
+        apex.item("P37_POSICION").setValue(posicion);
+        apex.item("P37_U").setValue(alturaRack - uSeleccionada);
+
+    execution: 
+      sequence: 10
+      event: AsignarU # 64554404937528252507
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: LimpiarSeleccion ====================
+  id: 64554406308481252521
+  identification: 
+    name: LimpiarSeleccion
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: Clear # 64554406248135252520
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 64554406470562252522
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        /*
+        DMF: Obtener las tablas de la vista, iterar sobre ellas, limpiar los campos que tengan el texto
+        Asignado o que el nombre del equipo en minusculas coincidan.
+        */
+        var equipo = apex.item('P37_NOMBRE').getValue().trim().toLowerCase();
+        var $spanOcupado = $('.u-ocupada');
+        
+        $spanOcupado.each(function (index) { 
+               
+                var $span = $(this);
+                var textoCol = $span.text().trim().toLowerCase();
+                 console.log("LimpiarSelección: "+index+ ":"+equipo+":"+textoCol);  
+                if (textoCol === "asignado" || textoCol === equipo) {
+                    
+                    $span.removeClass('u-ocupada').addClass('u-libre');
+                    $span.text("Seleccionar Aqui");
+                }
+                
+            
+        });
+        
+        apex.item("P37_POSICION").setValue("");
+        apex.item("P37_U").setValue("");
+
+    execution: 
+      sequence: 10
+      event: LimpiarSeleccion # 64554406308481252521
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: AceptarDatos ========================
+  id: 64554406738635252525
+  identification: 
+    name: AceptarDatos
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: Asignar # 64554406625542252524
+
+  actions: 
+  - # ====== Action: Close Dialog ================================
+    id: 64554406855189252526
+    identification: 
+      action: Close Dialog
+
+    settings: 
+      items-to-return: 
+      - P37_POSICION
+      - P37_U
+
+    execution: 
+      sequence: 10
+      event: AceptarDatos # 64554406738635252525
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    comments: 
+      comments: Al presionar cierra el dialogo y devuelve la u y posicion como valores de salida
+

@@ -1,0 +1,1863 @@
+---
+# ====== Page: Home ==========================================
+id: 1
+identification: 
+  name: Home
+  alias: HOME
+  title: Sistema de Gestión TI
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Totales =====================================
+  id: 29962993124463667725
+  identification: 
+    name: Totales
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: tabs # 32677700937439831907
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: Jefatura Rights # 56843594981568991166
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Total_locales ===============================
+  id: 29962993440143667728
+  identification: 
+    name: Total_locales
+    title: Total Locales
+    type: Chart
+
+  source: 
+    location: None
+
+  layout: 
+    sequence: 40
+    parent-region: Totales # 29962993124463667725
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: 1
+    new-column: true
+    column-span: 6
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 29962993510240667729
+    chart: 
+      type: Bar
+
+    title: 
+      title: Locales
+
+    appearance: 
+      orientation: Vertical
+      stack: false
+
+    layout: 
+      height: 400
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    multi-series-chart-data: 
+      fill-gaps-in-chart-data: true
+      sort-order: Label - Ascending
+      render-gap-as-zero: true
+
+    settings: 
+      zoom-and-scroll: No
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-group-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Total sitios por zona =======================
+      id: 29962993652354667730
+      identification: 
+        name: Total sitios por zona
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select tipo_de_sitio Titulo, count(tipo_de_sitio) total from sgt_sitios
+          where sgt_sitios.zona_id =:P1_FILTRO_ZONA
+          group by tipo_de_sitio
+          order by total desc
+        page-items-to-submit: 
+        - P1_FILTRO_ZONA
+
+      order-by: 
+        type: None
+
+      column-mapping: 
+        label: TITULO
+        value: TOTAL
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      label: 
+        show: false
+
+    axes: 
+    - # ====== Axis: x =============================================
+      id: 32677700608784831904
+      identification: 
+        name: x
+        show-axis: true
+
+      value: 
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+        rotation: true
+        position: Outside
+
+    - # ====== Axis: y =============================================
+      id: 32677700758113831905
+      identification: 
+        name: y
+        show-axis: true
+
+      value: 
+        format: Decimal
+        decimal-places: 0
+        format-scaling: None
+        baseline-scaling: Zero
+        scale: Linear
+
+      appearance: 
+        position: Automatic
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+
+- # ====== Region: Total_equipos ===============================
+  id: 29962993943257667733
+  identification: 
+    name: Total_equipos
+    title: Total equipos por rack
+    type: Chart
+
+  source: 
+    location: None
+
+  layout: 
+    sequence: 50
+    parent-region: Totales # 29962993124463667725
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: false
+    column: 7
+    new-column: true
+    column-span: 6
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 29962994009060667734
+    chart: 
+      type: Bar
+
+    appearance: 
+      orientation: Vertical
+      stack: false
+
+    layout: 
+      height: 400
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    multi-series-chart-data: 
+      fill-gaps-in-chart-data: true
+      sort-order: Label - Ascending
+      render-gap-as-zero: true
+
+    settings: 
+      zoom-and-scroll: No
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-group-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Total equipos por rack ======================
+      id: 29962994199263667735
+      identification: 
+        name: Total equipos por rack
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select te.nombre titulo, count(e.tipo_equipo_id) valor from sgt_equipos e left join sgt_tipo_equipos te
+          on e.tipo_equipo_id = te.id
+          WHERE e.rack_id =:P1_FILTRO_RACK
+          
+          group by (e.tipo_equipo_id, te.nombre)
+          
+          order by valor desc
+        page-items-to-submit: 
+        - P1_FILTRO_RACK
+
+      order-by: 
+        type: None
+
+      column-mapping: 
+        label: TITULO
+        value: VALOR
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      label: 
+        show: false
+
+    axes: 
+    - # ====== Axis: x =============================================
+      id: 32677700452982831902
+      identification: 
+        name: x
+        show-axis: true
+
+      value: 
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+        rotation: true
+        position: Outside
+
+    - # ====== Axis: y =============================================
+      id: 32677700569598831903
+      identification: 
+        name: y
+        show-axis: true
+
+      value: 
+        format: Decimal
+        decimal-places: 0
+        format-scaling: None
+        baseline-scaling: Zero
+        scale: Linear
+
+      appearance: 
+        position: Automatic
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+
+- # ====== Region: Total equipos por sitio =====================
+  id: 29962995029710667744
+  identification: 
+    name: Total equipos por sitio
+    title: Total equipos por sitio
+    type: Chart
+
+  source: 
+    location: None
+
+  layout: 
+    sequence: 20
+    parent-region: Totales # 29962993124463667725
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 29962995187049667745
+    chart: 
+      type: Bar
+
+    appearance: 
+      orientation: Vertical
+      stack: false
+
+    layout: 
+      height: 400
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    multi-series-chart-data: 
+      fill-gaps-in-chart-data: true
+      sort-order: Label - Ascending
+      render-gap-as-zero: true
+
+    settings: 
+      zoom-and-scroll: No
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-group-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Total equipos por sitio =====================
+      id: 29962995296138667746
+      identification: 
+        name: Total equipos por sitio
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          select te.nombre nombres, count(e.tipo_equipo_id) valores from
+          sgt_equipos e left join sgt_tipo_equipos te on e.tipo_equipo_id = te.id
+          left join sgt_racks r on e.rack_id = r.id
+          
+          where r.sala_id = :FILTRO_TE_SALA
+          
+          group by (e.tipo_equipo_id,te.nombre)
+          order by valores desc
+        page-items-to-submit: 
+        - FILTRO_TE_SALA
+
+      order-by: 
+        type: None
+
+      column-mapping: 
+        label: NOMBRES
+        value: VALORES
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      label: 
+        show: false
+
+    axes: 
+    - # ====== Axis: x =============================================
+      id: 29962995309923667747
+      identification: 
+        name: x
+        show-axis: true
+        title: Equipos por Sala
+
+      value: 
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+        rotation: true
+        position: Outside
+
+    - # ====== Axis: y =============================================
+      id: 29962995413793667748
+      identification: 
+        name: y
+        show-axis: true
+
+      value: 
+        format: Decimal
+        decimal-places: 0
+        format-scaling: None
+        baseline-scaling: Zero
+        scale: Linear
+
+      appearance: 
+        position: Automatic
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+
+- # ====== Region: tabs ========================================
+  id: 32677700937439831907
+  identification: 
+    name: tabs
+    title: Informes
+    type: Region Display Selector
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      mode: View Single Region
+      display-region-icons: false
+      include-'show-all': false
+      remember-selection: By User
+
+- # ====== Region: Reportes ====================================
+  id: 32677701090044831908
+  identification: 
+    name: Reportes
+    title: Reportes
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          ss.siglas Sitio,
+          s.siglas AS Sala,
+          COUNT(DISTINCT r.id) AS total_racks,
+          COUNT(e.id) AS total_equipos,
+          COUNT(CASE WHEN e.sub_tipo_equipo = 'activo' THEN 1 END) AS total_activos,
+          COUNT(CASE WHEN e.sub_tipo_equipo = 'pasivo' THEN 1 END) AS total_pasivos,
+          COUNT(CASE WHEN e.sub_tipo_equipo = 'energía'  THEN 1 END) AS total_energia
+      FROM 
+          sgt_sitios ss 
+      left join    
+          sgt_salas s on s.sitio_id =ss.id
+      LEFT JOIN 
+          sgt_racks r ON r.sala_id = s.id
+      LEFT JOIN 
+          sgt_equipos e ON e.rack_id = r.id
+      GROUP BY 
+          ss.siglas, s.siglas
+      HAVING 
+          COUNT(DISTINCT r.id) > 0;
+
+  layout: 
+    sequence: 20
+    parent-region: tabs # 32677700937439831907
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: Reporte de totales por Sitio/Sala/Rack
+
+  security: 
+    authorization-scheme: Jefatura Rights # 56843594981568991166
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 45026643190979173741
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 1000000
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: false
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: false
+      highlight: false
+      compute: false
+      aggregate: false
+      chart: false
+      group-by: true
+      pivot: false
+      flashback: false
+      save-report: false
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 47894761790036912687
+      identification: 
+        name: Primary Report
+        alias: 478947618
+
+    columns: 
+    - # ====== Column: SITIO =======================================
+      id: 45026643211489173742
+      identification: 
+        column-name: SITIO
+        type: Plain Text
+
+      heading: 
+        heading: Sitio
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: SALA ========================================
+      id: 45026643380095173743
+      identification: 
+        column-name: SALA
+        type: Plain Text
+
+      heading: 
+        heading: Sala
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TOTAL_RACKS =================================
+      id: 45026643468634173744
+      identification: 
+        column-name: TOTAL_RACKS
+        type: Plain Text
+
+      heading: 
+        heading: Total Racks
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TOTAL_EQUIPOS ===============================
+      id: 45026643539888173745
+      identification: 
+        column-name: TOTAL_EQUIPOS
+        type: Plain Text
+
+      heading: 
+        heading: Total Equipos
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TOTAL_ACTIVOS ===============================
+      id: 45026643603757173746
+      identification: 
+        column-name: TOTAL_ACTIVOS
+        type: Plain Text
+
+      heading: 
+        heading: Total Activos
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TOTAL_PASIVOS ===============================
+      id: 45026643723765173747
+      identification: 
+        column-name: TOTAL_PASIVOS
+        type: Plain Text
+
+      heading: 
+        heading: Total Pasivos
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TOTAL_ENERGIA ===============================
+      id: 45026643887442173748
+      identification: 
+        column-name: TOTAL_ENERGIA
+        type: Plain Text
+
+      heading: 
+        heading: Total Energia
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 70
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    printing: 
+      output: 
+        layout: Default Report Layout
+        view-file-as: Attachment
+
+      page: 
+        size: A4
+        orientation: Landscape
+        units: Millimeters
+        width: 297
+        height: 210
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+        page-header-text: Reportes
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+- # ====== Region: Resumen =====================================
+  id: 78443842166582367101
+  identification: 
+    name: Resumen
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          'Total Sitios' as CARD_TITLE,
+          COUNT(s.id) || ' Sitios'as CARD_VALUE,
+          'locales ANDE' as CARD_SUBTITLE,
+          'fa fa-university' as CARD_ICON,
+          'is-success' as CARD_COLOR,
+          'f?p='|| :APP_ID || ':25:' || :APP_SESSION  as href
+      FROM sgt_sitios s
+      
+      UNION ALL
+      
+      SELECT 
+          'Total Salas' as CARD_TITLE,
+          COUNT(ss.id) || ' Salas' as CARD_VALUE,
+          'Salas comunicación ANDE' as CARD_SUBTITLE,
+          'fa fa-map-marker' as CARD_ICON,
+          'is-success' as CARD_COLOR,
+          'f?p='|| :APP_ID || ':4:' || :APP_SESSION  as href
+      FROM sgt_salas ss
+      UNION ALL
+      
+      SELECT 
+          'Total Racks' as CARD_TITLE,
+          COUNT(r.id) || ' Racks' as CARD_VALUE,
+          'Racks de ANDE' as CARD_SUBTITLE,
+          'fa fa-server' as CARD_ICON,
+          'is-success' as CARD_COLOR,
+          'f?p='|| :APP_ID || ':11:' || :APP_SESSION  as href
+      FROM sgt_racks r
+      
+      UNION ALL
+      
+      SELECT 
+          'Total Equipos' as CARD_TITLE,
+          COUNT(e.id) ||' Equipos' as CARD_VALUE,
+          'Activos / Pasivos / Otros' as CARD_SUBTITLE,
+          'fa fa-microchip' as CARD_ICON,
+          'is-success' as CARD_COLOR,
+          'f?p='|| :APP_ID || ':13:' || :APP_SESSION  as href
+      FROM sgt_equipos e
+      
+      UNION ALL
+      
+      SELECT 
+          'Total Interfaces' as CARD_TITLE,
+          COUNT(i.id) ||' Interfaces' as CARD_VALUE,
+          'Interfaces / Puertos' as CARD_SUBTITLE,
+          'fa fa-' as CARD_ICON,
+          'is-success' as CARD_COLOR,
+          'f?p='|| :APP_ID || ':8:' || :APP_SESSION  as href
+      FROM sgt_interfaces i
+      
+      UNION ALL
+      
+      
+      SELECT 
+          'Total Servicios' as CARD_TITLE,
+          COUNT(srv.id) || ' Servicios' as CARD_VALUE,
+          'Servicios de Comunicaciones' as CARD_SUBTITLE,
+          'fa fa-sitemap-horizontal' as CARD_ICON,
+          'is-success' as CARD_COLOR,
+          'f?p='|| :APP_ID || ':410:' || :APP_SESSION  as href
+      FROM sgt_servicios srv
+      
+      union
+      
+      SELECT 
+          'Total Enlaces FO' as CARD_TITLE,
+          COUNT(fo.id) ||' Enlaces FO' as CARD_VALUE,
+           
+          'Enlaces FO: ' || TO_CHAR(SUM (fo.abs_longitud)/1000,
+               'fm999G999G999D00') || ' km' as CARD_SUBTITLE,
+          'fa fa-sitemap-horizontal' as CARD_ICON,
+          'is-success' as CARD_COLOR,
+          'f?p='|| :APP_ID || ':36:' || :APP_SESSION  as href
+      FROM sgt_enlaces_fo fo
+      
+      union 
+      
+      SELECT 
+          'Total Enlaces WAN' as CARD_TITLE,
+          COUNT(wan.id) || ' Enlaces WAN' as CARD_VALUE,
+          'Enlaces WAN' as CARD_SUBTITLE,
+          'fa fa-sitemap-horizontal' as CARD_ICON,
+          'is-success' as CARD_COLOR,
+          'f?p='|| :APP_ID || ':34:' || :APP_SESSION  as href
+      FROM sgt_enlaces_wan wan
+      
+      
+      ;
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 10
+    parent-region: tabs # 32677700937439831907
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  security: 
+    authorization-scheme: Jefatura Rights # 56843594981568991166
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 78443842426016367104
+    appearance: 
+      layout: Grid
+      grid-columns: Auto
+
+    title: 
+      advanced-formatting: true
+      html-expression: <h3 class="a-CardView-title "><a href="&HREF.">&CARD_TITLE.</a></h3>
+
+    subtitle: 
+      advanced-formatting: false
+      column: CARD_SUBTITLE
+
+    body: 
+      advanced-formatting: false
+      column: CARD_VALUE
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: Icon Class Column
+      icon-column: CARD_ICON
+      icon-position: Start
+
+    media: 
+      advanced-formatting: false
+      source: No Media
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+- # ====== Region: Total equipos por red =======================
+  id: 78443842563303367105
+  identification: 
+    name: Total equipos por red
+    title: Total equipos por red
+    type: Chart
+
+  source: 
+    location: None
+
+  layout: 
+    sequence: 10
+    parent-region: Totales # 29962993124463667725
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 78443842662629367106
+    chart: 
+      type: Bar
+
+    appearance: 
+      orientation: Vertical
+      stack: false
+
+    layout: 
+      height: 400
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    multi-series-chart-data: 
+      fill-gaps-in-chart-data: true
+      sort-order: Label - Ascending
+      render-gap-as-zero: true
+
+    settings: 
+      zoom-and-scroll: No
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-group-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Total Tipo Equipos por tipo Red =============
+      id: 78443842794327367107
+      identification: 
+        name: Total Tipo Equipos por tipo Red
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |
+          SELECT 'Total por tipo de red' titulo,te.nombre, COUNT(e.id) as valores 
+          FROM sgt_equipos e 
+          LEFT JOIN sgt_tipo_equipos te ON e.tipo_equipo_id = te.id
+          where e.tipo_red = :TIPO_RED
+          GROUP BY te.nombre, te.id;
+        page-items-to-submit: 
+        - TIPO_RED
+
+      order-by: 
+        type: None
+
+      column-mapping: 
+        series-name: TITULO
+        label: NOMBRE
+        value: VALORES
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      label: 
+        show: false
+
+    axes: 
+    - # ====== Axis: x =============================================
+      id: 78443842891707367108
+      identification: 
+        name: x
+        show-axis: true
+        title: Equipos por tipo de red
+
+      value: 
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+        rotation: true
+        position: Outside
+
+    - # ====== Axis: y =============================================
+      id: 78443842915499367109
+      identification: 
+        name: y
+        show-axis: true
+
+      value: 
+        format: Decimal
+        decimal-places: 0
+        format-scaling: None
+        baseline-scaling: Zero
+        scale: Linear
+
+      appearance: 
+        position: Automatic
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+
+- # ====== Region: sgt-demo ====================================
+  id: 197180575790845446407
+  identification: 
+    name: sgt-demo
+    title: Sistema de Gestión ANDE/DTE/SC
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Hero
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  image: 
+    file-url: '#APP_FILES#icons/app-icon-512.png'
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P1_FILTRO_RACK ===========================
+  id: 29962994438887667738
+  identification: 
+    name: P1_FILTRO_RACK
+    type: Popup LOV
+
+  label: 
+    label: Filtro Rack
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 10
+    region: Total_equipos # 29962993943257667733
+    slot: ORDER_BY_ITEM
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: RACKS.NOMBRES # 18965791847251143770
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P1_FILTRO_ZONA ===========================
+  id: 29962994546232667739
+  identification: 
+    name: P1_FILTRO_ZONA
+    type: Popup LOV
+
+  label: 
+    label: Filtro Zona
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 10
+    region: Total_locales # 29962993440143667728
+    slot: ORDER_BY_ITEM
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: LOV_SGT_ZONAS # 16829957726745633025
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: FILTRO_TE_SALA ===========================
+  id: 29962995514513667749
+  identification: 
+    name: FILTRO_TE_SALA
+    type: Popup LOV
+
+  label: 
+    label: Filtro Te Sala
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 10
+    region: Total equipos por sitio # 29962995029710667744
+    slot: ORDER_BY_ITEM
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: SALAS.NOMBRE # 18963831332535051533
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: TIPO_RED =================================
+  id: 78443843015764367110
+  identification: 
+    name: TIPO_RED
+    type: Select One
+
+  label: 
+    label: Tipo de Red
+    alignment: Left
+
+  settings: 
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  layout: 
+    sequence: 10
+    region: Total equipos por red # 78443842563303367105
+    slot: ORDER_BY_ITEM
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: TIPO_RED # 17291432086166556461
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+dynamic-actions: 
+- # ====== Dynamic Action: ActualizarTotalEquipos ==============
+  id: 29962994614208667740
+  identification: 
+    name: ActualizarTotalEquipos
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P1_FILTRO_RACK
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 29962994785213667741
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Total_equipos # 29962993943257667733
+
+    execution: 
+      sequence: 10
+      event: ActualizarTotalEquipos # 29962994614208667740
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: ActualizarLocales ===================
+  id: 29962994853218667742
+  identification: 
+    name: ActualizarLocales
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P1_FILTRO_ZONA
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 29962994928883667743
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Total_locales # 29962993440143667728
+
+    execution: 
+      sequence: 10
+      event: ActualizarLocales # 29962994853218667742
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: ActualizarGrafico ===================
+  id: 29962995673932667750
+  identification: 
+    name: ActualizarGrafico
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - FILTRO_TE_SALA
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 32677700310840831901
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Total equipos por sitio # 29962995029710667744
+
+    execution: 
+      sequence: 10
+      event: ActualizarGrafico # 29962995673932667750
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: ActualizarTipoRed ===================
+  id: 78443843173936367111
+  identification: 
+    name: ActualizarTipoRed
+
+  execution: 
+    sequence: 40
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - TIPO_RED
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 78443843277421367112
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Total equipos por red # 78443842563303367105
+
+    execution: 
+      sequence: 10
+      event: ActualizarTipoRed # 78443843173936367111
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+

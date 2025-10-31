@@ -1,0 +1,284 @@
+---
+# ====== Application: sgt-dev ================================
+id: 24839
+identification: 
+  name: sgt-dev
+  alias: SGT-DEV-MODE
+  version: DEV MOD 1.0
+
+row-search: 
+  tokenize: true
+  text-query-function: None
+
+availability: 
+  status: Available with Developer Toolbar
+  build-status: Run and Build Application
+
+error-handling: 
+  default-display-location: Inline with Field and in Notification
+
+report-printing: 
+  type: Use Instance Settings
+
+advanced: 
+  friendly-urls: true
+  allow-feedback: true
+  logging: true
+  debugging: false
+  compatibility-mode: 21.2 to 24.1
+  accessible-read-only-items: true
+  pass-ecid: Y
+
+authentication: 
+  public-user: APEX_PUBLIC_USER
+  authentication-scheme: Oracle APEX Accounts # 197180072149510446203
+
+authorization: 
+  authorization-scheme: Reader Rights # 56800656436350124103
+  run-on-public-pages: false
+  run-on-background-job: true
+  source-for-role-or-group-schemes: Access Control User Role Assignments
+
+session-management: 
+  rejoin-sessions: Disabled
+
+session-state-protection: 
+  enabled: true
+
+security: 
+  deep-linking: Disabled
+  browser-cache: Disabled
+  embed-in-frames: Deny
+  referrer-policy: strict-origin
+  html-escaping-mode: Extended
+
+database-session: 
+  parsing-schema: WKSP_DTESC
+
+globalization: 
+  primary-language: Spanish (Paraguay) (es-py)
+  document-direction: Left-To-Right
+  language-derived-from: Application Primary Language
+  automatic-time-zone: false
+  automatic-csv-encoding: true
+
+application-format-masks: 
+  date: DS
+  timestamp: DS
+  timestamp-time-zone: DS
+
+character-value-comparison: 
+  behavior: Database session NLS setting (default)
+
+logo: 
+  type: Text
+  text: sgt-demo
+
+progressive-web-app: 
+  enable: true
+  installable: false
+  display: Standalone
+  screen-orientation: Any
+  ios-status-bar-style: Default
+  enable-push-notifications: false
+
+navigation: 
+  home-url: 
+    url: 'f?p=&APP_ID.:1:&APP_SESSION.::&DEBUG.:::'
+    page: 1 # Home
+
+  login-url: 
+    url: 'f?p=&APP_ID.:LOGIN:&APP_SESSION.::&DEBUG.:::'
+    page: LOGIN
+
+navigation-menu: 
+  list-template: Side Navigation Menu
+  template-options: 
+  - '#DEFAULT#'
+  - t-TreeNav--styleA
+  - js-navCollapsed--hidden
+  list-position: Side
+  list: Navigation Menu # 197180072959121446204
+
+navigation-bar: 
+  implementation: List
+  list: Navigation Bar # 197180564293910446393
+  list-template: Navigation Bar
+  template-options: 
+  - '#DEFAULT#'
+
+javascript: 
+  include-jquery-migrate: false
+
+attributes: 
+  theme: Universal Theme # 42
+  global-page: 0
+  enable-end-users-to-choose-theme-style: false
+  add-"built-with-apex"-to-footer: false
+  auto-dismiss-success-messages: false
+
+subscription: 
+  version-number: 39022234262352
+
+substitutions: 
+- # ====== Substitution: APP_NAME ==============================
+  id: 9071155675752508
+  identification: 
+    name: APP_NAME
+
+  value: 
+    static-value: sgt-dev-mode
+
+component-settings: 
+- # ====== Component Setting: NATIVE_BOSS ======================
+  id: 16839293370365050549
+  identification: 
+    name: NATIVE_BOSS
+    type: REST Data Source
+
+  subscription: 
+    version-number: 15599294862473
+
+- # ====== Component Setting: NATIVE_OPEN_AI_ASSISTANT =========
+  id: 197180067949124446200
+  identification: 
+    name: NATIVE_OPEN_AI_ASSISTANT
+    type: Dynamic Action
+
+  subscription: 
+    version-number: 15588698671166
+
+- # ====== Component Setting: NATIVE_COLOR_PICKER ==============
+  id: 197180068256912446201
+  identification: 
+    name: NATIVE_COLOR_PICKER
+    type: Item
+
+  subscription: 
+    version-number: 15588698671173
+
+- # ====== Component Setting: NATIVE_DATE_PICKER_APEX ==========
+  id: 197180068609378446201
+  identification: 
+    name: NATIVE_DATE_PICKER_APEX
+    type: Item
+
+  subscription: 
+    version-number: 15588698671174
+
+- # ====== Component Setting: NATIVE_GEOCODED_ADDRESS ==========
+  id: 197180068885725446201
+  identification: 
+    name: NATIVE_GEOCODED_ADDRESS
+    type: Item
+
+  subscription: 
+    version-number: 15588698671174
+
+- # ====== Component Setting: NATIVE_SELECT_MANY ===============
+  id: 197180069207492446201
+  identification: 
+    name: NATIVE_SELECT_MANY
+    type: Item
+
+  subscription: 
+    version-number: 15588698671174
+
+- # ====== Component Setting: NATIVE_SINGLE_CHECKBOX ===========
+  id: 197180069431943446201
+  identification: 
+    name: NATIVE_SINGLE_CHECKBOX
+    type: Item
+
+  subscription: 
+    version-number: 15588698671174
+
+- # ====== Component Setting: NATIVE_STAR_RATING ===============
+  id: 197180069732847446201
+  identification: 
+    name: NATIVE_STAR_RATING
+    type: Item
+
+  subscription: 
+    version-number: 15588698671174
+
+- # ====== Component Setting: NATIVE_YES_NO ====================
+  id: 197180070082632446202
+  identification: 
+    name: NATIVE_YES_NO
+    type: Item
+
+  subscription: 
+    version-number: 15588698671174
+
+- # ====== Component Setting: NATIVE_GEOCODING =================
+  id: 197180070398967446202
+  identification: 
+    name: NATIVE_GEOCODING
+    type: Process
+
+  settings: 
+    attribute-1: RELAX_HOUSE_NUMBER
+
+  subscription: 
+    version-number: 15588698671175
+
+- # ====== Component Setting: NATIVE_DISPLAY_SELECTOR ==========
+  id: 197180070703760446202
+  identification: 
+    name: NATIVE_DISPLAY_SELECTOR
+    type: Region
+
+  subscription: 
+    version-number: 15588698671184
+
+- # ====== Component Setting: NATIVE_IR ========================
+  id: 197180070997125446202
+  identification: 
+    name: NATIVE_IR
+    type: Region
+
+  subscription: 
+    version-number: 15588698671184
+
+- # ====== Component Setting: NATIVE_MAP_REGION ================
+  id: 197180071294501446202
+  identification: 
+    name: NATIVE_MAP_REGION
+    type: Region
+
+  subscription: 
+    version-number: 15588698671185
+
+- # ====== Component Setting: NATIVE_ADFBC =====================
+  id: 197180071602195446202
+  identification: 
+    name: NATIVE_ADFBC
+    type: REST Data Source
+
+  subscription: 
+    version-number: 15588698671190
+
+application-settings: 
+- # ====== Application Setting: ACCESS_CONTROL_SCOPE ===========
+  id: 56800655354572124098
+  identification: 
+    name: ACCESS_CONTROL_SCOPE
+
+  value: 
+    value: ALL_USERS
+    required: false
+
+  advanced: 
+    valid-values: ACL_ONLY, ALL_USERS
+    on-upgrade-keep-value: true
+
+  subscription: 
+    version-number: 15633504633762
+
+  configuration: 
+    build-option: 'Feature: Access Control' # 56800655087424124095
+
+  comments: 
+    comments: The default access level given to authenticated users who are not in the access control list
+

@@ -1,0 +1,751 @@
+---
+# ====== Page: FORM_CONEXIONES_ENLACES_WAN ===================
+id: 42
+identification: 
+  name: FORM_CONEXIONES_ENLACES_WAN
+  alias: FORM-CONEXIONES-ENLACES-WAN
+  title: Asociar una WAN a las Conexiones
+  page-group: Implementadores # 57024536698229459190
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+javascript: 
+  function-and-global-variable-declaration: |
+    function filtrarTramo() {
+    var filtro = $("#P42_FILTRAR_CONEXIONES").val();
+        var filtroLower = filtro.toLowerCase();
+        var opciones = document.querySelectorAll("#P42_TRAMO_ID_LEFT option");
+    
+        opciones.forEach(function (opt) {
+            if (opt.text.toLowerCase().includes(filtroLower)) {
+                opt.style.display = "";   // mostrar
+            } else {
+                opt.style.display = "none"; // ocultar
+            }
+        });
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: FORM_CONEXIONES_ENLACES_WAN =================
+  id: 84580388946476850180
+  identification: 
+    name: FORM_CONEXIONES_ENLACES_WAN
+    title: Asociar una WAN a sus conexiones
+    type: Form
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_ENLACE_LOGICO_TRAMO
+    include-rowid-column: false
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Add Row
+      - Update Row
+      - Delete Row
+      lost-update-type: Row Values
+
+- # ====== Region: Buttons =====================================
+  id: 84580391303003850183
+  identification: 
+    name: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
+
+page-items: 
+- # ====== Page Item: P42_FILTRAR_CONEXIONES ===================
+  id: 78443846026285367140
+  identification: 
+    name: P42_FILTRAR_CONEXIONES
+    type: Text Field
+
+  label: 
+    label: Filtrar Conexiones
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 40
+    region: FORM_CONEXIONES_ENLACES_WAN # 84580388946476850180
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Filtrar las conexiones que pertenecen a este enlace
+
+- # ====== Page Item: P42_ID ===================================
+  id: 84580389203200850180
+  identification: 
+    name: P42_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: FORM_CONEXIONES_ENLACES_WAN # 84580388946476850180
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: FORM_CONEXIONES_ENLACES_WAN # 84580388946476850180
+    column: ID
+    data-type: NUMBER
+    query-only: true
+    primary-key: true
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_ENLACES_WAN ==========================
+  id: 84580389653506850181
+  identification: 
+    name: P42_ENLACES_WAN
+    type: Popup LOV
+
+  label: 
+    label: Enlaces Wan
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 30
+    region: FORM_CONEXIONES_ENLACES_WAN # 84580388946476850180
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ENLACES_WAN # 84737308969826577554
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: FORM_CONEXIONES_ENLACES_WAN # 84580388946476850180
+    column: ENLACE_LOGICO_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P42_TRAMO_ID =============================
+  id: 84580390068407850182
+  identification: 
+    name: P42_TRAMO_ID
+    type: Shuttle
+
+  label: 
+    label: Conexiones
+    alignment: Left
+
+  settings: 
+    show-controls: All
+
+  multiple-values: 
+    type: Delimited List
+    separator: ','
+
+  layout: 
+    sequence: 50
+    region: FORM_CONEXIONES_ENLACES_WAN # 84580388946476850180
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 5
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select Equipo_A ||','|| Interfaz_A || '->'||equipo_b||','||interfaz_b NOMBRE, id VALOR
+      from v_tramos_nombres  
+      
+      where
+      
+      sitio_a_id in (select sitio_a_id from SGT_ENLACES_WAN wan where wan.id = :P42_ENLACES_WAN)
+      
+      or 
+      
+      sitio_b_id in (select sitio_b_id from SGT_ENLACES_WAN wan where wan.id = :P42_ENLACES_WAN)
+      
+      and
+      
+      lower(v_tramos_nombres.tipo_conexion) = 'física'
+    display-extra-values: true
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P42_ENLACES_WAN
+    items-to-submit: 
+    - P42_ENLACES_WAN
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return multiple values)
+    sql-query: |
+      SELECT tramo_id
+      FROM SGT_ENLACE_LOGICO_TRAMO
+      WHERE enlace_logico_id = :P42_ENLACE_LOGICO_ID
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Arrastre a la derecha las conexiones que pertenecen al enlace wan
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 84580391737963850184
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 84580391303003850183
+    slot: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: DELETE ======================================
+  id: 84580393186338850185
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 20
+    region: Buttons # 84580391303003850183
+    slot: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  confirmation: 
+    message: '&APP_TEXT$DELETE_MSG!RAW.'
+    style: Danger
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P42_ID
+
+- # ====== Button: SAVE ========================================
+  id: 84580393523434850186
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 30
+    region: Buttons # 84580391303003850183
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P42_ID
+
+- # ====== Button: CREATE ======================================
+  id: 84580393959820850186
+  identification: 
+    button-name: CREATE
+    label: Create
+
+  layout: 
+    sequence: 40
+    region: Buttons # 84580391303003850183
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P42_ID
+
+dynamic-actions: 
+- # ====== Dynamic Action: FiltrarDatos ========================
+  id: 78443846101929367141
+  identification: 
+    name: FiltrarDatos
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P42_FILTRAR_CONEXIONES
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 78443846229777367142
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: filtrarTramo();
+
+    execution: 
+      sequence: 10
+      event: FiltrarDatos # 78443846101929367141
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: REFRESCAR_SOURCE ====================
+  id: 78443846476027367144
+  identification: 
+    name: REFRESCAR_SOURCE
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P42_ENLACES_WAN
+
+  actions: 
+  - # ====== Action: Set Value ===================================
+    id: 78443846505205367145
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: SQL Statement
+      sql-statement: |
+        SELECT enlace_tramo_id
+        FROM SGT_CONEXIONES_ENLACE_WAN
+        WHERE enlace_wan_id = :P42_ENLACES_WAN
+      items-to-submit: 
+      - P42_ENLACES_WAN
+      escape-special-characters: true
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P42_TRAMO_ID
+
+    execution: 
+      sequence: 10
+      event: REFRESCAR_SOURCE # 78443846476027367144
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+- # ====== Dynamic Action: Cancel Dialog =======================
+  id: 84580391875241850184
+  identification: 
+    name: Cancel Dialog
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: CANCEL # 84580391737963850184
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 84580392602767850185
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel Dialog # 84580391875241850184
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: GUARDAR_CONEXIONES_WAN =====================
+  id: 78443846387719367143
+  identification: 
+    name: GUARDAR_CONEXIONES_WAN
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      /*Deseo guardar las conexiones de mi enlace_wan en la tabla sgt_conexiones_enlaces_wan
+      
+      Crear una transacción, es necesario crear una transaccion en un proceso oracle apex?
+      guardar enlace_wan_id
+      iterar el P42_TRAMO_ID del tipo shuttle y guardar cada uno de los enlace_wan_id seleccionados, en el orden que 
+      aparecen, el orden se asigna al campo secuencia, que debe incrementarse de 10 en 10.
+      */
+      DECLARE
+          l_seq    NUMBER := 10;
+      BEGIN
+          -- Primero eliminar conexiones previas del enlace (si aplica)
+          DELETE FROM sgt_conexiones_enlaces_wan
+          WHERE enlace_wan_id = :P42_ENLACE_LOGICO_ID;
+      
+          -- Insertar cada tramo en orden
+          FOR rec IN (
+              SELECT column_value AS tramo_id
+              FROM TABLE(apex_string.split_numbers(:P42_TRAMO_ID, ':'))
+              ORDER BY ROWNUM
+          )
+          LOOP
+              INSERT INTO sgt_conexiones_enlaces_wan (
+                  enlace_wan_id,
+                  tramo_id,
+                  secuencia
+              ) VALUES (
+                  :P42_ENLACE_LOGICO_ID;,
+                  rec.tramo_id,
+                  l_seq
+              );
+      
+              l_seq := l_seq + 10;
+          END LOOP;
+      END;
+      
+
+  execution: 
+    sequence: 40
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: Initialize form FORM_CONEXIONES_ENLACES_WAN 
+  id: 84580394333256850186
+  identification: 
+    name: Initialize form FORM_CONEXIONES_ENLACES_WAN
+    type: Form - Initialization
+    execution-chain: None
+    form-region: FORM_CONEXIONES_ENLACES_WAN # 84580388946476850180
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Process form FORM_CONEXIONES_ENLACES_WAN ===
+  id: 84580394767034850187
+  identification: 
+    name: Process form FORM_CONEXIONES_ENLACES_WAN
+    type: Form - Automatic Row Processing (DML)
+    execution-chain: None
+    form-region: FORM_CONEXIONES_ENLACES_WAN # 84580388946476850180
+
+  settings: 
+    target-type: Region Source
+    prevent-lost-updates: true
+    lock-row: Yes
+    return-primary-key(s)-after-insert: true
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+- # ====== Process: Close Dialog ===============================
+  id: 84580395168069850187
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+    execution-chain: None
+
+  settings: 
+    show-success-messages: true
+
+  execution: 
+    sequence: 50
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,SAVE,DELETE
+

@@ -1,0 +1,1579 @@
+---
+# ====== Page: Dashboard de Cumplimiento =====================
+id: 200
+identification: 
+  name: Dashboard de Cumplimiento
+  alias: DASHBOARD-DE-CUMPLIMIENTO
+  title: Dashboard de Cumplimiento
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+css: 
+  inline: |
+    .dashboard-page {
+        background-color: #f8f9fc;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        min-height: 100vh;
+    }
+    
+    .dashboard-card {
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        margin-bottom: 20px;
+        background: white;
+    }
+    
+    .dashboard-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+    }
+    
+    /* Estilos para Cards de métricas */
+    .metric-card {
+        text-align: center;
+        padding: 25px;
+        border-left: 4px solid #3498db;
+    }
+    
+    .metric-card.is-danger {
+        border-left-color: #e74c3c;
+        background: linear-gradient(135deg, #fff5f5 0%, #fed7d7 100%);
+    }
+    
+    .metric-card.is-warning {
+        border-left-color: #f39c12;
+        background: linear-gradient(135deg, #fffbf0 0%, #feebcb 100%);
+    }
+    
+    .metric-card.is-success {
+        border-left-color: #27ae60;
+        background: linear-gradient(135deg, #f0fff4 0%, #c6f6d5 100%);
+    }
+    
+    .metric-card.is-info {
+        border-left-color: #3498db;
+        background: linear-gradient(135deg, #ebf8ff 0%, #bee3f8 100%);
+    }
+    
+    .metric-value {
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin: 15px 0;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+    }
+    
+    .metric-subtitle {
+        color: #7f8c8d;
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+    
+    /* Estilos para gráficos */
+    .chart-container {
+        background: white;
+        border-radius: 10px;
+        padding: 25px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+    
+    .chart-title {
+        font-size: 1.4rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 20px;
+        text-align: center;
+        border-bottom: 2px solid #ecf0f1;
+        padding-bottom: 10px;
+    }
+    
+    /* Estilos para tabla */
+    .audit-table {
+        background: white;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .table-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 15px 20px;
+        font-size: 1.2rem;
+        font-weight: 600;
+    }
+    
+    /* Filtros */
+    .filter-container {
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid #3498db;
+    }
+    
+    .filter-title {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #2c3e50;
+        margin-bottom: 15px;
+    }
+    
+    /* Botones */
+    .btn-refresh {
+        background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-refresh:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Header del dashboard */
+    .dashboard-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 30px;
+        border-radius: 10px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    
+    .dashboard-title {
+        font-size: 2.2rem;
+        font-weight: 300;
+        margin-bottom: 10px;
+        text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+    
+    .dashboard-subtitle {
+        font-size: 1.1rem;
+        opacity: 0.9;
+        font-weight: 400;
+    }
+    
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .metric-value {
+            font-size: 2rem;
+        }
+        
+        .dashboard-card {
+            margin-bottom: 15px;
+            padding: 15px;
+        }
+        
+        .chart-container {
+            padding: 15px;
+        }
+        
+        .dashboard-title {
+            font-size: 1.8rem;
+        }
+    }
+    
+    @media (max-width: 480px) {
+        .metric-value {
+            font-size: 1.6rem;
+        }
+        
+        .dashboard-header {
+            padding: 20px;
+        }
+        
+        .filter-container {
+            padding: 15px;
+        }
+    }
+    
+    /* Animaciones */
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    .dashboard-card {
+        animation: fadeInUp 0.6s ease-out;
+    }
+    
+    /* Optimización para gráficos compactos */
+    .chart-container-small {
+        padding: 15px !important;
+        margin-bottom: 15px !important;
+    }
+    
+    .chart-container-small .a-Region-body {
+        padding: 10px !important;
+    }
+    
+    /* Ajustar altura específica para pie chart */
+    .apex-chart-pie {
+        max-height: 250px !important;
+    }
+    
+    /* Mejorar spacing entre regiones */
+    .t-Region {
+        margin-bottom: 15px;
+    }
+    
+    
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Breadcrumb ==================================
+  id: 64079793226455440104
+  identification: 
+    name: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 197180072443235446203
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: Cards_riesgos ===============================
+  id: 64079793912944440106
+  identification: 
+    name: Cards_riesgos
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          'ALTO RIESGO' as CARD_TITLE,
+          TO_CHAR(NVL(COUNT(CASE WHEN NIVEL_RIESGO = 'ALTO_RIESGO' THEN 1 END), 0), '999,999') as CARD_VALUE,
+          'Cambios críticos en tablas principales' as CARD_SUBTITLE,
+          'fa fa-exclamation-circle' as CARD_ICON,
+          'is-danger' as CARD_COLOR
+      FROM V_AUDIT_CUMPLIMIENTO 
+      
+      
+      UNION ALL
+      
+      SELECT 
+          'VIOLACIONES' as CARD_TITLE,
+          TO_CHAR(NVL(COUNT(CASE WHEN ESTADO_CUMPLIMIENTO = 'VIOLACION_POLITICA' THEN 1 END), 0), '999,999') as CARD_VALUE,
+          'Requieren atención inmediata' as CARD_SUBTITLE,
+          'fa fa-times-circle' as CARD_ICON,
+          'is-danger' as CARD_COLOR
+      FROM V_AUDIT_CUMPLIMIENTO 
+      
+      UNION ALL
+      
+      SELECT 
+          'REVISIONES' as CARD_TITLE,
+          TO_CHAR(NVL(COUNT(CASE WHEN ESTADO_CUMPLIMIENTO = 'REVISION_REQUERIDA' THEN 1 END), 0), '999,999') as CARD_VALUE,
+          'Cambios que requieren supervisión' as CARD_SUBTITLE,
+          'fa fa-exclamation-triangle' as CARD_ICON,
+          'is-warning' as CARD_COLOR
+      FROM V_AUDIT_CUMPLIMIENTO 
+      
+      UNION ALL
+      
+      SELECT 
+          'HORARIO NOCTURNO' as CARD_TITLE,
+          TO_CHAR(NVL(SUM(CAMBIOS_HORARIO_NOCTURNO), 0), '999,999') as CARD_VALUE,
+          'Cambios entre 00:00-07:59' as CARD_SUBTITLE,
+          'fa fa-moon' as CARD_ICON,
+          'is-info' as CARD_COLOR
+      FROM V_AUDIT_CUMPLIMIENTO
+      
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 64079996243985489801
+    appearance: 
+      layout: Grid
+      grid-columns: Auto
+
+    title: 
+      advanced-formatting: false
+      column: CARD_TITLE
+
+    subtitle: 
+      advanced-formatting: false
+      column: CARD_SUBTITLE
+
+    body: 
+      advanced-formatting: false
+      column: CARD_VALUE
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: Icon Class Column
+      icon-column: CARD_ICON
+      icon-position: Start
+
+    media: 
+      advanced-formatting: false
+      source: No Media
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+- # ====== Region: Distribución por Nivel de Riesgo ============
+  id: 64079798101594440109
+  identification: 
+    name: Distribución por Nivel de Riesgo
+    type: Chart
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          CASE 
+              WHEN NIVEL_RIESGO = 'ALTO_RIESGO' THEN 'Alto Riesgo'
+              WHEN NIVEL_RIESGO = 'MEDIO_RIESGO' THEN 'Riesgo Medio'
+              WHEN NIVEL_RIESGO = 'BAJO_RIESGO' THEN 'Bajo Riesgo'
+              ELSE NIVEL_RIESGO
+          END as LABEL,
+          COUNT(*) as VALUE
+      FROM V_AUDIT_CUMPLIMIENTO
+      
+      GROUP BY NIVEL_RIESGO
+      ORDER BY 
+          CASE 
+              WHEN NIVEL_RIESGO = 'ALTO_RIESGO' THEN 1
+              WHEN NIVEL_RIESGO = 'MEDIO_RIESGO' THEN 2
+              ELSE 3
+          END
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 70
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 64079798565836440110
+    chart: 
+      type: Bar
+
+    appearance: 
+      orientation: Vertical
+      stack: false
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    multi-series-chart-data: 
+      fill-gaps-in-chart-data: true
+      sort-order: Label - Ascending
+      render-gap-as-zero: true
+
+    settings: 
+      zoom-and-scroll: No
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-group-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Nivel de Riesgo =============================
+      id: 64079800379728440110
+      identification: 
+        name: Nivel de Riesgo
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Region Source
+
+      column-mapping: 
+        label: LABEL
+        value-aggregation: No Aggregation
+        value: VALUE
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      label: 
+        show: false
+
+      performance: 
+        maximum-rows-to-process: 20
+
+    axes: 
+    - # ====== Axis: x =============================================
+      id: 64079799017948440110
+      identification: 
+        name: x
+        show-axis: true
+
+      value: 
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      major-ticks: 
+        show: Automatic
+
+      minor-ticks: 
+
+      tick-label: 
+        show: true
+        rotation: true
+        position: Outside
+
+    - # ====== Axis: y =============================================
+      id: 64079799759852440110
+      identification: 
+        name: y
+        show-axis: true
+
+      value: 
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      appearance: 
+        position: Automatic
+
+      major-ticks: 
+        show: Automatic
+
+      minor-ticks: 
+
+      tick-label: 
+        show: true
+
+- # ====== Region: Actividad por Horario =======================
+  id: 64079996378137489802
+  identification: 
+    name: Actividad por Horario
+    type: Chart
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          'Laboral (8-18)' as LABEL,
+          SUM(CAMBIOS_HORARIO_LABORAL) as LABORAL,
+          'Extendido (19-23)' as LABEL2,
+          SUM(CAMBIOS_HORARIO_EXTENDIDO) as EXTENDIDO,
+          'Nocturno (0-7)' as LABEL3,
+          SUM(CAMBIOS_HORARIO_NOCTURNO) as NOCTURNO,
+          'Fines de Semana' as LABEL4,
+          SUM(CAMBIOS_FINES_SEMANA) as FINSEMANA
+      FROM V_AUDIT_CUMPLIMIENTO
+      
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 80
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 64079996446327489803
+    chart: 
+      type: Bar
+
+    appearance: 
+      orientation: Vertical
+      stack: false
+
+    layout: 
+      height: 400
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    multi-series-chart-data: 
+      fill-gaps-in-chart-data: true
+      sort-order: Label - Ascending
+      render-gap-as-zero: true
+
+    settings: 
+      zoom-and-scroll: No
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-group-name: true
+      show-value: true
+
+    legend: 
+      show: false
+
+    series: 
+    - # ====== Series: Horario Laboral =============================
+      id: 64079996548729489804
+      identification: 
+        name: Horario Laboral
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Region Source
+
+      column-mapping: 
+        label: LABEL
+        value-aggregation: No Aggregation
+        value: LABORAL
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      label: 
+        show: false
+
+    - # ====== Series: Horario Extendido ===========================
+      id: 64079996939257489808
+      identification: 
+        name: Horario Extendido
+
+      execution: 
+        sequence: 20
+
+      source: 
+        location: Region Source
+
+      column-mapping: 
+        label: LABEL2
+        value-aggregation: No Aggregation
+        value: EXTENDIDO
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      label: 
+        show: false
+
+    - # ====== Series: Horario Nocturno ============================
+      id: 64079997088802489809
+      identification: 
+        name: Horario Nocturno
+
+      execution: 
+        sequence: 30
+
+      source: 
+        location: Region Source
+
+      column-mapping: 
+        label: LABEL3
+        value-aggregation: No Aggregation
+        value: NOCTURNO
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      label: 
+        show: false
+
+    - # ====== Series: Fines de Semana =============================
+      id: 64079997185348489810
+      identification: 
+        name: Fines de Semana
+
+      execution: 
+        sequence: 40
+
+      source: 
+        location: Region Source
+
+      column-mapping: 
+        label: LABEL4
+        value-aggregation: No Aggregation
+        value: FINSEMANA
+
+      appearance: 
+        assigned-to-y2-axis: false
+
+      label: 
+        show: false
+
+    axes: 
+    - # ====== Axis: x =============================================
+      id: 64079996643554489805
+      identification: 
+        name: x
+        show-axis: true
+
+      value: 
+        format-scaling: Automatic
+        baseline-scaling: Zero
+        scale: Linear
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+        rotation: true
+        position: Outside
+
+    - # ====== Axis: y =============================================
+      id: 64079996739797489806
+      identification: 
+        name: y
+        show-axis: true
+
+      value: 
+        format: Decimal
+        decimal-places: 0
+        format-scaling: None
+        baseline-scaling: Zero
+        scale: Linear
+
+      appearance: 
+        position: Automatic
+
+      major-ticks: 
+        show: Yes
+
+      minor-ticks: 
+        show: false
+
+      tick-label: 
+        show: true
+
+- # ====== Region: violaciones de politicas ====================
+  id: 64079997227956489811
+  identification: 
+    name: violaciones de politicas
+    title: Violaciones de Políticas
+    type: Interactive Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          TABLA,
+          CAMPO,
+          TOTAL_DELETES as "Eliminaciones",
+          USUARIOS_INVOLUCRADOS as "Usuarios",
+          REGISTROS_AFECTADOS as "Registros",
+          PRIMER_CAMBIO as "Primer Cambio",
+          ULTIMO_CAMBIO as "Último Cambio",
+          CAMBIOS_HORARIO_NOCTURNO as "Cambios Nocturnos",
+          CAMBIOS_FINES_SEMANA as "Cambios Fin Semana",
+          NIVEL_RIESGO as "Nivel Riesgo",
+          ESTADO_CUMPLIMIENTO as "Estado"
+      FROM V_AUDIT_CUMPLIMIENTO
+      WHERE ESTADO_CUMPLIMIENTO = 'VIOLACION_POLITICA'
+      
+      ORDER BY TOTAL_DELETES DESC
+
+  layout: 
+    sequence: 90
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 64079997382008489812
+    link: 
+      link-column: Exclude Link Column
+
+    pagination: 
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
+
+    performance: 
+      lazy-loading: false
+      maximum-rows-to-process: 1000000
+
+    search-bar: 
+      include-search-bar: true
+      search-field: true
+      finder-drop-down: true
+      reports-select-list: true
+      rows-per-page-selector: false
+
+    actions-menu: 
+      include-actions-menu: true
+      filter: true
+      select-columns: true
+      rows-per-page: true
+      sort: true
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: false
+      reset: true
+      help: true
+      download: true
+      subscription: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - Excel
+      - PDF
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 64089895554309777540
+      identification: 
+        name: Primary Report
+        alias: 640898956
+
+    columns: 
+    - # ====== Column: TABLA =======================================
+      id: 64079997451438489813
+      identification: 
+        column-name: TABLA
+        type: Plain Text
+
+      heading: 
+        heading: Tabla
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CAMPO =======================================
+      id: 64079997575348489814
+      identification: 
+        column-name: CAMPO
+        type: Plain Text
+
+      heading: 
+        heading: Campo
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: Eliminaciones ===============================
+      id: 64079997664912489815
+      identification: 
+        column-name: Eliminaciones
+        type: Plain Text
+
+      heading: 
+        heading: Eliminaciones
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 30
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: Usuarios ====================================
+      id: 64079997750011489816
+      identification: 
+        column-name: Usuarios
+        type: Plain Text
+
+      heading: 
+        heading: Usuarios
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: Registros ===================================
+      id: 64079997827415489817
+      identification: 
+        column-name: Registros
+        type: Plain Text
+
+      heading: 
+        heading: Registros
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: Primer Cambio ===============================
+      id: 64079997956665489818
+      identification: 
+        column-name: Primer Cambio
+        type: Plain Text
+
+      heading: 
+        heading: Primer Cambio
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: Último Cambio ===============================
+      id: 64079998069009489819
+      identification: 
+        column-name: Último Cambio
+        type: Plain Text
+
+      heading: 
+        heading: Último Cambio
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 70
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: Cambios Nocturnos ===========================
+      id: 64079998115500489820
+      identification: 
+        column-name: Cambios Nocturnos
+        type: Plain Text
+
+      heading: 
+        heading: Cambios Nocturnos
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: Cambios Fin Semana ==========================
+      id: 64079998230581489821
+      identification: 
+        column-name: Cambios Fin Semana
+        type: Plain Text
+
+      heading: 
+        heading: Cambios Fin Semana
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 90
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: Nivel Riesgo ================================
+      id: 64079998321053489822
+      identification: 
+        column-name: Nivel Riesgo
+        type: Plain Text
+
+      heading: 
+        heading: Nivel Riesgo
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 100
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: Estado ======================================
+      id: 64079998496898489823
+      identification: 
+        column-name: Estado
+        type: Plain Text
+
+      heading: 
+        heading: Estado
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 110
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    printing: 
+      output: 
+        layout: Default Report Layout
+        view-file-as: Attachment
+
+      page: 
+        size: A4
+        orientation: Landscape
+        units: Millimeters
+        width: 297
+        height: 210
+        border-width: 0.5
+        border-color: '#666666'
+
+      page-header: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+        page-header-text: Violaciones de Políticas
+
+      column-headings: 
+        font: Helvetica
+        font-weight: Bold
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#EEEEEE'
+
+      columns: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 10
+        font-color: '#000000'
+        background-color: '#FFFFFF'
+
+      page-footer: 
+        font: Helvetica
+        font-weight: Normal
+        font-size: 12
+        font-color: '#000000'
+        alignment: center
+
+- # ====== Region: Estado de Cumplimiento donut ================
+  id: 64079999068940489829
+  identification: 
+    name: Estado de Cumplimiento donut
+    title: Estado de Cumplimiento
+    type: Chart
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          CASE 
+              WHEN ESTADO_CUMPLIMIENTO = 'VIOLACION_POLITICA' THEN 'Violación de Política'
+              WHEN ESTADO_CUMPLIMIENTO = 'REVISION_REQUERIDA' THEN 'Revisión Requerida'
+              WHEN ESTADO_CUMPLIMIENTO = 'CUMPLE_POLITICAS' THEN 'Cumple Políticas'
+              ELSE ESTADO_CUMPLIMIENTO
+          END as LABEL,
+          COUNT(*) as VALUE
+      FROM V_AUDIT_CUMPLIMIENTO
+      GROUP BY ESTADO_CUMPLIMIENTO
+      ORDER BY 
+          CASE 
+              WHEN ESTADO_CUMPLIMIENTO = 'VIOLACION_POLITICA' THEN 1
+              WHEN ESTADO_CUMPLIMIENTO = 'REVISION_REQUERIDA' THEN 2
+              ELSE 3
+          END
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  security: 
+    escape-special-characters: true
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 64079999152522489830
+    chart: 
+      type: Donut
+
+    layout: 
+      height: 400
+
+    data-cursor: 
+      cursor: Automatic
+      behavior: Automatic
+      dim-on-hover: true
+
+    settings: 
+      pie-selection-effect: Highlight
+
+    value: 
+      pie-chart-other-threshold: 0
+      format: Decimal
+      decimal-places: 0
+      format-scaling: None
+
+    animation: 
+      on-display: Automatic
+      on-data-change: Automatic
+
+    tooltip: 
+      show: true
+      show-series-name: true
+      show-value: true
+
+    legend: 
+      show: true
+      position: Automatic
+      hide-and-show-behavior: Rescale
+
+    advanced: 
+      initialization-javascript-function: |
+        function (options) {
+            options.dataFilter = function(data){
+                data.series[0].color = "red";
+                data.series[1].color = "orange";
+                data.series[2].color = "green";
+                return data;
+            };
+            return options;
+        
+        }
+
+    series: 
+    - # ====== Series: New =========================================
+      id: 64079999296367489831
+      identification: 
+        name: New
+
+      execution: 
+        sequence: 10
+
+      source: 
+        location: Region Source
+
+      column-mapping: 
+        label: LABEL
+        value-aggregation: No Aggregation
+        value: VALUE
+
+      label: 
+        show: true
+        position: Automatic
+        display-as: Percentage ( Value )
+

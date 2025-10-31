@@ -1,0 +1,360 @@
+prompt --application/pages/page_00047
+begin
+--   Manifest
+--     PAGE: 00047
+--   Manifest End
+wwv_flow_imp.component_begin (
+ p_version_yyyy_mm_dd=>'2024.11.30'
+,p_release=>'24.2.9'
+,p_default_workspace_id=>71533046799736978747
+,p_default_application_id=>24839
+,p_default_id_offset=>9071155675752509
+,p_default_owner=>'WKSP_DTESC'
+);
+wwv_flow_imp_page.create_page(
+ p_id=>47
+,p_name=>'MAPA_SITIOS'
+,p_alias=>'MAPA-SITIOS'
+,p_step_title=>'Mapa Sitios'
+,p_warn_on_unsaved_changes=>'N'
+,p_autocomplete_on_off=>'OFF'
+,p_step_template=>2526643373347724467
+,p_page_template_options=>'#DEFAULT#'
+,p_protection_level=>'C'
+,p_page_component_map=>'22'
+);
+wwv_flow_imp_page.create_page_plug(
+ p_id=>wwv_flow_imp.id(523186641364925)
+,p_plug_name=>'FILTRO_MAPA'
+,p_title=>'Filtro Mapa'
+,p_region_template_options=>'#DEFAULT#:t-Region--scrollBody'
+,p_plug_template=>4072358936313175081
+,p_plug_display_sequence=>10
+,p_plug_display_point=>'REGION_POSITION_02'
+,p_location=>null
+,p_plug_source_type=>'NATIVE_FACETED_SEARCH'
+,p_filtered_region_id=>wwv_flow_imp.id(2245319778776955)
+,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
+  'batch_facet_search', 'N',
+  'compact_numbers_threshold', '10000',
+  'display_chart_for_top_n_values', '10',
+  'show_charts', 'Y',
+  'show_current_facets', 'N',
+  'show_total_row_count', 'N')).to_clob
+);
+wwv_flow_imp_page.create_page_plug(
+ p_id=>wwv_flow_imp.id(2244565372776949)
+,p_plug_name=>'Breadcrumb'
+,p_region_template_options=>'#DEFAULT#:t-BreadcrumbRegion--useBreadcrumbTitle'
+,p_component_template_options=>'#DEFAULT#'
+,p_plug_template=>2531463326621247859
+,p_plug_display_sequence=>10
+,p_plug_display_point=>'REGION_POSITION_01'
+,p_menu_id=>wwv_flow_imp.id(197180072443235446203)
+,p_plug_source_type=>'NATIVE_BREADCRUMB'
+,p_menu_template_id=>4072363345357175094
+);
+wwv_flow_imp_page.create_page_plug(
+ p_id=>wwv_flow_imp.id(2245319778776955)
+,p_plug_name=>'MAPA_SITIOS'
+,p_region_template_options=>'#DEFAULT#'
+,p_plug_template=>3371237801798025892
+,p_plug_display_sequence=>30
+,p_query_type=>'TABLE'
+,p_query_table=>'V_SITIOS_GPS'
+,p_include_rowid_column=>false
+,p_lazy_loading=>true
+,p_plug_source_type=>'NATIVE_MAP_REGION'
+,p_ajax_items_to_submit=>'P47_ZONAS'
+);
+wwv_flow_imp_page.create_map_region(
+ p_id=>wwv_flow_imp.id(2245734854776955)
+,p_region_id=>wwv_flow_imp.id(2245319778776955)
+,p_height=>640
+,p_navigation_bar_type=>'FULL'
+,p_navigation_bar_position=>'END'
+,p_init_position_zoom_type=>'QUERY_RESULTS'
+,p_init_position_from_browser=>false
+,p_layer_messages_position=>'BELOW'
+,p_legend_position=>'END'
+,p_features=>'MOUSEWHEEL_ZOOM:RECTANGLE_ZOOM:SCALE_BAR:INFINITE_MAP:BROWSER_LOCATION'
+);
+wwv_flow_imp_page.create_map_region_layer(
+ p_id=>wwv_flow_imp.id(2246243641776956)
+,p_map_region_id=>wwv_flow_imp.id(2245734854776955)
+,p_name=>'Zonas'
+,p_layer_type=>'POINT'
+,p_display_sequence=>10
+,p_location=>'REGION_SOURCE'
+,p_has_spatial_index=>false
+,p_geometry_column_data_type=>'LONLAT_COLUMNS'
+,p_longitude_column=>'LON'
+,p_latitude_column=>'LAT'
+,p_fill_color=>'#007aff'
+,p_point_display_type=>'SVG'
+,p_point_svg_shape=>'Default'
+,p_feature_clustering=>false
+,p_tooltip_adv_formatting=>false
+,p_tooltip_column=>'SIGLAS'
+,p_info_window_adv_formatting=>false
+,p_info_window_title_column=>'ZONA'
+,p_info_window_body_column=>'SIGLAS'
+,p_allow_hide=>true
+,p_build_option_id=>wwv_flow_imp.id(197180071872965446203)
+);
+wwv_flow_imp_page.create_map_region_layer(
+ p_id=>wwv_flow_imp.id(520471075364898)
+,p_map_region_id=>wwv_flow_imp.id(2245734854776955)
+,p_name=>'Sitios'
+,p_layer_type=>'POINT'
+,p_display_sequence=>20
+,p_location=>'REGION_SOURCE'
+,p_has_spatial_index=>false
+,p_pk_column=>'ID'
+,p_geometry_column_data_type=>'LONLAT_COLUMNS'
+,p_longitude_column=>'LON'
+,p_latitude_column=>'LAT'
+,p_stroke_color=>'#5856d6'
+,p_fill_color=>'#34aadc'
+,p_point_display_type=>'SVG'
+,p_point_svg_shape=>'Default'
+,p_feature_clustering=>false
+,p_tooltip_adv_formatting=>false
+,p_tooltip_column=>'SIGLAS'
+,p_link_target_type=>'REDIRECT_PAGE'
+,p_link_target=>'f?p=&APP_ID.:26:&SESSION.::&DEBUG.::P26_ID:&ID.'
+,p_allow_hide=>true
+);
+wwv_flow_imp_page.create_map_region_layer(
+ p_id=>wwv_flow_imp.id(520576170364899)
+,p_map_region_id=>wwv_flow_imp.id(2245734854776955)
+,p_name=>'ES y SE'
+,p_layer_type=>'POINT'
+,p_display_sequence=>30
+,p_location=>'REGION_SOURCE'
+,p_has_spatial_index=>false
+,p_row_assignment_column=>'TIPO_SITIO'
+,p_row_assignment_value=>unistr('Estaci\00F3n/Subestaci\00F3n El\00E9ctrica')
+,p_geometry_column_data_type=>'LONLAT_COLUMNS'
+,p_longitude_column=>'LON'
+,p_latitude_column=>'LAT'
+,p_fill_color=>'#ff3b30'
+,p_point_display_type=>'SVG'
+,p_point_svg_shape=>'Default'
+,p_feature_clustering=>false
+,p_tooltip_adv_formatting=>false
+,p_link_target_type=>'REDIRECT_PAGE'
+,p_link_target=>'f?p=&APP_ID.:26:&SESSION.::&DEBUG.::P26_ID:&ID.'
+,p_allow_hide=>true
+,p_build_option_id=>wwv_flow_imp.id(197180071872965446203)
+);
+wwv_flow_imp_page.create_map_region_layer(
+ p_id=>wwv_flow_imp.id(520976006364903)
+,p_map_region_id=>wwv_flow_imp.id(2245734854776955)
+,p_name=>'Centro Control'
+,p_layer_type=>'POINT'
+,p_display_sequence=>40
+,p_location=>'REGION_SOURCE'
+,p_has_spatial_index=>false
+,p_row_assignment_column=>'TIPO_SITIO'
+,p_row_assignment_value=>'Centro de Control'
+,p_geometry_column_data_type=>'LONLAT_COLUMNS'
+,p_longitude_column=>'LON'
+,p_latitude_column=>'LAT'
+,p_fill_color=>'#5856d6'
+,p_point_display_type=>'SVG'
+,p_point_svg_shape=>'Default'
+,p_feature_clustering=>false
+,p_tooltip_adv_formatting=>false
+,p_link_target_type=>'REDIRECT_PAGE'
+,p_link_target=>'f?p=&APP_ID.:26:&SESSION.::&DEBUG.::P26_ID:&ID.'
+,p_allow_hide=>true
+,p_build_option_id=>wwv_flow_imp.id(197180071872965446203)
+);
+wwv_flow_imp_page.create_map_region_layer(
+ p_id=>wwv_flow_imp.id(521116770364904)
+,p_map_region_id=>wwv_flow_imp.id(2245734854776955)
+,p_name=>'Repetidoras'
+,p_layer_type=>'POINT'
+,p_display_sequence=>50
+,p_location=>'REGION_SOURCE'
+,p_has_spatial_index=>false
+,p_row_assignment_column=>'TIPO_SITIO'
+,p_row_assignment_value=>'%Caseta Repetidora%'
+,p_geometry_column_data_type=>'LONLAT_COLUMNS'
+,p_longitude_column=>'LON'
+,p_latitude_column=>'LAT'
+,p_fill_color=>'#c7c7cc'
+,p_point_display_type=>'SVG'
+,p_point_svg_shape=>'Default'
+,p_feature_clustering=>false
+,p_tooltip_adv_formatting=>false
+,p_link_target_type=>'REDIRECT_PAGE'
+,p_link_target=>'f?p=&APP_ID.:26:&SESSION.::&DEBUG.::P26_ID:&ID.'
+,p_allow_hide=>true
+,p_build_option_id=>wwv_flow_imp.id(197180071872965446203)
+);
+wwv_flow_imp_page.create_page_item(
+ p_id=>wwv_flow_imp.id(520714527364900)
+,p_name=>'P47_ZONAS'
+,p_item_sequence=>20
+,p_prompt=>'Zonas'
+,p_display_as=>'NATIVE_POPUP_LOV'
+,p_named_lov=>'LOV_SGT_ZONAS'
+,p_cSize=>30
+,p_field_template=>1609121967514267634
+,p_item_template_options=>'#DEFAULT#'
+,p_lov_display_extra=>'NO'
+,p_required_patch=>wwv_flow_imp.id(197180071872965446203)
+,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
+  'case_sensitive', 'N',
+  'display_as', 'POPUP',
+  'fetch_on_search', 'N',
+  'initial_fetch', 'FIRST_ROWSET',
+  'manual_entry', 'N',
+  'match_type', 'CONTAINS',
+  'min_chars', '0')).to_clob
+);
+wwv_flow_imp_page.create_page_item(
+ p_id=>wwv_flow_imp.id(523302737364926)
+,p_name=>'P47_SEARCH'
+,p_item_sequence=>10
+,p_item_plug_id=>wwv_flow_imp.id(523186641364925)
+,p_prompt=>'Search'
+,p_source_type=>'FACET_COLUMN'
+,p_display_as=>'NATIVE_SEARCH'
+,p_item_template_options=>'#DEFAULT#'
+,p_required_patch=>wwv_flow_imp.id(197180071872965446203)
+,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
+  'input_field', 'FACET',
+  'search_type', 'ROW')).to_clob
+,p_fc_show_chart=>false
+);
+wwv_flow_imp_page.create_page_item(
+ p_id=>wwv_flow_imp.id(523560515364929)
+,p_name=>'P47_ZONA'
+,p_source_data_type=>'VARCHAR2'
+,p_item_sequence=>40
+,p_item_plug_id=>wwv_flow_imp.id(523186641364925)
+,p_prompt=>'Zona'
+,p_source=>'ZONA'
+,p_source_type=>'FACET_COLUMN'
+,p_display_as=>'NATIVE_CHECKBOX'
+,p_lov_sort_direction=>'ASC'
+,p_item_template_options=>'#DEFAULT#'
+,p_fc_show_label=>true
+,p_fc_collapsible=>false
+,p_fc_compute_counts=>true
+,p_fc_show_counts=>true
+,p_fc_zero_count_entries=>'H'
+,p_fc_show_more_count=>7
+,p_fc_filter_values=>false
+,p_fc_sort_by_top_counts=>true
+,p_fc_show_selected_first=>false
+,p_fc_show_chart=>true
+,p_fc_initial_chart=>false
+,p_fc_actions_filter=>true
+,p_fc_display_as=>'INLINE'
+);
+wwv_flow_imp_page.create_page_item(
+ p_id=>wwv_flow_imp.id(523794692364931)
+,p_name=>'P47_TIPO_SITIO'
+,p_source_data_type=>'VARCHAR2'
+,p_item_sequence=>70
+,p_item_plug_id=>wwv_flow_imp.id(523186641364925)
+,p_prompt=>'Tipo Sitio'
+,p_source=>'TIPO_SITIO'
+,p_source_type=>'FACET_COLUMN'
+,p_display_as=>'NATIVE_CHECKBOX'
+,p_lov_sort_direction=>'ASC'
+,p_item_template_options=>'#DEFAULT#'
+,p_fc_show_label=>true
+,p_fc_collapsible=>false
+,p_fc_compute_counts=>true
+,p_fc_show_counts=>true
+,p_fc_zero_count_entries=>'H'
+,p_fc_show_more_count=>7
+,p_fc_filter_values=>false
+,p_fc_sort_by_top_counts=>true
+,p_fc_show_selected_first=>false
+,p_fc_show_chart=>true
+,p_fc_initial_chart=>false
+,p_fc_actions_filter=>true
+,p_fc_display_as=>'INLINE'
+);
+wwv_flow_imp_page.create_page_item(
+ p_id=>wwv_flow_imp.id(524764091364941)
+,p_name=>'P47_CIUDAD'
+,p_source_data_type=>'VARCHAR2'
+,p_item_sequence=>60
+,p_item_plug_id=>wwv_flow_imp.id(523186641364925)
+,p_prompt=>'Ciudad'
+,p_source=>'CIUDAD'
+,p_source_type=>'FACET_COLUMN'
+,p_display_as=>'NATIVE_CHECKBOX'
+,p_lov_sort_direction=>'ASC'
+,p_item_template_options=>'#DEFAULT#'
+,p_fc_show_label=>true
+,p_fc_collapsible=>false
+,p_fc_compute_counts=>true
+,p_fc_show_counts=>true
+,p_fc_zero_count_entries=>'H'
+,p_fc_show_more_count=>7
+,p_fc_filter_values=>false
+,p_fc_sort_by_top_counts=>true
+,p_fc_show_selected_first=>false
+,p_fc_show_chart=>true
+,p_fc_initial_chart=>false
+,p_fc_actions_filter=>true
+,p_fc_display_as=>'INLINE'
+);
+wwv_flow_imp_page.create_page_item(
+ p_id=>wwv_flow_imp.id(2361124147276194)
+,p_name=>'P47_DEPARTAMENTO'
+,p_source_data_type=>'VARCHAR2'
+,p_item_sequence=>50
+,p_item_plug_id=>wwv_flow_imp.id(523186641364925)
+,p_prompt=>'DEPARTAMENTO'
+,p_source=>'DEPARTAMENTO'
+,p_source_type=>'FACET_COLUMN'
+,p_display_as=>'NATIVE_CHECKBOX'
+,p_lov_sort_direction=>'ASC'
+,p_item_template_options=>'#DEFAULT#'
+,p_fc_show_label=>true
+,p_fc_collapsible=>false
+,p_fc_compute_counts=>true
+,p_fc_show_counts=>true
+,p_fc_zero_count_entries=>'H'
+,p_fc_show_more_count=>7
+,p_fc_filter_values=>false
+,p_fc_sort_by_top_counts=>true
+,p_fc_show_selected_first=>false
+,p_fc_show_chart=>true
+,p_fc_initial_chart=>false
+,p_fc_actions_filter=>true
+,p_fc_display_as=>'INLINE'
+);
+wwv_flow_imp_page.create_page_da_event(
+ p_id=>wwv_flow_imp.id(520787727364901)
+,p_name=>'New'
+,p_event_sequence=>10
+,p_triggering_element_type=>'ITEM'
+,p_triggering_element=>'P47_ZONAS'
+,p_bind_type=>'bind'
+,p_execution_type=>'IMMEDIATE'
+,p_bind_event_type=>'change'
+);
+wwv_flow_imp_page.create_page_da_action(
+ p_id=>wwv_flow_imp.id(520869635364902)
+,p_event_id=>wwv_flow_imp.id(520787727364901)
+,p_event_result=>'TRUE'
+,p_action_sequence=>10
+,p_execute_on_page_init=>'N'
+,p_action=>'NATIVE_REFRESH'
+,p_affected_elements_type=>'REGION'
+,p_affected_region_id=>wwv_flow_imp.id(2245319778776955)
+,p_attribute_01=>'N'
+);
+wwv_flow_imp.component_end;
+end;
+/

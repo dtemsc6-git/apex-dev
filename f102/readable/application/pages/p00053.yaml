@@ -1,0 +1,535 @@
+---
+# ====== Page: Paso 3 ========================================
+id: 53
+identification: 
+  name: Paso 3
+  alias: PASO-3
+  title: Seleccionar Enlaces WAN
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Wizard Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  height: 400
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Wizard Progress =============================
+  id: 151090755630571095682
+  identification: 
+    name: Wizard Progress
+    type: List
+
+  source: 
+    list: Asistente Servicios # 67812692495749518409
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      list-template: Wizard Progress
+
+- # ====== Region: Step 2 ======================================
+  id: 151090755729507095682
+  identification: 
+    name: Step 2
+    title: Crear Enlace Lógico
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Buttons =====================================
+  id: 151090755799212095682
+  identification: 
+    name: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P53_ENLACES_WAN ==========================
+  id: 161721903557977944394
+  identification: 
+    name: P53_ENLACES_WAN
+    type: Shuttle
+
+  label: 
+    label: Enlaces Wan
+    alignment: Left
+
+  settings: 
+    show-controls: All
+
+  multiple-values: 
+    type: Delimited List
+    separator: ','
+
+  layout: 
+    sequence: 50
+    region: Step 2 # 151090755729507095682
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 5
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select distinct nombre, valor from (
+      
+      
+      SELECT 
+          wan.nombre, WAN.ID VALOR
+      FROM 
+        sgt_enlaces_wan wan inner join  sgt_sitios_enlace_wan sitios_wan on wan.id = sitios_wan.enlace_wan_id
+      
+      WHERE
+          sitios_wan.sitio_id IN (
+              SELECT column_value 
+              FROM apex_string.split_numbers(:P51_SITIOS_TRANSITO, ',')
+          )
+      order by sitios_wan.seq    
+      
+      )
+    display-extra-values: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return multiple values)
+    sql-query: |
+      select enlace_id from SGT_ENLACES_WAN_SERVICIO
+      where servicio_id = :P50_ID
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P53_BUSCAR_ENLACES_WAN ===================
+  id: 161721903675591944395
+  identification: 
+    name: P53_BUSCAR_ENLACES_WAN
+    type: Text Field
+
+  label: 
+    label: Buscar Enlaces Wan
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 30
+    region: Step 2 # 151090755729507095682
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 83278063267848577279
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 151090755799212095682
+    slot: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: PREVIOUS ====================================
+  id: 83278063634502577280
+  identification: 
+    button-name: PREVIOUS
+    label: Previous
+
+  layout: 
+    sequence: 20
+    region: Buttons # 151090755799212095682
+    slot: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-chevron-left
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: NEXT ========================================
+  id: 83278064071020577280
+  identification: 
+    button-name: NEXT
+    label: Next
+
+  layout: 
+    sequence: 30
+    region: Buttons # 151090755799212095682
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon
+    hot: true
+    template-options: 
+    - t-Button--iconRight
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: NoSubmit ============================
+  id: 78443844906110367129
+  identification: 
+    name: NoSubmit
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Key Press
+    selection-type: Item(s)
+    item(s): 
+    - P53_BUSCAR_ENLACES_WAN
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 78443845003772367130
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        console.log("Key Press")
+        console.log(event);
+        
+        if (event.key === "Enter") {
+            event.preventDefault(); // evita el submit
+            return false;
+        }
+        
+        
+        
+
+    execution: 
+      sequence: 10
+      event: NoSubmit # 78443844906110367129
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Cancel Dialog =======================
+  id: 83278064648751577281
+  identification: 
+    name: Cancel Dialog
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: CANCEL # 83278063267848577279
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 83278065165649577281
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel Dialog # 83278064648751577281
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Filtrar =============================
+  id: 83278065598640577282
+  identification: 
+    name: Filtrar
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P53_BUSCAR_ENLACES_WAN
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 83278066098063577282
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        //function filtrarShuttle(filtro) {
+          console.log("filtrar datos")
+        
+          var filtro = $("#P53_BUSCAR_ENLACES_WAN").val();
+          var filtroLower = filtro.toLowerCase();
+          var opciones = document.querySelectorAll("#P53_ENLACES_WAN_LEFT option");
+        
+          opciones.forEach(function(opt) {
+            if (opt.text.toLowerCase().includes(filtroLower)) {
+              opt.style.display = "";   // mostrar
+            } else {
+              opt.style.display = "none"; // ocultar
+            }
+          });
+        //}
+
+    execution: 
+      sequence: 10
+      event: Filtrar # 83278065598640577282
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+branches: 
+- # ====== Branch: Go To Page 51 ===============================
+  id: 83278066501106577283
+  identification: 
+    name: Go To Page 51
+
+  execution: 
+    sequence: 10
+    point: Validating
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:51:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 51 # Step 2
+
+  server-side-condition: 
+    when-button-pressed: PREVIOUS # 83278063634502577280
+
+- # ====== Branch: Go To Page 52 ===============================
+  id: 83278066946526577283
+  identification: 
+    name: Go To Page 52
+
+  execution: 
+    sequence: 20
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:52:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 52 # Step 4
+
+  server-side-condition: 
+    when-button-pressed: NEXT # 83278064071020577280
+

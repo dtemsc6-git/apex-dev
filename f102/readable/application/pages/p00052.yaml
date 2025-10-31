@@ -1,0 +1,579 @@
+---
+# ====== Page: Step 4 ========================================
+id: 52
+identification: 
+  name: Step 4
+  alias: STEP-4
+  title: Seleccionar Circuitos Fisicos
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Wizard Modal Dialog
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  height: 400
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+javascript: 
+  function-and-global-variable-declaration: |
+    function filtrarShuttle() {
+    var filtro = $("#P52_BUSCAR_CONEXIONES").val();
+        var filtroLower = filtro.toLowerCase();
+        var opciones = document.querySelectorAll("#P52_CIRCUITOS_FISICOS_LEFT option");
+    
+        opciones.forEach(function (opt) {
+            if (opt.text.toLowerCase().includes(filtroLower)) {
+                opt.style.display = "";   // mostrar
+            } else {
+                opt.style.display = "none"; // ocultar
+            }
+        });
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Wizard Progress =============================
+  id: 67812702644757518420
+  identification: 
+    name: Wizard Progress
+    type: List
+
+  source: 
+    list: Asistente Servicios # 67812692495749518409
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      list-template: Wizard Progress
+
+- # ====== Region: Step 3 ======================================
+  id: 67812702711627518420
+  identification: 
+    name: Step 3
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Buttons =====================================
+  id: 67812702813493518420
+  identification: 
+    name: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: New =========================================
+  id: 68028420286770161406
+  identification: 
+    name: New
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: Step 3 # 67812702711627518420
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P52_CIRCUITOS_FISICOS ====================
+  id: 68028420121232161405
+  identification: 
+    name: P52_CIRCUITOS_FISICOS
+    type: Shuttle
+
+  label: 
+    label: Seleccione los Circuitos Fisicos
+    alignment: Left
+
+  settings: 
+    show-controls: All
+
+  multiple-values: 
+    type: Delimited List
+    separator: ','
+
+  layout: 
+    sequence: 40
+    region: Step 3 # 67812702711627518420
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 5
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          SITIO_A||'.'||EQUIPO_A || ':' || INTERFAZ_A || '>' || SITIO_B||'.'||EQUIPO_B || ':' || INTERFAZ_B AS display_value,
+          conexiones.id AS return_value
+      FROM v_tramos_nombres conexiones
+      WHERE conexiones.sitio_a_id IN (
+          SELECT column_value FROM apex_string.split_numbers(:P51_SITIOS_TRANSITO, ',')
+      )
+      --and 
+      --conexiones.id not in ( 
+      --    select enlace_tramo_id 
+      --    from sgt_conexiones_enlace_wan wan 
+      --    where wan.enlace_wan_id in (
+      --        SELECT column_value FROM apex_string.split_numbers(:P53_ENLACES_WAN, ',')
+      --    )
+      --    )
+      
+    display-extra-values: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return multiple values)
+    sql-query: |
+      select enlace_tramo_id from sgt_conexiones_servicio
+      where servicio_id = :P50_ID
+      union
+      select enlace_tramo_id from sgt_conexiones_enlace_wan
+      where enlace_wan_id in (
+      SELECT column_value 
+              FROM apex_string.split_numbers(:P53_ENLACES_WAN, ',') 
+              
+      )
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P52_BUSCAR_CONEXIONES ====================
+  id: 68028420330199161407
+  identification: 
+    name: P52_BUSCAR_CONEXIONES
+    type: Text Field
+
+  label: 
+    label: Buscar Conexiones
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 20
+    region: Step 3 # 67812702711627518420
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 67812704326072518422
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 67812702813493518420
+    slot: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: PREVIOUS ====================================
+  id: 67812704573017518422
+  identification: 
+    button-name: PREVIOUS
+    label: Previous
+
+  layout: 
+    sequence: 20
+    region: Buttons # 67812702813493518420
+    slot: PREVIOUS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Icon
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-chevron-left
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: NEXT ========================================
+  id: 67812704669190518422
+  identification: 
+    button-name: NEXT
+    label: Next
+
+  layout: 
+    sequence: 30
+    region: Buttons # 67812702813493518420
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon
+    hot: true
+    template-options: 
+    - t-Button--iconRight
+    icon: fa-chevron-right
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel Dialog =======================
+  id: 67812704745526518422
+  identification: 
+    name: Cancel Dialog
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: CANCEL # 67812704326072518422
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 67812705550980518422
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel Dialog # 67812704745526518422
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Filtrar =============================
+  id: 78443845375864367133
+  identification: 
+    name: Filtrar
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P52_BUSCAR_CONEXIONES
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 78443845471777367134
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: filtrarShuttle();
+
+    execution: 
+      sequence: 10
+      event: Filtrar # 78443845375864367133
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: NoSubmit ============================
+  id: 78443845558141367135
+  identification: 
+    name: NoSubmit
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Key Press
+    selection-type: Item(s)
+    item(s): 
+    - P52_BUSCAR_CONEXIONES
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 78443845678197367136
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        if (event.key === "Enter") {
+           filtrarShuttle(); 
+           event.preventDefault(); // evita el submit
+            return false;
+        }
+
+    execution: 
+      sequence: 10
+      event: NoSubmit # 78443845558141367135
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+branches: 
+- # ====== Branch: Go To Page 53 ===============================
+  id: 67812706267469518423
+  identification: 
+    name: Go To Page 53
+
+  execution: 
+    sequence: 10
+    point: Validating
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:53:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 53 # Paso 3
+
+  server-side-condition: 
+    when-button-pressed: PREVIOUS # 67812704573017518422
+
+- # ====== Branch: Go To Page 54 ===============================
+  id: 67812706934241518424
+  identification: 
+    name: Go To Page 54
+
+  execution: 
+    sequence: 20
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:54:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 54 # Step 5
+
+  server-side-condition: 
+    when-button-pressed: NEXT # 67812704669190518422
+

@@ -1,0 +1,49 @@
+---
+- # ====== Install Script: CREAR_TABLAS ========================
+  id: 2443880357447899
+  identification: 
+    name: CREAR_TABLAS
+
+  execution: 
+    sequence: 60
+
+- # ====== Install Script: CREAR_FUNCIONES =====================
+  id: 2449329884471903
+  identification: 
+    name: CREAR_FUNCIONES
+
+  execution: 
+    sequence: 20
+
+- # ====== Install Script: CREAR_PKG ===========================
+  id: 2451551067477063
+  identification: 
+    name: CREAR_PKG
+
+  execution: 
+    sequence: 30
+
+- # ====== Install Script: CREAR_SEQ ===========================
+  id: 2452072744485513
+  identification: 
+    name: CREAR_SEQ
+
+  execution: 
+    sequence: 40
+
+- # ====== Install Script: CREAR_TYPES =========================
+  id: 2453158381496320
+  identification: 
+    name: CREAR_TYPES
+
+  execution: 
+    sequence: 70
+
+- # ====== Install Script: CREAR_VISTAS ========================
+  id: 2453942315501668
+  identification: 
+    name: CREAR_VISTAS
+
+  execution: 
+    sequence: 80
+

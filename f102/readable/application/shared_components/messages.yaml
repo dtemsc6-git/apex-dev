@@ -1,0 +1,91 @@
+---
+- # ====== Text Message: DELETE_MSG ============================
+  id: 32052807619383536870
+  identification: 
+    name: DELETE_MSG
+
+  message: 
+    text: ¿Estás seguro de que deseas eliminar?
+
+  attributes: 
+    language: Spanish (Paraguay) (es-py)
+    used-in-javascript: false
+
+  subscription: 
+    version-number: 15619195205176
+
+- # ====== Text Message: BTN_CREAR =============================
+  id: 56706170302728274017
+  identification: 
+    name: BTN_CREAR
+
+  message: 
+    text: Crear
+
+  attributes: 
+    language: Spanish (Paraguay) (es-py)
+    used-in-javascript: false
+
+  subscription: 
+    version-number: 15633241059974
+
+- # ====== Text Message: BTN_APLICAR_CAMBIOS ===================
+  id: 56706629025293001274
+  identification: 
+    name: BTN_APLICAR_CAMBIOS
+
+  message: 
+    text: Aplicar Cambios
+
+  attributes: 
+    language: Spanish (Paraguay) (es-py)
+    used-in-javascript: false
+
+  subscription: 
+    version-number: 15633241136170
+
+- # ====== Text Message: BTN_IMPORTAR_XLS ======================
+  id: 56712713069479399778
+  identification: 
+    name: BTN_IMPORTAR_XLS
+
+  message: 
+    text: Importar XLS
+
+  attributes: 
+    language: Spanish (Paraguay) (es-py)
+    used-in-javascript: false
+
+  subscription: 
+    version-number: 15633246645919
+
+- # ====== Text Message: BTN_CREAR_VARIOS ======================
+  id: 56716804124895494591
+  identification: 
+    name: BTN_CREAR_VARIOS
+
+  message: 
+    text: Crear Varios
+
+  attributes: 
+    language: Spanish (Paraguay) (es-py)
+    used-in-javascript: false
+
+  subscription: 
+    version-number: 15633249159084
+
+- # ====== Text Message: BTN_BORRAR ============================
+  id: 90822758512904447586
+  identification: 
+    name: BTN_BORRAR
+
+  message: 
+    text: Borrar
+
+  attributes: 
+    language: Spanish (Paraguay) (es-py)
+    used-in-javascript: false
+
+  subscription: 
+    version-number: 15657353489811
+

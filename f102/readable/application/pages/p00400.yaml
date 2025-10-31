@@ -1,0 +1,790 @@
+---
+# ====== Page: PruebaTopologia ===============================
+id: 400
+identification: 
+  name: PruebaTopologia
+  alias: PRUEBATOPOLOGIA
+  title: Visualizar Topología
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+javascript: 
+  file-urls: 
+  - 'https://unpkg.com/vis-network/standalone/umd/vis-network.min.js'
+  - '#APP_FILES#p400_vista_conexiones#MIN#.js'
+  function-and-global-variable-declaration: |
+    generarGrafo = function () {
+    
+        apex.server.process(
+            'CONEXIONES_V2', { pageItems: ['P400_SERVICIO_ID', 'P400_SELECCIONAR_VISTA'] },
+            {
+                success: function (data) {
+                    console.log(data); // Acceder a los datos
+                    console.log("modovista: " + $("#P400_MODO_VISTA").val());
+    
+                    data.nodes.sort((a, b) => a.level - b.level);
+    
+    
+                    if ($("#P400_SELECCIONAR_VISTA").val() === "IFACE" || $("#P400_SELECCIONAR_VISTA").val() === "EQUIPOS") {
+                        console.log("filtrar nodos");
+                        var mapNodos = new Map();
+                        var nodosFiltrados = [];
+                        var level = 0;
+                        var prev_eq = 0;
+                        data.nodes.forEach(nodo => {
+                            if (!mapNodos.has(nodo.id)) {
+                                console.log(nodo);
+                                if (prev_eq !== nodo.eq_id) {
+                                     level++;  
+                                     prev_eq = nodo.eq_id; 
+                                     console.log("subiendo un nivel");
+                                }
+                                mapNodos.set(nodo.id, true);
+                                nodosFiltrados.push({
+                                    id: nodo.id,
+                                    label: nodo.label,
+                                    shape: nodo.shape, // Forma para interfaces
+                                    color: nodo.color,
+                                    level: level
+                                });
+                            }
+    
+                            /*if (!mapNodos.has(nodo.destino_id)) {
+                                mapNodos.set(nodo.destino_id, true);
+                                nodosFiltrados.push({
+                                    id: nodo.destino_id,
+                                    label: nodo.destino,
+                                    shape: nodo.shape, // Forma para interfaces
+                                    color: nodo.color,
+                                    level: nodo.level_b
+                                });
+                            }*/
+    
+                            /*edges.push({
+                                from: nodo.origen_id,
+                                to: nodo.destino_id,
+                                arrows: "to", // Flecha indica dirección
+                                label: "", // Etiqueta del tipo de conexión
+                                color: "#848484" // Color de la línea
+                            });*/
+    
+    
+                        });
+                        data.nodes = nodosFiltrados;
+                        //data.edges = edges;
+    
+                    }
+    
+                    var nodes = new vis.DataSet(data.nodes);
+                    var edges = new vis.DataSet(data.edges);
+    
+                    var data = { nodes: nodes, edges: edges };
+    
+                    var container = document.getElementById("network");
+                    var network = new vis.Network(container, data, {
+                        layout: {
+                            improvedLayout: true,
+                            hierarchical: {
+                                enabled: true,
+                              //  nodeSpacing: 200,
+                                levelSeparation: 75,
+                                direction: $("#P400_MODO_VISTA").val()
+                            }
+                        }
+                        ,physics: { enabled: false, solver: "forceAtlas2Based" }
+                    });
+                }
+    
+    
+                ,
+                error: function (pError) {
+                    console.error('Error:', pError);
+                }
+            }
+        );
+    }
+
+css: 
+  inline: |
+    #network {
+        width: auto;
+        height: 800px;
+        border: 1px solid lightgray;
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Network =====================================
+  id: 78443843321989367113
+  identification: 
+    name: Network
+    type: Static Content
+
+  source: 
+    html-code: <div class="miNetwork" id="network"></div>
+
+  layout: 
+    sequence: 60
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    css-classes: 
+    - miNetwork
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Breadcrumb ==================================
+  id: 79639294021794205027
+  identification: 
+    name: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 197180072443235446203
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb
+      template-options: 
+      - '#DEFAULT#'
+
+page-items: 
+- # ====== Page Item: P400_SERVICIO_ID =========================
+  id: 78443843546750367115
+  identification: 
+    name: P400_SERVICIO_ID
+    type: Popup LOV
+
+  label: 
+    label: Servicio
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 8
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: SGT_SERVICIOS.NOMBRE # 44132876898299381933
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P400_SELECCIONAR_VISTA ===================
+  id: 78443843843863367118
+  identification: 
+    name: P400_SELECCIONAR_VISTA
+    type: Select List
+
+  label: 
+    label: Seleccionar Vista
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 30
+    region: No Parent
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Static Values
+    static-values: 'STATIC2:Equipos;EQUIPOS,Interfaces;IFACE,Wan;WAN'
+    display-extra-values: true
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P400_MODO_VISTA ==========================
+  id: 78443843923638367119
+  identification: 
+    name: P400_MODO_VISTA
+    type: Select List
+
+  label: 
+    label: Modo Vista
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 40
+    region: No Parent
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Static Values
+    static-values: 'STATIC:Arriba para Abajo;UD,Izquierda a Derecha;LR,Derecha a Izquierda;RL'
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+dynamic-actions: 
+- # ====== Dynamic Action: CambiarServicio =====================
+  id: 78443843620092367116
+  identification: 
+    name: CambiarServicio
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P400_SERVICIO_ID
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 78443843762790367117
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        /*
+        apex.server.process(
+            'GET_CONEXIONES', { pageItems: ['P400_SERVICIO_ID', 'P400_SELECCIONAR_VISTA'] },
+            {
+                success: function (apiData) {
+                    visualizar_conexiones(apiData, $("#P400_MODO_VISTA").val());
+                }
+            });
+        */
+        
+        /*
+        apex.server.process(
+            'CONEXIONES_V2', { pageItems: ['P400_SERVICIO_ID', 'P400_SELECCIONAR_VISTA'] },
+            {
+                success: function (data) {
+                    console.log(data); // Acceder a los datos
+                    console.log("modovista: "+$("#P400_MODO_VISTA").val()); 
+                        
+                    var nodes = new vis.DataSet(data.nodes);
+                    var edges = new vis.DataSet(data.edges);
+        
+                    var data = { nodes: nodes, edges: edges };
+                    
+                    var container = document.getElementById("network");
+                    var network = new vis.Network(container, data, {
+                        layout: { hierarchical: { enabled: true, direction: $("#P400_MODO_VISTA").val() }},
+                        physics: { enabled: false, solver: "forceAtlas2Based" }
+                    });
+                }
+        
+        
+                ,
+                error: function (pError) {
+                    console.error('Error:', pError);
+                }
+            }
+        );
+        */
+        generarGrafo();
+        
+        
+
+    execution: 
+      sequence: 10
+      event: CambiarServicio # 78443843620092367116
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Change ==============================
+  id: 88034738380251770426
+  identification: 
+    name: Change
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P400_MODO_VISTA
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 88034738413072770427
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        
+        generarGrafo();
+
+    execution: 
+      sequence: 10
+      event: Change # 88034738380251770426
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Seleccionar_Vista_Change ============
+  id: 88034738504564770428
+  identification: 
+    name: Seleccionar_Vista_Change
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P400_SELECCIONAR_VISTA
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 88034738692325770429
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        
+        generarGrafo();
+
+    execution: 
+      sequence: 10
+      event: Seleccionar_Vista_Change # 88034738504564770428
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: GET_CONEXIONES =============================
+  id: 78443843459088367114
+  identification: 
+    name: GET_CONEXIONES
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      /*
+      Obtener todos los equipos que participan en un servicio, tambien todas las 
+      interfaces que participan del servicio.
+      Estos serán los nodos. 
+      
+      las conexiones se quitan de los enlaces logicos y enlaces tramos.
+      
+      la librería se debería de encargar de renderizar todo.
+      
+      */
+      declare
+      l_cursor SYS_REFCURSOR;
+      begin
+      --Consulta para traer los nodos:
+      /*select e.id, e.nombre label from sgt_equipos e where
+      
+      e.id in ( 
+          SELECT id FROM (
+          SELECT equipo_a_id id FROM sgt_enlaces_tramos et
+          LEFT JOIN sgt_servicios_tramos st ON st.tramo_id = et.id 
+          WHERE st.servicio_id = 1
+          UNION
+          SELECT equipo_b_id id FROM sgt_enlaces_tramos et
+          LEFT JOIN sgt_servicios_tramos st ON st.tramo_id = et.id 
+          WHERE st.servicio_id = 1
+          ) t     
+          )    
+      
+      --consulta para traer las aristas "Edges"
+      --falta obtener los nombres de los enlaces
+      select equipo_a_id ORI, equipo_b_id DEST, interfaz_a_id ||'>'||interfaz_b_id NOMBRE from sgt_enlaces_logicos 
+      left join
+      sgt_servicios_enlaces_logicos
+      on sgt_servicios_enlaces_logicos.enlace_id = sgt_enlaces_logicos.id
+      where sgt_servicios_enlaces_logicos.servicio_id = 1
+      
+      union all
+      
+      select equipo_a_id ORI, equipo_b_id DEST, interfaz_a_id ||'>'||interfaz_b_id NOMBRE from sgt_enlaces_tramos 
+      left join
+      sgt_servicios_tramos
+      on sgt_servicios_tramos.tramo_id = sgt_enlaces_tramos.id
+      where sgt_servicios_tramos.servicio_id = 1
+      
+      SELECT * FROM V_CONEXIONES_GENERALES con
+      
+      WHERE con.servicio_id = :P400_SERVICIO_ID;
+      
+      
+      */
+      BEGIN
+          IF UPPER(:P400_SELECCIONAR_VISTA)= 'EQUIPOS' THEN
+              OPEN l_cursor FOR
+                  SELECT equipo_a origen, equipo_a_id origen_id,  equipo_b destino, equipo_b_id destino_id  
+                  FROM V_CONEXIONES_GENERAL 
+                  WHERE servicio_id = :P400_SERVICIO_ID
+                  ORDER BY sitio_a_id;
+                  
+          ELSIF UPPER(:P400_SELECCIONAR_VISTA) = 'SITIOS' THEN
+              OPEN l_cursor FOR
+                  SELECT sitio_a origen, sitio_a_id origen_id, sitio_b destino, sitio_b_id destino_id 
+                  FROM V_CONEXIONES_GENERAL 
+                  WHERE servicio_id = :P400_SERVICIO_ID
+                  ORDER BY sitio_a_id;
+                  
+          ELSIF UPPER(:P400_SELECCIONAR_VISTA)  = 'INTERFACES' THEN
+              OPEN l_cursor FOR
+                  SELECT interfaz_a origen, interfaz_a_id origen_id, interfaz_b destino, interfaz_b_id destino_id 
+                  FROM V_CONEXIONES_GENERAL 
+                  WHERE servicio_id = :P400_SERVICIO_ID
+                  ORDER BY sitio_a_id;
+                  
+          ELSE
+              OPEN l_cursor FOR
+                  SELECT *  
+                  FROM V_CONEXIONES_GENERAL 
+                  WHERE servicio_id = :P400_SERVICIO_ID
+                  ORDER BY sitio_a_id;
+          END IF;
+          
+          APEX_JSON.OPEN_OBJECT;
+          APEX_JSON.WRITE('data', l_cursor); -- Convierte el cursor a JSON array
+          APEX_JSON.CLOSE_OBJECT;
+      END;
+      
+      end;
+
+  execution: 
+    sequence: 10
+    point: Ajax Callback
+    run-process: Once Per Page Visit (default)
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+- # ====== Process: CONEXIONES_V2 ==============================
+  id: 88034738227850770425
+  identification: 
+    name: CONEXIONES_V2
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      declare
+      l_cursor SYS_REFCURSOR;
+      l_nodes CLOB;
+      l_edges CLOB;
+      l_ids TABLA_IDS;
+      begin
+         
+         IF (UPPER(:P400_SELECCIONAR_VISTA) = 'IFACE') THEN
+            l_nodes := GET_NODOS_IFACE(:P400_SERVICIO_ID);
+            L_EDGES := GET_EDGES_IFACE(:P400_SERVICIO_ID);
+      
+         END IF;
+      
+      
+      
+         IF (UPPER(:P400_SELECCIONAR_VISTA) = 'WAN') THEN
+               apex_debug.message('dmf: Buscando Serivicio_id: %s', :P400_SERVICIO_ID); 
+               select s.id bulk collect into L_IDS from sgt_sitios s
+                  join sgt_sitios_servicio ss on ss.sitio_id =  s.id
+                  where ss.SERVICIO_ID = :P400_SERVICIO_ID;
+              for i IN 1 .. L_IDS.count loop
+                  apex_debug.message('dmf: Sitios id : %s', L_IDS(i));
+              end loop; 
+              l_nodes := GET_NODOS_SITIOS(l_ids);
+      
+              apex_debug.message('dmf: Buscando WANs con Serivicio_id: %s', :P400_SERVICIO_ID); 
+              select w.id bulk collect into L_IDS from sgt_enlaces_wan w
+                  join sgt_enlaces_wan_servicio ws on ws.enlace_id =  w.id
+                  where ws.SERVICIO_ID = :P400_SERVICIO_ID;
+      
+              l_edges := GET_EDGES_WAN(L_IDS); 
+      
+      
+         END IF ;
+         
+         if (UPPER(:P400_SELECCIONAR_VISTA) = 'EQUIPOS') THEN
+       
+      
+         /** SELECT JSON_ARRAYAGG(
+                   JSON_OBJECT('id' VALUE id, 'eq_id' value eq_id, 'label' VALUE label, 'shape' VALUE 'box', 'color' VALUE '#00AAFF', 'level' VALUE seq)
+                 RETURNING CLOB)
+          INTO l_nodes
+      
+          FROM (
+             SELECT C.eq_ID as id, C.eq_ID as,C.EQ as label, (c.seq)/10 seq FROM V_CONEXIONES_GENERAL_V2 C WHERE C.SERV_ID = :P400_SERVICIO_ID
+              
+              UNION
+              SELECT C.eq_B_ID as id, C.eq_b_ID as, C.EQ_B as label, (c.seq + 10) / 10 FROM V_CONEXIONES_GENERAL_V2 C WHERE C.SERV_ID =:P400_SERVICIO_ID
+      
+              order by seq
+              
+          );
+          **/
+      
+            l_nodes := GET_NODOS_EQUIPOS(:P400_SERVICIO_ID);
+            L_EDGES := GET_EDGES_EQUIPOS(:P400_SERVICIO_ID);
+      
+          IF l_nodes IS NULL THEN
+            l_nodes := '[]';
+          END IF;
+      
+          ---========================
+          ---Crear los edge
+          ---=======================
+          /**SELECT JSON_ARRAYAGG(
+                   JSON_OBJECT(
+                     'from' VALUE origen_id,
+                     'to'   VALUE destino_id,
+                     'label' VALUE edge_label,
+                     'edge_id' VALUE edge_id
+                   ) RETURNING CLOB)
+          INTO l_edges
+          from (
+              select 
+              eq_id as origen_id,
+              eq_b_id as destino_id,
+              fo_nombre as edge_label,
+              conn_id as edge_id
+              from v_conexiones_general_v2
+              where serv_id = :P400_SERVICIO_ID
+              order by eq_id
+      
+          );**/
+      
+          if l_edges is null then 
+              l_edges := '[]';
+          end if;    
+          END IF;
+      
+          htp.p(
+            JSON_OBJECT(
+              'nodes' VALUE l_nodes FORMAT JSON,
+              'edges' VALUE l_edges FORMAT JSON
+            ) 
+          );
+      
+      
+      
+      
+      
+      
+      END;
+      
+
+  execution: 
+    sequence: 20
+    point: Ajax Callback
+    run-process: Once Per Page Visit (default)
+
