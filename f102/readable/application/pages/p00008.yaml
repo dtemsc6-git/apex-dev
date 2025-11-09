@@ -804,7 +804,7 @@ regions:
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: LOV_TIPO_INTERFAZ # 41082575549472967716
+        list-of-values: TIPO_INTERFAZ.NOMBRE # 41082575549472967716
 
       heading: 
         heading: Tipo Interface

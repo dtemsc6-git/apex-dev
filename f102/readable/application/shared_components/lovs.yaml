@@ -550,13 +550,13 @@
     group: GRUPO_CABLES
     group-sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: LOV_TIPO_INTERFAZ ===================
+- # ====== List of Values: TIPO_INTERFAZ.NOMBRE ================
   id: 41082575549472967716
   identification: 
-    name: LOV_TIPO_INTERFAZ
+    name: TIPO_INTERFAZ.NOMBRE
 
   subscription: 
-    version-number: 15623515567168
+    version-number: 39022433418306
 
   source: 
     location: Local Database
@@ -671,32 +671,32 @@
     name: INTERFAZ_ESTADO
 
   subscription: 
-    version-number: 15652208674366
+    version-number: 39022433467935
 
   source: 
     location: Static Values
 
   entries: 
-  - # ====== Entry: up ===========================================
+  - # ====== Entry: UP ===========================================
     id: 43199625998691317954
     entry: 
       sequence: 1
-      display: up
-      return: up
+      display: UP
+      return: UP
 
-  - # ====== Entry: down =========================================
+  - # ====== Entry: DOWN =========================================
     id: 43199626337993317954
     entry: 
       sequence: 2
-      display: down
-      return: down
+      display: DOWN
+      return: DOWN
 
-  - # ====== Entry: administratively down ========================
+  - # ====== Entry: NA ===========================================
     id: 43199826764691317955
     entry: 
       sequence: 3
-      display: administratively down
-      return: administratively down
+      display: NA
+      return: NA
 
 - # ====== List of Values: INTERFACE_MODO ======================
   id: 43201033517964343837
@@ -704,53 +704,60 @@
     name: INTERFACE_MODO
 
   subscription: 
-    version-number: 15652208662159
+    version-number: 39022433454281
 
   source: 
     location: Static Values
 
   entries: 
-  - # ====== Entry: access =======================================
+  - # ====== Entry: NA ===========================================
+    id: 126447253555157
+    entry: 
+      sequence: 7
+      display: NA
+      return: NA
+
+  - # ====== Entry: ACCESS =======================================
     id: 43201033858993343838
     entry: 
       sequence: 1
-      display: access
-      return: access
+      display: ACCESS
+      return: ACCESS
 
-  - # ====== Entry: trunk ========================================
+  - # ====== Entry: TRUNK ========================================
     id: 43201034239216343839
     entry: 
       sequence: 2
-      display: trunk
-      return: trunk
+      display: TRUNK
+      return: TRUNK
 
-  - # ====== Entry: tagged =======================================
+  - # ====== Entry: TAGGED =======================================
     id: 43201034684445343839
     entry: 
       sequence: 3
-      display: tagged
-      return: tagged
+      display: TAGGED
+      return: TAGGED
 
-  - # ====== Entry: tagged-all ===================================
+  - # ====== Entry: TAGGED-ALL ===================================
     id: 43201655520954634051
     entry: 
       sequence: 4
-      display: tagged-all
-      return: tagged-all
+      display: TAGGED-ALL
+      return: TAGGED-ALL
 
-  - # ====== Entry: hibryd =======================================
+  - # ====== Entry: HYBRID =======================================
     id: 43201655917813634051
     entry: 
       sequence: 5
-      display: hibryd
-      return: hibryd
+      display: HYBRID
+      return: HYBRID
 
-  - # ====== Entry: q-in-q =======================================
+  - # ====== Entry: Q-IN-Q =======================================
     id: 43201656394159634052
     entry: 
       sequence: 6
-      display: q-in-q
-      return: q-in-q
+      display: Q-IN-Q
+      return: Q-IN-Q
 
 - # ====== List of Values: INTERFACE_DUPLEX ====================
   id: 43201969178408363692
@@ -758,32 +765,39 @@
     name: INTERFACE_DUPLEX
 
   subscription: 
-    version-number: 15652208652355
+    version-number: 39022433403537
 
   source: 
     location: Static Values
 
   entries: 
-  - # ====== Entry: auto =========================================
+  - # ====== Entry: NA ===========================================
+    id: 124188738540058
+    entry: 
+      sequence: 4
+      display: NA
+      return: NA
+
+  - # ====== Entry: AUTO =========================================
     id: 43201969509925363694
     entry: 
       sequence: 1
-      display: auto
-      return: auto
+      display: AUTO
+      return: AUTO
 
-  - # ====== Entry: full =========================================
+  - # ====== Entry: FULL =========================================
     id: 43201969936959363695
     entry: 
       sequence: 2
-      display: full
-      return: full
+      display: FULL
+      return: FULL
 
-  - # ====== Entry: half =========================================
+  - # ====== Entry: HALF =========================================
     id: 43201970324847363695
     entry: 
       sequence: 3
-      display: half
-      return: half
+      display: HALF
+      return: HALF
 
 - # ====== List of Values: SGT_ENLACES_FO.NOMBRE ===============
   id: 43769668587515608859

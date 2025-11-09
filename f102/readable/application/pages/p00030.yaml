@@ -1201,7 +1201,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: LOV_TIPO_INTERFAZ # 41082575549472967716
+    list-of-values: TIPO_INTERFAZ.NOMBRE # 41082575549472967716
     display-extra-values: true
     display-null-value: true
 

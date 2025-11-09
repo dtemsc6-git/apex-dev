@@ -1482,7 +1482,7 @@ buttons:
 
   appearance: 
     button-template: Text
-    hot: true
+    hot: false
     template-options: 
     - '#DEFAULT#'
 
@@ -1517,7 +1517,7 @@ buttons:
 
   appearance: 
     button-template: Text
-    hot: false
+    hot: true
     template-options: 
     - '#DEFAULT#'
 

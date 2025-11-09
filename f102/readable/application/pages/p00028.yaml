@@ -41,6 +41,52 @@ server-cache:
   caching: Disabled
 
 regions: 
+- # ====== Region: Log eventos =================================
+  id: 40532532474723
+  identification: 
+    name: Log eventos
+    type: Static Content
+
+  source: 
+    html-code: '&P28_LOGGER.'
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P28_ERROR_ROW_COUNT
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Button Bar ==================================
   id: 38501679099902165444
   identification: 
@@ -48,7 +94,7 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 10
+    sequence: 20
     parent-region: No Parent
     slot: BODY
     start-new-layout: false
@@ -91,7 +137,7 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 20
+    sequence: 30
     parent-region: No Parent
     slot: BODY
     start-new-layout: false
@@ -197,6 +243,9 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
+  header-and-footer: 
+    header-text: Puede subir un archivo los nombres de las interfaces deben ser únicos para cada equipo, tenga en cuenta los valores posibles para cada campo requerido, puede chequear estos valores en el formulario de agregar.
+
   server-side-condition: 
     type: Item is NOT NULL
     item: P28_FILE
@@ -220,7 +269,8 @@ regions:
     type: SQL Query
     sql-query: |
       select p.line_number,
-             p.col001, p.col002, p.col003, p.col004, p.col005, p.col006, p.col007, p.col008, p.col009, p.col010
+             p.col001,p.col002, p.col003, p.col004, p.col005, p.col006, p.col007, p.col008, p.col009, p.col010,
+             p.col011,p.col012,p.col013,p.col014
              -- add more columns (col011 to col300) here.
         from apex_application_temp_files f, 
              table( apex_data_parser.parse(
@@ -237,7 +287,7 @@ regions:
     type: None
 
   layout: 
-    sequence: 50
+    sequence: 40
     parent-region: No Parent
     slot: BODY
     start-new-layout: false
@@ -316,6 +366,166 @@ regions:
       enabled: false
 
   columns: 
+  - # ====== Column: COL011 ======================================
+    id: 39816838474716
+    identification: 
+      column-name: COL011
+      type: Plain Text
+
+    heading: 
+      heading: Col011
+      alignment: start
+
+    layout: 
+      sequence: 102
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL012 ======================================
+    id: 39904350474717
+    identification: 
+      column-name: COL012
+      type: Plain Text
+
+    heading: 
+      heading: Col012
+      alignment: start
+
+    layout: 
+      sequence: 112
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL013 ======================================
+    id: 39962568474718
+    identification: 
+      column-name: COL013
+      type: Plain Text
+
+    heading: 
+      heading: Col013
+      alignment: start
+
+    layout: 
+      sequence: 122
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL014 ======================================
+    id: 40107637474719
+    identification: 
+      column-name: COL014
+      type: Plain Text
+
+    heading: 
+      heading: Col014
+      alignment: start
+
+    layout: 
+      sequence: 132
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL002 ======================================
+    id: 40380244474722
+    identification: 
+      column-name: COL002
+      type: Plain Text
+
+    heading: 
+      heading: Col002
+      alignment: start
+
+    layout: 
+      sequence: 12
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
   - # ====== Column: LINE_NUMBER =================================
     id: 38501686965090165459
     identification: 
@@ -380,38 +590,6 @@ regions:
     security: 
       escape-special-characters: true
 
-  - # ====== Column: COL002 ======================================
-    id: 38501687780634165460
-    identification: 
-      column-name: COL002
-      type: Plain Text
-
-    heading: 
-      heading: Col002
-      alignment: start
-
-    layout: 
-      sequence: 3
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
   - # ====== Column: COL003 ======================================
     id: 38501688140903165460
     identification: 
@@ -423,7 +601,7 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 4
+      sequence: 22
       column-alignment: start
 
     accessibility: 
@@ -455,7 +633,7 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 5
+      sequence: 32
       column-alignment: start
 
     accessibility: 
@@ -487,7 +665,7 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 6
+      sequence: 42
       column-alignment: start
 
     accessibility: 
@@ -519,7 +697,7 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 7
+      sequence: 52
       column-alignment: start
 
     accessibility: 
@@ -551,7 +729,7 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 8
+      sequence: 62
       column-alignment: start
 
     accessibility: 
@@ -583,7 +761,7 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 9
+      sequence: 72
       column-alignment: start
 
     accessibility: 
@@ -615,7 +793,7 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 10
+      sequence: 82
       column-alignment: start
 
     accessibility: 
@@ -647,7 +825,7 @@ regions:
       alignment: start
 
     layout: 
-      sequence: 11
+      sequence: 92
       column-alignment: start
 
     accessibility: 
@@ -669,6 +847,66 @@ regions:
       escape-special-characters: true
 
 page-items: 
+- # ====== Page Item: P28_LOGGER ===============================
+  id: 40595322474724
+  identification: 
+    name: P28_LOGGER
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 10
+    region: Log eventos # 40532532474723
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P28_ERRORES ==============================
+  id: 40715946474725
+  identification: 
+    name: P28_ERRORES
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 50
+    region: Loaded File # 38501683612292165451
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P28_FILE =================================
   id: 38501681850808165449
   identification: 
@@ -681,14 +919,16 @@ page-items:
 
   display: 
     display-as: Block Dropzone
-    dropzone-description: Supported formats XLSX
+    dropzone-title: Suba un archivo con interfaces
+    dropzone-description: 'Formato soportado: XLSX'
     capture-using: NONE
 
   storage:: 
     type: Table APEX_APPLICATION_TEMP_FILES
     purge-file-at: End of Session
     allow-multiple-files: false
-    maximum-file-size: 5000
+    file-types: .xlsx
+    maximum-file-size: 100
 
   layout: 
     sequence: 10
@@ -724,6 +964,10 @@ page-items:
   security: 
     session-state-protection: Unrestricted
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Archivo XLS, hasta 100 registros
+    help-text: Puede subir un archivo con el formato sugerido, soporta hasta 100 registros, seleccione el equipo de la lista de equipos
 
 - # ====== Page Item: P28_ERROR_ROW_COUNT ======================
   id: 38501682362071165450
@@ -931,18 +1175,18 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating
+    template: Required - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
     value-placeholder: Seleccione un item
 
   validation: 
-    value-required: false
+    value-required: true
 
   list-of-values: 
     type: Shared Component
-    list-of-values: EQUIPOS.NOMBRE # 16838483136411509974
+    list-of-values: EQUIPOS.NOMBRE-COMPUESTO # 99183333741246371784
     display-extra-values: true
     display-null-value: true
 
@@ -1011,7 +1255,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: LOV_TIPO_INTERFAZ # 41082575549472967716
+    list-of-values: TIPO_INTERFAZ.NOMBRE # 41082575549472967716
     display-extra-values: true
     display-null-value: true
 
@@ -1069,7 +1313,7 @@ buttons:
   id: 38501679833885165446
   identification: 
     button-name: LOAD
-    label: INSERTAR
+    label: Insertar
 
   layout: 
     sequence: 20
@@ -1242,22 +1486,129 @@ computations:
     item: P28_FILE
 
 processes: 
-- # ====== Process: Load Data ==================================
-  id: 38501680301156165446
+- # ====== Process: PROCESAR_XLS ===============================
+  id: 40202923474720
   identification: 
-    name: Load Data
-    type: Data Loading
+    name: PROCESAR_XLS
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      DECLARE
+          v_filas_insertadas NUMBER := 0;
+          v_count_parseo NUMBER := 0;
+          v_count NUMBER := 0;
+          v_error_count NUMBER := 0;
+          v_fila NUMBER :=0;
+      BEGIN
+          -- Información de depuración
+          apex_debug.info('File Name: ' || :P28_FILE_NAME);
+          apex_debug.info('Archivo: ' || :P28_XLSX_WORKSHEET);
+      
+          -- Bucle por cada fila del archivo
+          FOR p IN (
+              SELECT *
+              FROM apex_application_temp_files f,
+                   TABLE(apex_data_parser.parse(
+                       p_content   => f.blob_content,
+                       p_file_name => f.filename,
+                       p_skip_rows => 1
+                   )) tab
+              WHERE f.name = :P28_FILE
+                AND col006 IS NOT NULL
+          ) LOOP
+      
+              BEGIN
+                  -- Intentar insertar cada fila
+                  INSERT INTO SGT_INTERFACES (
+                      EQUIPO_ID,
+                      NOMBRE,
+                      ETIQUETA,
+                      ESTADO,
+                      MODO,
+                      DUPLEX,
+                      TIPO_INTERFACE_ID,
+                      TX_EN_DBM,
+                      RX_EN_DBM,
+                      MAC_ADDRESS,
+                      NUMERO_SERIE,
+                      HW_VERSION,
+                      SW_VERSION
+                  ) VALUES (
+                      :P28_EQUIPOS,
+                      p.col001,
+                      p.col002,
+                      UPPER(p.col003),
+                      UPPER(p.col004),
+                      UPPER(p.col005),
+                      F_GET_LOVS(2, p.col006),
+                      p.col007,
+                      p.col008,
+                      p.col009,
+                      p.col010,
+                      p.col011,
+                      p.col012
+                  );
+      
+                  v_count := v_count + 1;
+      
+              EXCEPTION
+                  WHEN DUP_VAL_ON_INDEX THEN
+                      v_error_count := v_error_count + 1;
+                      apex_debug.error('Fila duplicada: ' || SQLERRM);
+                      CONTINUE;
+      
+                  WHEN OTHERS THEN
+                      v_error_count := v_error_count + 1;
+                      apex_debug.error('Error en fila ' || TO_CHAR(v_count + v_error_count) || ': ' || SQLERRM);
+                      CONTINUE;
+              END;
+      
+          END LOOP;
+      
+          :P28_ERROR_ROW_COUNT := v_error_count;
+          :P28_LOGGER := 'Registros insertados: ' || v_count || ', Errores: ' || v_error_count;
+      
+          apex_debug.info('Registros insertados: ' || v_count);
+          apex_debug.info('Errores: ' || v_error_count);
+      
+         
+      END;
+      
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: '&P28_LOGGER.'
+
+  error: 
+    error-message: '&P28_LOGGER.'
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: LOAD # 38501679833885165446
+
+  security: 
+    authorization-scheme: Implementador Rights # 56843702980053272617
+
+- # ====== Process: Close Dialog ===============================
+  id: 40287881474721
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
     execution-chain: None
 
   settings: 
-    data-load-definition: agregar-interfaces-dl # 38498375037021783605
-    source-data-type: File Browse Item
-    file-browse-item: P28_FILE
-    page-item-containing-xlsx-sheet-name: P28_XLSX_WORKSHEET
-    error-row-count-item: P28_ERROR_ROW_COUNT
+    show-success-messages: true
 
   execution: 
-    sequence: 10
+    sequence: 50
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1278,7 +1629,7 @@ processes:
     type: Clear all Items on the Current Page
 
   execution: 
-    sequence: 20
+    sequence: 30
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1289,38 +1640,4 @@ processes:
     type: Expression
     language: PL/SQL
     pl/sql-expression: ":REQUEST = 'CLEAR' or :P28_ERROR_ROW_COUNT = 0"
-
-- # ====== Process: CargarDatoEquipos ==========================
-  id: 40903511727096394918
-  identification: 
-    name: CargarDatoEquipos
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: |
-      DECLARE
-        v_rows_inserted VARCHAR2(100);  
-      BEGIN
-         PKG_SGT_PR_INTERFACES.IMPORT_DATOS (
-            p_idsession => :APP_SESSION,
-          p_equipo_id => :P28_EQUIPOS,
-          p_filename => :P28_FILE_NAME,
-          p_hoja => :P28_XLSX_WORKSHEET,
-          p_rowsinsert => :P1_ROWS_INSERTED
-         );
-      END;
-
-  execution: 
-    sequence: 30
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  error: 
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    when-button-pressed: FUNCTION_LOAD # 40903511972562394920
 

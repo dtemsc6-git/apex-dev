@@ -295,12 +295,41 @@
     name: Navigation Menu
 
   subscription: 
-    version-number: 39022133197718
+    version-number: 39022470703357
 
   source: 
     type: Static Values
 
   entries: 
+  - # ====== Entry: Grilla Interfaces ============================
+    id: 39221858471725
+    label: 
+      label: Grilla Interfaces
+
+    icon: 
+      image/icon-css-classes: fa-list-ul
+
+    layout: 
+      sequence: 730
+      parent-entry: Interfaces # 37204294179255013530
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:49:&SESSION.::&DEBUG.::::'
+        page: 49 # Grilla Interfaces
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    security: 
+      authorization-scheme: Implementador Rights # 56843702980053272617
+
   - # ====== Entry: Mapa Sitios ==================================
     id: 2244218112776946
     label: 
@@ -381,6 +410,7 @@
       type: Pages
       pages: 
       - 8
+      - 49
 
     link: 
       target: 
@@ -699,10 +729,13 @@
     user-defined-attributes: 
       translatable: false
 
-  - # ====== Entry: IG_EQUIPOS ===================================
+  - # ====== Entry: Grilla Equipos ===============================
     id: 88029814684260629634
     label: 
-      label: IG_EQUIPOS
+      label: Grilla Equipos
+
+    icon: 
+      image/icon-css-classes: fa-accordion
 
     layout: 
       sequence: 690
@@ -715,7 +748,7 @@
 
     link: 
       target: 
-        url: 'f?p=&APP_ID.:44:&APP_SESSION.::&DEBUG.:::'
+        url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.::::'
         page: 44 # IG_EQUIPOS
 
     click-counting: 
@@ -724,10 +757,13 @@
     user-defined-attributes: 
       translatable: false
 
-  - # ====== Entry: IG_ENLACES_FO ================================
+  - # ====== Entry: Grilla Enlaces FO ============================
     id: 88034632672614079354
     label: 
-      label: IG_ENLACES_FO
+      label: Grilla Enlaces FO
+
+    icon: 
+      image/icon-css-classes: fa-cards
 
     layout: 
       sequence: 700
@@ -740,7 +776,7 @@
 
     link: 
       target: 
-        url: 'f?p=&APP_ID.:45:&APP_SESSION.::&DEBUG.:::'
+        url: 'f?p=&APP_ID.:45:&SESSION.::&DEBUG.::::'
         page: 45 # IG_ENLACES_FO
 
     click-counting: 

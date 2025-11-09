@@ -53,7 +53,7 @@ regions:
         '<a class="fa fa-search" title="Ver rack">Ver</a>'  ACCIONES , 
       
       
-             sitios.siglas ||'-'|| salas.siglas SALA, 
+             sitios.siglas ||'.'|| salas.siglas SALA, 
              SGT_RACKS.NOMBRE NOMBRE,
              DETALLE,
              UNIDAD_ENCARGADA,
@@ -537,7 +537,7 @@ regions:
       id: 202816056521467564097
       identification: 
         column-name: NOMBRE
-        type: Plain Text
+        type: Link
 
       heading: 
         heading: Nombre
@@ -552,6 +552,17 @@ regions:
 
       accessibility: 
         value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:37:&SESSION.::&DEBUG.:37:P37_RACK_ID,P37_RACK_NOMBRE:#ID#,#NOMBRE#'
+          page: 37 # SGT_UBICAR_EQUIPO_RACK
+          clear-cache: 37
+          values: 
+            p37_rack_id: '#ID#'
+            p37_rack_nombre: '#NOMBRE#'
+
+        link-text: '#NOMBRE#'
 
       source: 
         primary-key: false
