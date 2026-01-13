@@ -1,11 +1,928 @@
 ---
+- # ====== Data Load Definition: INTERFACES_L2 =================
+  id: 494123609423295
+  identification: 
+    name: INTERFACES_L2
+
+  subscription: 
+    version-number: 39022609809213
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: SGT_INTERFACES_L2
+    loading-method: Append
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: interfaces_l2
+
+  data-profiles: 
+    id: 492750546423263
+    identification: 
+      name: INTERFACES_L2
+
+    data-profile: 
+      format: XLSX
+
+    advanced: 
+      encoding: Unicode UTF-8
+      first-line-contains-headers: true
+
+    columns: 
+    - # ====== Column: TIPO_VLAN ===================================
+      id: 492992991423295
+      identification: 
+        column-name: TIPO_VLAN
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: TIPO_VLAN
+
+      advanced: 
+        sequence: 10
+        hidden: false
+
+    - # ====== Column: VLAN ========================================
+      id: 493276571423295
+      identification: 
+        column-name: VLAN
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: VLAN
+
+      advanced: 
+        sequence: 20
+        hidden: false
+
+    - # ====== Column: L2_VC_ID ====================================
+      id: 493603109423295
+      identification: 
+        column-name: L2_VC_ID
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: L2_VC_ID
+
+      advanced: 
+        sequence: 30
+        hidden: false
+
+    - # ====== Column: LS_TX_RX_LABEL ==============================
+      id: 493927623423295
+      identification: 
+        column-name: LS_TX_RX_LABEL
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: LS_TX_RX_LABEL
+
+      advanced: 
+        sequence: 40
+        hidden: false
+
+    - # ====== Column: INTERFACE ===================================
+      id: 496146137461084
+      identification: 
+        column-name: INTERFACE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: INTERFACE
+
+      advanced: 
+        sequence: 8
+        hidden: false
+
+    - # ====== Column: INTERFACE_ID ================================
+      id: 496594723491198
+      identification: 
+        column-name: INTERFACE_ID
+
+      source: 
+        type: SQL Expression
+        data-type: NUMBER
+        primary-key: false
+
+      computation: 
+        sql-expression: SELECT F_GET_LOVS(6, INTERFACE) FROM DUAL
+
+      advanced: 
+        sequence: 50
+        hidden: false
+
+- # ====== Data Load Definition: INTERFACES_L3 =================
+  id: 553001559699772
+  identification: 
+    name: INTERFACES_L3
+
+  subscription: 
+    version-number: 39022714320214
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: SGT_INTERFACES_L3
+    loading-method: Append
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: interfaces_l3
+
+  data-profiles: 
+    id: 551343697699771
+    identification: 
+      name: INTERFACES_L3
+
+    data-profile: 
+      format: XLSX
+
+    advanced: 
+      encoding: Unicode UTF-8
+      first-line-contains-headers: true
+
+    columns: 
+    - # ====== Column: TIPO_PROTOCOLO ==============================
+      id: 551645684699772
+      identification: 
+        column-name: TIPO_PROTOCOLO
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 50
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: TIPO_PROTOCOLO
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+    - # ====== Column: VPN_INSTANCE ================================
+      id: 551910063699772
+      identification: 
+        column-name: VPN_INSTANCE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 50
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: VPN_INSTANCE
+
+      advanced: 
+        sequence: 2
+        hidden: false
+
+    - # ====== Column: ROUTER_ID ===================================
+      id: 552206361699772
+      identification: 
+        column-name: ROUTER_ID
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 45
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ROUTER_ID
+
+      advanced: 
+        sequence: 3
+        hidden: false
+
+    - # ====== Column: PROCESO_OSPF ================================
+      id: 552544039699772
+      identification: 
+        column-name: PROCESO_OSPF
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 100
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: PROCESO_OSPF
+
+      advanced: 
+        sequence: 4
+        hidden: false
+
+    - # ====== Column: OSPF_AREA ===================================
+      id: 552824823699772
+      identification: 
+        column-name: OSPF_AREA
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 100
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: OSPF_AREA
+
+      advanced: 
+        sequence: 5
+        hidden: false
+
+    - # ====== Column: INTERFACE ===================================
+      id: 576494713780495
+      identification: 
+        column-name: INTERFACE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: INTERFACE
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+    - # ====== Column: INTERFACE_ID ================================
+      id: 576856435785466
+      identification: 
+        column-name: INTERFACE_ID
+
+      source: 
+        type: SQL Expression
+        data-type: NUMBER
+        primary-key: false
+
+      computation: 
+        sql-expression: SELECT F_GET_LOVS(6, INTERFACE) FROM DUAL
+
+      advanced: 
+        sequence: 6
+        hidden: false
+
+    - # ====== Column: NUM_BGP =====================================
+      id: 733023086156849
+      identification: 
+        column-name: NUM_BGP
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 100
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: NUM_BGP
+
+      advanced: 
+        sequence: 16
+        hidden: false
+
+- # ====== Data Load Definition: IP_ADM ========================
+  id: 558092041697210
+  identification: 
+    name: IP_ADM
+
+  subscription: 
+    version-number: 39022615607168
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: SGT_IP_ADM
+    loading-method: Append
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: ip_adm
+
+  data-profiles: 
+    id: 556745932697179
+    identification: 
+      name: IP_ADM
+
+    data-profile: 
+      format: XLSX
+
+    advanced: 
+      encoding: Unicode UTF-8
+      first-line-contains-headers: true
+
+    columns: 
+    - # ====== Column: IP ==========================================
+      id: 556970856697209
+      identification: 
+        column-name: IP
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 45
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: IP
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+    - # ====== Column: MASK ========================================
+      id: 557257255697209
+      identification: 
+        column-name: MASK
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 45
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: MASK
+
+      advanced: 
+        sequence: 2
+        hidden: false
+
+    - # ====== Column: GW ==========================================
+      id: 557556708697210
+      identification: 
+        column-name: GW
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 45
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: GW
+
+      advanced: 
+        sequence: 3
+        hidden: false
+
+    - # ====== Column: ESTADO ======================================
+      id: 557936540697210
+      identification: 
+        column-name: ESTADO
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 50
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ESTADO
+
+      advanced: 
+        sequence: 4
+        hidden: false
+
+    - # ====== Column: INTERFACE ===================================
+      id: 558611908717513
+      identification: 
+        column-name: INTERFACE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: INTERFACE
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+    - # ====== Column: INTERFACE_ID ================================
+      id: 558997930722752
+      identification: 
+        column-name: INTERFACE_ID
+
+      source: 
+        type: SQL Expression
+        data-type: NUMBER
+        primary-key: false
+
+      computation: 
+        sql-expression: SELECT F_GET_LOVS(6, INTERFACE) FROM DUAL
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+- # ====== Data Load Definition: AGREGAR_INTERFACES ============
+  id: 736124762171204
+  identification: 
+    name: AGREGAR_INTERFACES
+
+  subscription: 
+    version-number: 39022714498303
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: SGT_INTERFACES
+    loading-method: Append
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: agregar_interfaces
+
+  data-profiles: 
+    id: 733839348171174
+    identification: 
+      name: AGREGAR_INTERFACES
+
+    data-profile: 
+      format: CSV
+
+    advanced: 
+      encoding: Unicode UTF-8
+      csv-enclosed-by: '"'
+      first-line-contains-headers: true
+
+    columns: 
+    - # ====== Column: NOMBRE ======================================
+      id: 734081958171203
+      identification: 
+        column-name: NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1020
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: NOMBRE
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+    - # ====== Column: ETIQUETA ====================================
+      id: 734448106171203
+      identification: 
+        column-name: ETIQUETA
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1020
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ETIQUETA
+
+      advanced: 
+        sequence: 2
+        hidden: false
+
+    - # ====== Column: ESTADO ======================================
+      id: 734656250171203
+      identification: 
+        column-name: ESTADO
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1020
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ESTADO
+
+      advanced: 
+        sequence: 3
+        hidden: false
+
+    - # ====== Column: VELOCIDAD_MBPS ==============================
+      id: 734977969171204
+      identification: 
+        column-name: VELOCIDAD_MBPS
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: VELOCIDAD_MBPS
+
+      advanced: 
+        sequence: 4
+        hidden: false
+
+    - # ====== Column: TX_EN_DBM ===================================
+      id: 735340640171204
+      identification: 
+        column-name: TX_EN_DBM
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 40
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: TX_EN_DBM
+
+      advanced: 
+        sequence: 5
+        hidden: false
+
+    - # ====== Column: RX_EN_DBM ===================================
+      id: 735581027171204
+      identification: 
+        column-name: RX_EN_DBM
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 40
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: RX_EN_DBM
+
+      advanced: 
+        sequence: 6
+        hidden: false
+
+    - # ====== Column: MAC_ADDRESS =================================
+      id: 735896007171204
+      identification: 
+        column-name: MAC_ADDRESS
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 100
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: MAC_ADDRESS
+
+      advanced: 
+        sequence: 7
+        hidden: false
+
+    - # ====== Column: EQUIPOS =====================================
+      id: 751318618191972
+      identification: 
+        column-name: EQUIPOS
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: EQUIPOS
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+    - # ====== Column: EQUIPO_ID ===================================
+      id: 751744192199033
+      identification: 
+        column-name: EQUIPO_ID
+
+      source: 
+        type: SQL Expression
+        data-type: NUMBER
+        primary-key: false
+
+      computation: 
+        sql-expression: SELECT F_GET_LOVS(1, EQUIPOS) FROM DUAL
+
+      advanced: 
+        sequence: 17
+        hidden: false
+
+- # ====== Data Load Definition: Agregar Interfaces ME =========
+  id: 760858216314223
+  identification: 
+    name: Agregar Interfaces ME
+
+  subscription: 
+    version-number: 39022818022588
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: SGT_INTERFACES
+    loading-method: Append
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 500
+    static-id: agregar_ifaces_me
+
+  data-profiles: 
+    id: 758613663314222
+    identification: 
+      name: A
+
+    data-profile: 
+      format: XLSX
+
+    advanced: 
+      encoding: Unicode UTF-8
+      default-xlsx-sheet-name: sheet1.xml
+      first-line-contains-headers: true
+
+    columns: 
+    - # ====== Column: NOMBRE ======================================
+      id: 758888616314223
+      identification: 
+        column-name: NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: NOMBRE
+
+      advanced: 
+        sequence: 2
+        hidden: false
+
+    - # ====== Column: ETIQUETA ====================================
+      id: 759162520314223
+      identification: 
+        column-name: ETIQUETA
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1020
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ETIQUETA
+
+      advanced: 
+        sequence: 2
+        hidden: false
+
+    - # ====== Column: ESTADO ======================================
+      id: 759466674314223
+      identification: 
+        column-name: ESTADO
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 1020
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: ESTADO
+
+      advanced: 
+        sequence: 3
+        hidden: false
+
+    - # ====== Column: VELOCIDAD_MBPS ==============================
+      id: 759838492314223
+      identification: 
+        column-name: VELOCIDAD_MBPS
+
+      source: 
+        type: Data
+        data-type: NUMBER
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: VELOCIDAD_MBPS
+
+      advanced: 
+        sequence: 4
+        hidden: false
+
+    - # ====== Column: TX_EN_DBM ===================================
+      id: 760131903314223
+      identification: 
+        column-name: TX_EN_DBM
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 40
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: TX_EN_DBM
+
+      advanced: 
+        sequence: 5
+        hidden: false
+
+    - # ====== Column: RX_EN_DBM ===================================
+      id: 760367115314223
+      identification: 
+        column-name: RX_EN_DBM
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 40
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: RX_EN_DBM
+
+      advanced: 
+        sequence: 6
+        hidden: false
+
+    - # ====== Column: MAC_ADDRESS =================================
+      id: 760703724314223
+      identification: 
+        column-name: MAC_ADDRESS
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 100
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: MAC_ADDRESS
+
+      advanced: 
+        sequence: 7
+        hidden: false
+
+    - # ====== Column: EQUIPOS =====================================
+      id: 762069969325950
+      identification: 
+        column-name: EQUIPOS
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: EQUIPOS
+
+      advanced: 
+        sequence: 1
+        hidden: false
+
+    - # ====== Column: TIPO_INTERFACE ==============================
+      id: 762615889325951
+      identification: 
+        column-name: TIPO_INTERFACE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: TIPO_INTERFACE
+
+      advanced: 
+        sequence: 5
+        hidden: false
+
+    - # ====== Column: EQUIPO_ID ===================================
+      id: 763760281336595
+      identification: 
+        column-name: EQUIPO_ID
+
+      source: 
+        type: SQL Expression
+        data-type: NUMBER
+        primary-key: false
+
+      computation: 
+        sql-expression: SELECT F_GET_LOVS(1, EQUIPOS) FROM DUAL
+
+      advanced: 
+        sequence: 17
+        hidden: false
+
+    - # ====== Column: TIPO_INTERFACE_ID ===========================
+      id: 765006276374321
+      identification: 
+        column-name: TIPO_INTERFACE_ID
+
+      source: 
+        type: SQL Expression
+        data-type: NUMBER
+        primary-key: false
+
+      computation: 
+        sql-expression: SELECT F_GET_LOVS(2, TIPO_INTERFACE) FROM DUAL
+
+      advanced: 
+        sequence: 27
+        hidden: false
+
 - # ====== Data Load Definition: agregar-interfaces-dl =========
   id: 38498375037021783605
   identification: 
     name: agregar-interfaces-dl
 
   subscription: 
-    version-number: 15622642025093
+    version-number: 39022573663680
 
   target: 
     type: Table
@@ -36,24 +953,6 @@
       first-line-contains-headers: true
 
     columns: 
-    - # ====== Column: SGT_EQUIPOS_ID ==============================
-      id: 38498370940413783602
-      identification: 
-        column-name: SGT_EQUIPOS_ID
-
-      source: 
-        type: Data
-        data-type: NUMBER
-        primary-key: false
-
-      parsing: 
-        selector-type: Name
-        selector: SGT_EQUIPOS_ID
-
-      advanced: 
-        sequence: 2
-        hidden: false
-
     - # ====== Column: NOMBRE ======================================
       id: 38498371226942783602
       identification: 

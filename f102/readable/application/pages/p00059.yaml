@@ -1,10 +1,10 @@
 ---
-# ====== Page: Grilla Interfaces =============================
-id: 49
+# ====== Page: Admin IP's ====================================
+id: 59
 identification: 
-  name: Grilla Interfaces
-  alias: GRILLA-INTERFACES
-  title: Grilla Interfaces
+  name: Admin IP's
+  alias: ADMIN-IP-S
+  title: Admin IP's
 
 appearance: 
   page-mode: Normal
@@ -38,17 +38,60 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Grilla Interfaces ===========================
-  id: 18642094420531
+- # ====== Region: Breadcrumb ==================================
+  id: 536090588621678
   identification: 
-    name: Grilla Interfaces
+    name: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 197180072443235446203
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb
+      template-options: 
+      - '#DEFAULT#'
+
+- # ====== Region: Admin IP's ==================================
+  id: 536784219621678
+  identification: 
+    name: Admin IP's
     type: Interactive Grid
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: SGT_INTERFACES
+    table-name: SGT_IP_ADM
     include-rowid-column: false
 
   layout: 
@@ -80,7 +123,7 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 19075149420533
+    id: 537264204621678
     edit: 
       enabled: true
       allowed-operations: 
@@ -89,11 +132,6 @@ regions:
       - Delete Row
       lost-update-type: Row Values
       add-row-if-empty: true
-
-    edit-authorization: 
-      add: Implementador Rights # 56843702980053272617
-      update: Implementador Rights # 56843702980053272617
-      delete: Implementador Rights # 56843702980053272617
 
     performance: 
       lazy-loading: false
@@ -140,14 +178,37 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 19499403420534
+      id: 537734802621679
       identification: 
         name: Primary Report
-        alias: 117137
+        alias: 122319
 
   columns: 
+  - # ====== Column: APEX$ROW_SELECTOR ===========================
+    id: 538113514621679
+    identification: 
+      column-name: APEX$ROW_SELECTOR
+      type: Row Selector
+
+    settings: 
+      enable-multi-select: true
+      show-select-all: true
+      hide-control: false
+
+    layout: 
+      sequence: 10
+
+  - # ====== Column: APEX$ROW_ACTION =============================
+    id: 538636809621679
+    identification: 
+      column-name: APEX$ROW_ACTION
+      type: Actions Menu
+
+    layout: 
+      sequence: 20
+
   - # ====== Column: ID ==========================================
-    id: 19866488420540
+    id: 539563292621680
     identification: 
       column-name: ID
       type: Hidden
@@ -178,15 +239,29 @@ regions:
       sort: true
       control-break/aggregate: true
 
-  - # ====== Column: EQUIPO_ID ===================================
-    id: 20929820420542
+  - # ====== Column: INTERFACE_ID ================================
+    id: 540562092621680
     identification: 
-      column-name: EQUIPO_ID
-      type: Select List
+      column-name: INTERFACE_ID
+      type: Popup LOV
 
     heading: 
-      heading: Equipo
+      heading: Interfaz
       alignment: center
+
+    settings: 
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
 
     layout: 
       sequence: 40
@@ -201,13 +276,13 @@ regions:
 
     list-of-values: 
       type: Shared Component
-      list-of-values: EQUIPOS.NOMBRE-COMPUESTO # 99183333741246371784
+      list-of-values: INTERFACES.NOMBRE-COMPUESTO # 515008900594460
       display-extra-values: true
       display-null-value: true
 
     source: 
       type: Database Column
-      database-column: EQUIPO_ID
+      database-column: INTERFACE_ID
       data-type: NUMBER
       query-only: false
       primary-key: false
@@ -233,14 +308,14 @@ regions:
       control-break/aggregate: true
       hide: true
 
-  - # ====== Column: NOMBRE ======================================
-    id: 21881878420542
+  - # ====== Column: IP ==========================================
+    id: 541615889621680
     identification: 
-      column-name: NOMBRE
+      column-name: IP
       type: Text Field
 
     heading: 
-      heading: Nombre
+      heading: IP
       alignment: center
 
     settings: 
@@ -257,11 +332,11 @@ regions:
 
     validation: 
       value-required: false
-      maximum-length: 255
+      maximum-length: 45
 
     source: 
       type: Database Column
-      database-column: NOMBRE
+      database-column: IP
       data-type: VARCHAR2
       query-only: false
       primary-key: false
@@ -288,14 +363,14 @@ regions:
       control-break/aggregate: true
       hide: true
 
-  - # ====== Column: ETIQUETA ====================================
-    id: 22936479420542
+  - # ====== Column: MASK ========================================
+    id: 542619728621681
     identification: 
-      column-name: ETIQUETA
+      column-name: MASK
       type: Text Field
 
     heading: 
-      heading: Etiqueta/Descripción
+      heading: Máscara de red
       alignment: center
 
     settings: 
@@ -312,11 +387,66 @@ regions:
 
     validation: 
       value-required: false
-      maximum-length: 255
+      maximum-length: 45
 
     source: 
       type: Database Column
-      database-column: ETIQUETA
+      database-column: MASK
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  - # ====== Column: GW ==========================================
+    id: 543562651621681
+    identification: 
+      column-name: GW
+      type: Text Field
+
+    heading: 
+      heading: Gateway
+      alignment: center
+
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
+
+    layout: 
+      sequence: 70
+      column-alignment: center
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+      maximum-length: 45
+
+    source: 
+      type: Database Column
+      database-column: GW
       data-type: VARCHAR2
       query-only: false
       primary-key: false
@@ -344,7 +474,7 @@ regions:
       hide: true
 
   - # ====== Column: ESTADO ======================================
-    id: 23868909420543
+    id: 544581007621682
     identification: 
       column-name: ESTADO
       type: Text Field
@@ -358,7 +488,7 @@ regions:
       text-case: NO CHANGE
 
     layout: 
-      sequence: 70
+      sequence: 80
       column-alignment: center
       stretch: Use Report Setting
 
@@ -367,7 +497,7 @@ regions:
 
     validation: 
       value-required: false
-      maximum-length: 255
+      maximum-length: 50
 
     source: 
       type: Database Column
@@ -398,15 +528,74 @@ regions:
       control-break/aggregate: true
       hide: true
 
-  - # ====== Column: TIPO_INTERFACE_ID ===========================
-    id: 26882855420544
+  - # ====== Column: CREADO_EL ===================================
+    id: 545569666621682
     identification: 
-      column-name: TIPO_INTERFACE_ID
-      type: Select List
+      column-name: CREADO_EL
+      type: Text Field
 
     heading: 
-      heading: Tipo de Interfaz
+      heading: Creado El
       alignment: center
+
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
+
+    layout: 
+      sequence: 90
+      column-alignment: center
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+      maximum-length: 50
+
+    source: 
+      type: Database Column
+      database-column: CREADO_EL
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  - # ====== Column: ACTUALIZADO_EL ==============================
+    id: 546551687621683
+    identification: 
+      column-name: ACTUALIZADO_EL
+      type: Text Field
+
+    heading: 
+      heading: Actualizado El
+      alignment: center
+
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
 
     layout: 
       sequence: 100
@@ -418,291 +607,12 @@ regions:
 
     validation: 
       value-required: false
-
-    list-of-values: 
-      type: Shared Component
-      list-of-values: TIPO_INTERFAZ.NOMBRE # 41082575549472967716
-      display-extra-values: true
-      display-null-value: true
-
-    source: 
-      type: Database Column
-      database-column: TIPO_INTERFACE_ID
-      data-type: NUMBER
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: TX_EN_DBM ===================================
-    id: 27904496420544
-    identification: 
-      column-name: TX_EN_DBM
-      type: Text Field
-
-    heading: 
-      heading: Tx en dBm
-      alignment: center
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 120
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 10
-
-    source: 
-      type: Database Column
-      database-column: TX_EN_DBM
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: RX_EN_DBM ===================================
-    id: 28929170420545
-    identification: 
-      column-name: RX_EN_DBM
-      type: Text Field
-
-    heading: 
-      heading: Rx en dBm
-      alignment: center
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 130
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 10
-
-    source: 
-      type: Database Column
-      database-column: RX_EN_DBM
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: MAC_ADDRESS =================================
-    id: 29949692420545
-    identification: 
-      column-name: MAC_ADDRESS
-      type: Text Field
-
-    heading: 
-      heading: MAC Address
-      alignment: center
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 140
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 25
-
-    source: 
-      type: Database Column
-      database-column: MAC_ADDRESS
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: CREADO_EL ===================================
-    id: 33885959420547
-    identification: 
-      column-name: CREADO_EL
-      type: Date Picker
-
-    heading: 
-      heading: Creado El
-      alignment: center
-
-    settings: 
-      show-time: false
-      display-as: Popup
-      minimum-date: None
-      maximum-date: None
-      multiple-months: No
-      use-defaults: true
-
-    layout: 
-      sequence: 150
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-
-    source: 
-      type: Database Column
-      database-column: CREADO_EL
-      data-type: TIMESTAMP
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      lov-type: Distinct Column
-      date-ranges: All
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: ACTUALIZADO_EL ==============================
-    id: 34886888420547
-    identification: 
-      column-name: ACTUALIZADO_EL
-      type: Date Picker
-
-    heading: 
-      heading: Actualizado El
-      alignment: center
-
-    settings: 
-      show-time: false
-      display-as: Popup
-      minimum-date: None
-      maximum-date: None
-      multiple-months: No
-      use-defaults: true
-
-    layout: 
-      sequence: 160
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
+      maximum-length: 50
 
     source: 
       type: Database Column
       database-column: ACTUALIZADO_EL
-      data-type: TIMESTAMP
+      data-type: VARCHAR2
       query-only: false
       primary-key: false
 
@@ -711,8 +621,14 @@ regions:
 
     column-filter: 
       enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
       lov-type: Distinct Column
-      date-ranges: All
+      exact-match: true
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -723,7 +639,7 @@ regions:
       hide: true
 
   - # ====== Column: ACTUALIZADO_POR =============================
-    id: 35927906420548
+    id: 547576522621683
     identification: 
       column-name: ACTUALIZADO_POR
       type: Text Field
@@ -737,7 +653,7 @@ regions:
       text-case: NO CHANGE
 
     layout: 
-      sequence: 170
+      sequence: 110
       column-alignment: center
       stretch: Use Report Setting
 
@@ -746,7 +662,7 @@ regions:
 
     validation: 
       value-required: false
-      maximum-length: 255
+      maximum-length: 50
 
     source: 
       type: Database Column
@@ -778,7 +694,7 @@ regions:
       hide: true
 
   - # ====== Column: CREADO_POR ==================================
-    id: 36894355420548
+    id: 548569209621683
     identification: 
       column-name: CREADO_POR
       type: Text Field
@@ -792,7 +708,7 @@ regions:
       text-case: NO CHANGE
 
     layout: 
-      sequence: 180
+      sequence: 120
       column-alignment: center
       stretch: Use Report Setting
 
@@ -801,7 +717,7 @@ regions:
 
     validation: 
       value-required: false
-      maximum-length: 255
+      maximum-length: 50
 
     source: 
       type: Database Column
@@ -832,76 +748,6 @@ regions:
       control-break/aggregate: true
       hide: true
 
-  - # ====== Column: APEX$ROW_ACTION =============================
-    id: 39413567474712
-    identification: 
-      column-name: APEX$ROW_ACTION
-      type: Actions Menu
-
-    layout: 
-      sequence: 20
-
-  - # ====== Column: APEX$ROW_SELECTOR ===========================
-    id: 39459646474713
-    identification: 
-      column-name: APEX$ROW_SELECTOR
-      type: Row Selector
-
-    settings: 
-      enable-multi-select: true
-      show-select-all: true
-      hide-control: false
-
-    layout: 
-      sequence: 10
-
-  - # ====== Column: VELOCIDAD_MBPS ==============================
-    id: 41972769474738
-    identification: 
-      column-name: VELOCIDAD_MBPS
-      type: Number Field
-
-    heading: 
-      heading: Velocidad (Mbps)
-      alignment: center
-
-    settings: 
-      number-alignment: Start
-      virtual-keyboard: Decimal
-
-    layout: 
-      sequence: 110
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-
-    source: 
-      type: Database Column
-      database-column: VELOCIDAD_MBPS
-      data-type: NUMBER
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
   printing: 
     page: 
       size: Letter
@@ -918,7 +764,7 @@ regions:
       font-size: 12
       font-color: '#000000'
       alignment: center
-      page-header-text: Grilla Interfaces
+      page-header-text: Admin IP's
 
     column-headings: 
       font: Helvetica
@@ -941,14 +787,45 @@ regions:
       font-color: '#000000'
       alignment: center
 
-processes: 
-- # ====== Process: Grilla Interfaces - Save Interactive Grid Da
-  id: 39572520474714
+buttons: 
+- # ====== Button: LOAD ========================================
+  id: 42548303474743
   identification: 
-    name: Grilla Interfaces - Save Interactive Grid Data
+    button-name: LOAD
+    label: Importar XLSX
+
+  layout: 
+    sequence: 10
+    region: Admin IP's # 536784219621678
+    slot: ORDER_BY_ITEM
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:62:&SESSION.::&DEBUG.:::'
+      page: 62 # Importar IP admin
+
+    warn-on-unsaved-changes: Do Not Check
+
+processes: 
+- # ====== Process: Admin IP's - Save Interactive Grid Data ====
+  id: 549956894621684
+  identification: 
+    name: Admin IP's - Save Interactive Grid Data
     type: Interactive Grid - Automatic Row Processing (DML)
     execution-chain: None
-    editable-region: Grilla Interfaces # 18642094420531
+    editable-region: Admin IP's # 536784219621678
 
   settings: 
     target-type: Region Source

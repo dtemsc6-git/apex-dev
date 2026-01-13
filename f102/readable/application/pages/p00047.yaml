@@ -61,6 +61,7 @@ regions:
     template: Standard
     template-options: 
     - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
     - t-Region--scrollBody
     render-components: Above Content
 
@@ -163,7 +164,7 @@ regions:
       type: Checkbox Group
 
     label: 
-      label: Tipo Sitio
+      label: Tipo de Sitio
       show-label-for-current-facet: true
 
     layout: 
@@ -261,7 +262,7 @@ regions:
       type: Checkbox Group
 
     label: 
-      label: DEPARTAMENTO
+      label: Departamento
       show-label-for-current-facet: true
 
     layout: 
@@ -372,7 +373,7 @@ regions:
       type: Checkbox Group
 
     label: 
-      label: Tipo Sitio
+      label: Tipo de Sitio
 
     layout: 
       sequence: 70
@@ -450,7 +451,7 @@ regions:
       type: Checkbox Group
 
     label: 
-      label: DEPARTAMENTO
+      label: Departamento
 
     layout: 
       sequence: 50
@@ -571,7 +572,7 @@ regions:
     id: 2245734854776955
     map: 
       background: Default
-      height: 640
+      height: 800
 
     controls: 
       navigation-bar: Zoom and Compass
@@ -589,7 +590,7 @@ regions:
 
     legend: 
       show: true
-      position: End
+      position: Start
 
     attributes: 
       messages-position: Below

@@ -205,6 +205,65 @@ regions:
       expand-shortcuts: false
 
 page-items: 
+- # ====== Page Item: P30_VELOCIDAD_MBPS =======================
+  id: 42810656474746
+  identification: 
+    name: P30_VELOCIDAD_MBPS
+    type: Number Field
+
+  label: 
+    label: Velocidad (Mbps)
+    alignment: Left
+
+  settings: 
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 140
+    region: SGT_FROM_INTERFACES # 43191653727341446998
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FROM_INTERFACES # 43191653727341446998
+    column: VELOCIDAD_MBPS
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Ingresar la velocidad configurada de la interfaz en Mbps
+
 - # ====== Page Item: P30_ID ===================================
   id: 43191654077773446999
   identification: 
@@ -268,7 +327,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating
+    template: Required - Floating
     template-options: 
     - '#DEFAULT#'
     width: 32
@@ -299,11 +358,12 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: 'Ingrese nombre, puede agregar rangos[1-30] para crear varios items '
+    inline-help-text: |
+      Ingresar nombre de la interfaz.
+      Puede agregar rangos [1-100] para crear varios ítems
     help-text: |
-      Ingrese nombre, puede agregar rangos ejemplo: 
-      ge/[0-2]/[0-3]/[0-10] para crear varios Items.
-      La cantidad maxima de items por creación esta limitada a 100 registros. 
+      Puede agregar rangos ejemplo: 
+      ge/[0-2]/[0-3]/[0-10] para crear varios ítems. La cantidad maxima de items por creación esta limitada a 100 registros. 
 
 - # ====== Page Item: P30_ETIQUETA =============================
   id: 43191655271762447001
@@ -312,7 +372,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Etiqueta
+    label: Etiqueta/Descripción
     alignment: Left
 
   settings: 
@@ -366,10 +426,11 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
+    inline-help-text: Ingresar etiqueta o descripción de la interfaz
     help-text: |
-      Ingrese etiqueta, puede agregar rangos ejemplo: 
-      ge/[0-2]/[0-3]/[0-10] para crear varios Items.
-      La cantidad maxima de items por creación esta limitada a 100 registros. 
+      Puede agregar rangos ejemplo: 
+      ge/[0-2]/[0-3]/[0-10] para crear varios ítems.
+      La cantidad maxima de ítems por creación esta limitada a 100 registros. 
 
 - # ====== Page Item: P30_ESTADO ===============================
   id: 43191655605756447002
@@ -400,7 +461,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating
+    template: Required - Floating
     template-options: 
     - '#DEFAULT#'
     height: 1
@@ -410,7 +471,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: INTERFAZ_ESTADO # 43199625631148317953
+    list-of-values: INTERFACES.ESTADO # 43199625631148317953
     display-extra-values: true
     display-null-value: true
 
@@ -424,10 +485,6 @@ page-items:
     query-only: false
     primary-key: false
 
-  default: 
-    type: Static
-    static-value: up
-
   session-state: 
     storage: Per Request (Memory Only)
 
@@ -439,141 +496,8 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P30_MODO =================================
-  id: 43191656020797447002
-  identification: 
-    name: P30_MODO
-    type: Select List
-
-  label: 
-    label: Modo
-    alignment: Left
-
-  settings: 
-    page-action-on-selection: None
-
-  multiple-values: 
-    type: No
-
-  layout: 
-    sequence: 100
-    region: SGT_FROM_INTERFACES # 43191653727341446998
-    slot: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating
-    template-options: 
-    - '#DEFAULT#'
-    height: 1
-
-  validation: 
-    value-required: false
-
-  list-of-values: 
-    type: Shared Component
-    list-of-values: INTERFACE_MODO # 43201033517964343837
-    display-extra-values: true
-    display-null-value: true
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: SGT_FROM_INTERFACES # 43191653727341446998
-    column: MODO
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  default: 
-    type: Static
-    static-value: access
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P30_DUPLEX ===============================
-  id: 43191656485241447002
-  identification: 
-    name: P30_DUPLEX
-    type: Select List
-
-  label: 
-    label: Duplex
-    alignment: Left
-
-  settings: 
-    page-action-on-selection: None
-
-  multiple-values: 
-    type: No
-
-  layout: 
-    sequence: 110
-    region: SGT_FROM_INTERFACES # 43191653727341446998
-    slot: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating
-    template-options: 
-    - '#DEFAULT#'
-    height: 1
-
-  validation: 
-    value-required: false
-
-  list-of-values: 
-    type: Shared Component
-    list-of-values: INTERFACE_DUPLEX # 43201969178408363692
-    display-extra-values: true
-    display-null-value: true
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: SGT_FROM_INTERFACES # 43191653727341446998
-    column: DUPLEX
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  default: 
-    type: Static
-    static-value: auto
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
+  help: 
+    inline-help-text: Ingresar estado de la interfaz
 
 - # ====== Page Item: P30_TX_EN_DBM ============================
   id: 43191657228678447003
@@ -582,7 +506,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Tx En Dbm
+    label: Tx en dBm
     alignment: Left
 
   settings: 
@@ -624,10 +548,6 @@ page-items:
     query-only: false
     primary-key: false
 
-  default: 
-    type: Static
-    static-value: 0
-
   session-state: 
     storage: Per Request (Memory Only)
 
@@ -639,6 +559,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Ingresar la potencia de transmisión en dBm
+
 - # ====== Page Item: P30_RX_EN_DBM ============================
   id: 43191657680538447004
   identification: 
@@ -646,7 +569,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Rx En Dbm
+    label: Rx en dBm
     alignment: Left
 
   settings: 
@@ -688,10 +611,6 @@ page-items:
     query-only: false
     primary-key: false
 
-  default: 
-    type: Static
-    static-value: 0
-
   session-state: 
     storage: Per Request (Memory Only)
 
@@ -703,6 +622,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Ingresar la potencia de recepción en dBm
+
 - # ====== Page Item: P30_MAC_ADDRESS ==========================
   id: 43191658080249447004
   identification: 
@@ -710,7 +632,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Mac Address
+    label: MAC Address
     alignment: Left
 
   settings: 
@@ -721,7 +643,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 140
+    sequence: 150
     region: SGT_FROM_INTERFACES # 43191653727341446998
     slot: BODY
     alignment: Left
@@ -763,185 +685,8 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P30_NUMERO_SERIE =========================
-  id: 43191658415147447005
-  identification: 
-    name: P30_NUMERO_SERIE
-    type: Text Field
-
-  label: 
-    label: Numero Serie
-    alignment: Left
-
-  settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
-
-  layout: 
-    sequence: 150
-    region: SGT_FROM_INTERFACES # 43191653727341446998
-    slot: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating
-    template-options: 
-    - '#DEFAULT#'
-    width: 32
-
-  validation: 
-    value-required: false
-    maximum-length: 255
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: SGT_FROM_INTERFACES # 43191653727341446998
-    column: NUMERO_SERIE
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P30_HW_VERSION ===========================
-  id: 43191658800781447005
-  identification: 
-    name: P30_HW_VERSION
-    type: Text Field
-
-  label: 
-    label: Hw Version
-    alignment: Left
-
-  settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
-
-  layout: 
-    sequence: 160
-    region: SGT_FROM_INTERFACES # 43191653727341446998
-    slot: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating
-    template-options: 
-    - '#DEFAULT#'
-    width: 32
-
-  validation: 
-    value-required: false
-    maximum-length: 100
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: SGT_FROM_INTERFACES # 43191653727341446998
-    column: HW_VERSION
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P30_SW_VERSION ===========================
-  id: 43191659331577447006
-  identification: 
-    name: P30_SW_VERSION
-    type: Text Field
-
-  label: 
-    label: Sw Version
-    alignment: Left
-
-  settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
-
-  layout: 
-    sequence: 170
-    region: SGT_FROM_INTERFACES # 43191653727341446998
-    slot: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating
-    template-options: 
-    - '#DEFAULT#'
-    width: 32
-
-  validation: 
-    value-required: false
-    maximum-length: 100
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: SGT_FROM_INTERFACES # 43191653727341446998
-    column: SW_VERSION
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
+  help: 
+    inline-help-text: Ingresar MAC-Address
 
 - # ====== Page Item: P30_CREADO_EL ============================
   id: 43191659610484447006
@@ -953,7 +698,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 180
+    sequence: 160
     region: SGT_FROM_INTERFACES # 43191653727341446998
     slot: BODY
 
@@ -986,7 +731,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 190
+    sequence: 170
     region: SGT_FROM_INTERFACES # 43191653727341446998
     slot: BODY
 
@@ -1019,7 +764,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 200
+    sequence: 180
     region: SGT_FROM_INTERFACES # 43191653727341446998
     slot: BODY
 
@@ -1052,7 +797,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 210
+    sequence: 190
     region: SGT_FROM_INTERFACES # 43191653727341446998
     slot: BODY
 
@@ -1112,7 +857,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating
+    template: Required - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
@@ -1154,6 +899,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Ingresar el equipo donde se encuentra la interfaz
+
 - # ====== Page Item: P30_TIPO_INTERFACE_ID ====================
   id: 47902963934699091002
   identification: 
@@ -1161,7 +909,7 @@ page-items:
     type: Popup LOV
 
   label: 
-    label: Tipo Interface Id
+    label: Tipo de Interfaz
     alignment: Left
 
   settings: 
@@ -1225,6 +973,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Seleccionar el tipo de interfaz
 
 - # ====== Page Item: P30_SITIO ================================
   id: 88034738700254770430
@@ -1566,15 +1317,12 @@ processes:
             nombre = :P30_NOMBRE, 
             etiqueta = :P30_ETIQUETA,
             estado = :P30_ESTADO,
-            modo = :P30_MODO,
-            duplex = :P30_DUPLEX,
             TIPO_INTERFACE_ID = :P30_TIPO_INTERFACE_ID,
             TX_EN_DBM = :P30_TX_EN_DBM,
             RX_EN_DBM = :P30_RX_EN_DBM,
             MAC_ADDRESS =:P30_MAC_ADDRESS,
-            NUMERO_SERIE =:P30_NUMERO_SERIE,
-            HW_VERSION = :P30_HW_VERSION,
-            SW_VERSION = :P30_SW_VERSION
+            VELOCIDAD_MBPS =:P30_VELOCIDAD_MBPS
+      
             where id = :P30_ID;
       
           
@@ -1598,30 +1346,22 @@ processes:
             nombre, 
             etiqueta,
             estado,
-            modo,
-            duplex,
             TIPO_INTERFACE_ID,
             TX_EN_DBM,
             RX_EN_DBM,
             MAC_ADDRESS,
-            NUMERO_SERIE,
-            HW_VERSION,
-            SW_VERSION
+            VELOCIDAD_MBPS
             ) VALUES (
             
             :P30_EQUIPO_ID,
             v_prefix,
             :P30_etiqueta ,
             :P30_estado,
-            :P30_modo,
-            :P30_duplex,
             :P30_TIPO_INTERFACE_ID,
             :P30_TX_EN_DBM,
             :P30_RX_EN_DBM,
             :P30_MAC_ADDRESS,
-            :P30_NUMERO_SERIE,
-            :P30_HW_VERSION,
-            :P30_SW_VERSION
+            :P30_VELOCIDAD_MBPS
           );  
         ELSE
             IF v_end_num - v_start_num + 1 > 48 THEN
@@ -1635,31 +1375,22 @@ processes:
                 nombre, 
                 etiqueta,
                 estado,
-                modo,
-                duplex,
                 TIPO_INTERFACE_ID,
                 TX_EN_DBM,
                 RX_EN_DBM,
                 MAC_ADDRESS,
-                NUMERO_SERIE,
-                HW_VERSION,
-                SW_VERSION
+                VELOCIDAD_MBPS
                 ) VALUES (
                 
                 :P30_EQUIPO_ID,
                 v_prefix || i,
                 :P30_etiqueta ,
                 :P30_estado,
-                :P30_modo,
-                :P30_duplex,
                 :P30_TIPO_INTERFACE_ID,
                 :P30_TX_EN_DBM,
                 :P30_RX_EN_DBM,
                 :P30_MAC_ADDRESS,
-                :P30_NUMERO_SERIE,
-                :P30_HW_VERSION,
-                :P30_SW_VERSION
-                
+                :P30_VELOCIDAD_MBPS
               );
               
               v_count := v_count + 1;

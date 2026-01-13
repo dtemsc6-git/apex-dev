@@ -45,11 +45,52 @@ regions:
 
   source: 
     location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: SGT_EQUIPOS
-    include-rowid-column: false
-    order-by-clause: ID DESC
+    type: SQL Query
+    sql-query: |
+      select ID,
+      
+      '<div class="t-ButtonGroup">' ||
+              '<a href="f?p=&APP_ID.:14:&APP_SESSION.:::10:P14_ID:' || ID || '" class="t-Button t-Button--small t-Button--success" title="Ver">' ||
+                  '<span class="fa fa-eye"></span>' ||
+              '</a>' ||
+              '<a href="f?p=&APP_ID.:14:&APP_SESSION.:::14:P14_ID:' || ID || '" class="t-Button t-Button--small t-Button--warning" title="Editar">' ||
+                  '<span class="fa fa-edit"></span>' ||
+              '</a>' ||
+              '<a href="javascript:void(0);" onclick="eliminarRegistro(' || ID || ')" class="t-Button t-Button--small t-Button--danger" title="Eliminar">' ||
+                  '<span class="fa fa-trash"></span>' ||
+              '</a>' ||
+          '</div>' as ACCIONES,
+             UNIDAD_ENCARGADA,
+             RACK_ID,
+             U,
+             TIPO_RED,
+             NOMBRE,
+             ID as FULL_NAME,
+             TIPO_EQUIPO_ID,
+             TIPO_EQUIPO_ID as SUB_TIPO, 
+             
+             MARCA,
+             MODELO,
+             ESTADO,
+             OBSERVACIONES,
+             NI_ANDE,
+             SERIAL_NUMBER,
+             VERSION_HARDWARE,
+             VERSION_SOFTWARE,
+             VERSION_PATCH,
+             IP_GESTION,
+             ALIMENTACION1_ID,
+             ALIMENTACION2_ID,
+             PROYECTO_ID,
+             FECHA_IMPLE,
+             ALTURA_U,
+             POSICION,
+             SITIO_ID,
+             CREADO_POR,
+             CREADO_EL,
+             ACTUALIZADO_POR,
+             ACTUALIZADO_EL
+        from SGT_EQUIPOS
 
   layout: 
     sequence: 10
@@ -95,8 +136,8 @@ regions:
       authorization-scheme: Implementador Rights # 56843702980053272617
 
     pagination: 
-      type: Row Ranges X to Y
-      display-position: Bottom - Right
+      type: Row Ranges X to Y of Z
+      display-position: Top - Right
 
     performance: 
       lazy-loading: false
@@ -167,6 +208,129 @@ regions:
         description: Prueba
 
     columns: 
+    - # ====== Column: FULL_NAME ===================================
+      id: 43394877474752
+      identification: 
+        column-name: FULL_NAME
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: EQUIPOS.NOMBRE-COMPUESTO # 99183333741246371784
+
+      heading: 
+        heading: Full Name
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 300
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: SUB_TIPO ====================================
+      id: 2415358636170212
+      identification: 
+        column-name: SUB_TIPO
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: TIPO_EQUIPOS.SUB_TIPO # 2422475915189537
+
+      heading: 
+        heading: Sub Tipo
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: ACCIONES ====================================
+      id: 4304425681367812
+      identification: 
+        column-name: ACCIONES
+        type: Plain Text
+
+      heading: 
+        heading: Acciones
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 310
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: false
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
+
+      security: 
+        escape-special-characters: false
+
     - # ====== Column: ID ==========================================
       id: 87976622230756604113
       identification: 
@@ -193,14 +357,14 @@ regions:
 
       heading: 
         heading: Unidad Encargada
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 20
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -237,14 +401,14 @@ regions:
 
       heading: 
         heading: Rack
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 30
-        column-alignment: end
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -274,15 +438,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: U
-        alignment: end
+        heading: U de inicio
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 40
-        column-alignment: end
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -318,15 +482,15 @@ regions:
         list-of-values: TIPO_RED # 17291432086166556461
 
       heading: 
-        heading: Tipo Red
-        alignment: start
+        heading: Tipo de Red
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 50
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -357,14 +521,14 @@ regions:
 
       heading: 
         heading: Nombre
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 60
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -406,59 +570,18 @@ regions:
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: LOV_TIPO_EQUIPOS # 17289756602724474033
+        list-of-values: TIPO_EQUIPOS.NOMBRE # 17289756602724474033
 
       heading: 
-        heading: Tipo Equipo
-        alignment: end
+        heading: Tipo de Equipo
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 70
-        column-alignment: end
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Use Named List of Values to Filter Exact Match
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-    - # ====== Column: SUB_TIPO_EQUIPO =============================
-      id: 87976622917686604120
-      identification: 
-        column-name: SUB_TIPO_EQUIPO
-        type: Plain Text (based on List of Values)
-
-      list-of-values: 
-        list-of-values: SUB_TIPO_EQUIPO # 17292525545179850352
-
-      heading: 
-        heading: Sub Tipo Equipo
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 80
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -489,14 +612,14 @@ regions:
 
       heading: 
         heading: Marca
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 90
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -530,14 +653,14 @@ regions:
 
       heading: 
         heading: Modelo
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 100
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -571,14 +694,14 @@ regions:
 
       heading: 
         heading: Estado
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 110
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -612,14 +735,14 @@ regions:
 
       heading: 
         heading: Observaciones
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 120
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -652,15 +775,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Ni Ande
-        alignment: start
+        heading: NI ANDE
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 130
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -694,14 +817,14 @@ regions:
 
       heading: 
         heading: Serial Number
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 140
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -734,15 +857,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Version Hardware
-        alignment: start
+        heading: Hardware Version
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 150
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -775,15 +898,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Version Software
-        alignment: start
+        heading: Software Version
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 160
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -816,15 +939,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Version Patch
-        alignment: start
+        heading: Patch Version
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 170
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -857,15 +980,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Ip Gestion
-        alignment: start
+        heading: IP Gestión
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 180
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -898,15 +1021,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Alimentacion1 Id
-        alignment: start
+        heading: Alimentación 1
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 190
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -939,15 +1062,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Alimentacion2 Id
-        alignment: start
+        heading: Alimentación 2
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 200
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -980,8 +1103,8 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Proyecto Id
-        alignment: start
+        heading: Proyecto de Implementación
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
@@ -1021,15 +1144,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Fecha Imple
-        alignment: start
+        heading: Fecha de Implementación
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 220
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -1064,14 +1187,14 @@ regions:
 
       heading: 
         heading: Altura U
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 230
-        column-alignment: end
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -1104,15 +1227,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Posicion
-        alignment: start
+        heading: Posición
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 240
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -1145,15 +1268,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Sitio Id
-        alignment: end
+        heading: Sitio
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 250
-        column-alignment: end
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -1187,14 +1310,14 @@ regions:
 
       heading: 
         heading: Creado Por
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 260
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -1228,14 +1351,14 @@ regions:
 
       heading: 
         heading: Creado El
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 270
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -1270,14 +1393,14 @@ regions:
 
       heading: 
         heading: Actualizado Por
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 280
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -1311,14 +1434,14 @@ regions:
 
       heading: 
         heading: Actualizado El
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 290
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -1431,6 +1554,39 @@ regions:
       - '#DEFAULT#'
 
 buttons: 
+- # ====== Button: GRILLA ======================================
+  id: 3564430145232714
+  identification: 
+    button-name: GRILLA
+    label: '&APP_TEXT$BTN_GRILLA_EDITABLE!RAW.'
+
+  layout: 
+    sequence: 10
+    region: SGT_LST_EQUIPOS # 200805769845760280023
+    slot: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:44:&SESSION.::&DEBUG.:::'
+      page: 44 # IG_EQUIPOS
+
+    warn-on-unsaved-changes: Do Not Check
+
+  security: 
+    authorization-scheme: Implementador Rights # 56843702980053272617
+
 - # ====== Button: New =========================================
   id: 51494083749763384845
   identification: 
@@ -1438,7 +1594,7 @@ buttons:
     label: Racks
 
   layout: 
-    sequence: 30
+    sequence: 50
     region: SGT_LST_EQUIPOS # 200805769845760280023
     slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -1471,7 +1627,7 @@ buttons:
     label: '&APP_TEXT$BTN_CREAR!RAW.'
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: SGT_LST_EQUIPOS # 200805769845760280023
     slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -1506,7 +1662,7 @@ buttons:
     label: '&APP_TEXT$BTN_IMPORTAR_XLS!RAW.'
 
   layout: 
-    sequence: 20
+    sequence: 30
     region: SGT_LST_EQUIPOS # 200805769845760280023
     slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false

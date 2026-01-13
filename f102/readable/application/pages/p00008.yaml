@@ -5,6 +5,7 @@ identification:
   name: SGT_LST_INTERFACES
   alias: SGT-LST-INTERFACES
   title: Interfaces
+  page-group: Implementadores # 57024536698229459190
 
 appearance: 
   page-mode: Normal
@@ -140,8 +141,8 @@ regions:
       authorization-scheme: Implementador Rights # 56843702980053272617
 
     pagination: 
-      type: Row Ranges X to Y
-      display-position: Bottom - Right
+      type: Row Ranges X to Y of Z
+      display-position: Top - Right
 
     performance: 
       lazy-loading: false
@@ -200,6 +201,47 @@ regions:
         alias: 372044506
 
     columns: 
+    - # ====== Column: VELOCIDAD_MBPS ==============================
+      id: 42091393474739
+      identification: 
+        column-name: VELOCIDAD_MBPS
+        type: Plain Text
+
+      heading: 
+        heading: Velocidad  (Mbps)
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 220
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: NOMBRE ======================================
       id: 32677701939172831917
       identification: 
@@ -208,14 +250,14 @@ regions:
 
       heading: 
         heading: Nombre
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 10
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -248,15 +290,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Etiqueta
-        alignment: start
+        heading: Etiqueta/Descripción
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 140
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -289,179 +331,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Mac Address
-        alignment: start
+        heading: MAC Address
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 160
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: NUMERO_SERIE ================================
-      id: 32677702483477831922
-      identification: 
-        column-name: NUMERO_SERIE
-        type: Plain Text
-
-      heading: 
-        heading: Numero Serie
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 170
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: HW_VERSION ==================================
-      id: 32677702518065831923
-      identification: 
-        column-name: HW_VERSION
-        type: Plain Text
-
-      heading: 
-        heading: Hw Version
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 180
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: SW_VERSION ==================================
-      id: 32677702666492831924
-      identification: 
-        column-name: SW_VERSION
-        type: Plain Text
-
-      heading: 
-        heading: Sw Version
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 190
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: MODO ========================================
-      id: 32677702772104831925
-      identification: 
-        column-name: MODO
-        type: Plain Text
-
-      heading: 
-        heading: Modo
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 200
-        column-alignment: start
+        sequence: 150
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -501,7 +379,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 210
+        sequence: 160
         column-alignment: start
 
       accessibility: 
@@ -540,14 +418,14 @@ regions:
 
       heading: 
         heading: Actualizado El
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 220
-        column-alignment: start
+        sequence: 170
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -558,47 +436,6 @@ regions:
       column-filter: 
         type: Default Based on Column Type
         date-ranges: All
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: DUPLEX ======================================
-      id: 32677703377188831931
-      identification: 
-        column-name: DUPLEX
-        type: Plain Text
-
-      heading: 
-        heading: Duplex
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 230
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
 
       enable-users-to: 
         hide: true
@@ -640,15 +477,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Tx En Dbm
-        alignment: start
+        heading: Tx en dBm
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 70
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -681,15 +518,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Rx En Dbm
-        alignment: start
+        heading: Rx en dBm
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 80
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -723,14 +560,14 @@ regions:
 
       heading: 
         heading: Estado
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 120
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -767,14 +604,14 @@ regions:
 
       heading: 
         heading: Equipo
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 240
-        column-alignment: end
+        sequence: 180
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -807,15 +644,15 @@ regions:
         list-of-values: TIPO_INTERFAZ.NOMBRE # 41082575549472967716
 
       heading: 
-        heading: Tipo Interface
-        alignment: end
+        heading: Tipo de Interfaz
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 250
-        column-alignment: end
+        sequence: 190
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -846,14 +683,14 @@ regions:
 
       heading: 
         heading: Actualizado Por
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 260
-        column-alignment: start
+        sequence: 200
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -896,7 +733,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 270
+        sequence: 210
         column-alignment: start
 
       accessibility: 
@@ -970,6 +807,66 @@ regions:
         alignment: center
 
 buttons: 
+- # ====== Button: IMPORTAR_VARIOS =============================
+  id: 42568801474744
+  identification: 
+    button-name: IMPORTAR_VARIOS
+    label: '&APP_TEXT$BTN_IMPORTAR_XLS!RAW.'
+
+  layout: 
+    sequence: 60
+    region: SGT_INTERFACES # 37204295227652013533
+    slot: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:60:&SESSION.::&DEBUG.:::'
+      page: 60 # Agregar Interfaces a Multiples Equipos
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: GRILLA ======================================
+  id: 3564675630232717
+  identification: 
+    button-name: GRILLA
+    label: '&APP_TEXT$BTN_GRILLA_EDITABLE!RAW.'
+
+  layout: 
+    sequence: 40
+    region: SGT_INTERFACES # 37204295227652013533
+    slot: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:49:&SESSION.::&DEBUG.:::'
+      page: 49 # Grilla Interfaces
+
+    warn-on-unsaved-changes: Do Not Check
+
 - # ====== Button: IMPORTAR ====================================
   id: 32677703196052831929
   identification: 
@@ -977,7 +874,7 @@ buttons:
     label: '&APP_TEXT$BTN_IMPORTAR_XLS!RAW.'
 
   layout: 
-    sequence: 50
+    sequence: 80
     region: SGT_INTERFACES # 37204295227652013533
     slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -1002,6 +899,9 @@ buttons:
 
   security: 
     authorization-scheme: Implementador Rights # 56843702980053272617
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
 
 - # ====== Button: REEMPLAZAR ==================================
   id: 32677703268145831930
@@ -1046,7 +946,7 @@ buttons:
     label: '&APP_TEXT$BTN_CREAR!RAW.'
 
   layout: 
-    sequence: 40
+    sequence: 50
     region: SGT_INTERFACES # 37204295227652013533
     slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false

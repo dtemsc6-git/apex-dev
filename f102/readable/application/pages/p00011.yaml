@@ -115,8 +115,8 @@ regions:
       authorization-scheme: Implementador Rights # 56843702980053272617
 
     pagination: 
-      type: Row Ranges X to Y
-      display-position: Bottom - Right
+      type: Row Ranges X to Y of Z
+      display-position: Top - Right
 
     performance: 
       lazy-loading: false
@@ -228,6 +228,9 @@ regions:
       security: 
         escape-special-characters: false
 
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
     - # ====== Column: UNIDAD_ENCARGADA ============================
       id: 29962991712991667711
       identification: 
@@ -236,14 +239,14 @@ regions:
 
       heading: 
         heading: Unidad Encargada
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 90
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -277,14 +280,14 @@ regions:
 
       heading: 
         heading: Sala
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 80
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -317,15 +320,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Detalle
-        alignment: start
+        heading: Detalle/Descripción
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 30
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -359,14 +362,14 @@ regions:
 
       heading: 
         heading: Altura U
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 70
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -400,14 +403,14 @@ regions:
 
       heading: 
         heading: Dimensiones
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 60
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -441,14 +444,14 @@ regions:
 
       heading: 
         heading: Marca
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 50
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -482,14 +485,14 @@ regions:
 
       heading: 
         heading: Modelo
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 40
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -540,15 +543,15 @@ regions:
         type: Link
 
       heading: 
-        heading: Nombre
-        alignment: start
+        heading: Sigla/Nombre del Rack
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 20
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false

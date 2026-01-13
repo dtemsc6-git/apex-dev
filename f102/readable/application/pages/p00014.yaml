@@ -42,15 +42,37 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: ALIMENTACION ================================
-  id: 16831388701746382036
+- # ====== Region: HISTORIAL_CLASSIC_REPORT ====================
+  id: 11599928304491722
   identification: 
-    name: ALIMENTACION
-    title: Alimentación
-    type: Static Content
+    name: HISTORIAL_CLASSIC_REPORT
+    title: Historial
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT
+          AUDIT_ID,
+          FECHA_HORA,
+          USUARIO,
+          TIPO_COMPONENTE                                       AS COMPONENTE,
+          TIPO_OPERACION                                        AS ACCION,
+          DETALLE_OLD_VALUE                                     AS OLD_VALUE,
+          DETALLE_NEW_VALUE                                     AS NEW_VALUE
+      FROM V_AUDIT_EQUIPOS
+      WHERE EQUIPO_ID = TO_CHAR(:P14_ID)
+          AND TIPO_OPERACION IN ('UPDATE', 'DELETE', 'Actualización', 'Eliminación')
+      ORDER BY FECHA_HORA_FILTRO DESC;
+    page-items-to-submit: 
+    - P14_ID
+
+  order-by: 
+    type: None
 
   layout: 
-    sequence: 70
+    sequence: 30
     parent-region: TABS # 200746701006186948329
     slot: SUB_REGIONS
     start-new-layout: false
@@ -74,16 +96,272 @@ regions:
     region-display-selector: true
     exclude-title-from-translation: false
 
+  server-cache: 
+    caching: Disabled
+
   customization: 
     customizable: Not Customizable By End Users
 
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
-
   attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: AUDIT_ID ====================================
+    id: 11599767919491721
+    identification: 
+      column-name: AUDIT_ID
+      type: Hidden
+
+    layout: 
+      sequence: 10
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FECHA_HORA ==================================
+    id: 11599731039491720
+    identification: 
+      column-name: FECHA_HORA
+      type: Plain Text
+
+    heading: 
+      heading: Fecha Hora
+      alignment: start
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      format-mask: 'DD-MON-YYYY HH24:MI'
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      cell-width: 100
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USUARIO =====================================
+    id: 11599600045491719
+    identification: 
+      column-name: USUARIO
+      type: Plain Text
+
+    heading: 
+      heading: Usuario
+      alignment: start
+
+    layout: 
+      sequence: 30
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COMPONENTE ==================================
+    id: 11599519232491718
+    identification: 
+      column-name: COMPONENTE
+      type: Plain Text
+
+    heading: 
+      heading: Componente
+      alignment: start
+
+    layout: 
+      sequence: 40
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: DERIVED$01 ==================================
+    id: 11599163030491715
+    identification: 
+      column-name: DERIVED$01
+      type: Hidden
+
+    layout: 
+      sequence: 90
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: OLD_VALUE ===================================
+    id: 11519885351505433
+    identification: 
+      column-name: OLD_VALUE
+      type: Plain Text
+
+    heading: 
+      heading: Valores Anteriores
+      alignment: start
+
+    layout: 
+      sequence: 70
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ACCION ======================================
+    id: 11519840584505432
+    identification: 
+      column-name: ACCION
+      type: Plain Text
+
+    heading: 
+      heading: Acción
+      alignment: start
+
+    layout: 
+      sequence: 50
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: NEW_VALUE ===================================
+    id: 11519580115505430
+    identification: 
+      column-name: NEW_VALUE
+      type: Plain Text
+
+    heading: 
+      heading: Valores Actuales
+      alignment: start
+
+    layout: 
+      sequence: 100
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
 
 - # ====== Region: OBLIGATORIOS ================================
   id: 51494081943826384827
@@ -220,50 +498,6 @@ regions:
       include-'show-all': false
       remember-selection: By User
 
-- # ====== Region: UBICACION ===================================
-  id: 200746701046582948330
-  identification: 
-    name: UBICACION
-    title: Ubicación
-    type: Static Content
-
-  layout: 
-    sequence: 30
-    parent-region: TABS # 200746701006186948329
-    slot: SUB_REGIONS
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Standard
-    template-options: 
-    - '#DEFAULT#'
-    - t-Region--noBorder
-    - t-Region--scrollBody
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: true
-    exclude-title-from-translation: false
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
 - # ====== Region: DATOS_OPCIONALES ============================
   id: 200746701216699948331
   identification: 
@@ -299,138 +533,6 @@ regions:
 
   customization: 
     customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
-- # ====== Region: IMPLEMENTACION ==============================
-  id: 200746701311080948332
-  identification: 
-    name: IMPLEMENTACION
-    title: Implementación
-    type: Static Content
-
-  layout: 
-    sequence: 40
-    parent-region: TABS # 200746701006186948329
-    slot: SUB_REGIONS
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Standard
-    template-options: 
-    - '#DEFAULT#'
-    - t-Region--noBorder
-    - t-Region--scrollBody
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: true
-    exclude-title-from-translation: false
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
-- # ====== Region: HARDWARE-SOFTWARE ===========================
-  id: 200746701330124948333
-  identification: 
-    name: HARDWARE-SOFTWARE
-    title: Hardware/Software
-    type: Static Content
-
-  layout: 
-    sequence: 50
-    parent-region: TABS # 200746701006186948329
-    slot: SUB_REGIONS
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Standard
-    template-options: 
-    - '#DEFAULT#'
-    - t-Region--noBorder
-    - t-Region--scrollBody
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: true
-    exclude-title-from-translation: false
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
-- # ====== Region: SERIALES ====================================
-  id: 200746701500204948334
-  identification: 
-    name: SERIALES
-    title: Seriales
-    type: Static Content
-
-  layout: 
-    sequence: 60
-    parent-region: TABS # 200746701006186948329
-    slot: SUB_REGIONS
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Standard
-    template-options: 
-    - '#DEFAULT#'
-    - t-Region--noBorder
-    - t-Region--scrollBody
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: true
-    exclude-title-from-translation: false
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
 
   attributes: 
     settings: 
@@ -572,7 +674,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: LOV_UNI_ENCAR # 200719442741094818409
+    list-of-values: UNI_ENCAR # 200719442741094818409
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -599,7 +701,7 @@ page-items:
     type: Select List
 
   label: 
-    label: Tipo Red
+    label: Tipo de Red
     alignment: Left
 
   settings: 
@@ -657,8 +759,16 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Seleccionar red a la que pertenece el equipo
-    help-text: Seleccionar red a la que pertenece el equipo
+    inline-help-text: Seleccionar el tipo de red a la que pertenece el equipo
+    help-text: |
+      <p>
+          <ul>
+      	
+      <li>Externa: se refiere a equipos que no pertenecen a la ANDE</li>
+      <li> Misceláneas: se refiere a equipos de cableado estructurado o energía/alimentación </li>
+      <li> Red Transporte: Se refiere a los equipos de transmisión y planta externa (fibra óptica troncal) </li>
+      	    </ul>
+      </p>
 
 - # ====== Page Item: P14_SUB_TIPO_EQUIPO ======================
   id: 16831387621072382025
@@ -723,6 +833,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
 
 - # ====== Page Item: P14_OBSERVACIONES ========================
   id: 16831387723238382026
@@ -792,7 +905,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Ande NI
+    label: NI ANDE
     alignment: Left
 
   settings: 
@@ -846,7 +959,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Ingrese el Número de Inventario del equipo
+    inline-help-text: Ingresar el Número de Inventario de ANDE del equipo
 
 - # ====== Page Item: P14_SERIAL_NUMBER ========================
   id: 16831387900014382028
@@ -915,7 +1028,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Version Hardware
+    label: Hardware Version
     alignment: Left
 
   settings: 
@@ -975,7 +1088,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Version Software
+    label: Software Version
     alignment: Left
 
   settings: 
@@ -1035,7 +1148,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Version Patch
+    label: Patch Version
     alignment: Left
 
   settings: 
@@ -1095,7 +1208,7 @@ page-items:
     type: Date Picker
 
   label: 
-    label: Fecha Implementación
+    label: Fecha de Implementación
     alignment: Left
 
   settings: 
@@ -1147,6 +1260,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Ingresar fecha de puesta en servicio del equipo
 
 - # ====== Page Item: P14_TITULO ===============================
   id: 29962992738885667721
@@ -1249,6 +1365,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Seleccionar el rack donde se encuentra ubicado el equipo
+
 - # ====== Page Item: P14_TIPO_EQUIPO_ID =======================
   id: 47902964597795091008
   identification: 
@@ -1256,7 +1375,7 @@ page-items:
     type: Select List
 
   label: 
-    label: Tipo Equipo
+    label: Tipo de Equipo
     alignment: Left
 
   settings: 
@@ -1288,7 +1407,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: LOV_TIPO_EQUIPOS # 17289756602724474033
+    list-of-values: TIPO_EQUIPOS.NOMBRE # 17289756602724474033
     display-extra-values: true
     display-null-value: true
 
@@ -1313,6 +1432,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Seleccionar el tipo de equipo
+
 - # ====== Page Item: P14_ALIMENTACION1_ID =====================
   id: 47902964616284091009
   identification: 
@@ -1320,7 +1442,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Alimentacion1 Id
+    label: Alimentación 1
     alignment: Left
 
   settings: 
@@ -1373,6 +1495,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Ingresar Fuente de Alimentación primaria del equipo
+
 - # ====== Page Item: P14_ALIMENTACION2_ID =====================
   id: 47902964773957091010
   identification: 
@@ -1380,7 +1505,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Alimentacion2 Id
+    label: Alimentación 2
     alignment: Left
 
   settings: 
@@ -1433,6 +1558,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Ingresar Fuente de Alimentación secundaria del equipo
+
 - # ====== Page Item: P14_PROYECTO_ID ==========================
   id: 47902964819288091011
   identification: 
@@ -1440,7 +1568,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Proyecto Id
+    label: Proyecto de Implementación
     alignment: Left
 
   settings: 
@@ -1524,7 +1652,6 @@ page-items:
     template-options: 
     - '#DEFAULT#'
     width: 30
-    value-placeholder: Ingrese la altura del equipo
 
   validation: 
     value-required: true
@@ -1551,8 +1678,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Indicar cantidad de Us que ocupa el equipo
-    help-text: Indicar cantidad de Us que ocupa el equipo
+    inline-help-text: Indicar cantidad de Us que ocupa el equipo dentro del rack
 
 - # ====== Page Item: P14_POSICION =============================
   id: 47902965082170091013
@@ -1658,6 +1784,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Seleccionar el sitio donde se encuentra ubicado el equipo
 
 - # ====== Page Item: P14_CREADO_POR ===========================
   id: 51494082149985384829
@@ -1798,7 +1927,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: IP Gestion
+    label: IP Gestión
     alignment: Left
 
   settings: 
@@ -1856,39 +1985,6 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P14_SALAS_ID =============================
-  id: 200746701620681948336
-  identification: 
-    name: P14_SALAS_ID
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 20
-    region: UBICACION # 200746701046582948330
-    slot: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Null
-    used: Only when current value in session state is null
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
 
 - # ====== Page Item: P14_ID ===================================
   id: 200805748333846280008
@@ -2118,7 +2214,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: ESTADO_EQUIPO # 203663371051164540142
+    list-of-values: EQUIPO.ESTADO # 203663371051164540142
     display-extra-values: true
     display-null-value: true
 
@@ -2142,6 +2238,19 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: |
+      <p>
+      <ul>
+      <li>Planificado: El equipo se encuentra en etapa de proyecto de ingeniería</li>
+      <li>Activo: el equipo se encuentra en etapa de producción / está siendo utilizado</li>
+      <li>Baja: el equipo se dio de baja</li>
+      <li>Apagado: Durante el relevamiento el equipo se encuentra apagado pero no se retira</li>
+      <li>Desconocido: no se puede determinar en que etapa del ciclo de vida se encuentra el equipo</li>
+          </ul>
+      </p>
+      
 
 - # ====== Page Item: P14_NOMBRE ===============================
   id: 202816058089264564111
@@ -2177,7 +2286,6 @@ page-items:
     template-options: 
     - '#DEFAULT#'
     width: 30
-    value-placeholder: 'Ingrese ej: BG30 / L5230'
 
   validation: 
     value-required: true
@@ -2205,24 +2313,20 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
+    inline-help-text: Asignar un nombre al equipo
     help-text: |
-      <h6>NOMBRE ÚNICO PARA EL EQUIPO EN TODA LA RED. Abreviaciones:</h6>
+      <p>
+      Sugerencias de abreviaciones:
       <p>
           <ul>
       <li>PP: Patch panel. Ej.: PP1 </li>
       <li>DO: Distribuidor óptico. Ej.: DO1 </li>
-      <li>PWR: Fuente de alimentación, rectificador, UPS. Ej.: PWR</li>
       <li>TBL: Tablero eléctrico / Tablero de TMs. Ej.: TBL01</li>
       <li>TVR: transceiver / conversor de FO</li>
-      <li>PDU</li>
-      <li>PROT: Patch panel protector de puertos</li>
+      <li>PWR: Fuente de alimentación, rectificador, UPS</li>
       <li>BB: Banco de baterías</li>
-      <li>48VCC Rectificador -48VCC SOCOMEC</li>
-      <li>110VCC Rectificador 110VCC correspondiente a GT/DPPM</li>
-      <li>UPS UPS correspondiente a ISC/MCO</li>
-      <li>12VCC Rectificador 12V/30A correspondiente</li>
-      <li>TBL_220VAC Tablero genera 220VAC es SC01</li>
           </ul>
+      
       </p>
 
 buttons: 
@@ -2452,6 +2556,9 @@ dynamic-actions:
     - P14_TIPO_EQUIPO_ID
     - P14_MARCA
     - P14_RACK_ID
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
 
   actions: 
   - # ====== Action: BuscarNombre ================================

@@ -1,4 +1,22 @@
 ---
+- # ====== Text Message: BTN_GRILLA_EDITABLE ===================
+  id: 3627562218644696
+  identification: 
+    name: BTN_GRILLA_EDITABLE
+
+  message: 
+    text: Grilla Editable
+
+  attributes: 
+    language: Spanish (Paraguay) (es-py)
+    used-in-javascript: false
+
+  comments: 
+    comments: Para los botones que llevan a la grilla Editable
+
+  subscription: 
+    version-number: 39024126416921
+
 - # ====== Text Message: DELETE_MSG ============================
   id: 32052807619383536870
   identification: 

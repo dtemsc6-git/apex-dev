@@ -201,6 +201,9 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
+  header-and-footer: 
+    header-text: Puede subir un archivo XLSX con los datos de las interfaces de un equipo, la cantidad máxima de registros soportados es de 100. Asocie el archivo subido a un equipo en particular. Se muestran los primeros 6 campos del archivo subido.
+
   server-side-condition: 
     type: Item is NULL
     item: P28_FILE
@@ -244,7 +247,7 @@ regions:
     exclude-title-from-translation: false
 
   header-and-footer: 
-    header-text: Puede subir un archivo los nombres de las interfaces deben ser únicos para cada equipo, tenga en cuenta los valores posibles para cada campo requerido, puede chequear estos valores en el formulario de agregar.
+    header-text: Tenga en cuenta los valores posibles para cada campo requerido, puede chequear estos valores en el formulario de agregar.
 
   server-side-condition: 
     type: Item is NOT NULL
@@ -269,8 +272,9 @@ regions:
     type: SQL Query
     sql-query: |
       select p.line_number,
-             p.col001,p.col002, p.col003, p.col004, p.col005, p.col006, p.col007, p.col008, p.col009, p.col010,
-             p.col011,p.col012,p.col013,p.col014
+             p.col001,p.col002, p.col003, p.col004, p.col005, p.col006
+             --, p.col007, p.col008, p.col009, p.col010
+             --, p.col011,p.col012,p.col013,p.col014
              -- add more columns (col011 to col300) here.
         from apex_application_temp_files f, 
              table( apex_data_parser.parse(
@@ -366,134 +370,6 @@ regions:
       enabled: false
 
   columns: 
-  - # ====== Column: COL011 ======================================
-    id: 39816838474716
-    identification: 
-      column-name: COL011
-      type: Plain Text
-
-    heading: 
-      heading: Col011
-      alignment: start
-
-    layout: 
-      sequence: 102
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: COL012 ======================================
-    id: 39904350474717
-    identification: 
-      column-name: COL012
-      type: Plain Text
-
-    heading: 
-      heading: Col012
-      alignment: start
-
-    layout: 
-      sequence: 112
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: COL013 ======================================
-    id: 39962568474718
-    identification: 
-      column-name: COL013
-      type: Plain Text
-
-    heading: 
-      heading: Col013
-      alignment: start
-
-    layout: 
-      sequence: 122
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: COL014 ======================================
-    id: 40107637474719
-    identification: 
-      column-name: COL014
-      type: Plain Text
-
-    heading: 
-      heading: Col014
-      alignment: start
-
-    layout: 
-      sequence: 132
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
   - # ====== Column: COL002 ======================================
     id: 40380244474722
     identification: 
@@ -698,134 +574,6 @@ regions:
 
     layout: 
       sequence: 52
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: COL007 ======================================
-    id: 38501689697472165462
-    identification: 
-      column-name: COL007
-      type: Plain Text
-
-    heading: 
-      heading: Col007
-      alignment: start
-
-    layout: 
-      sequence: 62
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: COL008 ======================================
-    id: 38501690008158165462
-    identification: 
-      column-name: COL008
-      type: Plain Text
-
-    heading: 
-      heading: Col008
-      alignment: start
-
-    layout: 
-      sequence: 72
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: COL009 ======================================
-    id: 38501690499264165462
-    identification: 
-      column-name: COL009
-      type: Plain Text
-
-    heading: 
-      heading: Col009
-      alignment: start
-
-    layout: 
-      sequence: 82
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: COL010 ======================================
-    id: 38501690894365165462
-    identification: 
-      column-name: COL010
-      type: Plain Text
-
-    heading: 
-      heading: Col010
-      alignment: start
-
-    layout: 
-      sequence: 92
       column-alignment: start
 
     accessibility: 
@@ -1498,11 +1246,13 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       DECLARE
+      
           v_filas_insertadas NUMBER := 0;
           v_count_parseo NUMBER := 0;
           v_count NUMBER := 0;
           v_error_count NUMBER := 0;
           v_fila NUMBER :=0;
+      
       BEGIN
           -- Información de depuración
           apex_debug.info('File Name: ' || :P28_FILE_NAME);
@@ -1515,10 +1265,11 @@ processes:
                    TABLE(apex_data_parser.parse(
                        p_content   => f.blob_content,
                        p_file_name => f.filename,
+                       p_xlsx_sheet_name => NVL(:P28_XLSX_WORKSHEET, NULL),
                        p_skip_rows => 1
                    )) tab
               WHERE f.name = :P28_FILE
-                AND col006 IS NOT NULL
+                AND col004 IS NOT NULL
           ) LOOP
       
               BEGIN
@@ -1528,29 +1279,22 @@ processes:
                       NOMBRE,
                       ETIQUETA,
                       ESTADO,
-                      MODO,
-                      DUPLEX,
                       TIPO_INTERFACE_ID,
+                      VELOCIDAD_MBPS,
                       TX_EN_DBM,
                       RX_EN_DBM,
-                      MAC_ADDRESS,
-                      NUMERO_SERIE,
-                      HW_VERSION,
-                      SW_VERSION
+                      MAC_ADDRESS
+                     
                   ) VALUES (
                       :P28_EQUIPOS,
                       p.col001,
                       p.col002,
                       UPPER(p.col003),
-                      UPPER(p.col004),
-                      UPPER(p.col005),
-                      F_GET_LOVS(2, p.col006),
+                      F_GET_LOVS(2, p.col004),
+                      p.col005,
+                      p.col006,
                       p.col007,
-                      p.col008,
-                      p.col009,
-                      p.col010,
-                      p.col011,
-                      p.col012
+                      p.col008
                   );
       
                   v_count := v_count + 1;
@@ -1574,10 +1318,7 @@ processes:
       
           apex_debug.info('Registros insertados: ' || v_count);
           apex_debug.info('Errores: ' || v_error_count);
-      
-         
       END;
-      
 
   execution: 
     sequence: 20

@@ -90,21 +90,24 @@ regions:
     location: Local Database
     type: SQL Query
     sql-query: |
-      SELECT ID,
+      SELECT S.ID,
              SIGLAS,
-             NOMBRE,
+             S.NOMBRE,
              TIPO_DE_SITIO,
              PROPIETARIO,
              ZONA_ID,
+             depto.nombre Departamento,
              CIUDAD_ID,
              LATITUD,
              LONGITUD,
              "UBICACIÓN",
              OBSERVACION,
              "UBICACIÓN" AS LinkColumn
-      FROM SGT_SITIOS
+      FROM SGT_SITIOS S
+      left join sgt_ciudad ciudad on S.ciudad_id = ciudad.id
+      LEFT JOIN SGT_DEPTO depto on ciudad.depto_id = depto.id
       
-      ORDER BY ID DESC
+      ORDER BY S.ID DESC
       
 
   layout: 
@@ -153,8 +156,8 @@ regions:
       authorization-scheme: Implementador Rights # 56843702980053272617
 
     pagination: 
-      type: Row Ranges X to Y
-      display-position: Bottom - Right
+      type: Row Ranges X to Y of Z
+      display-position: Top - Right
 
     performance: 
       lazy-loading: false
@@ -216,6 +219,47 @@ regions:
         alias: 69378249
 
     columns: 
+    - # ====== Column: DEPARTAMENTO ================================
+      id: 3565410237232724
+      identification: 
+        column-name: DEPARTAMENTO
+        type: Plain Text
+
+      heading: 
+        heading: Departamento
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 61
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: LINKCOLUMN ==================================
       id: 117089388284175048105
       identification: 
@@ -262,6 +306,9 @@ regions:
       security: 
         escape-special-characters: true
 
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
     - # ====== Column: CIUDAD_ID ===================================
       id: 117089389114757048113
       identification: 
@@ -273,14 +320,14 @@ regions:
 
       heading: 
         heading: Ciudad
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 41
-        column-alignment: end
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -314,14 +361,14 @@ regions:
 
       heading: 
         heading: Zona
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 31
-        column-alignment: end
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -351,15 +398,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Observacion
-        alignment: start
+        heading: Observación
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 11
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -403,6 +450,9 @@ regions:
       security: 
         escape-special-characters: true
 
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
     - # ====== Column: LONGITUD ====================================
       id: 117115185739415411770
       identification: 
@@ -411,14 +461,14 @@ regions:
 
       heading: 
         heading: Longitud
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 9
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -452,14 +502,14 @@ regions:
 
       heading: 
         heading: Latitud
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 8
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -493,14 +543,14 @@ regions:
 
       heading: 
         heading: Propietario
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 5
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -534,15 +584,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Tipo De Sitio
-        alignment: start
+        heading: Tipo de Sitio
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 4
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -576,14 +626,14 @@ regions:
 
       heading: 
         heading: Nombre
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 3
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -616,15 +666,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Siglas
-        alignment: start
+        heading: Sigla
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 2
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false

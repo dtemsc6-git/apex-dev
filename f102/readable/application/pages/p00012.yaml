@@ -649,18 +649,17 @@ page-items:
   id: 42592132186274121688
   identification: 
     name: P12_ALTURA_U
-    type: Text Field
+    type: Number Field
 
   label: 
     label: Cantidad de U
     alignment: Left
 
   settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
+    minimum-value: 0
+    maximum-value: 60
+    number-alignment: Start
+    virtual-keyboard: Numeric
 
   layout: 
     sequence: 80
@@ -713,7 +712,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Dimenciones
+    label: Dimensiones
     alignment: Left
 
   settings: 
@@ -1025,7 +1024,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: LOV_UNI_ENCAR # 200719442741094818409
+    list-of-values: UNI_ENCAR # 200719442741094818409
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1112,7 +1111,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Detalle
+    label: Detalle/Descripción
     alignment: Left
 
   settings: 
@@ -1172,7 +1171,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Nombre
+    label: Sigla/Nombre del Rack
     alignment: Left
 
   settings: 

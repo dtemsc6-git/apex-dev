@@ -97,8 +97,8 @@ regions:
       authorization-scheme: Implementador Rights # 56843702980053272617
 
     pagination: 
-      type: Row Ranges X to Y
-      display-position: Bottom - Right
+      type: Row Ranges X to Y of Z
+      display-position: Top - Right
 
     performance: 
       lazy-loading: false
@@ -225,7 +225,7 @@ regions:
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: NIVEL_PRIORIDAD # 83355472626096331408
+        list-of-values: SERVICIOS.NIVEL_PRIORIDAD # 83355472626096331408
 
       heading: 
         heading: Nivel De Prioridad
@@ -620,7 +620,7 @@ buttons:
 
   appearance: 
     button-template: Text
-    hot: true
+    hot: false
     template-options: 
     - '#DEFAULT#'
 

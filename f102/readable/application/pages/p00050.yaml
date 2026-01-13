@@ -343,7 +343,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: NIVEL_PRIORIDAD # 83355472626096331408
+    list-of-values: SERVICIOS.NIVEL_PRIORIDAD # 83355472626096331408
 
   advanced: 
     warn-on-unsaved-changes: Page Default

@@ -43,6 +43,174 @@ server-cache:
   caching: Disabled
 
 regions: 
+- # ====== Region: CONTENEDOR ==================================
+  id: 42955857474748
+  identification: 
+    name: CONTENEDOR
+    type: Region Display Selector
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      mode: View Single Region
+      display-region-icons: false
+      include-'show-all': false
+      remember-selection: By User
+
+- # ====== Region: ARBOL =======================================
+  id: 43069806474749
+  identification: 
+    name: ARBOL
+    title: Racks y Equipos
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: CONTENEDOR # 42955857474748
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: New =========================================
+  id: 43273151474751
+  identification: 
+    name: New
+    type: Tree
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      with data as (
+      select ('SC') as link_type, 'S-'||to_char(sitio_id) as PARENT_ID, 'SC-'||to_char(c.id) as ID, c.siglas as name, c.id as sub_id from sgt_salas c
+      union all
+      select ('R') as link_type,'SC-'||to_char(sala_id) as PARENT_ID, 'R-'||to_char(d.id) as ID, d.nombre as name, d.id as sub_id from sgt_racks d  
+      union all 
+      select ('E') as link_type,  'R-'||to_char(rack_id) as parent_id , 'E-'||to_char(e.id) as ID, 'U: '||e.u||', '||e.nombre as name, e.id as sub_id from sgt_equipos e
+      
+      
+      )
+      select case when connect_by_isleaf = 1 then 0
+                  when level = 1             then 1
+                  else                           -1
+             end as status, 
+             level,
+             name as title, 
+             null as icon, 
+             "ID" as value, 
+             null as tooltip, 
+             null as link 
+      from data 
+      
+      start with "PARENT_ID" = 'S-'||:P26_ID
+      connect by prior "ID" = "PARENT_ID"
+      order siblings by name
+
+  layout: 
+    sequence: 10
+    parent-region: ARBOL # 43069806474749
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      node-label-column: TITLE
+      node-value-column: VALUE
+      hierarchy: Not Computed
+      node-status-column: STATUS
+      hierarchy-level-column: LEVEL
+      tooltip: None
+      activate-node-link-with: Single Click
+      default-icon-css-class: icon-tree-folder
+      icon-type-css-class: a-Icon
+
+    performance: 
+      lazy-loading: false
+
 - # ====== Region: Buttons =====================================
   id: 117115194501339411778
   identification: 
@@ -81,10 +249,10 @@ regions:
       output-as: Text (escape special characters)
       show-line-breaks: true
 
-- # ====== Region: SGT_FORM_SITIOS =============================
+- # ====== Region: SITIO =======================================
   id: 117115202766267411786
   identification: 
-    name: SGT_FORM_SITIOS
+    name: SITIO
     type: Form
 
   source: 
@@ -96,8 +264,8 @@ regions:
 
   layout: 
     sequence: 10
-    parent-region: No Parent
-    slot: BODY
+    parent-region: CONTENEDOR # 42955857474748
+    slot: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -115,7 +283,7 @@ regions:
     landmark-type: Template Default
 
   advanced: 
-    region-display-selector: false
+    region-display-selector: true
     exclude-title-from-translation: false
 
   customization: 
@@ -142,7 +310,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: SGT_FORM_SITIOS # 117115202766267411786
+    region: SITIO # 117115202766267411786
     slot: BODY
 
   advanced: 
@@ -179,7 +347,7 @@ page-items:
 
   layout: 
     sequence: 80
-    region: SGT_FORM_SITIOS # 117115202766267411786
+    region: SITIO # 117115202766267411786
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -232,7 +400,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Observacion
+    label: Observación
     alignment: Left
 
   settings: 
@@ -244,7 +412,7 @@ page-items:
 
   layout: 
     sequence: 140
-    region: SGT_FORM_SITIOS # 117115202766267411786
+    region: SITIO # 117115202766267411786
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -268,7 +436,7 @@ page-items:
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: SGT_FORM_SITIOS # 117115202766267411786
+    form-region: SITIO # 117115202766267411786
     column: OBSERVACION
     data-type: VARCHAR2
     query-only: false
@@ -304,7 +472,7 @@ page-items:
 
   layout: 
     sequence: 130
-    region: SGT_FORM_SITIOS # 117115202766267411786
+    region: SITIO # 117115202766267411786
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -328,7 +496,7 @@ page-items:
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: SGT_FORM_SITIOS # 117115202766267411786
+    form-region: SITIO # 117115202766267411786
     column: UBICACIÓN
     data-type: VARCHAR2
     query-only: false
@@ -345,26 +513,26 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
 - # ====== Page Item: P26_LONGITUD =============================
   id: 117115198958091411782
   identification: 
     name: P26_LONGITUD
-    type: Text Field
+    type: Number Field
 
   label: 
     label: Longitud
     alignment: Left
 
   settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
+    number-alignment: Start
+    virtual-keyboard: Decimal
 
   layout: 
     sequence: 120
-    region: SGT_FORM_SITIOS # 117115202766267411786
+    region: SITIO # 117115202766267411786
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -388,7 +556,7 @@ page-items:
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: SGT_FORM_SITIOS # 117115202766267411786
+    form-region: SITIO # 117115202766267411786
     column: LONGITUD
     data-type: VARCHAR2
     query-only: false
@@ -405,26 +573,26 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Cargar los datos en formato decimal
+
 - # ====== Page Item: P26_LATITUD ==============================
   id: 117115199347635411782
   identification: 
     name: P26_LATITUD
-    type: Text Field
+    type: Number Field
 
   label: 
     label: Latitud
     alignment: Left
 
   settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
+    number-alignment: Start
+    virtual-keyboard: Decimal
 
   layout: 
     sequence: 110
-    region: SGT_FORM_SITIOS # 117115202766267411786
+    region: SITIO # 117115202766267411786
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -448,7 +616,7 @@ page-items:
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: SGT_FORM_SITIOS # 117115202766267411786
+    form-region: SITIO # 117115202766267411786
     column: LATITUD
     data-type: VARCHAR2
     query-only: false
@@ -464,6 +632,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Cargar los datos en formato decimal
 
 - # ====== Page Item: P26_CIUDAD_ID ============================
   id: 117115200071276411783
@@ -491,7 +662,7 @@ page-items:
 
   layout: 
     sequence: 90
-    region: SGT_FORM_SITIOS # 117115202766267411786
+    region: SITIO # 117115202766267411786
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -527,7 +698,7 @@ page-items:
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: SGT_FORM_SITIOS # 117115202766267411786
+    form-region: SITIO # 117115202766267411786
     column: CIUDAD_ID
     data-type: NUMBER
     query-only: false
@@ -562,7 +733,7 @@ page-items:
 
   layout: 
     sequence: 70
-    region: SGT_FORM_SITIOS # 117115202766267411786
+    region: SITIO # 117115202766267411786
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -573,13 +744,13 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating
+    template: Required - Floating
     template-options: 
     - '#DEFAULT#'
     height: 1
 
   validation: 
-    value-required: false
+    value-required: true
 
   list-of-values: 
     type: Shared Component
@@ -591,7 +762,7 @@ page-items:
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: SGT_FORM_SITIOS # 117115202766267411786
+    form-region: SITIO # 117115202766267411786
     column: ZONA_ID
     data-type: NUMBER
     query-only: false
@@ -612,22 +783,21 @@ page-items:
   id: 117115200850136411784
   identification: 
     name: P26_PROPIETARIO
-    type: Text Field
+    type: Select List
 
   label: 
     label: Propietario
     alignment: Left
 
   settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
 
   layout: 
     sequence: 30
-    region: SGT_FORM_SITIOS # 117115202766267411786
+    region: SITIO # 117115202766267411786
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -641,17 +811,22 @@ page-items:
     template: Required - Floating
     template-options: 
     - '#DEFAULT#'
-    width: 32
+    height: 1
 
   validation: 
     value-required: true
-    maximum-length: 50
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: SITIOS.PROPIETARIOS # 3735573462899488
+    display-extra-values: true
+    display-null-value: true
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: SGT_FORM_SITIOS # 117115202766267411786
+    form-region: SITIO # 117115202766267411786
     column: PROPIETARIO
     data-type: VARCHAR2
     query-only: false
@@ -686,7 +861,7 @@ page-items:
 
   layout: 
     sequence: 60
-    region: SGT_FORM_SITIOS # 117115202766267411786
+    region: SITIO # 117115202766267411786
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -715,7 +890,7 @@ page-items:
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: SGT_FORM_SITIOS # 117115202766267411786
+    form-region: SITIO # 117115202766267411786
     column: TIPO_DE_SITIO
     data-type: VARCHAR2
     query-only: false
@@ -739,7 +914,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Nombre
+    label: Nombre del sitio
     alignment: Left
 
   settings: 
@@ -751,7 +926,7 @@ page-items:
 
   layout: 
     sequence: 50
-    region: SGT_FORM_SITIOS # 117115202766267411786
+    region: SITIO # 117115202766267411786
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -775,7 +950,7 @@ page-items:
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: SGT_FORM_SITIOS # 117115202766267411786
+    form-region: SITIO # 117115202766267411786
     column: NOMBRE
     data-type: VARCHAR2
     query-only: false
@@ -799,7 +974,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Siglas
+    label: Sigla del sitio
     alignment: Left
 
   settings: 
@@ -810,8 +985,8 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 100
-    region: SGT_FORM_SITIOS # 117115202766267411786
+    sequence: 40
+    region: SITIO # 117115202766267411786
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -835,7 +1010,7 @@ page-items:
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: SGT_FORM_SITIOS # 117115202766267411786
+    form-region: SITIO # 117115202766267411786
     column: SIGLAS
     data-type: VARCHAR2
     query-only: false
@@ -863,14 +1038,14 @@ page-items:
 
   layout: 
     sequence: 20
-    region: SGT_FORM_SITIOS # 117115202766267411786
+    region: SITIO # 117115202766267411786
     slot: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: SGT_FORM_SITIOS # 117115202766267411786
+    form-region: SITIO # 117115202766267411786
     column: ID
     data-type: NUMBER
     query-only: true
@@ -1103,7 +1278,7 @@ processes:
     name: Process form SGT_FORM_SITIOS
     type: Form - Automatic Row Processing (DML)
     execution-chain: None
-    form-region: SGT_FORM_SITIOS # 117115202766267411786
+    form-region: SITIO # 117115202766267411786
 
   settings: 
     target-type: Region Source
@@ -1125,7 +1300,7 @@ processes:
     name: Initialize form SGT_FORM_SITIOS
     type: Form - Initialization
     execution-chain: None
-    form-region: SGT_FORM_SITIOS # 117115202766267411786
+    form-region: SITIO # 117115202766267411786
 
   execution: 
     sequence: 10

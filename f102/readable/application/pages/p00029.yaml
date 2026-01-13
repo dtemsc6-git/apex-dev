@@ -105,7 +105,7 @@ regions:
   attributes: 
     layout: 
       number-of-rows-type: Static Value
-      number-of-rows: 30
+      number-of-rows: 72
 
     appearance: 
       template-type: Theme

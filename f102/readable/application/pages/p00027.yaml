@@ -373,7 +373,6 @@ page-items:
     template-options: 
     - '#DEFAULT#'
     width: 32
-    value-placeholder: Ingrese un nombre de 255 char
 
   validation: 
     value-required: true
@@ -401,7 +400,9 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: El nombre debe ser unico y se recomienda el siguiente formato SITOA_SITIOB_CABLE
+    inline-help-text: |
+      Indicar un nombre para el enlace. El nombre debe ser único y se recomienda el formato "SitioA_SitioB_TipoCable_NroEnlace".
+      Long. máx. 255 char.
 
 - # ====== Page Item: P27_SITIO_ID_A ===========================
   id: 42627027999555534084
@@ -477,7 +478,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Seleccione el punto desde donde parte el enlace
+    inline-help-text: Seleccionar el sitio donde inicia el enlace
 
 - # ====== Page Item: P27_EQUIPO_ID_A ==========================
   id: 42627028315394534085
@@ -533,8 +534,9 @@ page-items:
       left join sgt_salas s on r.sala_id = s.id
       left join sgt_sitios ss on s.sitio_id = ss.id
       where ss.id = :P27_SITIO_ID_A 
-    display-extra-values: true
+    display-extra-values: false
     display-null-value: true
+    null-display-value: Valor no asignado
 
   cascading-list-of-values: 
     parent-item(s): 
@@ -563,6 +565,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Seleccionar el DIO de inicio del enlace
 
 - # ====== Page Item: P27_SITIO_ID_B ===========================
   id: 42627028731386534085
@@ -638,7 +643,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Seleccione el punto donde termina el enlace
+    inline-help-text: Seleccionar el sitio donde finaliza el enlace
 
 - # ====== Page Item: P27_EQUIPO_ID_B ==========================
   id: 42627029119181534085
@@ -696,6 +701,7 @@ page-items:
       where ss.id = :P27_SITIO_ID_B 
     display-extra-values: true
     display-null-value: true
+    null-display-value: Valor no asignado
 
   cascading-list-of-values: 
     parent-item(s): 
@@ -724,6 +730,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Seleccionar el DIO de fin del enlace
 
 - # ====== Page Item: P27_CERTIFICACIÓN ========================
   id: 42627029598368534086
@@ -782,6 +791,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Indicar la longitud de la fibra óptica según medición de OTDR
+
 - # ====== Page Item: P27_UNIDAD_MEDIDA ========================
   id: 42627029970410534086
   identification: 
@@ -789,7 +801,7 @@ page-items:
     type: Select List
 
   label: 
-    label: Unidad Medida
+    label: Unidad de medida
     alignment: Left
 
   settings: 
@@ -847,7 +859,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Seleccione la unidad de medida de la certificación
+    inline-help-text: Seleccionar la unidad de medida de la certificación
 
 - # ====== Page Item: P27_ABS_LONGITUD =========================
   id: 42627030377702534087
@@ -864,7 +876,7 @@ page-items:
     virtual-keyboard: Decimal
 
   layout: 
-    sequence: 70
+    sequence: 80
     region: DATOS_CABLE # 51494080630010384814
     slot: BODY
     alignment: Left
@@ -916,7 +928,7 @@ page-items:
     type: Number Field
 
   label: 
-    label: Cantidad De Pelos
+    label: Cantidad de Pelos
     alignment: Left
 
   settings: 
@@ -926,7 +938,7 @@ page-items:
     virtual-keyboard: Numeric
 
   layout: 
-    sequence: 40
+    sequence: 70
     region: DATOS_CABLE # 51494080630010384814
     slot: BODY
     alignment: Left
@@ -968,6 +980,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Indicar la cantidad de pelos utilizada para el enlace
+
 - # ====== Page Item: P27_TIPO_DE_FO ===========================
   id: 42627031154851534087
   identification: 
@@ -975,7 +990,7 @@ page-items:
     type: Select List
 
   label: 
-    label: Tipo De Fo
+    label: Tipo de fibra
     alignment: Left
 
   settings: 
@@ -985,7 +1000,7 @@ page-items:
     type: No
 
   layout: 
-    sequence: 30
+    sequence: 40
     region: DATOS_CABLE # 51494080630010384814
     slot: BODY
     alignment: Left
@@ -1039,7 +1054,7 @@ page-items:
     type: Select List
 
   label: 
-    label: Tipo
+    label: Tipo de enlace
     alignment: Left
 
   settings: 
@@ -1049,7 +1064,7 @@ page-items:
     type: No
 
   layout: 
-    sequence: 90
+    sequence: 10
     region: DATOS_CABLE # 51494080630010384814
     slot: BODY
     alignment: Left
@@ -1097,7 +1112,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Indica la función del enlace, debe cambiarse el nombre del campo.
+    inline-help-text: Indicar el tipo de enlace
 
 - # ====== Page Item: P27_LT ===================================
   id: 42627031981740534088
@@ -1106,7 +1121,7 @@ page-items:
     type: Select List
 
   label: 
-    label: Lt
+    label: LT
     alignment: Left
 
   settings: 
@@ -1227,6 +1242,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Indicar el tipo de conector de los DIOs extremos
+
 - # ====== Page Item: P27_ESTADO ===============================
   id: 42627032711544534089
   identification: 
@@ -1244,7 +1262,7 @@ page-items:
     type: No
 
   layout: 
-    sequence: 90
+    sequence: 70
     region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
@@ -1266,7 +1284,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: ESTADO_ENLACE_FO # 52385217569870497397
+    list-of-values: ENLACE_FO.ESTADO # 52385217569870497397
     display-extra-values: true
     display-null-value: true
 
@@ -1291,6 +1309,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Seleccionar el estado del enlace
+
 - # ====== Page Item: P27_COMENTARIOS ==========================
   id: 42627033199218534089
   identification: 
@@ -1298,7 +1319,7 @@ page-items:
     type: Markdown Editor
 
   label: 
-    label: Comentarios
+    label: Observaciones
     alignment: Left
 
   settings: 
@@ -1306,7 +1327,7 @@ page-items:
     syntax-highlighting: true
 
   layout: 
-    sequence: 130
+    sequence: 120
     region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
@@ -1362,7 +1383,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 110
+    sequence: 100
     region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
@@ -1404,6 +1425,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Indicar el proyecto por medio del cual se implementó el enlace
+
 - # ====== Page Item: P27_FECHA_IMPLEMENTACIÓN =================
   id: 42627033996855534090
   identification: 
@@ -1423,7 +1447,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 120
+    sequence: 110
     region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
@@ -1465,6 +1489,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Indicar la fecha en la que se implementó el enlace
+
 - # ====== Page Item: P27_UNIDAD_ENCARGADA_ACTUAL ==============
   id: 42627034740416534091
   identification: 
@@ -1472,7 +1499,7 @@ page-items:
     type: Select Many
 
   label: 
-    label: Unidad Encargada Actual
+    label: Unidad Encargada
     alignment: Left
 
   settings: 
@@ -1512,7 +1539,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: LOV_UNI_ENCAR # 200719442741094818409
+    list-of-values: UNI_ENCAR # 200719442741094818409
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1671,7 +1698,7 @@ page-items:
     type: Select List
 
   label: 
-    label: Tipo Cable
+    label: Tipo de cable
     alignment: Left
 
   settings: 
@@ -1681,7 +1708,7 @@ page-items:
     type: No
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: DATOS_CABLE # 51494080630010384814
     slot: BODY
     alignment: Left
@@ -1735,7 +1762,7 @@ page-items:
     type: Select List
 
   label: 
-    label: Tipo Tendido
+    label: Tipo de tendido
     alignment: Left
 
   settings: 
@@ -1745,7 +1772,7 @@ page-items:
     type: No
 
   layout: 
-    sequence: 20
+    sequence: 30
     region: DATOS_CABLE # 51494080630010384814
     slot: BODY
     alignment: Left

@@ -444,7 +444,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: ESTADO_EQUIPO # 203663371051164540142
+    list-of-values: EQUIPO.ESTADO # 203663371051164540142
     display-extra-values: false
     display-null-value: false
 
@@ -1062,7 +1062,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: LOV_UNI_ENCAR # 200719442741094818409
+    list-of-values: UNI_ENCAR # 200719442741094818409
 
   advanced: 
     warn-on-unsaved-changes: Page Default

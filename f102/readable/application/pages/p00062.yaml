@@ -1,10 +1,10 @@
 ---
-# ====== Page: DL_EQUIPOS ====================================
-id: 6
+# ====== Page: Importar IP admin =============================
+id: 62
 identification: 
-  name: DL_EQUIPOS
-  alias: DL-EQUIPOS
-  title: SUBIR EQUIPOS
+  name: Importar IP admin
+  alias: IMPORTAR-IP-ADMIN
+  title: Importar IP admin
 
 appearance: 
   page-mode: Modal Dialog
@@ -41,59 +41,14 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: New =========================================
-  id: 41456309474733
-  identification: 
-    name: New
-    type: Static Content
-
-  source: 
-    html-code: '&P6_LOGGER.'
-
-  layout: 
-    sequence: 20
-    parent-region: No Parent
-    slot: BODY
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Standard
-    template-options: 
-    - '#DEFAULT#'
-    - t-Region--scrollBody
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
-
-  attributes: 
-    settings: 
-      output-as: HTML
-      expand-shortcuts: false
-
 - # ====== Region: Button Bar ==================================
-  id: 203563555536182335064
+  id: 578846920827700
   identification: 
     name: Button Bar
     type: Static Content
 
   layout: 
-    sequence: 30
+    sequence: 10
     parent-region: No Parent
     slot: BODY
     start-new-layout: false
@@ -119,7 +74,7 @@ regions:
 
   server-side-condition: 
     type: Item is NOT NULL
-    item: P6_FILE
+    item: P62_FILE
 
   customization: 
     customizable: Not Customizable By End Users
@@ -130,13 +85,13 @@ regions:
       show-line-breaks: true
 
 - # ====== Region: Data Source =================================
-  id: 203563557708105335065
+  id: 580803506827702
   identification: 
     name: Data Source
     type: Static Content
 
   layout: 
-    sequence: 40
+    sequence: 20
     parent-region: No Parent
     slot: BODY
     start-new-layout: false
@@ -171,14 +126,14 @@ regions:
       show-line-breaks: true
 
 - # ====== Region: Upload a File ===============================
-  id: 203563558028698335066
+  id: 581198808827702
   identification: 
     name: Upload a File
     type: Static Content
 
   layout: 
     sequence: 30
-    parent-region: Data Source # 203563557708105335065
+    parent-region: Data Source # 580803506827702
     slot: BODY
     start-new-layout: false
     start-new-row: true
@@ -200,12 +155,9 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
-  header-and-footer: 
-    header-text: Puede subir archivos XLSX que contengan datos de equipos, el nombre del rack debe estar en la convención establecida dentro del sistema (Sitio.Sala.Rack). Se permite hasta 100 registros por archivo.
-
   server-side-condition: 
     type: Item is NULL
-    item: P6_FILE
+    item: P62_FILE
 
   customization: 
     customizable: Not Customizable By End Users
@@ -216,14 +168,14 @@ regions:
       show-line-breaks: true
 
 - # ====== Region: Loaded File =================================
-  id: 203563560203669335067
+  id: 583259553827704
   identification: 
     name: Loaded File
     type: Static Content
 
   layout: 
     sequence: 40
-    parent-region: Data Source # 203563557708105335065
+    parent-region: Data Source # 580803506827702
     slot: BODY
     start-new-layout: false
     start-new-row: true
@@ -247,7 +199,7 @@ regions:
 
   server-side-condition: 
     type: Item is NOT NULL
-    item: P6_FILE
+    item: P62_FILE
 
   customization: 
     customizable: Not Customizable By End Users
@@ -258,7 +210,7 @@ regions:
       show-line-breaks: true
 
 - # ====== Region: Preview =====================================
-  id: 203563563026467335069
+  id: 586247330827705
   identification: 
     name: Preview
     type: Classic Report
@@ -267,22 +219,17 @@ regions:
     location: Local Database
     type: SQL Query
     sql-query: |
-      SELECT  
-             p.col001, p.col002, p.col003, p.col004, p.col005, p.col006
-             --, p.col007, p.col008, p.col009, p.col010
+      select p.line_number,
+             p.col001, p.col002, p.col003, p.col004, p.col005, p.col006, p.col007, p.col008, p.col009, p.col010
              -- add more columns (col011 to col300) here.
         from apex_application_temp_files f, 
              table( apex_data_parser.parse(
                         p_content           => f.blob_content,
                         p_file_name         => f.filename,
-                        p_xlsx_sheet_name   => case when :P6_XLSX_WORKSHEET is not null then :P6_XLSX_WORKSHEET end,
-                        --p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'sgt_dl_equipos' ),
+                        p_xlsx_sheet_name   => case when :P62_XLSX_WORKSHEET is not null then :P62_XLSX_WORKSHEET end,
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'ip_adm' ),
                         p_max_rows          => 100 ) ) p
-       where f.name = :P6_FILE AND 
-       P.COL002 IS NOT NULL AND
-       P.COL006 IS NOT NULL
-       order by line_number
-      
+       where f.name = :P62_FILE
 
   order-by: 
     type: None
@@ -312,12 +259,9 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
-  header-and-footer: 
-    header-text: Si los datos son nulos en la columna 2 o columna 6 del archivo, son omitidos para la carga ya que esos datos son obligatorios.
-
   server-side-condition: 
     type: Item is NOT NULL
-    item: P6_FILE
+    item: P62_FILE
 
   server-cache: 
     caching: Disabled
@@ -370,8 +314,40 @@ regions:
       enabled: false
 
   columns: 
+  - # ====== Column: LINE_NUMBER =================================
+    id: 586607384827709
+    identification: 
+      column-name: LINE_NUMBER
+      type: Plain Text
+
+    heading: 
+      heading: Line Number
+      alignment: end
+
+    layout: 
+      sequence: 1
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
   - # ====== Column: COL001 ======================================
-    id: 203563563825903335077
+    id: 587029581827709
     identification: 
       column-name: COL001
       type: Plain Text
@@ -388,6 +364,8 @@ regions:
       value-identifies-row: false
 
     sorting: 
+      default-sequence: 1
+      direction: Ascending
       sortable: false
 
     export-/-printing: 
@@ -403,7 +381,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: COL002 ======================================
-    id: 203563564282339335078
+    id: 587393296827710
     identification: 
       column-name: COL002
       type: Plain Text
@@ -420,6 +398,8 @@ regions:
       value-identifies-row: false
 
     sorting: 
+      default-sequence: 1
+      direction: Ascending
       sortable: false
 
     export-/-printing: 
@@ -435,7 +415,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: COL003 ======================================
-    id: 203563564645829335078
+    id: 587824102827710
     identification: 
       column-name: COL003
       type: Plain Text
@@ -452,6 +432,8 @@ regions:
       value-identifies-row: false
 
     sorting: 
+      default-sequence: 1
+      direction: Ascending
       sortable: false
 
     export-/-printing: 
@@ -467,7 +449,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: COL004 ======================================
-    id: 203563565083167335078
+    id: 588169561827710
     identification: 
       column-name: COL004
       type: Plain Text
@@ -484,6 +466,8 @@ regions:
       value-identifies-row: false
 
     sorting: 
+      default-sequence: 1
+      direction: Ascending
       sortable: false
 
     export-/-printing: 
@@ -499,7 +483,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: COL005 ======================================
-    id: 203563565451432335079
+    id: 588641725827710
     identification: 
       column-name: COL005
       type: Plain Text
@@ -516,6 +500,8 @@ regions:
       value-identifies-row: false
 
     sorting: 
+      default-sequence: 1
+      direction: Ascending
       sortable: false
 
     export-/-printing: 
@@ -531,7 +517,7 @@ regions:
       escape-special-characters: true
 
   - # ====== Column: COL006 ======================================
-    id: 203563565851918335079
+    id: 589025322827710
     identification: 
       column-name: COL006
       type: Plain Text
@@ -548,6 +534,144 @@ regions:
       value-identifies-row: false
 
     sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL007 ======================================
+    id: 589377871827711
+    identification: 
+      column-name: COL007
+      type: Plain Text
+
+    heading: 
+      heading: Col007
+      alignment: start
+
+    layout: 
+      sequence: 8
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL008 ======================================
+    id: 589777637827711
+    identification: 
+      column-name: COL008
+      type: Plain Text
+
+    heading: 
+      heading: Col008
+      alignment: start
+
+    layout: 
+      sequence: 9
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL009 ======================================
+    id: 590188807827711
+    identification: 
+      column-name: COL009
+      type: Plain Text
+
+    heading: 
+      heading: Col009
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COL010 ======================================
+    id: 590563179827711
+    identification: 
+      column-name: COL010
+      type: Plain Text
+
+    heading: 
+      heading: Col010
+      alignment: start
+
+    layout: 
+      sequence: 11
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
       sortable: false
 
     export-/-printing: 
@@ -563,112 +687,10 @@ regions:
       escape-special-characters: true
 
 page-items: 
-- # ====== Page Item: P6_RACKS =================================
-  id: 40758738474726
+- # ====== Page Item: P62_FILE =================================
+  id: 581582117827702
   identification: 
-    name: P6_RACKS
-    type: Popup LOV
-
-  label: 
-    label: Racks
-    alignment: Left
-
-  settings: 
-    display-as: Inline Popup
-    initial-fetch: Automatic
-    manual-entry: false
-    fetch-on-search: false
-
-  search: 
-    match-type: Contains
-    case-sensitive: false
-    minimum-characters: 0
-
-  multiple-values: 
-    type: No
-
-  layout: 
-    sequence: 10
-    region: No Parent
-    slot: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating
-    template-options: 
-    - '#DEFAULT#'
-    width: 30
-
-  validation: 
-    value-required: false
-
-  list-of-values: 
-    type: Shared Component
-    list-of-values: RACKS.NOMBRE-COMPUESTO # 48295171823567292693
-    display-extra-values: true
-    display-null-value: true
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Null
-    used: Only when current value in session state is null
-
-  session-state: 
-    storage: Per Session (Persistent)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
-
-- # ====== Page Item: P6_LOGGER ================================
-  id: 41551946474734
-  identification: 
-    name: P6_LOGGER
-    type: Hidden
-
-  settings: 
-    value-protected: false
-
-  layout: 
-    sequence: 10
-    region: New # 41456309474733
-    slot: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Null
-    used: Only when current value in session state is null
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P6_FILE ==================================
-  id: 203563558472171335066
-  identification: 
-    name: P6_FILE
+    name: P62_FILE
     type: File Upload
 
   label: 
@@ -684,12 +706,11 @@ page-items:
     type: Table APEX_APPLICATION_TEMP_FILES
     purge-file-at: End of Session
     allow-multiple-files: false
-    file-types: .xlsx
-    maximum-file-size: 200
+    maximum-file-size: 1000
 
   layout: 
     sequence: 10
-    region: Upload a File # 203563558028698335066
+    region: Upload a File # 581198808827702
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -722,13 +743,10 @@ page-items:
     session-state-protection: Unrestricted
     restricted-characters: All characters can be saved.
 
-  help: 
-    inline-help-text: Soportado XLSX, hasta 100 registros
-
-- # ====== Page Item: P6_ERROR_ROW_COUNT =======================
-  id: 203563558895652335067
+- # ====== Page Item: P62_ERROR_ROW_COUNT ======================
+  id: 581956546827703
   identification: 
-    name: P6_ERROR_ROW_COUNT
+    name: P62_ERROR_ROW_COUNT
     type: Hidden
 
   settings: 
@@ -736,7 +754,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: Upload a File # 203563558028698335066
+    region: Upload a File # 581198808827702
     slot: BODY
 
   advanced: 
@@ -755,10 +773,10 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P6_FILE_NAME =============================
-  id: 203563560554569335068
+- # ====== Page Item: P62_FILE_NAME ============================
+  id: 583653924827704
   identification: 
-    name: P6_FILE_NAME
+    name: P62_FILE_NAME
     type: Display Only
 
   label: 
@@ -773,7 +791,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: Loaded File # 203563560203669335067
+    region: Loaded File # 583259553827704
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -808,10 +826,10 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P6_XLSX_WORKSHEET ========================
-  id: 203563561759290335069
+- # ====== Page Item: P62_XLSX_WORKSHEET =======================
+  id: 584868688827705
   identification: 
-    name: P6_XLSX_WORKSHEET
+    name: P62_XLSX_WORKSHEET
     type: Select List
 
   label: 
@@ -826,7 +844,7 @@ page-items:
 
   layout: 
     sequence: 30
-    region: Loaded File # 203563560203669335067
+    region: Loaded File # 583259553827704
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -852,7 +870,7 @@ page-items:
              p.sheet_file_name
         from apex_application_temp_files f,
              table( apex_data_parser.get_xlsx_worksheets( p_content => f.blob_content ) ) p
-       where f.name = :P6_FILE
+       where f.name = :P62_FILE
     display-extra-values: false
     display-null-value: false
 
@@ -880,7 +898,7 @@ page-items:
             into l_sheet_count
             from apex_application_temp_files f,
                  table( apex_data_parser.get_xlsx_worksheets( p_content => f.blob_content ) ) p
-           where f.name = :P6_FILE;
+           where f.name = :P62_FILE;
           
            -- display if the XSLX file contains multiple worksheets
           return ( l_sheet_count > 1 );
@@ -896,14 +914,14 @@ page-items:
 
 buttons: 
 - # ====== Button: CLEAR =======================================
-  id: 203563556075727335064
+  id: 579312666827701
   identification: 
     button-name: CLEAR
     label: Clear
 
   layout: 
     sequence: 10
-    region: Button Bar # 203563555536182335064
+    region: Button Bar # 578846920827700
     slot: NEXT
     start-new-layout: false
     start-new-row: true
@@ -924,14 +942,14 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: LOAD ========================================
-  id: 203563556510480335065
+  id: 579594292827701
   identification: 
     button-name: LOAD
-    label: Insertar
+    label: Load Data
 
   layout: 
     sequence: 20
-    region: Button Bar # 203563555536182335064
+    region: Button Bar # 578846920827700
     slot: NEXT
     start-new-layout: false
     start-new-row: true
@@ -953,7 +971,7 @@ buttons:
 
 dynamic-actions: 
 - # ====== Dynamic Action: Upload a File =======================
-  id: 203563559298048335067
+  id: 582354172827703
   identification: 
     name: Upload a File
 
@@ -966,15 +984,15 @@ dynamic-actions:
     event: Change
     selection-type: Item(s)
     item(s): 
-    - P6_FILE
+    - P62_FILE
 
   client-side-condition: 
     type: Item is not null
-    item: P6_FILE
+    item: P62_FILE
 
   actions: 
   - # ====== Action: Submit Page =================================
-    id: 203563559724349335067
+    id: 582892244827704
     identification: 
       action: Submit Page
 
@@ -983,12 +1001,12 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: Upload a File # 203563559298048335067
+      event: Upload a File # 582354172827703
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 - # ====== Dynamic Action: Submit worksheet on change ==========
-  id: 203563562178410335069
+  id: 585293699827705
   identification: 
     name: Submit worksheet on change
 
@@ -1001,11 +1019,11 @@ dynamic-actions:
     event: Change
     selection-type: Item(s)
     item(s): 
-    - P6_XLSX_WORKSHEET
+    - P62_XLSX_WORKSHEET
 
   actions: 
   - # ====== Action: Submit Page =================================
-    id: 203563562706645335069
+    id: 585752444827705
     identification: 
       action: Submit Page
 
@@ -1014,13 +1032,13 @@ dynamic-actions:
 
     execution: 
       sequence: 10
-      event: Submit worksheet on change # 203563562178410335069
+      event: Submit worksheet on change # 585293699827705
       fire-when-event-result-is: True
       fire-on-initialization: false
 
 validations: 
 - # ====== Validation: Is valid file type ======================
-  id: 203563561462751335068
+  id: 584556944827704
   identification: 
     name: Is valid file type
 
@@ -1032,12 +1050,12 @@ validations:
     language: PL/SQL
     pl/sql-function-body: |
       if apex_data_parser.assert_file_type(
-             p_file_name => :P6_FILE_NAME,
+             p_file_name => :P62_FILE_NAME,
              p_file_type => apex_data_parser.c_file_type_xlsx )
       then
           return true;
       else
-          :P6_FILE := null;
+          :P62_FILE := null;
           return false;
       end if;
     always-execute: false
@@ -1045,13 +1063,13 @@ validations:
   error: 
     error-message: Invalid file type. Supported file types XLSX.
     display-location: Inline with Field and in Notification
-    associated-item: P6_FILE # 203563558472171335066
+    associated-item: P62_FILE # 581582117827702
 
 computations: 
-- # ====== Computation: P6_FILE_NAME ===========================
-  id: 203563561115229335068
+- # ====== Computation: P62_FILE_NAME ==========================
+  id: 584194160827704
   identification: 
-    item-name: P6_FILE_NAME
+    item-name: P62_FILE_NAME
 
   execution: 
     sequence: 10
@@ -1062,189 +1080,26 @@ computations:
     sql-query: |
       select filename
         from apex_application_temp_files 
-       where name = :P6_FILE
+       where name = :P62_FILE
 
   server-side-condition: 
     type: Item is NOT NULL
-    item: P6_FILE
+    item: P62_FILE
 
 processes: 
-- # ====== Process: PROCESAR_XLS ===============================
-  id: 41361514474732
-  identification: 
-    name: PROCESAR_XLS
-    type: Execute Code
-    execution-chain: None
-
-  source: 
-    location: Local Database
-    language: PL/SQL
-    pl/sql-code: |
-      DECLARE
-          v_filas_insertadas NUMBER := 0;
-          v_count_parseo NUMBER := 0;
-          v_count NUMBER := 0;
-          v_error_count NUMBER := 0;
-          v_fila NUMBER :=0;
-      BEGIN
-          -- Información de depuración
-          apex_debug.info('Mod: Equipos: Func: DL: File Name: ' || :P6_FILE_NAME);
-          apex_debug.info('Mod: Equipos: Func: DL: Archivo: '   || :P6_XLSX_WORKSHEET);
-      
-          -- Bucle por cada fila del archivo
-          -- Seleccionar los campos que son importantes y que no pueden ser nulos
-          FOR p IN (
-              SELECT *
-              FROM apex_application_temp_files f,
-                   TABLE(apex_data_parser.parse(
-                       p_content   => f.blob_content,
-                       p_file_name => f.filename,
-                       p_xlsx_sheet_name => NVL(:P6_XLSX_WORKSHEET, NULL),
-                       p_skip_rows => 1
-                   )) tab
-              WHERE f.name = :P6_FILE
-                AND col002 IS NOT NULL 
-                AND col006 is not NULL
-          ) LOOP
-      
-              BEGIN
-                  -- Intentar insertar cada fila
-                  INSERT INTO SGT_EQUIPOS (
-                      UNIDAD_ENCARGADA,
-                      RACK_ID,
-                      U,
-                      TIPO_RED,
-                      NOMBRE,
-                      TIPO_EQUIPO_ID,
-                      --SUB_TIPO_EQUIPO,
-      
-                      MARCA,
-                      MODELO,
-                      ESTADO,
-                      OBSERVACIONES,
-                      NI_ANDE,
-                      SERIAL_NUMBER,
-                      VERSION_HARDWARE,
-      
-                      VERSION_SOFTWARE,
-                      VERSION_PATCH,
-                      IP_GESTION,
-                      ALIMENTACION1_ID,
-                      ALIMENTACION2_ID,
-                      PROYECTO_ID,
-                      FECHA_IMPLE,
-      
-                      ALTURA_U,
-                      POSICION, 
-                      SITIO_ID
-                      
-      
-      
-                  ) VALUES (
-                      p.col001, --UNIDAD
-                      F_GET_LOVS(3, p.col002), --RACK
-                      p.col003, --u
-                      p.col004, --tipo RED
-                      (p.col005), --NOMBRE
-                      F_GET_LOVS(5, p.col006), --tIPO eQUIPO
-                      --LOWER(p.col007), --sub_tipo_equipo
-      
-                      (p.col008), --marca
-                      (p.col009), --modelo
-                      (p.col010),  --estado
-                      p.col011, --observaciones
-                      p.col012, --ni_ande
-                      p.col013, --serial_number
-                      p.col014, --version_hard
-      
-                      p.col015, --version_soft
-                      p.col016, --patch_ver
-                      p.col017, --ip_gestion
-                      p.col018, --ali1
-                      p.col019, --ali2
-                      p.col020, --pro_id
-                      parse_flexible_date(p.col021), --fecha_imple
-      
-                      (p.col022), -- altura
-                      (p.col023), --pos,
-                      F_GET_LOVS(4, p.col002) --SITIO  
-                  );
-      
-                  v_count := v_count + 1;
-      
-              EXCEPTION
-                  WHEN DUP_VAL_ON_INDEX THEN
-                      v_error_count := v_error_count + 1;
-                      apex_debug.error('Mod: Equipos: Func: DL: Fila duplicada: ' || SQLERRM);
-                      CONTINUE;
-      
-                  WHEN OTHERS THEN
-                      v_error_count := v_error_count + 1;
-                      apex_debug.error('Mod: Equipos: Func: DL: Error en fila ' || TO_CHAR(v_count + v_error_count) || ': ' || SQLERRM);
-                      CONTINUE;
-              END;
-      
-          END LOOP;
-      
-          :P6_ERROR_ROW_COUNT := v_error_count;
-          :P6_LOGGER := 'Registros insertados: ' || v_count || ', Errores: ' || v_error_count;
-      
-          apex_debug.info('Registros insertados: ' || v_count);
-          apex_debug.info('Errores: ' || v_error_count);
-      
-         
-      END;
-      
-
-  execution: 
-    sequence: 20
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  success-message: 
-    success-message: '&P6_LOGGER.'
-
-  error: 
-    error-message: '&P6_LOGGER.'
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    when-button-pressed: LOAD # 203563556510480335065
-
-- # ====== Process: Close Dialog ===============================
-  id: 41695591474735
-  identification: 
-    name: Close Dialog
-    type: Close Dialog
-    execution-chain: None
-
-  settings: 
-    show-success-messages: true
-
-  execution: 
-    sequence: 40
-    point: Processing
-    run-process: Once Per Page Visit (default)
-
-  error: 
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    when-button-pressed: LOAD # 203563556510480335065
-
 - # ====== Process: Load Data ==================================
-  id: 203563556925669335065
+  id: 580109828827701
   identification: 
     name: Load Data
     type: Data Loading
     execution-chain: None
 
   settings: 
-    data-load-definition: SGT_DL_EQUIPOS # 203563300722479331029
+    data-load-definition: IP_ADM # 558092041697210
     source-data-type: File Browse Item
-    file-browse-item: P6_FILE
-    page-item-containing-xlsx-sheet-name: P6_XLSX_WORKSHEET
-    error-row-count-item: P6_ERROR_ROW_COUNT
+    file-browse-item: P62_FILE
+    page-item-containing-xlsx-sheet-name: P62_XLSX_WORKSHEET
+    error-row-count-item: P62_ERROR_ROW_COUNT
 
   execution: 
     sequence: 10
@@ -1255,13 +1110,10 @@ processes:
     display-location: Inline in Notification
 
   server-side-condition: 
-    when-button-pressed: LOAD # 203563556510480335065
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
+    when-button-pressed: LOAD # 579594292827701
 
 - # ====== Process: Clear Cache ================================
-  id: 203563557388426335065
+  id: 580469125827702
   identification: 
     name: Clear Cache
     type: Clear Session State
@@ -1271,7 +1123,7 @@ processes:
     type: Clear all Items on the Current Page
 
   execution: 
-    sequence: 30
+    sequence: 20
     point: Processing
     run-process: Once Per Page Visit (default)
 
@@ -1281,5 +1133,5 @@ processes:
   server-side-condition: 
     type: Expression
     language: PL/SQL
-    pl/sql-expression: ":REQUEST = 'CLEAR' or :P6_ERROR_ROW_COUNT = 0"
+    pl/sql-expression: ":REQUEST = 'CLEAR' or :P62_ERROR_ROW_COUNT = 0"
 

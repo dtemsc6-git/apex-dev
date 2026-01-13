@@ -1,4 +1,30 @@
 ---
+- # ====== List of Values: INTERFACES.NOMBRE-COMPUESTO =========
+  id: 515008900594460
+  identification: 
+    name: INTERFACES.NOMBRE-COMPUESTO
+
+  subscription: 
+    version-number: 39022610288331
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT UPPER(SS.SIGLAS ||'.'|| S.SIGLAS ||'.'|| R.NOMBRE || '.'|| E.NOMBRE ||'.'||I.NOMBRE) NOMBRE, I.ID  VALOR  
+              
+              FROM sgt_interfaces I
+              LEFT JOIN SGT_EQUIPOS E  on i.equipo_id = e.id
+              LEFT JOIN SGT_RACKS R ON E.RACK_ID = R.ID  
+              LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID  
+              LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID  
+      ORDER BY NOMBRE
+
+  column-mapping: 
+    return: VALOR
+    display: NOMBRE
+    default-sort: Use Order By from Query
+
 - # ====== List of Values: CIUDAD.NOMBRE-COMPUESTO =============
   id: 2341386040577256
   identification: 
@@ -101,6 +127,99 @@
       sequence: 10
       display: FOX_MPLS
       return: FOX_MPLS
+
+- # ====== List of Values: TIPO_EQUIPOS.SUB_TIPO ===============
+  id: 2422475915189537
+  identification: 
+    name: TIPO_EQUIPOS.SUB_TIPO
+
+  subscription: 
+    version-number: 39023376678607
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_TIPO_EQUIPOS
+
+  column-mapping: 
+    return: ID
+    display: GRUPO_EQUIPO
+    default-sort: GRUPO_EQUIPO
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: SITIOS.PROPIETARIOS =================
+  id: 3735573462899488
+  identification: 
+    name: SITIOS.PROPIETARIOS
+
+  subscription: 
+    version-number: 39024137942231
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: ANDE =========================================
+    id: 3735939620899490
+    entry: 
+      sequence: 1
+      display: ANDE
+      return: ANDE
+
+  - # ====== Entry: COPACO =======================================
+    id: 3736347266899490
+    entry: 
+      sequence: 2
+      display: COPACO
+      return: COPACO
+
+  - # ====== Entry: EBY ==========================================
+    id: 3736715401899491
+    entry: 
+      sequence: 3
+      display: EBY
+      return: EBY
+
+  - # ====== Entry: ITAIPU =======================================
+    id: 3737129805899491
+    entry: 
+      sequence: 4
+      display: ITAIPU
+      return: ITAIPU
+
+  - # ====== Entry: OTROS ========================================
+    id: 3737548601899491
+    entry: 
+      sequence: 5
+      display: OTROS
+      return: OTROS
+
+- # ====== List of Values: EQUIPOS.POSICION ====================
+  id: 3745551841707504
+  identification: 
+    name: EQUIPOS.POSICION
+
+  subscription: 
+    version-number: 39024137861602
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: Front ========================================
+    id: 3745945363707506
+    entry: 
+      sequence: 1
+      display: Front
+      return: Front
+
+  - # ====== Entry: Back =========================================
+    id: 3746332645707507
+    entry: 
+      sequence: 2
+      display: Back
+      return: Back
 
 - # ====== List of Values: TIPO_CABLE ==========================
   id: 16824711784220248610
@@ -330,25 +449,23 @@
     default-sort: NOMBRE
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: LOV_TIPO_EQUIPOS ====================
+- # ====== List of Values: TIPO_EQUIPOS.NOMBRE =================
   id: 17289756602724474033
   identification: 
-    name: LOV_TIPO_EQUIPOS
+    name: TIPO_EQUIPOS.NOMBRE
 
   subscription: 
-    version-number: 15610003941328
+    version-number: 39023377112734
 
   source: 
     location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: SGT_TIPO_EQUIPOS
+    type: SQL Query
+    sql-query: 'select id, nombre from sgt_tipo_equipos order by nombre '
 
   column-mapping: 
     return: ID
     display: NOMBRE
-    default-sort: NOMBRE
-    sort-direction: Ascending (Nulls Last)
+    default-sort: Use Order By from Query
 
 - # ====== List of Values: LOV_SGT_RACKS_FILTRADO ==============
   id: 17290052017182763958
@@ -382,12 +499,26 @@
     name: TIPO_RED
 
   subscription: 
-    version-number: 15652209137227
+    version-number: 39023348950305
 
   source: 
     location: Static Values
 
   entries: 
+  - # ====== Entry: Reconectadores ===============================
+    id: 1057317429704592
+    entry: 
+      sequence: 4
+      display: Reconectadores
+      return: Red Reconectadores
+
+  - # ====== Entry: Red Radio VHF/UHF ============================
+    id: 2391496495148734
+    entry: 
+      sequence: 19
+      display: Red Radio VHF/UHF
+      return: Red Radio VHF/UHF
+
   - # ====== Entry: Desconocido ==================================
     id: 17291432345857556463
     entry: 
@@ -402,12 +533,12 @@
       display: Externa
       return: Externa
 
-  - # ====== Entry: Miscelaneas ==================================
+  - # ====== Entry: Misceláneas ==================================
     id: 17291433133476556464
     entry: 
       sequence: 3
-      display: Miscelaneas
-      return: Miscelaneas
+      display: Misceláneas
+      return: Misceláneas
 
   - # ====== Entry: Red Corporativa ==============================
     id: 17291433520615556464
@@ -665,13 +796,13 @@
       display: LT-500KV
       return: LT-500KV
 
-- # ====== List of Values: INTERFAZ_ESTADO =====================
+- # ====== List of Values: INTERFACES.ESTADO ===================
   id: 43199625631148317953
   identification: 
-    name: INTERFAZ_ESTADO
+    name: INTERFACES.ESTADO
 
   subscription: 
-    version-number: 39022433467935
+    version-number: 39024137892880
 
   source: 
     location: Static Values
@@ -698,13 +829,13 @@
       display: NA
       return: NA
 
-- # ====== List of Values: INTERFACE_MODO ======================
+- # ====== List of Values: INTERFACES.MODO =====================
   id: 43201033517964343837
   identification: 
-    name: INTERFACE_MODO
+    name: INTERFACES.MODO
 
   subscription: 
-    version-number: 39022433454281
+    version-number: 39024137909517
 
   source: 
     location: Static Values
@@ -759,13 +890,13 @@
       display: Q-IN-Q
       return: Q-IN-Q
 
-- # ====== List of Values: INTERFACE_DUPLEX ====================
+- # ====== List of Values: INTERFACES.DUPLEX ===================
   id: 43201969178408363692
   identification: 
-    name: INTERFACE_DUPLEX
+    name: INTERFACES.DUPLEX
 
   subscription: 
-    version-number: 39022433403537
+    version-number: 39024137903037
 
   source: 
     location: Static Values
@@ -819,13 +950,13 @@
     default-sort: NOMBRE
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: SGT_INTERFACES.NOMBRE ===============
+- # ====== List of Values: INTERFACES.NOMBRE ===================
   id: 43769671252068608862
   identification: 
-    name: SGT_INTERFACES.NOMBRE
+    name: INTERFACES.NOMBRE
 
   subscription: 
-    version-number: 15624723738994
+    version-number: 39022610122146
 
   source: 
     location: Local Database
@@ -904,13 +1035,13 @@
     default-sort: MOSTRAR
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: ESTADO_ENLACE_FO ====================
+- # ====== List of Values: ENLACE_FO.ESTADO ====================
   id: 52385217569870497397
   identification: 
-    name: ESTADO_ENLACE_FO
+    name: ENLACE_FO.ESTADO
 
   subscription: 
-    version-number: 15652208579374
+    version-number: 39024137914073
 
   source: 
     location: Static Values
@@ -1012,13 +1143,13 @@
       display: Email Addresses
       return: EMAIL
 
-- # ====== List of Values: NIVEL_PRIORIDAD =====================
+- # ====== List of Values: SERVICIOS.NIVEL_PRIORIDAD ===========
   id: 83355472626096331408
   identification: 
-    name: NIVEL_PRIORIDAD
+    name: SERVICIOS.NIVEL_PRIORIDAD
 
   subscription: 
-    version-number: 15657376900796
+    version-number: 39024137921998
 
   source: 
     location: Static Values
@@ -1276,45 +1407,73 @@
       display: Otro
       return: Otro
 
-- # ====== List of Values: LOV_UNI_ENCAR =======================
+- # ====== List of Values: UNI_ENCAR ===========================
   id: 200719442741094818409
   identification: 
-    name: LOV_UNI_ENCAR
+    name: UNI_ENCAR
 
   subscription: 
-    version-number: 15589438822245
+    version-number: 39024138242677
 
   source: 
     location: Static Values
 
   entries: 
+  - # ====== Entry: DTE/TI =======================================
+    id: 3644111216391722
+    entry: 
+      sequence: 5
+      display: DTE/TI
+      return: DTE/IT
+
+  - # ====== Entry: RI ===========================================
+    id: 3646004933399447
+    entry: 
+      sequence: 6
+      display: RI
+      return: RI
+
+  - # ====== Entry: GT ===========================================
+    id: 3734883122875553
+    entry: 
+      sequence: 7
+      display: GT
+      return: GT
+
+  - # ====== Entry: EXTERNO ======================================
+    id: 3735218749875554
+    entry: 
+      sequence: 8
+      display: EXTERNO
+      return: EXTERNO
+
   - # ====== Entry: DTE/DIC ======================================
     id: 200719443085789818410
     entry: 
       sequence: 1
       display: DTE/DIC
-      return: DTE_DIC
+      return: DTE/DIC
 
   - # ====== Entry: DTE/MSC ======================================
     id: 200719443461200818410
     entry: 
       sequence: 2
       display: DTE/MSC
-      return: DTE_MSC
+      return: DTE/MSC
 
   - # ====== Entry: DTE/ISC ======================================
     id: 200719443916766818410
     entry: 
       sequence: 3
       display: DTE/ISC
-      return: DTE_ISC
+      return: DTE/ISC
 
   - # ====== Entry: DTE/MCO ======================================
     id: 200719444301256818411
     entry: 
       sequence: 4
       display: DTE/MCO
-      return: DTE_MCO
+      return: DTE/MCO
 
 - # ====== List of Values: SGT_SITIOS.SIGLAS ===================
   id: 202814172118838557260
@@ -1336,31 +1495,31 @@
     default-sort: SIGLAS
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: ESTADO_EQUIPO =======================
+- # ====== List of Values: EQUIPO.ESTADO =======================
   id: 203663371051164540142
   identification: 
-    name: ESTADO_EQUIPO
+    name: EQUIPO.ESTADO
 
   subscription: 
-    version-number: 15652208638821
+    version-number: 39024137868910
 
   source: 
     location: Static Values
 
   entries: 
-  - # ====== Entry: No utilizado =================================
+  - # ====== Entry: Activo =======================================
+    id: 2396839444355709
+    entry: 
+      sequence: 1
+      display: Activo
+      return: Activo
+
+  - # ====== Entry: Baja =========================================
     id: 17291005545094836159
     entry: 
-      sequence: 3
-      display: No utilizado
-      return: No utilizado
-
-  - # ====== Entry: S/D ==========================================
-    id: 17291025687869838470
-    entry: 
-      sequence: 4
-      display: S/D
-      return: S/D
+      sequence: 2
+      display: Baja
+      return: Baja
 
   - # ====== Entry: Desconocido ==================================
     id: 17292442094612840685
@@ -1369,13 +1528,6 @@
       display: Desconocido
       return: Desconocido
 
-  - # ====== Entry: Retirado =====================================
-    id: 42523351391228099593
-    entry: 
-      sequence: 6
-      display: Retirado
-      return: Retirado
-
   - # ====== Entry: Apagado ======================================
     id: 203663371403443540142
     entry: 
@@ -1383,10 +1535,10 @@
       display: Apagado
       return: Apagado
 
-  - # ====== Entry: Utilizado ====================================
+  - # ====== Entry: Planificado ==================================
     id: 203663371724885540143
     entry: 
-      sequence: 2
-      display: Utilizado
-      return: Utilizado
+      sequence: 6
+      display: Planificado
+      return: Planificado
 

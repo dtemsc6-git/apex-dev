@@ -5,6 +5,57 @@
     name: Breadcrumb
 
   entries: 
+  - # ====== Entry: Interfaces L2 ================================
+    id: 479823010375745
+    identification: 
+      name: Interfaces L2
+      page-number: 48
+
+    execution: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Interfaces # 37204295089123013533
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:48:&APP_SESSION.::&DEBUG.:::'
+        page: 48 # Interfaces L2
+
+  - # ====== Entry: Interfaces L3 ================================
+    id: 518348998609168
+    identification: 
+      name: Interfaces L3
+      page-number: 57
+
+    execution: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Interfaces # 37204295089123013533
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:57:&APP_SESSION.::&DEBUG.:::'
+        page: 57 # Interfaces L3
+
+  - # ====== Entry: Admin IP&#x27;s ==============================
+    id: 536631837621678
+    identification: 
+      name: Admin IP&#x27;s
+      page-number: 59
+
+    execution: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Interfaces # 37204295089123013533
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:59:&APP_SESSION.::&DEBUG.:::'
+        page: 59 # Admin IP's
+
   - # ====== Entry: Mapa Sitios ==================================
     id: 2245132638776954
     identification: 

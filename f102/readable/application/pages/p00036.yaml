@@ -89,11 +89,45 @@ regions:
 
   source: 
     location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: SGT_ENLACES_FO
-    include-rowid-column: false
-    order-by-clause: ID DESC
+    type: SQL Query
+    sql-query: |
+      select fo.ID,
+             fo.NOMBRE,
+             fo.SITIO_ID_A,
+             s_a.siglas SITIO_A,
+             fo.EQUIPO_ID_A,
+             eq_a.nombre EQUIPO_A,
+             fo.SITIO_ID_B,
+             s_b.siglas SITIO_B,
+             fo.EQUIPO_ID_B,
+             eq_b.nombre EQUIPO_B,
+             fo."CERTIFICACIÓN",
+             fo.UNIDAD_MEDIDA,
+             fo.ABS_LONGITUD,
+             fo.CANTIDAD_DE_PELOS,
+             fo.TIPO_DE_FO,
+             fo.TIPO,
+             fo.LT,
+             fo.CONECTOR,
+             fo.ESTADO,
+             fo.COMENTARIOS,
+             fo."PROYECTO_DE_IMPLEMENTACIÓN",
+             fo."FECHA_IMPLEMENTACIÓN",
+             fo.UNIDAD_ENCARGADA_ACTUAL,
+             fo.CREADO_POR,
+             fo.CREADO_EL,
+             fo.ACTUALIZADO_POR,
+             fo.ACTUALIZADO_EL,
+             fo.TIPO_CABLE,
+             fo.TIPO_TENDIDO,
+             fo.PUERTOS_LADO_A,
+             fo.PUERTOS_LADO_B
+        from SGT_ENLACES_FO fo
+      
+        LEFT JOIN sgt_equipos eq_a on fo.equipo_id_a = eq_a.id
+        LEFT JOIN sgt_equipos eq_b on fo.equipo_id_b = eq_b.id
+        LEFT JOIN sgt_sitios s_a on fo.sitio_id_a = s_a.id
+        LEFT JOIN sgt_sitios s_b on fo.sitio_id_b = s_b.id
 
   layout: 
     sequence: 10
@@ -139,8 +173,8 @@ regions:
       link-icon: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
 
     pagination: 
-      type: Row Ranges X to Y
-      display-position: Bottom - Right
+      type: Row Ranges X to Y of Z
+      display-position: Top - Right
 
     performance: 
       lazy-loading: false
@@ -199,28 +233,28 @@ regions:
         alias: 879991520
 
     columns: 
-    - # ====== Column: ID ==========================================
-      id: 87993675588645945821
+    - # ====== Column: PUERTOS_LADO_A ==============================
+      id: 3568569444232756
       identification: 
-        column-name: ID
+        column-name: PUERTOS_LADO_A
         type: Plain Text
 
       heading: 
-        heading: Id
-        alignment: end
+        heading: Puertos Lado A
+        alignment: start
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 10
-        column-alignment: end
+        sequence: 300
+        column-alignment: start
 
       accessibility: 
         value-identifies-row: false
 
       source: 
-        primary-key: true
+        primary-key: false
 
       column-filter: 
         type: Default Based on Column Type
@@ -240,6 +274,235 @@ regions:
       security: 
         escape-special-characters: true
 
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
+    - # ====== Column: PUERTOS_LADO_B ==============================
+      id: 3568680624232757
+      identification: 
+        column-name: PUERTOS_LADO_B
+        type: Plain Text
+
+      heading: 
+        heading: Puertos Lado B
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 310
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
+    - # ====== Column: SITIO_A =====================================
+      id: 3568821616232758
+      identification: 
+        column-name: SITIO_A
+        type: Plain Text
+
+      heading: 
+        heading: Sitio A
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 40
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: EQUIPO_A ====================================
+      id: 3568859252232759
+      identification: 
+        column-name: EQUIPO_A
+        type: Plain Text
+
+      heading: 
+        heading: Equipo A
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: SITIO_B =====================================
+      id: 3568955897232760
+      identification: 
+        column-name: SITIO_B
+        type: Plain Text
+
+      heading: 
+        heading: Sitio B
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: EQUIPO_B ====================================
+      id: 3569057445232761
+      identification: 
+        column-name: EQUIPO_B
+        type: Plain Text
+
+      heading: 
+        heading: Equipo B
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 100
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ID ==========================================
+      id: 87993675588645945821
+      identification: 
+        column-name: ID
+        type: Hidden
+
+      heading: 
+        heading: Id
+
+      layout: 
+        sequence: 10
+
+      source: 
+        primary-key: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: NOMBRE ======================================
       id: 87993675655549945822
       identification: 
@@ -248,14 +511,14 @@ regions:
 
       heading: 
         heading: Nombre
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 20
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -291,15 +554,15 @@ regions:
         list-of-values: SGT_SITIOS.SIGLAS # 202814172118838557260
 
       heading: 
-        heading: Sitio Id A
-        alignment: end
+        heading: Sitio A
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 30
-        column-alignment: end
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -321,6 +584,9 @@ regions:
         chart: true
         group-by: true
         pivot: true
+
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
 
     - # ====== Column: EQUIPO_ID_A =================================
       id: 87993675854786945824
@@ -332,15 +598,15 @@ regions:
         list-of-values: EQUIPOS.NOMBRE # 16838483136411509974
 
       heading: 
-        heading: Equipo Id A
-        alignment: end
+        heading: Equipo A
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 40
-        column-alignment: end
+        sequence: 50
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -362,6 +628,9 @@ regions:
         chart: true
         group-by: true
         pivot: true
+
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
 
     - # ====== Column: SITIO_ID_B ==================================
       id: 87993675999009945825
@@ -373,15 +642,15 @@ regions:
         list-of-values: SGT_SITIOS.SIGLAS # 202814172118838557260
 
       heading: 
-        heading: Sitio Id B
-        alignment: end
+        heading: Sitio B
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 50
-        column-alignment: end
+        sequence: 70
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -403,26 +672,26 @@ regions:
         chart: true
         group-by: true
         pivot: true
+
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
 
     - # ====== Column: EQUIPO_ID_B =================================
       id: 87993676079097945826
       identification: 
         column-name: EQUIPO_ID_B
-        type: Plain Text (based on List of Values)
-
-      list-of-values: 
-        list-of-values: EQUIPOS.NOMBRE # 16838483136411509974
+        type: Plain Text
 
       heading: 
-        heading: Equipo Id B
-        alignment: end
+        heading: Equipo B
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 60
-        column-alignment: end
+        sequence: 90
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -431,7 +700,7 @@ regions:
         primary-key: false
 
       column-filter: 
-        type: Use Named List of Values to Filter Exact Match
+        type: Default Based on Column Type
 
       enable-users-to: 
         hide: true
@@ -444,6 +713,12 @@ regions:
         chart: true
         group-by: true
         pivot: true
+
+      security: 
+        escape-special-characters: true
+
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
 
     - # ====== Column: CERTIFICACIÓN ===============================
       id: 87993676160269945827
@@ -453,14 +728,14 @@ regions:
 
       heading: 
         heading: Certificación
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 70
-        column-alignment: end
+        sequence: 110
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -493,15 +768,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Unidad Medida
-        alignment: start
+        heading: Unidad de medida
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 80
-        column-alignment: start
+        sequence: 120
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -527,6 +802,9 @@ regions:
       security: 
         escape-special-characters: true
 
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
     - # ====== Column: ABS_LONGITUD ================================
       id: 87993676395172945829
       identification: 
@@ -534,15 +812,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Abs Longitud
-        alignment: end
+        heading: Longitud
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 90
-        column-alignment: end
+        sequence: 130
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -576,14 +854,14 @@ regions:
 
       heading: 
         heading: Cantidad De Pelos
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 100
-        column-alignment: end
+        sequence: 140
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -616,15 +894,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Tipo De Fo
-        alignment: start
+        heading: Tipo de FO
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 110
-        column-alignment: start
+        sequence: 150
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -657,15 +935,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Tipo
-        alignment: start
+        heading: Tipo  de enlace
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 120
-        column-alignment: start
+        sequence: 160
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -698,15 +976,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Lt
-        alignment: start
+        heading: LT
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 130
-        column-alignment: start
+        sequence: 190
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -740,14 +1018,14 @@ regions:
 
       heading: 
         heading: Conector
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 140
-        column-alignment: start
+        sequence: 200
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -781,14 +1059,14 @@ regions:
 
       heading: 
         heading: Estado
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 150
-        column-alignment: start
+        sequence: 210
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -821,15 +1099,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Comentarios
-        alignment: start
+        heading: Observaciones
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 160
-        column-alignment: start
+        sequence: 220
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -862,15 +1140,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Proyecto De Implementación
-        alignment: start
+        heading: Proyecto de Implementación
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 170
-        column-alignment: start
+        sequence: 230
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -903,15 +1181,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Fecha Implementación
-        alignment: start
+        heading: Fecha de Implementación
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 180
-        column-alignment: start
+        sequence: 240
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -945,15 +1223,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Unidad Encargada Actual
-        alignment: start
+        heading: Unidad Encargada
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 190
-        column-alignment: start
+        sequence: 250
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -987,14 +1265,14 @@ regions:
 
       heading: 
         heading: Creado Por
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 200
-        column-alignment: start
+        sequence: 260
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -1028,14 +1306,14 @@ regions:
 
       heading: 
         heading: Creado El
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 210
-        column-alignment: start
+        sequence: 270
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -1070,14 +1348,14 @@ regions:
 
       heading: 
         heading: Actualizado Por
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 220
-        column-alignment: start
+        sequence: 280
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -1111,14 +1389,14 @@ regions:
 
       heading: 
         heading: Actualizado El
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 230
-        column-alignment: start
+        sequence: 290
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -1152,15 +1430,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Tipo Cable
-        alignment: start
+        heading: Tipo de cable
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 240
-        column-alignment: start
+        sequence: 180
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -1193,15 +1471,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Tipo Tendido
-        alignment: start
+        heading: Tipo de tendido
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 250
-        column-alignment: start
+        sequence: 170
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -1271,6 +1549,36 @@ regions:
         alignment: center
 
 buttons: 
+- # ====== Button: GRILLA ======================================
+  id: 3564634015232716
+  identification: 
+    button-name: GRILLA
+    label: '&APP_TEXT$BTN_GRILLA_EDITABLE!RAW.'
+
+  layout: 
+    sequence: 10
+    region: SGT_ENLACES_FO_2 # 43997219426089517996
+    slot: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:45:&SESSION.::&DEBUG.:::'
+      page: 45 # IG_ENLACES_FO
+
+    warn-on-unsaved-changes: Do Not Check
+
 - # ====== Button: CREATE ======================================
   id: 51494080773735384815
   identification: 
@@ -1278,7 +1586,7 @@ buttons:
     label: '&APP_TEXT$BTN_CREAR!RAW.'
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: SGT_ENLACES_FO_2 # 43997219426089517996
     slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false

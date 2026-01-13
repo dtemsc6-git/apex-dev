@@ -180,7 +180,7 @@ regions:
 
     heading: 
       heading: Nombre
-      alignment: start
+      alignment: center
 
     settings: 
       trim-spaces: Leading and Trailing
@@ -188,7 +188,7 @@ regions:
 
     layout: 
       sequence: 40
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -235,11 +235,11 @@ regions:
 
     heading: 
       heading: Sitio A
-      alignment: start
+      alignment: center
 
     layout: 
       sequence: 50
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -291,11 +291,11 @@ regions:
 
     heading: 
       heading: Equipo A
-      alignment: start
+      alignment: center
 
     layout: 
       sequence: 60
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -314,6 +314,7 @@ regions:
         where ss.id =  :SITIO_ID_A AND e.tipo_equipo_id = 11
       display-extra-values: true
       display-null-value: true
+      null-display-value: Valor no asignado
 
     cascading-list-of-values: 
       parent-column(s): 
@@ -346,11 +347,11 @@ regions:
 
     heading: 
       heading: Sitio B
-      alignment: start
+      alignment: center
 
     layout: 
       sequence: 70
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -402,11 +403,11 @@ regions:
 
     heading: 
       heading: Equipo B
-      alignment: start
+      alignment: center
 
     layout: 
       sequence: 80
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -425,6 +426,7 @@ regions:
         where ss.id =  :SITIO_ID_B AND e.tipo_equipo_id = 11
       display-extra-values: true
       display-null-value: true
+      null-display-value: Valor no asignado
 
     cascading-list-of-values: 
       parent-column(s): 
@@ -457,7 +459,7 @@ regions:
 
     heading: 
       heading: Certificación
-      alignment: end
+      alignment: center
 
     settings: 
       number-alignment: Start
@@ -465,7 +467,7 @@ regions:
 
     layout: 
       sequence: 90
-      column-alignment: end
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -503,8 +505,8 @@ regions:
       type: Text Field
 
     heading: 
-      heading: Unidad Medida
-      alignment: start
+      heading: Unidad de medida
+      alignment: center
 
     settings: 
       trim-spaces: Leading and Trailing
@@ -512,7 +514,7 @@ regions:
 
     layout: 
       sequence: 100
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -608,8 +610,8 @@ regions:
       type: Number Field
 
     heading: 
-      heading: Cantidad De Pelos
-      alignment: end
+      heading: Cantidad de Pelos
+      alignment: center
 
     settings: 
       number-alignment: Start
@@ -617,7 +619,7 @@ regions:
 
     layout: 
       sequence: 120
-      column-alignment: end
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -655,12 +657,12 @@ regions:
       type: Select List
 
     heading: 
-      heading: Tipo De Fo
-      alignment: start
+      heading: Tipo de fibra
+      alignment: center
 
     layout: 
       sequence: 130
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -711,12 +713,12 @@ regions:
       type: Select List
 
     heading: 
-      heading: Tipo
-      alignment: start
+      heading: Tipo de enlace
+      alignment: center
 
     layout: 
       sequence: 140
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -767,12 +769,12 @@ regions:
       type: Select List
 
     heading: 
-      heading: Lt
-      alignment: start
+      heading: LT
+      alignment: center
 
     layout: 
       sequence: 150
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -824,11 +826,11 @@ regions:
 
     heading: 
       heading: Conector
-      alignment: start
+      alignment: center
 
     layout: 
       sequence: 160
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -880,11 +882,11 @@ regions:
 
     heading: 
       heading: Estado
-      alignment: start
+      alignment: center
 
     layout: 
       sequence: 170
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -895,7 +897,7 @@ regions:
 
     list-of-values: 
       type: Shared Component
-      list-of-values: ESTADO_ENLACE_FO # 52385217569870497397
+      list-of-values: ENLACE_FO.ESTADO # 52385217569870497397
       display-extra-values: true
       display-null-value: true
 
@@ -935,8 +937,8 @@ regions:
       type: Textarea
 
     heading: 
-      heading: Comentarios
-      alignment: start
+      heading: Observaciones
+      alignment: center
 
     settings: 
       resizable: true
@@ -946,7 +948,7 @@ regions:
 
     layout: 
       sequence: 180
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -993,8 +995,8 @@ regions:
       type: Text Field
 
     heading: 
-      heading: Proyecto De Implementación
-      alignment: start
+      heading: Proyecto de Implementación
+      alignment: center
 
     settings: 
       trim-spaces: Leading and Trailing
@@ -1002,7 +1004,7 @@ regions:
 
     layout: 
       sequence: 190
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -1048,8 +1050,8 @@ regions:
       type: Date Picker
 
     heading: 
-      heading: Fecha Implementación
-      alignment: start
+      heading: Fecha de Implementación
+      alignment: center
 
     settings: 
       show-time: false
@@ -1061,7 +1063,7 @@ regions:
 
     layout: 
       sequence: 200
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -1100,8 +1102,8 @@ regions:
       type: Text Field
 
     heading: 
-      heading: Unidad Encargada Actual
-      alignment: start
+      heading: Unidad Encargada
+      alignment: center
 
     settings: 
       trim-spaces: Leading and Trailing
@@ -1109,7 +1111,7 @@ regions:
 
     layout: 
       sequence: 210
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -1381,12 +1383,12 @@ regions:
       type: Select List
 
     heading: 
-      heading: Tipo Cable
-      alignment: start
+      heading: Tipo de cable
+      alignment: center
 
     layout: 
       sequence: 260
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -1437,12 +1439,12 @@ regions:
       type: Select List
 
     heading: 
-      heading: Tipo Tendido
-      alignment: start
+      heading: Tipo de tendido
+      alignment: center
 
     layout: 
       sequence: 270
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 

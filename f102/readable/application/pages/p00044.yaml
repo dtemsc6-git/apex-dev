@@ -54,8 +54,8 @@ regions:
              U,
              TIPO_RED,
              NOMBRE,
+             TIPO_EQUIPO_ID SUB_TIPO,
              TIPO_EQUIPO_ID,
-             SUB_TIPO_EQUIPO,
              MARCA,
              MODELO,
              ESTADO,
@@ -113,9 +113,11 @@ regions:
     edit: 
       enabled: true
       allowed-operations: 
+      - Add Row
       - Update Row
       - Delete Row
       lost-update-type: Row Values
+      add-row-if-empty: true
 
     performance: 
       lazy-loading: false
@@ -168,6 +170,68 @@ regions:
         alias: 880295913
 
   columns: 
+  - # ====== Column: SUB_TIPO ====================================
+    id: 2415479049170213
+    identification: 
+      column-name: SUB_TIPO
+      type: Display Only
+
+    heading: 
+      heading: Sub Tipo
+      alignment: start
+
+    settings: 
+      format: Plain Text
+      based-on: Display Value of List of Values
+
+    layout: 
+      sequence: 140
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    list-of-values: 
+      type: Shared Component
+      list-of-values: TIPO_EQUIPOS.SUB_TIPO # 2422475915189537
+      display-extra-values: true
+
+    source: 
+      type: Database Column
+      database-column: SUB_TIPO
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Use List of Values
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
+
   - # ====== Column: ID ==========================================
     id: 87993678273892945848
     identification: 
@@ -203,91 +267,49 @@ regions:
     id: 87993678349407945849
     identification: 
       column-name: UNIDAD_ENCARGADA
-      type: Text Field
+      type: Popup LOV
 
     heading: 
       heading: Unidad Encargada
-      alignment: start
+      alignment: center
 
     settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: Delimited List
+      separator: ':'
 
     layout: 
       sequence: 40
-      column-alignment: start
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
     validation: 
-      value-required: false
+      value-required: true
       maximum-length: 50
-
-    source: 
-      type: Database Column
-      database-column: UNIDAD_ENCARGADA
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
-  - # ====== Column: RACK_ID =====================================
-    id: 87993678418853945850
-    identification: 
-      column-name: RACK_ID
-      type: Select List
-
-    heading: 
-      heading: Rack
-      alignment: start
-
-    layout: 
-      sequence: 50
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
 
     list-of-values: 
       type: Shared Component
-      list-of-values: RACKS.NOMBRES # 18965791847251143770
+      list-of-values: UNI_ENCAR # 200719442741094818409
       display-extra-values: true
       display-null-value: true
 
     source: 
       type: Database Column
-      database-column: RACK_ID
-      data-type: NUMBER
+      database-column: UNIDAD_ENCARGADA
+      data-type: VARCHAR2
       query-only: false
       primary-key: false
 
@@ -313,8 +335,79 @@ regions:
       control-break/aggregate: true
       hide: true
 
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
+  - # ====== Column: RACK_ID =====================================
+    id: 87993678418853945850
+    identification: 
+      column-name: RACK_ID
+      type: Popup LOV
+
+    heading: 
+      heading: Rack
+      alignment: center
+
+    settings: 
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
+
+    layout: 
+      sequence: 60
+      column-alignment: center
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: true
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: |
+        select 
+        
+        s.siglas||'.'||r.nombre, r.id
+        
+        from 
+        sgt_racks r 
+        inner join sgt_salas s on r.sala_id = s.id
+        inner join sgt_sitios ss on s.sitio_id = ss.id
+        
+        where ss.id = :SITIO_ID
+      display-extra-values: true
+      display-null-value: true
+
+    cascading-list-of-values: 
+      parent-column(s): 
+      - SITIO_ID
+      items-to-submit: 
+      - SITIO_ID
+      parent-required: true
+
+    source: 
+      type: Database Column
+      database-column: RACK_ID
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      hide: true
 
   - # ====== Column: U ===========================================
     id: 88029832200775630901
@@ -323,23 +416,23 @@ regions:
       type: Number Field
 
     heading: 
-      heading: U
-      alignment: end
+      heading: U de Inicio
+      alignment: center
 
     settings: 
       number-alignment: Start
       virtual-keyboard: Decimal
 
     layout: 
-      sequence: 60
-      column-alignment: end
+      sequence: 120
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
     validation: 
-      value-required: false
+      value-required: true
 
     source: 
       type: Database Column
@@ -363,9 +456,6 @@ regions:
       control-break/aggregate: true
       hide: true
 
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
   - # ====== Column: TIPO_RED ====================================
     id: 88029832378765630902
     identification: 
@@ -373,19 +463,19 @@ regions:
       type: Select List
 
     heading: 
-      heading: Tipo Red
-      alignment: start
+      heading: Tipo de Red
+      alignment: center
 
     layout: 
-      sequence: 70
-      column-alignment: start
+      sequence: 80
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
     validation: 
-      value-required: false
+      value-required: true
 
     list-of-values: 
       type: Shared Component
@@ -430,22 +520,22 @@ regions:
 
     heading: 
       heading: Nombre
-      alignment: start
+      alignment: center
 
     settings: 
       trim-spaces: Leading and Trailing
       text-case: NO CHANGE
 
     layout: 
-      sequence: 80
-      column-alignment: start
+      sequence: 90
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
     validation: 
-      value-required: false
+      value-required: true
       maximum-length: 60
 
     source: 
@@ -484,23 +574,23 @@ regions:
       type: Select List
 
     heading: 
-      heading: Tipo Equipo
-      alignment: start
+      heading: Tipo de Equipo
+      alignment: center
 
     layout: 
-      sequence: 90
-      column-alignment: start
+      sequence: 70
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
     validation: 
-      value-required: false
+      value-required: true
 
     list-of-values: 
       type: Shared Component
-      list-of-values: LOV_TIPO_EQUIPOS # 17289756602724474033
+      list-of-values: TIPO_EQUIPOS.NOMBRE # 17289756602724474033
       display-extra-values: true
       display-null-value: true
 
@@ -508,62 +598,6 @@ regions:
       type: Database Column
       database-column: TIPO_EQUIPO_ID
       data-type: NUMBER
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Use List of Values
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: SUB_TIPO_EQUIPO =============================
-    id: 88029832609755630905
-    identification: 
-      column-name: SUB_TIPO_EQUIPO
-      type: Select List
-
-    heading: 
-      heading: Sub Tipo Equipo
-      alignment: start
-
-    layout: 
-      sequence: 100
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-
-    list-of-values: 
-      type: Shared Component
-      list-of-values: SUB_TIPO_EQUIPO # 17292525545179850352
-      display-extra-values: true
-      display-null-value: true
-
-    source: 
-      type: Database Column
-      database-column: SUB_TIPO_EQUIPO
-      data-type: VARCHAR2
       query-only: false
       primary-key: false
 
@@ -597,15 +631,15 @@ regions:
 
     heading: 
       heading: Marca
-      alignment: start
+      alignment: center
 
     settings: 
       trim-spaces: Leading and Trailing
       text-case: NO CHANGE
 
     layout: 
-      sequence: 110
-      column-alignment: start
+      sequence: 150
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -652,15 +686,15 @@ regions:
 
     heading: 
       heading: Modelo
-      alignment: start
+      alignment: center
 
     settings: 
       trim-spaces: Leading and Trailing
       text-case: NO CHANGE
 
     layout: 
-      sequence: 120
-      column-alignment: start
+      sequence: 160
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -703,27 +737,28 @@ regions:
     id: 88029832926508630908
     identification: 
       column-name: ESTADO
-      type: Text Field
+      type: Select List
 
     heading: 
       heading: Estado
-      alignment: start
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
+      alignment: center
 
     layout: 
-      sequence: 130
-      column-alignment: start
+      sequence: 100
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
-      value-identifies-row: false
+      value-identifies-row: true
 
     validation: 
-      value-required: false
-      maximum-length: 50
+      value-required: true
+
+    list-of-values: 
+      type: Shared Component
+      list-of-values: EQUIPO.ESTADO # 203663371051164540142
+      display-extra-values: true
+      display-null-value: true
 
     source: 
       type: Database Column
@@ -743,7 +778,7 @@ regions:
       - Case Insensitive
       - Regular Expression
       text-case: Mixed
-      lov-type: Distinct Column
+      lov-type: Use List of Values
       exact-match: true
 
     export-/-printing: 
@@ -762,7 +797,7 @@ regions:
 
     heading: 
       heading: Observaciones
-      alignment: start
+      alignment: center
 
     settings: 
       resizable: true
@@ -771,8 +806,8 @@ regions:
       trim-spaces: Leading and Trailing
 
     layout: 
-      sequence: 140
-      column-alignment: start
+      sequence: 180
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -819,16 +854,16 @@ regions:
       type: Text Field
 
     heading: 
-      heading: Ni Ande
-      alignment: start
+      heading: NI ANDE
+      alignment: center
 
     settings: 
       trim-spaces: Leading and Trailing
       text-case: NO CHANGE
 
     layout: 
-      sequence: 150
-      column-alignment: start
+      sequence: 190
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -875,15 +910,15 @@ regions:
 
     heading: 
       heading: Serial Number
-      alignment: start
+      alignment: center
 
     settings: 
       trim-spaces: Leading and Trailing
       text-case: NO CHANGE
 
     layout: 
-      sequence: 160
-      column-alignment: start
+      sequence: 200
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -929,16 +964,16 @@ regions:
       type: Text Field
 
     heading: 
-      heading: Version Hardware
-      alignment: start
+      heading: Hardware Version
+      alignment: center
 
     settings: 
       trim-spaces: Leading and Trailing
       text-case: NO CHANGE
 
     layout: 
-      sequence: 170
-      column-alignment: start
+      sequence: 210
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -984,16 +1019,16 @@ regions:
       type: Text Field
 
     heading: 
-      heading: Version Software
-      alignment: start
+      heading: Software Version
+      alignment: center
 
     settings: 
       trim-spaces: Leading and Trailing
       text-case: NO CHANGE
 
     layout: 
-      sequence: 180
-      column-alignment: start
+      sequence: 220
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -1039,16 +1074,16 @@ regions:
       type: Text Field
 
     heading: 
-      heading: Version Patch
-      alignment: start
+      heading: Patch Version
+      alignment: center
 
     settings: 
       trim-spaces: Leading and Trailing
       text-case: NO CHANGE
 
     layout: 
-      sequence: 190
-      column-alignment: start
+      sequence: 230
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -1094,16 +1129,16 @@ regions:
       type: Text Field
 
     heading: 
-      heading: Ip Gestion
-      alignment: start
+      heading: IP Gestión
+      alignment: center
 
     settings: 
       trim-spaces: Leading and Trailing
       text-case: NO CHANGE
 
     layout: 
-      sequence: 200
-      column-alignment: start
+      sequence: 170
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -1157,7 +1192,7 @@ regions:
       text-case: NO CHANGE
 
     layout: 
-      sequence: 210
+      sequence: 250
       column-alignment: start
       stretch: Use Report Setting
 
@@ -1215,7 +1250,7 @@ regions:
       text-case: NO CHANGE
 
     layout: 
-      sequence: 220
+      sequence: 260
       column-alignment: start
       stretch: Use Report Setting
 
@@ -1265,16 +1300,16 @@ regions:
       type: Text Field
 
     heading: 
-      heading: Proyecto Id
-      alignment: start
+      heading: Proyecto de Implementación
+      alignment: center
 
     settings: 
       trim-spaces: Leading and Trailing
       text-case: NO CHANGE
 
     layout: 
-      sequence: 230
-      column-alignment: start
+      sequence: 270
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -1313,9 +1348,6 @@ regions:
       control-break/aggregate: true
       hide: true
 
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
   - # ====== Column: FECHA_IMPLE =================================
     id: 88029834029330630919
     identification: 
@@ -1335,7 +1367,7 @@ regions:
       use-defaults: true
 
     layout: 
-      sequence: 240
+      sequence: 280
       column-alignment: start
       stretch: Use Report Setting
 
@@ -1379,22 +1411,22 @@ regions:
 
     heading: 
       heading: Altura U
-      alignment: end
+      alignment: center
 
     settings: 
       number-alignment: Start
       virtual-keyboard: Decimal
 
     layout: 
-      sequence: 250
-      column-alignment: end
+      sequence: 110
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
     validation: 
-      value-required: false
+      value-required: true
 
     source: 
       type: Database Column
@@ -1418,34 +1450,32 @@ regions:
       control-break/aggregate: true
       hide: true
 
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
   - # ====== Column: POSICION ====================================
     id: 88029834251369630921
     identification: 
       column-name: POSICION
-      type: Text Field
+      type: Select List
 
     heading: 
-      heading: Posicion
-      alignment: start
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
+      heading: Posición
+      alignment: center
 
     layout: 
-      sequence: 260
-      column-alignment: start
+      sequence: 130
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
     validation: 
-      value-required: false
-      maximum-length: 20
+      value-required: true
+
+    list-of-values: 
+      type: Shared Component
+      list-of-values: EQUIPOS.POSICION # 3745551841707504
+      display-extra-values: true
+      display-null-value: false
 
     source: 
       type: Database Column
@@ -1465,7 +1495,7 @@ regions:
       - Case Insensitive
       - Regular Expression
       text-case: Mixed
-      lov-type: Distinct Column
+      lov-type: Use List of Values
       exact-match: true
 
     export-/-printing: 
@@ -1476,33 +1506,46 @@ regions:
       control-break/aggregate: true
       hide: true
 
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
   - # ====== Column: SITIO_ID ====================================
     id: 88029834332960630922
     identification: 
       column-name: SITIO_ID
-      type: Number Field
+      type: Popup LOV
 
     heading: 
-      heading: Sitio Id
-      alignment: end
+      heading: Sitio
+      alignment: center
 
     settings: 
-      number-alignment: Start
-      virtual-keyboard: Decimal
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
 
     layout: 
-      sequence: 270
-      column-alignment: end
+      sequence: 50
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
     validation: 
-      value-required: false
+      value-required: true
+
+    list-of-values: 
+      type: Shared Component
+      list-of-values: SGT_SITIOS.SIGLAS # 202814172118838557260
+      display-extra-values: true
+      display-null-value: true
 
     source: 
       type: Database Column
@@ -1516,7 +1559,14 @@ regions:
 
     column-filter: 
       enabled: true
-      lov-type: None
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Use List of Values
+      exact-match: true
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -1525,9 +1575,6 @@ regions:
       sort: true
       control-break/aggregate: true
       hide: true
-
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
 
   - # ====== Column: CREADO_POR ==================================
     id: 88029834442534630923
@@ -1544,7 +1591,7 @@ regions:
       text-case: NO CHANGE
 
     layout: 
-      sequence: 280
+      sequence: 290
       column-alignment: start
       stretch: Use Report Setting
 
@@ -1606,7 +1653,7 @@ regions:
       use-defaults: true
 
     layout: 
-      sequence: 290
+      sequence: 300
       column-alignment: start
       stretch: Use Report Setting
 
@@ -1657,7 +1704,7 @@ regions:
       text-case: NO CHANGE
 
     layout: 
-      sequence: 300
+      sequence: 310
       column-alignment: start
       stretch: Use Report Setting
 
@@ -1708,7 +1755,7 @@ regions:
 
     heading: 
       heading: Actualizado El
-      alignment: start
+      alignment: center
 
     settings: 
       show-time: false
@@ -1719,8 +1766,8 @@ regions:
       use-defaults: true
 
     layout: 
-      sequence: 310
-      column-alignment: start
+      sequence: 320
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -1733,11 +1780,8 @@ regions:
       type: Database Column
       database-column: ACTUALIZADO_EL
       data-type: TIMESTAMP
-      query-only: false
+      query-only: true
       primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
 
     column-filter: 
       enabled: true
@@ -1751,9 +1795,6 @@ regions:
       sort: true
       control-break/aggregate: true
       hide: true
-
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
 
   - # ====== Column: APEX$ROW_ACTION =============================
     id: 88029834840662630927
@@ -1786,15 +1827,15 @@ regions:
 
     heading: 
       heading: Total Interfaces
-      alignment: end
+      alignment: center
 
     settings: 
       number-alignment: Start
       virtual-keyboard: Decimal
 
     layout: 
-      sequence: 320
-      column-alignment: end
+      sequence: 330
+      column-alignment: center
       stretch: Use Report Setting
 
     accessibility: 
@@ -1837,7 +1878,7 @@ regions:
       virtual-keyboard: Decimal
 
     layout: 
-      sequence: 330
+      sequence: 340
       column-alignment: end
       stretch: Use Report Setting
 
@@ -1865,6 +1906,9 @@ regions:
       sort: true
       control-break/aggregate: true
       hide: true
+
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
 
   printing: 
     page: 
@@ -2039,6 +2083,81 @@ dynamic-actions:
       fire-on-initialization: false
 
 processes: 
+- # ====== Process: VALIDAR_POSICION_RACK ======================
+  id: 3564752926232718
+  identification: 
+    name: VALIDAR_POSICION_RACK
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      DECLARE
+          v_equipo_id   NUMBER := TO_NUMBER(apex_application.g_x01);
+          v_rack_id     NUMBER := TO_NUMBER(apex_application.g_x02);
+          v_u_inicio    NUMBER := TO_NUMBER(apex_application.g_x03);
+          v_altura_u    NUMBER := TO_NUMBER(apex_application.g_x04);
+          v_posicion    VARCHAR2(10) := apex_application.g_x05;
+      
+          v_total_u     NUMBER;
+          v_u_fin       NUMBER;
+          v_conflictos  NUMBER;
+      BEGIN
+          v_u_fin := v_u_inicio + v_altura_u - 1;
+      
+          /* 🔒 Validar límites del rack */
+          SELECT altura_u
+          INTO v_total_u
+          FROM sgt_racks
+          WHERE id = v_rack_id;
+      
+          apex_json.open_object;
+      
+          IF v_u_inicio < 1 OR v_u_fin > v_total_u THEN
+              apex_json.write('disponible', 'N');
+              apex_json.write(
+                  'mensaje',
+                  'El equipo excede el límite del rack (1 - ' || v_total_u || ' U)'
+              );
+              apex_json.close_object;
+              RETURN;
+          END IF;
+      
+          /* 🔍 Validar solapamiento (ignora el equipo editado) */
+          SELECT COUNT(*)
+          INTO v_conflictos
+          FROM sgt_equipos e
+          WHERE e.rack_id = v_rack_id
+            AND e.posicion = v_posicion
+            AND (v_equipo_id IS NULL OR e.id <> v_equipo_id)
+            AND (
+                  (v_u_inicio BETWEEN e.u AND e.u + e.altura_u - 1)
+               OR (v_u_fin BETWEEN e.u AND e.u + e.altura_u - 1)
+               OR (e.u BETWEEN v_u_inicio AND v_u_fin)
+            );
+      
+          IF v_conflictos > 0 THEN
+              apex_json.write('disponible', 'N');
+              apex_json.write(
+                  'mensaje',
+                  'Existe un equipo ocupando ese rango de U en la posición ' || v_posicion
+              );
+          ELSE
+              apex_json.write('disponible', 'S');
+              apex_json.write('mensaje', 'La posición está disponible');
+          END IF;
+      
+          apex_json.close_object;
+      END;
+      
+
+  execution: 
+    sequence: 10
+    point: Ajax Callback
+    run-process: Once Per Page Visit (default)
+
 - # ====== Process: IG_EQUIPOS - Save Interactive Grid Data ====
   id: 88029835020454630929
   identification: 

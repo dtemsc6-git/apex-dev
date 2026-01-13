@@ -95,8 +95,9 @@ navigation-menu:
   list-template: Side Navigation Menu
   template-options: 
   - '#DEFAULT#'
-  - t-TreeNav--styleA
+  - js-defaultCollapsed
   - js-navCollapsed--hidden
+  - t-TreeNav--styleA
   list-position: Side
   list: Navigation Menu # 197180072959121446204
 
@@ -118,7 +119,7 @@ attributes:
   auto-dismiss-success-messages: false
 
 subscription: 
-  version-number: 39022517788753
+  version-number: 39024443868327
 
 substitutions: 
 - # ====== Substitution: APP_NAME ==============================

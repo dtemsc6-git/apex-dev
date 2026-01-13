@@ -1,0 +1,503 @@
+---
+# ====== Page: Detalle de Transacción ========================
+id: 101
+identification: 
+  name: Detalle de Transacción
+  alias: DETALLE-DE-TRANSACCIÓN1
+  title: Detalle de Auditoría
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  width: 600
+  height: 600
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: New_info ====================================
+  id: 218319417820436748460
+  identification: 
+    name: New_info
+    title: Información de la Transacción
+    type: Static Content
+
+  source: 
+    html-code: |
+      <div class="audit-context-info">
+          <div class="t-Alert t-Alert--horizontal t-Alert--defaultIcons t-Alert--info">
+              <div class="t-Alert-wrap">
+                  <div class="t-Alert-icon">
+                      <span class="t-Icon fa fa-info-circle"></span>
+                  </div>
+                  <div class="t-Alert-content">
+                      <div class="t-Alert-body">
+                          <p><strong>ID Transacción:</strong> &P101_AUDIT_ID.</p>
+                          <p><strong>Usuario:</strong> &P101_USUARIO.</p>
+                          <p><strong>Operación:</strong> &P101_OPERACION.</p>
+                          <p><strong>Fecha/Hora:</strong> &P101_FECHA_HORA.</p>
+                          <p><strong>Tabla:</strong> &P101_TABLA.</p>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Detalle =====================================
+  id: 218319418991129748471
+  identification: 
+    name: Detalle
+    title: Detalle de Campos Modificados
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+          ad.COLUMN_NAME as "Campo",
+          ad.OLD_VALUE as "Valor Anterior", 
+          ad.NEW_VALUE as "Valor Nuevo"
+      FROM AUDIT_DETAIL ad
+      WHERE ad.AUDIT_ID = :P101_AUDIT_ID
+      ORDER BY ad.COLUMN_NAME
+    page-items-to-submit: 
+    - P101_AUDIT_ID
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 90
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: Valor Anterior ==============================
+    id: 109289578082879045658
+    identification: 
+      column-name: Valor Anterior
+      type: Plain Text
+
+    heading: 
+      heading: Valor Anterior
+      alignment: start
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: Valor Nuevo =================================
+    id: 109289578417974045659
+    identification: 
+      column-name: Valor Nuevo
+      type: Plain Text
+
+    heading: 
+      heading: Valor Nuevo
+      alignment: start
+
+    layout: 
+      sequence: 30
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: Campo =======================================
+    id: 109289578752033045659
+    identification: 
+      column-name: Campo
+      type: Plain Text
+
+    heading: 
+      heading: Campo
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+page-items: 
+- # ====== Page Item: P101_AUDIT_ID ============================
+  id: 218319420593395748472
+  identification: 
+    name: P101_AUDIT_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P101_USUARIO =============================
+  id: 218319421060976748476
+  identification: 
+    name: P101_USUARIO
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 40
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P101_OPERACION ===========================
+  id: 218319421185678748477
+  identification: 
+    name: P101_OPERACION
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 50
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P101_FECHA_HORA ==========================
+  id: 218319421238415748478
+  identification: 
+    name: P101_FECHA_HORA
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 60
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P101_TABLA ===============================
+  id: 218319421335245748479
+  identification: 
+    name: P101_TABLA
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 70
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CLOSE =======================================
+  id: 109289577066139045651
+  identification: 
+    button-name: CLOSE
+    label: Cerrar
+
+  layout: 
+    sequence: 80
+    region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+dynamic-actions: 
+- # ====== Dynamic Action: Close ===============================
+  id: 109289581398631045663
+  identification: 
+    name: Close
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: CLOSE # 109289577066139045651
+
+  actions: 
+  - # ====== Action: Cerrar ======================================
+    id: 109289581901923045663
+    identification: 
+      name: Cerrar
+      action: Close Dialog
+
+    execution: 
+      sequence: 10
+      event: Close # 109289581398631045663
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+

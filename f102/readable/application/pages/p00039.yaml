@@ -110,8 +110,8 @@ regions:
       authorization-scheme: Implementador Rights # 56843702980053272617
 
     pagination: 
-      type: Row Ranges X to Y
-      display-position: Bottom - Right
+      type: Row Ranges X to Y of Z
+      display-position: Top - Right
 
     performance: 
       lazy-loading: false
@@ -183,14 +183,14 @@ regions:
 
       heading: 
         heading: Equipo A
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 62
-        column-alignment: end
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -220,18 +220,18 @@ regions:
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: SGT_INTERFACES.NOMBRE # 43769671252068608862
+        list-of-values: INTERFACES.NOMBRE # 43769671252068608862
 
       heading: 
         heading: Interfaz A
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 72
-        column-alignment: end
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -265,14 +265,14 @@ regions:
 
       heading: 
         heading: Equipo B
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 92
-        column-alignment: end
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -302,18 +302,18 @@ regions:
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: SGT_INTERFACES.NOMBRE # 43769671252068608862
+        list-of-values: INTERFACES.NOMBRE # 43769671252068608862
 
       heading: 
         heading: Interfaz B
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 112
-        column-alignment: end
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -347,14 +347,14 @@ regions:
 
       heading: 
         heading: Lado
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 122
-        column-alignment: end
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -403,14 +403,14 @@ regions:
 
       heading: 
         heading: Nombre
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 2
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -444,14 +444,14 @@ regions:
 
       heading: 
         heading: Creado Por
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 19
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -485,14 +485,14 @@ regions:
 
       heading: 
         heading: Creado El
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 20
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -527,14 +527,14 @@ regions:
 
       heading: 
         heading: Actualizado Por
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 21
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -568,14 +568,14 @@ regions:
 
       heading: 
         heading: Actualizado El
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 22
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -609,15 +609,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Tipo Conexion
-        alignment: start
+        heading: Tipo de conexión
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 132
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -651,14 +651,14 @@ regions:
 
       heading: 
         heading: Enlace Id
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 142
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -916,6 +916,36 @@ page-items:
     build-option: Commented Out # 197180071872965446203
 
 buttons: 
+- # ====== Button: GRILLA ======================================
+  id: 3564454686232715
+  identification: 
+    button-name: GRILLA
+    label: '&APP_TEXT$BTN_GRILLA_EDITABLE!RAW.'
+
+  layout: 
+    sequence: 30
+    region: SGT_LST_ENLACE_TRAMOS_FO # 44132896179006381953
+    slot: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:55:&SESSION.::&DEBUG.:::'
+      page: 55 # Conexiones V2
+
+    warn-on-unsaved-changes: Do Not Check
+
 - # ====== Button: IMPORT ======================================
   id: 43996539188683508722
   identification: 
@@ -996,7 +1026,7 @@ buttons:
     label: '&APP_TEXT$BTN_CREAR_VARIOS!RAW.'
 
   layout: 
-    sequence: 30
+    sequence: 40
     region: SGT_LST_ENLACE_TRAMOS_FO # 44132896179006381953
     slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -1021,6 +1051,9 @@ buttons:
 
   security: 
     authorization-scheme: Implementador Rights # 56843702980053272617
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
 
 dynamic-actions: 
 - # ====== Dynamic Action: Edit Report - Dialog Closed =========

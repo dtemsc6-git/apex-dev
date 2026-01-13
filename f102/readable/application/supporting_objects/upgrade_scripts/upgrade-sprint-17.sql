@@ -1,42 +1,11 @@
---1️ Eliminar el constraint actual
-ALTER TABLE sgt_interfaces 
-DROP CONSTRAINT SGT_INTERFACES_ESTADO_CK;
-
---Crear nuevamente el constraint con el nuevo conjunto de valores permitidos
-ALTER TABLE sgt_interfaces 
-ADD CONSTRAINT SGT_INTERFACES_ESTADO_CK 
-CHECK (estado IN ('NA', 'UP', 'DOWN')) ENABLE;
-
---2 Eliminar el SGT_INTERFACES_MODO_CK
-ALTER TABLE SGT_INTERFACES
-drop CONSTRAINT "SGT_INTERFACES_MODO_CK" ;
-
---Crear SGT_INTERFACES_MODO_CK
-ALTER TABLE sgt_interfaces 
-ADD CONSTRAINT "SGT_INTERFACES_MODO_CK"
-CHECK (modo in ('NA','ACCESS','TRUNK','TAGGED','TAGGED-ALL','HYBRID','Q-IN-Q')) ENABLE; 
-
-
---3 Eliminar SGT_INTERFACES_DUPLEX_CK
-alter table SGT_INTERFACES
-DROP CONSTRAINT "SGT_INTERFACES_DUPLEX_CK";
-
---Agregar SGT_INTERFACES_DUPLEX_CK
-ALTER TABLE sgt_interfaces 
-ADD CONSTRAINT "SGT_INTERFACES_DUPLEX_CK"
-CHECK (duplex in ('NA','AUTO','HALF','FULL')) ENABLE;
-
-alter table SGT_INTERFACES
-DROP CONSTRAINT "SGT_INTERFACES_EQUIPO_UNIQUE";
-alter table "SGT_INTERFACES" add constraint
-"SGT_INTERFACES_EQUIPO_UNIQUE" unique ( "EQUIPO_ID", "NOMBRE" );
-
-
 /*
 dmf: funcion para buscar una LOV de acuerdo a la convencion establecida en el software
-1 para buscar equipos
-2 para buscar tipo de interfaces
-3 para buscar un rack
+1 busca el id equipo para el contatenado de sitio.sala.rack.equipo 
+2 busca el id para tipo de interfaces
+3 busca el id de un rack para un rack en formato sitio.sala.rack
+4 busca el id de un sitio para un rack en formato sitio.sala.rack
+5 busca el id para un sgt_tipo_equipo.nombre
+6 busca el id para una interface en base al concatenado de sitio.sala.rack.equipo.interfaz 
 
 */
 create or replace FUNCTION F_GET_LOVS ( 
@@ -92,7 +61,19 @@ BEGIN
         select TE.id into L_ID_return 
         from sgt_tipo_equipos TE 
         where UPPER(TE.NOMBRE) = UPPER(p_mostrar); 
-        return L_ID_RETURN;    
+        return L_ID_RETURN;  
+    
+    --retorna el id en base al concatenado de sitio.sala.rack.equipo.interfaz
+    elsif p_id_lov = 6 then 
+         SELECT I.ID   
+        INTO L_ID_RETURN
+        FROM SGT_INTERFACES I
+        left join SGT_EQUIPOS E  ON I.EQUIPO_ID = E.ID
+        LEFT JOIN SGT_RACKS R ON E.RACK_ID = R.ID  
+        LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID  
+        LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID  
+        WHERE UPPER(SS.SIGLAS ||'.'|| S.SIGLAS ||'.'|| R.NOMBRE || '.'|| E.NOMBRE||'.'||I.NOMBRE) = UPPER(p_mostrar);  
+        RETURN L_ID_RETURN;        
 
     end if ; 
     RETURN NULL; 

@@ -91,56 +91,73 @@ regions:
     type: SQL Query
     sql-query: |
       SELECT 
+          AUDIT_ID,
           USUARIO,
           TIPO_OPERACION,
           FECHA,
           HORA,
           MODULO as SISTEMA,
-          TABLA as ORIGEN, 
-          CAMPO,
-          CATEGORIA_CAMPO AS CATEGORIA,
-          VALOR_ANTERIOR,
-          VALOR_NUEVO,
-          ID_REGISTRO,
+          TABLA as ORIGEN,
+          -- ID_REGISTRO eliminado
+          
+          -- NUEVAS COLUMNAS PRINCIPALES
+          CAMPOS_MODIFICADOS as CANT_CAMPOS,
+          CAMPOS_LISTA as CAMPOS,
+          DETALLE_OLD_VALUE as VALORES_ANTERIORES,
+          DETALLE_NEW_VALUE as VALORES_ACTUALES,
+          
+          -- Información de contexto
+          TIPO_CAMBIO,
+          NIVEL_CRITICIDAD,
+          TURNO,
+          PERIODO,
+          INDICADOR_VISUAL as ESTADO,
           IP_ADDRESS,
+          
+          -- Para análisis y filtros
           CASE 
-              WHEN HORA BETWEEN '00:00:00' AND '07:59:59' THEN 'Nocturno'
-              WHEN HORA BETWEEN '08:00:00' AND '17:59:59' THEN 'Laboral'
-              ELSE 'Vespertino'
-          END as TURNO,
+              WHEN CAMPOS_MODIFICADOS = 1 THEN '1 campo'
+              WHEN CAMPOS_MODIFICADOS <= 2 THEN CAMPOS_MODIFICADOS || ' campos'
+              WHEN CAMPOS_MODIFICADOS <= 5 THEN CAMPOS_MODIFICADOS || ' campos 🟡'
+              ELSE CAMPOS_MODIFICADOS || ' campos 🔴'
+          END as RESUMEN_CAMBIOS,
+         
           CASE 
-              WHEN TABLA IN ('USUARIOS', 'ROLES', 'PERMISOS', 'SGT_USUARIOS') THEN 'Crítico'
-              WHEN TABLA LIKE '%CONFIG%' OR TABLA LIKE '%PARAM%' OR TABLA LIKE '%CONFIGURACION%' THEN 'Alto'
-              WHEN TIPO_OPERACION = 'DELETE' OR TIPO_OPERACION = 'Eliminación' THEN 'Alto'
-              ELSE 'Normal'
-          END as NIVEL_CRITICIDAD,
-          CASE 
-              WHEN TRUNC(FECHA_HORA) = TRUNC(SYSDATE) THEN 'Hoy'
-              WHEN TRUNC(FECHA_HORA) = TRUNC(SYSDATE - 1) THEN 'Ayer'
-              WHEN TRUNC(FECHA_HORA) >= TRUNC(SYSDATE - 7) THEN 'Esta Semana'
-              ELSE 'Anterior'
-          END as PERIODO
-      FROM V_AUDIT_GENERAL
+              WHEN CAMPOS_MODIFICADOS > 3 THEN 
+                  '<a href="javascript:ver_detalle_completo(' || AUDIT_ID || ')">Ver detalle completo</a>'
+              ELSE ''
+          END as ACCION_DETALLE
+      
+      FROM V_AUDIT_CONSOLIDADO
       WHERE 1=1
+          -- Filtros existentes
           AND (:P46_FECHA_DESDE IS NULL OR 
                LENGTH(TRIM(:P46_FECHA_DESDE)) = 0 OR
-               TRUNC(FECHA_HORA) >= TO_DATE(:P46_FECHA_DESDE, 'DD/MM/YYYY'))
+               TRUNC(FECHA_HORA_FILTRO) >= TO_DATE(:P46_FECHA_DESDE, 'DD/MM/YYYY'))
+          
           AND (:P46_FECHA_HASTA IS NULL OR 
                LENGTH(TRIM(:P46_FECHA_HASTA)) = 0 OR
-               TRUNC(FECHA_HORA) <= TO_DATE(:P46_FECHA_HASTA, 'DD/MM/YYYY'))
+               TRUNC(FECHA_HORA_FILTRO) <= TO_DATE(:P46_FECHA_HASTA, 'DD/MM/YYYY'))
           
-      AND (:P46_USUARIO IS NULL OR 
-           :P46_USUARIO = '%' OR 
-           TRIM(:P46_USUARIO) = '' OR
-           UPPER(TRIM(USUARIO)) = UPPER(TRIM(:P46_USUARIO)))
+          AND (:P46_USUARIO IS NULL OR 
+               :P46_USUARIO = '%' OR 
+               TRIM(:P46_USUARIO) = '' OR
+               UPPER(TRIM(USUARIO)) = UPPER(TRIM(:P46_USUARIO)))
+          
           AND (:P46_TIPO_OPERACION IS NULL OR 
                :P46_TIPO_OPERACION = '%' OR 
                TIPO_OPERACION = :P46_TIPO_OPERACION)
+          
           AND (:P46_MODULO IS NULL OR 
                :P46_MODULO = '%' OR 
                MODULO = :P46_MODULO)
-               
-      ORDER BY FECHA_HORA DESC
+          
+          -- NUEVO FILTRO: Cantidad mínima de campos
+          AND (:P46_MIN_CAMPOS IS NULL OR 
+               :P46_MIN_CAMPOS = 0 OR
+               CAMPOS_MODIFICADOS >= :P46_MIN_CAMPOS)
+          
+      ORDER BY FECHA_HORA_FILTRO DESC;
     page-items-to-submit: 
     - P46_FECHA_DESDE
     - P46_FECHA_HASTA
@@ -247,6 +264,388 @@ regions:
         alias: 597868001
 
     columns: 
+    - # ====== Column: AUDIT_ID ====================================
+      id: 11471144245697686
+      identification: 
+        column-name: AUDIT_ID
+        type: Plain Text
+
+      heading: 
+        heading: Audit Id
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 160
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CANT_CAMPOS =================================
+      id: 11470958589697685
+      identification: 
+        column-name: CANT_CAMPOS
+        type: Plain Text
+
+      heading: 
+        heading: Cant Campos
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 170
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CAMPOS ======================================
+      id: 11470877654697684
+      identification: 
+        column-name: CAMPOS
+        type: Plain Text
+
+      heading: 
+        heading: Campos
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 180
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VALORES_ANTERIORES ==========================
+      id: 11470809649697683
+      identification: 
+        column-name: VALORES_ANTERIORES
+        type: Plain Text
+
+      heading: 
+        heading: Valores Anteriores
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 190
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VALORES_ACTUALES ============================
+      id: 11470653301697682
+      identification: 
+        column-name: VALORES_ACTUALES
+        type: Plain Text
+
+      heading: 
+        heading: Valores Actuales
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 200
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TIPO_CAMBIO =================================
+      id: 11470621687697681
+      identification: 
+        column-name: TIPO_CAMBIO
+        type: Plain Text
+
+      heading: 
+        heading: Tipo Cambio
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 210
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ESTADO ======================================
+      id: 11470512336697680
+      identification: 
+        column-name: ESTADO
+        type: Plain Text
+
+      heading: 
+        heading: Estado
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 220
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: RESUMEN_CAMBIOS =============================
+      id: 11470366607697679
+      identification: 
+        column-name: RESUMEN_CAMBIOS
+        type: Plain Text
+
+      heading: 
+        heading: Resumen Cambios
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 230
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ACCION_DETALLE ==============================
+      id: 11470308274697678
+      identification: 
+        column-name: ACCION_DETALLE
+        type: Link
+
+      heading: 
+        heading: Accion Detalle
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 240
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:101:&SESSION.::&DEBUG.::P101_AUDIT_ID,P101_USUARIO,P101_OPERACION,P101_FECHA_HORA,P101_TABLA:#AUDIT_ID#,#USUARIO#,#TIPO_OPERACION#,#FECHA#,#ORIGEN#'
+          page: 101 # Detalle de Transacción
+          values: 
+            p101_audit_id: '#AUDIT_ID#'
+            p101_usuario: '#USUARIO#'
+            p101_operacion: '#TIPO_OPERACION#'
+            p101_fecha_hora: '#FECHA#'
+            p101_tabla: '#ORIGEN#'
+
+        link-text: VER DETALLES
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: USUARIO =====================================
       id: 59777352287590233355
       identification: 
@@ -411,129 +810,6 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: CAMPO =======================================
-      id: 59777353865646233357
-      identification: 
-        column-name: CAMPO
-        type: Plain Text
-
-      heading: 
-        heading: Campo
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 70
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: VALOR_ANTERIOR ==============================
-      id: 59777354294456233357
-      identification: 
-        column-name: VALOR_ANTERIOR
-        type: Plain Text
-
-      heading: 
-        heading: Valor Anterior
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 90
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: VALOR_NUEVO =================================
-      id: 59777354625971233358
-      identification: 
-        column-name: VALOR_NUEVO
-        type: Plain Text
-
-      heading: 
-        heading: Valor Nuevo
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 100
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
     - # ====== Column: IP_ADDRESS ==================================
       id: 59781393332916353015
       identification: 
@@ -549,47 +825,6 @@ regions:
 
       layout: 
         sequence: 110
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: None
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: ID_REGISTRO =================================
-      id: 59781394126231353023
-      identification: 
-        column-name: ID_REGISTRO
-        type: Plain Text
-
-      heading: 
-        heading: Id Registro
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 120
         column-alignment: start
 
       accessibility: 
@@ -821,47 +1056,6 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: CATEGORIA ===================================
-      id: 65484005105656582205
-      identification: 
-        column-name: CATEGORIA
-        type: Plain Text
-
-      heading: 
-        heading: Categoria
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 80
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
     printing: 
       output: 
         layout: Default Report Layout
@@ -946,6 +1140,72 @@ regions:
       expand-shortcuts: false
 
 page-items: 
+- # ====== Page Item: P46_MIN_CAMPOS ===========================
+  id: 11470128806697676
+  identification: 
+    name: P46_MIN_CAMPOS
+    type: Text Field
+
+  label: 
+    label: Cantidad mínima de campos
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 80
+    region: Filtros # 59781391984076353001
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Static
+    static-value: 0
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    help-text: |
+      Filtra transacciones que modificaron al menos esta cantidad de campos. 
+      Por ejemplo, si ingresas "3", solo verás cambios que afectaron 3 o más campos.
+      Deja vacío o en "0" para ver todos los registros.
+
 - # ====== Page Item: P46_FECHA_DESDE ==========================
   id: 59781392022898353002
   identification: 
@@ -1284,7 +1544,7 @@ buttons:
     label: Buscar
 
   layout: 
-    sequence: 100
+    sequence: 90
     region: Filtros # 59781391984076353001
     slot: BODY
     start-new-layout: false

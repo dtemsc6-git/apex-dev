@@ -309,8 +309,8 @@ regions:
       type: Plain Text
 
     heading: 
-      heading: Eq
-      alignment: start
+      heading: Equipo A
+      alignment: center
 
     layout: 
       sequence: 200
@@ -376,8 +376,8 @@ regions:
       type: Plain Text
 
     heading: 
-      heading: Iface
-      alignment: start
+      heading: Interfaz A
+      alignment: center
 
     layout: 
       sequence: 220
@@ -443,8 +443,8 @@ regions:
       type: Plain Text
 
     heading: 
-      heading: Eq B
-      alignment: start
+      heading: Equipo B
+      alignment: center
 
     layout: 
       sequence: 240
@@ -510,8 +510,8 @@ regions:
       type: Plain Text
 
     heading: 
-      heading: Iface B
-      alignment: start
+      heading: Interfaz B
+      alignment: center
 
     layout: 
       sequence: 260
@@ -612,11 +612,11 @@ regions:
       type: Plain Text
 
     heading: 
-      heading: Fo Nombre
-      alignment: start
+      heading: Enlace FO
+      alignment: center
 
     layout: 
-      sequence: 150
+      sequence: 310
       column-alignment: start
 
     accessibility: 
@@ -645,7 +645,7 @@ regions:
 
     heading: 
       heading: Seq
-      alignment: end
+      alignment: center
 
     layout: 
       sequence: 290
@@ -680,7 +680,7 @@ regions:
       alignment: end
 
     layout: 
-      sequence: 300
+      sequence: 330
       column-alignment: end
 
     accessibility: 
@@ -711,11 +711,11 @@ regions:
       type: Plain Text
 
     heading: 
-      heading: Wan
-      alignment: start
+      heading: Enlace WAN
+      alignment: center
 
     layout: 
-      sequence: 190
+      sequence: 300
       column-alignment: start
 
     accessibility: 
@@ -743,8 +743,8 @@ regions:
       type: Plain Text (based on List of Values)
 
     heading: 
-      heading: Nivel De Prioridad
-      alignment: end
+      heading: Nivel de Prioridad
+      alignment: center
 
     layout: 
       sequence: 140
@@ -755,7 +755,7 @@ regions:
 
     list-of-values: 
       type: Shared Component
-      list-of-values: NIVEL_PRIORIDAD # 83355472626096331408
+      list-of-values: SERVICIOS.NIVEL_PRIORIDAD # 83355472626096331408
 
     sorting: 
       sortable: true

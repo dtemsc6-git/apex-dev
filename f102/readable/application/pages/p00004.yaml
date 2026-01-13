@@ -49,8 +49,7 @@ regions:
     sql-query: |
       select SGT_SALAS.ID,
              sgt_sitios.id as SITIO_ID,
-             SGT_SITIOS.NOMBRE AS SITIO,
-             SGT_SITIOS.SIGLAS AS SIGLAS_SITIO,
+             SGT_SITIOS.SIGLAS ||' - '||SGT_SITIOS.NOMBRE AS SITIO,
              SGT_SALAS.SIGLAS AS SIGLAS,
              SGT_SALAS.NOMBRE AS NOMBRE
         from SGT_SALAS
@@ -106,8 +105,8 @@ regions:
       authorization-scheme: Implementador Rights # 56843702980053272617
 
     pagination: 
-      type: Row Ranges X to Y
-      display-position: Bottom - Right
+      type: Row Ranges X to Y of Z
+      display-position: Top - Right
 
     performance: 
       lazy-loading: false
@@ -176,56 +175,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Siglas
-        alignment: start
+        heading: Sigla Sala
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 60
-        column-alignment: start
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: SIGLAS_SITIO ================================
-      id: 42592132616878121692
-      identification: 
-        column-name: SIGLAS_SITIO
-        type: Plain Text
-
-      heading: 
-        heading: Siglas Sitio
-        alignment: start
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 30
-        column-alignment: start
+        sequence: 40
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -276,15 +234,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Nombre
-        alignment: start
+        heading: Nombre Sala
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 50
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -335,15 +293,15 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Sitio
-        alignment: start
+        heading: Nombre Sitio
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 20
-        column-alignment: start
+        sequence: 30
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false

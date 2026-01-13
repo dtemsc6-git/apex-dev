@@ -134,14 +134,22 @@ page-items:
   id: 42592132972568121696
   identification: 
     name: P5_CIUDAD
-    type: Select List
+    type: Popup LOV
 
   label: 
     label: Ciudad
     alignment: Left
 
   settings: 
-    page-action-on-selection: None
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
 
   multiple-values: 
     type: No
@@ -162,25 +170,16 @@ page-items:
     template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
-    height: 1
+    width: 30
 
   validation: 
     value-required: false
 
   list-of-values: 
-    type: SQL Query
-    sql-query: |
-      select nombre, id from sgt_ciudad
-      where depto_id = :P5_DEPTO
+    type: Shared Component
+    list-of-values: CIUDAD.NOMBRE-COMPUESTO # 2341386040577256
     display-extra-values: false
     display-null-value: false
-
-  cascading-list-of-values: 
-    parent-item(s): 
-    - P5_DEPTO
-    items-to-submit: 
-    - P5_DEPTO
-    parent-required: true
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -199,6 +198,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Seleccionar Departamento, Ciudad
 
 - # ====== Page Item: P5_DEPTO =================================
   id: 42592133042810121697
@@ -261,6 +263,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
 - # ====== Page Item: P5_SIGLAS ================================
   id: 42592133185388121698
   identification: 
@@ -268,7 +273,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Siglas
+    label: Sigla Sala
     alignment: Left
 
   settings: 
@@ -320,6 +325,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: 'Ingresar sigla de la sala. Ej.: SC01'
 
 - # ====== Page Item: P5_TITULO ================================
   id: 117089388196113048104
@@ -424,7 +432,7 @@ page-items:
   list-of-values: 
     type: SQL Query
     sql-query: |
-      select nombre, id from sgt_sitios
+      select siglas ||' - '||nombre, id from sgt_sitios
       where ciudad_id = :P5_CIudad
     display-extra-values: false
     display-null-value: false
@@ -457,6 +465,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Seleccionar sitio
+
 - # ====== Page Item: P5_NOMBRE ================================
   id: 202816056921894564101
   identification: 
@@ -464,7 +475,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Nombre
+    label: Detalle/Descripción
     alignment: Left
 
   settings: 
@@ -516,6 +527,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Agregar descripción de la sala
 
 buttons: 
 - # ====== Button: CANCEL ======================================

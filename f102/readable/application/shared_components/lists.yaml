@@ -295,7 +295,7 @@
     name: Navigation Menu
 
   subscription: 
-    version-number: 39022470703357
+    version-number: 39024128186442
 
   source: 
     type: Static Values
@@ -310,8 +310,8 @@
       image/icon-css-classes: fa-list-ul
 
     layout: 
-      sequence: 730
-      parent-entry: Interfaces # 37204294179255013530
+      sequence: 72
+      parent-entry: Administración # 32254645328005181908
 
     is-current: 
       type: Target Page
@@ -320,6 +320,99 @@
       target: 
         url: 'f?p=&APP_ID.:49:&SESSION.::&DEBUG.::::'
         page: 49 # Grilla Interfaces
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    security: 
+      authorization-scheme: Implementador Rights # 56843702980053272617
+
+  - # ====== Entry: Interfaces L2 ================================
+    id: 478958029375735
+    label: 
+      label: Interfaces L2
+
+    icon: 
+      image/icon-css-classes: fa-table-pointer
+
+    layout: 
+      sequence: 740
+      parent-entry: Interfaces # 37204294179255013530
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 48
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:48:&SESSION.::&DEBUG.::::'
+        page: 48 # Interfaces L2
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    security: 
+      authorization-scheme: Implementador Rights # 56843702980053272617
+
+  - # ====== Entry: Interfaces L3 ================================
+    id: 517416164609167
+    label: 
+      label: Interfaces L3
+
+    icon: 
+      image/icon-css-classes: fa-table-pointer
+
+    layout: 
+      sequence: 750
+      parent-entry: Interfaces # 37204294179255013530
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 57
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:57:&SESSION.::&DEBUG.::::'
+        page: 57 # Interfaces L3
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    security: 
+      authorization-scheme: Implementador Rights # 56843702980053272617
+
+  - # ====== Entry: Admin IP's ===================================
+    id: 535669026621677
+    label: 
+      label: Admin IP's
+
+    icon: 
+      image/icon-css-classes: fa-table-pointer
+
+    layout: 
+      sequence: 760
+      parent-entry: Interfaces # 37204294179255013530
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 59
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:59:&SESSION.::&DEBUG.::::'
+        page: 59 # Admin IP's
 
     click-counting: 
       count-clicks: false
@@ -351,6 +444,34 @@
       target: 
         url: 'f?p=&APP_ID.:47:&SESSION.::&DEBUG.::::'
         page: 47 # MAPA_SITIOS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Conexiones V2 ================================
+    id: 3426067081555394
+    label: 
+      label: Conexiones V2
+
+    icon: 
+      image/icon-css-classes: fa-cards
+
+    layout: 
+      sequence: 161
+      parent-entry: Administración # 32254645328005181908
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 55
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:55:&SESSION.::&DEBUG.::::'
+        page: 55 # Conexiones V2
 
     click-counting: 
       count-clicks: false
@@ -410,7 +531,6 @@
       type: Pages
       pages: 
       - 8
-      - 49
 
     link: 
       target: 
@@ -534,16 +654,17 @@
     user-defined-attributes: 
       translatable: false
 
-  - # ====== Entry: Vista conexiones =============================
+  - # ====== Entry: Vista conexiones (Obsoleto) ==================
     id: 47197333522557019192
     label: 
-      label: Vista conexiones
+      label: Vista conexiones (Obsoleto)
 
     icon: 
       image/icon-css-classes: fa-exchange
 
     layout: 
       sequence: 210
+      parent-entry: Experimental # 32254844724062918042
 
     is-current: 
       type: Pages
@@ -738,13 +859,11 @@
       image/icon-css-classes: fa-accordion
 
     layout: 
-      sequence: 690
-      parent-entry: Equipos # 200805769463951280023
+      sequence: 71
+      parent-entry: Administración # 32254645328005181908
 
     is-current: 
-      type: Pages
-      pages: 
-      - 44
+      type: Target Page
 
     link: 
       target: 
@@ -766,8 +885,8 @@
       image/icon-css-classes: fa-cards
 
     layout: 
-      sequence: 700
-      parent-entry: Enlaces FO # 43997218319186517993
+      sequence: 73
+      parent-entry: Administración # 32254645328005181908
 
     is-current: 
       type: Pages
