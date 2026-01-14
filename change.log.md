@@ -1,4 +1,11 @@
 Control de cambios de la App antes del commit
+2026-01-13
+LOV EQUIPO.ESTADO: Agregado valores de acuerdo al DER 
+DL_EQUIPOS: P6: Agregado platilla XLS para descarga.
+SGT_UBICAR_RACK: P37: Cambio de textos de Front a FRONT, Back a BACK para respetar valores de la db
+Agregar Interfaces a Multiples Equipos: P60: Agregado plantilla XLS para descarga
+Scripts de Actualización de la db.
+
 2026-01-12
 
 cambios en las siguientes vistas:
