@@ -68,7 +68,7 @@ prompt APPLICATION 24839 - sgt-dev
 --       Reports:
 --       E-Mail:
 --     Supporting Objects:  Included
---       Install scripts:         10
+--       Install scripts:          9
 --   Version:         24.2.11
 --   Instance ID:     8494401547303226
 --
@@ -119,7 +119,7 @@ wwv_imp_workspace.create_flow(
 ,p_substitution_value_01=>'sgt-dev-mode'
 ,p_file_prefix => nvl(wwv_flow_application_install.get_static_app_file_prefix,'')
 ,p_files_version=>53
-,p_version_scn=>39024443868327
+,p_version_scn=>39024585792432
 ,p_print_server_type=>'INSTANCE'
 ,p_file_storage=>'DB'
 ,p_is_pwa=>'Y'
@@ -7194,13 +7194,7 @@ wwv_flow_imp_shared.create_list_of_values(
 ,p_lov_name=>'EQUIPO.ESTADO'
 ,p_lov_query=>'.'||wwv_flow_imp.id(203663371051164540142)||'.'
 ,p_location=>'STATIC'
-,p_version_scn=>39024137868910
-);
-wwv_flow_imp_shared.create_static_lov_data(
- p_id=>wwv_flow_imp.id(2396839444355709)
-,p_lov_disp_sequence=>1
-,p_lov_disp_value=>'Activo'
-,p_lov_return_value=>'Activo'
+,p_version_scn=>39024539200340
 );
 wwv_flow_imp_shared.create_static_lov_data(
  p_id=>wwv_flow_imp.id(203663371403443540142)
@@ -7209,10 +7203,22 @@ wwv_flow_imp_shared.create_static_lov_data(
 ,p_lov_return_value=>'Apagado'
 );
 wwv_flow_imp_shared.create_static_lov_data(
- p_id=>wwv_flow_imp.id(17291005545094836159)
+ p_id=>wwv_flow_imp.id(2396839444355709)
 ,p_lov_disp_sequence=>2
-,p_lov_disp_value=>'Baja'
-,p_lov_return_value=>'Baja'
+,p_lov_disp_value=>'Utilizado'
+,p_lov_return_value=>'Utilizado'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(4430698095267491)
+,p_lov_disp_sequence=>3
+,p_lov_disp_value=>'No Utilizado'
+,p_lov_return_value=>'No Utilizado'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(4431126359267491)
+,p_lov_disp_sequence=>4
+,p_lov_disp_value=>'S/D'
+,p_lov_return_value=>'S/D'
 );
 wwv_flow_imp_shared.create_static_lov_data(
  p_id=>wwv_flow_imp.id(17292442094612840685)
@@ -7225,6 +7231,18 @@ wwv_flow_imp_shared.create_static_lov_data(
 ,p_lov_disp_sequence=>6
 ,p_lov_disp_value=>'Planificado'
 ,p_lov_return_value=>'Planificado'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(4432321048280065)
+,p_lov_disp_sequence=>7
+,p_lov_disp_value=>'Retirado'
+,p_lov_return_value=>'Retirado'
+);
+wwv_flow_imp_shared.create_static_lov_data(
+ p_id=>wwv_flow_imp.id(17291005545094836159)
+,p_lov_disp_sequence=>8
+,p_lov_disp_value=>'Baja'
+,p_lov_return_value=>'Baja'
 );
 end;
 /
@@ -12570,7 +12588,8 @@ wwv_flow_imp_page.create_page_plug(
 ,p_location=>null
 ,p_plug_display_condition_type=>'ITEM_IS_NULL'
 ,p_plug_display_when_condition=>'P6_FILE'
-,p_plug_header=>unistr('Puede subir archivos XLSX que contengan datos de equipos, el nombre del rack debe estar en la convenci\00F3n establecida dentro del sistema (Sitio.Sala.Rack). Se permite hasta 100 registros por archivo.')
+,p_plug_header=>unistr('Puede subir archivos XLSX que contengan datos de equipos, el nombre del rack debe estar en la convenci\00F3n establecida dentro del sistema (Sitio.Sala.Rack). <a href="https://docs.google.com/spreadsheets/d/1Vtdk4v2ZNKK7kj6CT6L8nxqdyJSiwTkY/edit?usp=shar')
+||unistr('ing&ouid=108343838433037799136&rtpof=true&sd=true" target="_blank">Descargar Plantilla Aqu\00ED</a> Se permite hasta 100 registros por archivo.')
 ,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
   'expand_shortcuts', 'N',
   'output_as', 'TEXT',
@@ -13005,38 +13024,34 @@ unistr('    -- Informaci\00F3n de depuraci\00F3n'),
 '                F_GET_LOVS(5, p.col006), --tIPO eQUIPO',
 '                --LOWER(p.col007), --sub_tipo_equipo',
 '',
-'                (p.col008), --marca',
-'                (p.col009), --modelo',
-'                (p.col010),  --estado',
-'                p.col011, --observaciones',
-'                p.col012, --ni_ande',
-'                p.col013, --serial_number',
-'                p.col014, --version_hard',
+'                (p.col007), --marca',
+'                (p.col008), --modelo',
+'                (p.col009),  --estado',
+'                p.col010, --observaciones',
+'                p.col011, --ni_ande',
+'                p.col012, --serial_number',
+'                p.col013, --version_hard',
 '',
-'                p.col015, --version_soft',
-'                p.col016, --patch_ver',
-'                p.col017, --ip_gestion',
-'                p.col018, --ali1',
-'                p.col019, --ali2',
-'                p.col020, --pro_id',
-'                parse_flexible_date(p.col021), --fecha_imple',
+'                p.col014, --version_soft',
+'                p.col015, --patch_ver',
+'                p.col016, --ip_gestion',
+'                p.col017, --ali1',
+'                p.col018, --ali2',
+'                p.col019, --pro_id',
+'                parse_flexible_date(p.col020), --fecha_imple',
 '',
-'                (p.col022), -- altura',
-'                (p.col023), --pos,',
+'                (p.col021), -- altura',
+'                (p.col022), --posicion,',
 '                F_GET_LOVS(4, p.col002) --SITIO  ',
 '            );',
 '',
 '            v_count := v_count + 1;',
 '',
 '        EXCEPTION',
-'            WHEN DUP_VAL_ON_INDEX THEN',
-'                v_error_count := v_error_count + 1;',
-'                apex_debug.error(''Mod: Equipos: Func: DL: Fila duplicada: '' || SQLERRM);',
-'                CONTINUE;',
-'',
+'            ',
 '            WHEN OTHERS THEN',
 '                v_error_count := v_error_count + 1;',
-'                apex_debug.error(''Mod: Equipos: Func: DL: Error en fila '' || TO_CHAR(v_count + v_error_count) || '': '' || SQLERRM);',
+'                apex_debug.error(''Mod: Equipos: Func DL: Error en fila: ''|| TO_CHAR(v_count + v_error_count) || '': '' || SQLERRM);',
 '                CONTINUE;',
 '        END;',
 '',
@@ -27447,13 +27462,13 @@ wwv_flow_imp_page.create_report_region(
 '      SELECT 1 FROM sgt_Equipos e',
 '      WHERE e.rack_id = :P37_RACK_ID',
 '        AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)',
-'        AND e.posicion = ''Front''',
+'        AND e.posicion = ''FRONT''',
 '    ) THEN ',
 '      ''<span class="u-ocupada u-clickable">''|| ',
 '      (SELECT e.nombre FROM sgt_Equipos e',
 '       WHERE e.rack_id = :P37_RACK_ID',
 '         AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)',
-'         AND e.posicion = ''Front''',
+'         AND e.posicion = ''FRONT''',
 '       AND ROWNUM = 1) ||''</span>''',
 '    ELSE',
 '      ''<span class="u-libre u-clickable" data-ua="''|| p.posicion_u ||''">Seleccionar Aqui</span>''',
@@ -27526,13 +27541,13 @@ wwv_flow_imp_page.create_report_region(
 '      SELECT 1 FROM sgt_Equipos e',
 '      WHERE e.rack_id = :P37_RACK_ID',
 '        AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)',
-'        AND e.posicion = ''Back''',
+'        AND e.posicion = ''BACK''',
 '    ) THEN ',
 '      ''<span class="u-ocupada u-clickable">''|| ',
 '      (SELECT e.nombre FROM sgt_Equipos e',
 '       WHERE e.rack_id = :P37_RACK_ID',
 '         AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)',
-'         AND e.posicion = ''Back''',
+'         AND e.posicion = ''BACK''',
 '       AND ROWNUM = 1) ||''</span>''',
 '    ELSE',
 '      ''<span class="u-libre u-clickable" data-pos="''|| p.posicion_u ||''">Seleccionar Aqui</span>''',
@@ -27723,7 +27738,7 @@ unistr('    alert("Presione el boton limpiar para realizar una nueva seleci\00F3
 '',
 '',
 '// Preguntar si el elemento tiene la propiedad data-pos si tiene estamos en la vista posterior',
-'var posicion = this.triggeringElement.hasAttribute(''data-pos'') ? "Back" : "Front";',
+'var posicion = this.triggeringElement.hasAttribute(''data-pos'') ? "BACK" : "FRONT";',
 '',
 '',
 unistr('// elemento que dispar\00F3 el evento'),
@@ -38930,7 +38945,10 @@ wwv_flow_imp_page.create_page_plug(
 ,p_location=>null
 ,p_plug_display_condition_type=>'ITEM_IS_NULL'
 ,p_plug_display_when_condition=>'P60_FILE'
-,p_plug_header=>unistr('Puede subir archivos XLSX que contengan datos de interfaces, los nombres de los equipos deben estar en la convenci\00F3n establecida dentro del sistema (Sitio.Sala.Rack.Equipo). Se permite hasta 400 registros por archivo.')
+,p_plug_header=>wwv_flow_string.join(wwv_flow_t_varchar2(
+unistr('Puede subir archivos XLSX que contengan datos de interfaces, los nombres de los equipos deben estar en la convenci\00F3n establecida dentro del sistema (Sitio.Sala.Rack.Equipo). '),
+unistr('<a href="https://docs.google.com/spreadsheets/d/1sfF78NQskgyj1gQKUNGmVWjvKU1_g27g/edit?usp=sharing&ouid=108343838433037799136&rtpof=true&sd=true" target="_blank">Descargar Plantilla Aqu\00ED</a>'),
+'Se permite hasta 400 registros por archivo.'))
 ,p_attributes=>wwv_flow_t_plugin_attributes(wwv_flow_t_varchar2(
   'expand_shortcuts', 'N',
   'output_as', 'TEXT',
@@ -46172,38 +46190,6 @@ wwv_flow_imp_shared.create_install(
 );
 end;
 /
-prompt --application/deployment/install/upgrade_actualizar_interfaces
-begin
-wwv_flow_imp_shared.create_install_script(
- p_id=>wwv_flow_imp.id(453847788933986)
-,p_install_id=>wwv_flow_imp.id(519733554265288)
-,p_name=>'actualizar_interfaces'
-,p_sequence=>10
-,p_script_type=>'UPGRADE'
-,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
-'alter table "WKSP_DTESC"."SGT_INTERFACES" drop column "MODO";',
-'alter table "WKSP_DTESC"."SGT_INTERFACES" drop column "DUPLEX";',
-'alter table "WKSP_DTESC"."SGT_INTERFACES" drop column "NUMERO_SERIE";',
-'alter table "WKSP_DTESC"."SGT_INTERFACES" drop column "HW_VERSION";',
-'alter table "WKSP_DTESC"."SGT_INTERFACES" drop column "SW_VERSION";',
-'alter table "WKSP_DTESC"."SGT_INTERFACES" add ("VELOCIDAD_MPBS" NUMBER);',
-'',
-'ALTER TABLE sgt_interfaces ',
-'DROP CONSTRAINT SGT_INTERFACES_ESTADO_CK;',
-'',
-'--Crear nuevamente el constraint con el nuevo conjunto de valores permitidos',
-'ALTER TABLE sgt_interfaces ',
-'ADD CONSTRAINT SGT_INTERFACES_ESTADO_CK ',
-'CHECK (estado IN (''NA'', ''UP'', ''DOWN'')) ENABLE;',
-'',
-'alter table SGT_INTERFACES',
-'DROP CONSTRAINT "SGT_INTERFACES_EQUIPO_UNIQUE";',
-'alter table "SGT_INTERFACES" add constraint',
-'"SGT_INTERFACES_EQUIPO_UNIQUE" unique ( "EQUIPO_ID", "NOMBRE" );',
-''))
-);
-end;
-/
 prompt --application/deployment/install/install_crear_funciones
 begin
 wwv_flow_imp_shared.create_install_script(
@@ -46730,132 +46716,6 @@ wwv_flow_imp_shared.create_install_object(
 );
 end;
 /
-prompt --application/deployment/install/upgrade_upgrade_sprint_17
-begin
-wwv_flow_imp_shared.create_install_script(
- p_id=>wwv_flow_imp.id(127571191573278)
-,p_install_id=>wwv_flow_imp.id(519733554265288)
-,p_name=>'upgrade-sprint-17'
-,p_sequence=>20
-,p_script_type=>'UPGRADE'
-,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
-'/*',
-'dmf: funcion para buscar una LOV de acuerdo a la convencion establecida en el software',
-'1 busca el id equipo para el contatenado de sitio.sala.rack.equipo ',
-'2 busca el id para tipo de interfaces',
-'3 busca el id de un rack para un rack en formato sitio.sala.rack',
-'4 busca el id de un sitio para un rack en formato sitio.sala.rack',
-'5 busca el id para un sgt_tipo_equipo.nombre',
-'6 busca el id para una interface en base al concatenado de sitio.sala.rack.equipo.interfaz ',
-'',
-'*/',
-'create or replace FUNCTION F_GET_LOVS ( ',
-'    p_id_lov NUMBER,  ',
-'    p_mostrar VARCHAR2 ',
-') RETURN NUMBER ',
-'AS ',
-'    L_ID_RETURN NUMBER := NULL; ',
-'BEGIN ',
-' ',
-' ',
-'    --Buscar EQUIPOS por nombres concatenados. ',
-'    IF p_id_lov = 1 THEN ',
-'        SELECT E.ID  ',
-'        INTO L_ID_RETURN ',
-'        FROM SGT_EQUIPOS E ',
-'        LEFT JOIN SGT_RACKS R ON E.RACK_ID = R.ID ',
-'        LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID ',
-'        LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID ',
-'        WHERE UPPER(SS.SIGLAS ||''.''|| S.SIGLAS ||''.''|| R.NOMBRE || ''.''|| E.NOMBRE) = UPPER(p_mostrar); ',
-'        RETURN L_ID_RETURN; ',
-'     ',
-'    --Buscar Tipo de Interfaces for nombres     ',
-'    elsif p_id_lov = 2 then ',
-'        select TI.id into L_ID_return ',
-'        from sgt_tipo_interfaz TI ',
-'        where UPPER(TI.NOMBRE) = UPPER(p_mostrar); ',
-'        return L_ID_RETURN; ',
-'      ',
-'    --Buscar Rack ID por nombre de rack concatenado     ',
-'     ',
-'    elsIF P_ID_LOV = 3 THEN ',
-'       SELECT  ',
-'       R.ID into L_ID_return         ',
-'       from SGT_RACKS R ',
-'	   LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID ',
-'	   LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID ',
-'       WHERE UPPER(SS.SIGLAS ||''.''|| S.SIGLAS ||''.''|| R.NOMBRE ) = UPPER(p_mostrar); ',
-'       return L_ID_RETURN;   ',
-'',
-'    --Buscar Sitio por nombre de rack',
-'    elsif P_ID_LOV = 4 THEN',
-'       SELECT  ',
-'       SS.ID into L_ID_return         ',
-'       from SGT_RACKS R ',
-'	   LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID ',
-'	   LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID ',
-'       WHERE UPPER(SS.SIGLAS ||''.''|| S.SIGLAS ||''.''|| R.NOMBRE ) = UPPER(p_mostrar); ',
-'       return L_ID_RETURN;  ',
-'',
-'    --Retornar el id del tipo de equipo',
-'    elsif p_id_lov = 5 then ',
-'        select TE.id into L_ID_return ',
-'        from sgt_tipo_equipos TE ',
-'        where UPPER(TE.NOMBRE) = UPPER(p_mostrar); ',
-'        return L_ID_RETURN;  ',
-'    ',
-'    --retorna el id en base al concatenado de sitio.sala.rack.equipo.interfaz',
-'    elsif p_id_lov = 6 then ',
-'         SELECT I.ID   ',
-'        INTO L_ID_RETURN',
-'        FROM SGT_INTERFACES I',
-'        left join SGT_EQUIPOS E  ON I.EQUIPO_ID = E.ID',
-'        LEFT JOIN SGT_RACKS R ON E.RACK_ID = R.ID  ',
-'        LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID  ',
-'        LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID  ',
-'        WHERE UPPER(SS.SIGLAS ||''.''|| S.SIGLAS ||''.''|| R.NOMBRE || ''.''|| E.NOMBRE||''.''||I.NOMBRE) = UPPER(p_mostrar);  ',
-'        RETURN L_ID_RETURN;        ',
-'',
-'    end if ; ',
-'    RETURN NULL; ',
-'     ',
-'     ',
-'EXCEPTION ',
-'    WHEN NO_DATA_FOUND THEN ',
-'        RETURN NULL; ',
-'    WHEN TOO_MANY_ROWS THEN ',
-unistr('        -- Manejar m\00FAltiples resultados seg\00FAn tu l\00F3gica de negocio '),
-'        RETURN NULL; ',
-'    WHEN OTHERS THEN ',
-'        RAISE; ',
-'END F_GET_LOVS;',
-'/',
-'',
-'',
-'--Funcion para utilizar distintos formatos de fechas en el data loader',
-'CREATE OR REPLACE FUNCTION parse_flexible_date(p_date IN VARCHAR2)',
-'RETURN DATE',
-'IS',
-'    v_date DATE;',
-'BEGIN',
-'    BEGIN',
-'        v_date := TO_DATE(p_date, ''YYYY-MM-DD'');',
-'    EXCEPTION WHEN OTHERS THEN',
-'        BEGIN',
-'            v_date := TO_DATE(p_date, ''DD-MM-YYYY'');',
-'        EXCEPTION WHEN OTHERS THEN',
-'            BEGIN',
-'                v_date := TO_DATE(p_date, ''YY-MM-DD'');',
-'            EXCEPTION WHEN OTHERS THEN',
-'                v_date := NULL;',
-'            END;',
-'        END;',
-'    END;',
-'    RETURN v_date;',
-'END;'))
-);
-end;
-/
 prompt --application/deployment/install/install_crear_pkg
 begin
 wwv_flow_imp_shared.create_install_script(
@@ -46975,36 +46835,83 @@ wwv_flow_imp_shared.create_install_script(
 ,p_sequence=>30
 ,p_script_type=>'UPGRADE'
 ,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'DROP TABLE "SGT_INTERFACES_L2" ;',
+'DROP TABLE "SGT_INTERFACES_L3" ;',
+'DROP TABLE "SGT_IP_ADM" ;',
+'',
 'CREATE TABLE "SGT_INTERFACES_L2" ',
 '   (	"ID" NUMBER GENERATED BY DEFAULT ON NULL AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  NOT NULL ENABLE, ',
 '	"INTERFACE_ID" NUMBER, ',
-'	"TIPO_VLAN" VARCHAR2(50), ',
-'	"VLAN" VARCHAR2(50), ',
-'	"L2_VC_ID" NUMBER, ',
-'	"LS_TX_RX_LABEL" VARCHAR2(50), ',
-'	"CREADO_EL" VARCHAR2(50), ',
-'	"ACTUALIZADO_EL" VARCHAR2(50), ',
-'	"ACTUALIZADO_POR" VARCHAR2(50), ',
-'	"CREADO_POR" VARCHAR2(50), ',
+'	"TIPO_VLAN" VARCHAR2(255), ',
+'	"VLAN" VARCHAR2(1000), ',
+'	"L2_VC_ID" VARCHAR2(255), ',
+'	"LS_TX_RX_LABEL" VARCHAR2(255), ',
+'    "TIPO_MPLS" VARCHAR2(50), ',
+'	"CREADO_EL" TIMESTAMP (6), ',
+'	"ACTUALIZADO_EL" TIMESTAMP (6), ',
+'	"ACTUALIZADO_POR" VARCHAR2(255), ',
+'	"CREADO_POR" VARCHAR2(255), ',
 '	 PRIMARY KEY ("ID")',
 '  USING INDEX  ENABLE',
 '   ) ;',
 '',
+'  ALTER TABLE "SGT_INTERFACES_L2" ADD CONSTRAINT "SGT_INTERFACES_L2_FK" FOREIGN KEY ("INTERFACE_ID")',
+'	  REFERENCES "SGT_INTERFACES" ("ID") ENABLE;',
+'',
+'  CREATE OR REPLACE EDITIONABLE TRIGGER "TRG_ST_SGT_INTERFACES_L2" ',
+'before ',
+'insert or update on "SGT_INTERFACES_L2" ',
+'FOR EACH ROW  ',
+'BEGIN  ',
+'    IF INSERTING THEN  ',
+'        :NEW.creado_el := SYSDATE;  ',
+'        :NEW.creado_por := nvl(wwv_flow.g_user,user);  ',
+'        :NEW.actualizado_el := SYSDATE;  ',
+'        :NEW.ACTUALIZADO_POR := nvl(wwv_flow.g_user,user);  ',
+'    ELSIF UPDATING THEN  ',
+'        :NEW.actualizado_el := SYSDATE;  ',
+'        :NEW.ACTUALIZADO_POR := nvl(wwv_flow.g_user,user);  ',
+'    END IF;  ',
+'END;',
+'/',
+'ALTER TRIGGER "TRG_ST_SGT_INTERFACES_L2" ENABLE;',
+'',
 '  CREATE TABLE "SGT_INTERFACES_L3" ',
 '   (	"ID" NUMBER GENERATED BY DEFAULT ON NULL AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  NOT NULL ENABLE, ',
 '	"INTERFACE_ID" NUMBER, ',
-'	"TIPO_PROTOCOLO" VARCHAR2(50), ',
+'	"NUM_BGP" VARCHAR2(50), ',
 '	"VPN_INSTANCE" VARCHAR2(50), ',
 '	"ROUTER_ID" VARCHAR2(45), ',
 '	"PROCESO_OSPF" VARCHAR2(100), ',
 '	"OSPF_AREA" VARCHAR2(100), ',
-'	"CREADO_EL" VARCHAR2(50), ',
-'	"ACTUALIZADO_EL" VARCHAR2(50), ',
-'	"ACTUALIZADO_POR" VARCHAR2(50), ',
-'	"CREADO_POR" VARCHAR2(50), ',
+'	"CREADO_EL" TIMESTAMP (6), ',
+'	"ACTUALIZADO_EL" TIMESTAMP (6), ',
+'	"ACTUALIZADO_POR" VARCHAR2(255), ',
+'	"CREADO_POR" VARCHAR2(255), ',
 '	 PRIMARY KEY ("ID")',
 '  USING INDEX  ENABLE',
 '   ) ;',
+'',
+'  ALTER TABLE "SGT_INTERFACES_L3" ADD CONSTRAINT "SGT_INTERFACES_L3_FK" FOREIGN KEY ("INTERFACE_ID")',
+'	  REFERENCES "SGT_INTERFACES" ("ID") ENABLE;',
+'',
+'  CREATE OR REPLACE EDITIONABLE TRIGGER "TRG_ST_SGT_INTERFACES_L3" ',
+'before ',
+'insert or update on "SGT_INTERFACES_L3" ',
+'FOR EACH ROW  ',
+'BEGIN  ',
+'    IF INSERTING THEN  ',
+'        :NEW.creado_el := SYSDATE;  ',
+'        :NEW.creado_por := nvl(wwv_flow.g_user,user);  ',
+'        :NEW.actualizado_el := SYSDATE;  ',
+'        :NEW.ACTUALIZADO_POR := nvl(wwv_flow.g_user,user);  ',
+'    ELSIF UPDATING THEN  ',
+'        :NEW.actualizado_el := SYSDATE;  ',
+'        :NEW.ACTUALIZADO_POR := nvl(wwv_flow.g_user,user);  ',
+'    END IF;  ',
+'END;',
+'/',
+'ALTER TRIGGER "TRG_ST_SGT_INTERFACES_L3" ENABLE;',
 '',
 '  CREATE TABLE "SGT_IP_ADM" ',
 '   (	"ID" NUMBER GENERATED BY DEFAULT ON NULL AS IDENTITY MINVALUE 1 MAXVALUE 9999999999999999999999999999 INCREMENT BY 1 START WITH 1 CACHE 20 NOORDER  NOCYCLE  NOKEEP  NOSCALE  NOT NULL ENABLE, ',
@@ -47013,77 +46920,242 @@ wwv_flow_imp_shared.create_install_script(
 '	"MASK" VARCHAR2(45), ',
 '	"GW" VARCHAR2(45), ',
 '	"ESTADO" VARCHAR2(50), ',
-'	"CREADO_EL" VARCHAR2(50), ',
-'	"ACTUALIZADO_EL" VARCHAR2(50), ',
-'	"ACTUALIZADO_POR" VARCHAR2(50), ',
-'	"CREADO_POR" VARCHAR2(50), ',
+'	"CREADO_EL" TIMESTAMP (6), ',
+'	"ACTUALIZADO_EL" TIMESTAMP (6), ',
+'	"ACTUALIZADO_POR" VARCHAR2(255), ',
+'	"CREADO_POR" VARCHAR2(255), ',
 '	 PRIMARY KEY ("ID")',
 '  USING INDEX  ENABLE',
 '   ) ;',
-'   ',
-'   ALTER TABLE "SGT_INTERFACES_L2" ADD CONSTRAINT "SGT_INTERFACES_L2_FK" FOREIGN KEY ("INTERFACE_ID")',
-'	  REFERENCES "SGT_INTERFACES" ("ID") ENABLE;',
-'',
-'  CREATE OR REPLACE EDITIONABLE TRIGGER "TRG_ST_SGT_INTERFACES_L2" ',
-'before',
-'insert or update on "SGT_INTERFACES_L2"',
-'FOR EACH ROW ',
-'BEGIN ',
-'    IF INSERTING THEN ',
-'        :NEW.creado_el := SYSDATE; ',
-'        :NEW.creado_por := nvl(wwv_flow.g_user,user); ',
-'        :NEW.actualizado_el := SYSDATE; ',
-'        :NEW.ACTUALIZADO_POR := nvl(wwv_flow.g_user,user); ',
-'    ELSIF UPDATING THEN ',
-'        :NEW.actualizado_el := SYSDATE; ',
-'        :NEW.ACTUALIZADO_POR := nvl(wwv_flow.g_user,user); ',
-'    END IF; ',
-'END;',
-'/',
-'ALTER TRIGGER "TRG_ST_SGT_INTERFACES_L2" ENABLE;',
-'',
-'  ALTER TABLE "SGT_INTERFACES_L3" ADD CONSTRAINT "SGT_INTERFACES_L3_FK" FOREIGN KEY ("INTERFACE_ID")',
-'	  REFERENCES "SGT_INTERFACES" ("ID") ENABLE;',
-'',
-'  CREATE OR REPLACE EDITIONABLE TRIGGER "TRG_ST_SGT_INTERFACES_L3" ',
-'before',
-'insert or update on "SGT_INTERFACES_L3"',
-'FOR EACH ROW ',
-'BEGIN ',
-'    IF INSERTING THEN ',
-'        :NEW.creado_el := SYSDATE; ',
-'        :NEW.creado_por := nvl(wwv_flow.g_user,user); ',
-'        :NEW.actualizado_el := SYSDATE; ',
-'        :NEW.ACTUALIZADO_POR := nvl(wwv_flow.g_user,user); ',
-'    ELSIF UPDATING THEN ',
-'        :NEW.actualizado_el := SYSDATE; ',
-'        :NEW.ACTUALIZADO_POR := nvl(wwv_flow.g_user,user); ',
-'    END IF; ',
-'END;',
-'/',
-'ALTER TRIGGER "TRG_ST_SGT_INTERFACES_L3" ENABLE;',
 '',
 '  ALTER TABLE "SGT_IP_ADM" ADD CONSTRAINT "SGT_IP_ADM_FK" FOREIGN KEY ("INTERFACE_ID")',
 '	  REFERENCES "SGT_INTERFACES" ("ID") ENABLE;',
 '',
 '  CREATE OR REPLACE EDITIONABLE TRIGGER "TRG_ST_SGT_IP_ADM" ',
-'before',
-'insert or update on "SGT_IP_ADM"',
-'for each row',
-'begin',
-'    --actualizar info de  ',
-'    IF INSERTING THEN ',
-'        :NEW.creado_el := SYSDATE; ',
-'        :NEW.creado_por := nvl(wwv_flow.g_user,user); ',
-'        :NEW.actualizado_el := SYSDATE; ',
-'        :NEW.ACTUALIZADO_POR := nvl(wwv_flow.g_user,user); ',
-'    ELSIF UPDATING THEN ',
-'        :NEW.actualizado_el := SYSDATE; ',
-'        :NEW.ACTUALIZADO_POR := nvl(wwv_flow.g_user,user); ',
-'    END IF; ',
+'before ',
+'insert or update on "SGT_IP_ADM" ',
+'for each row ',
+'begin ',
+'    --actualizar info de   ',
+'    IF INSERTING THEN  ',
+'        :NEW.creado_el := SYSDATE;  ',
+'        :NEW.creado_por := nvl(wwv_flow.g_user,user);  ',
+'        :NEW.actualizado_el := SYSDATE;  ',
+'        :NEW.ACTUALIZADO_POR := nvl(wwv_flow.g_user,user);  ',
+'    ELSIF UPDATING THEN  ',
+'        :NEW.actualizado_el := SYSDATE;  ',
+'        :NEW.ACTUALIZADO_POR := nvl(wwv_flow.g_user,user);  ',
+'    END IF;  ',
 'end;',
 '/',
 'ALTER TRIGGER "TRG_ST_SGT_IP_ADM" ENABLE;'))
+);
+end;
+/
+prompt --application/deployment/install/upgrade_auditoria_módulo_equipos
+begin
+wwv_flow_imp_shared.create_install_script(
+ p_id=>wwv_flow_imp.id(4464926950450468)
+,p_install_id=>wwv_flow_imp.id(519733554265288)
+,p_name=>unistr('Auditoria M\00F3dulo Equipos')
+,p_sequence=>40
+,p_script_type=>'UPGRADE'
+,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
+'',
+'  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_AUDIT_EQUIPOS" ("AUDIT_ID", "USUARIO", "TIPO_OPERACION", "FECHA_HORA", "FECHA", "HORA", "TABLA_ORIGEN", "EQUIPO_ID", "TIPO_COMPONENTE", "REGISTRO_ID", "DETALLE_OLD_VALUE", "DETALLE_NEW_VALUE", "FECHA_HORA'
+||'_FILTRO") AS ',
+'  SELECT  ',
+'    am.AUDIT_ID, ',
+'    am.APEX_USER as USUARIO, ',
+'    am.ACTION_TYPE as TIPO_OPERACION, ',
+'    am.TIMESTAMP as FECHA_HORA, ',
+'    TO_CHAR(am.TIMESTAMP, ''DD/MM/YYYY'') as FECHA, ',
+'    TO_CHAR(am.TIMESTAMP, ''HH24:MI:SS'') as HORA, ',
+'    ''SGT_EQUIPOS'' as TABLA_ORIGEN, ',
+'    TO_NUMBER((SELECT ad.PK_VALUE FROM AUDIT_DETAIL ad WHERE ad.AUDIT_ID = am.AUDIT_ID AND ad.TABLE_NAME = ''SGT_EQUIPOS'' AND ROWNUM = 1)) as EQUIPO_ID, ',
+'    ''Equipo Principal'' as TIPO_COMPONENTE, ',
+'    (SELECT ad.PK_VALUE FROM AUDIT_DETAIL ad WHERE ad.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) as REGISTRO_ID, ',
+'    -- CAMBIO: Concatenar TODOS los campos con LISTAGG ',
+'    (SELECT LISTAGG(ad.COLUMN_NAME || '': '' || COALESCE(ad.OLD_VALUE, ''[NULL]''), '' | '')  ',
+'            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) ',
+'     FROM AUDIT_DETAIL ad  ',
+'     WHERE ad.AUDIT_ID = am.AUDIT_ID  ',
+'     AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_OLD_VALUE, ',
+'    (SELECT LISTAGG(ad.COLUMN_NAME || '': '' || COALESCE(ad.NEW_VALUE, ''[NULL]''), '' | '')  ',
+'            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) ',
+'     FROM AUDIT_DETAIL ad  ',
+'     WHERE ad.AUDIT_ID = am.AUDIT_ID  ',
+'     AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_NEW_VALUE, ',
+'    am.TIMESTAMP as FECHA_HORA_FILTRO ',
+'FROM AUDIT_MASTER am ',
+'WHERE EXISTS ( ',
+'    SELECT 1 FROM AUDIT_DETAIL ad  ',
+'    WHERE ad.AUDIT_ID = am.AUDIT_ID ',
+'    AND ad.TABLE_NAME = ''SGT_EQUIPOS'' ',
+') ',
+unistr('AND am.ACTION_TYPE NOT IN (''INSERT'', ''Inserci\00F3n'') '),
+' ',
+'UNION ALL ',
+' ',
+'-- ============================================================================ ',
+'-- 2. Cambios en SGT_INTERFACES ',
+'-- ============================================================================ ',
+'SELECT  ',
+'    am.AUDIT_ID, ',
+'    am.APEX_USER as USUARIO, ',
+'    am.ACTION_TYPE as TIPO_OPERACION, ',
+'    am.TIMESTAMP as FECHA_HORA, ',
+'    TO_CHAR(am.TIMESTAMP, ''DD/MM/YYYY'') as FECHA, ',
+'    TO_CHAR(am.TIMESTAMP, ''HH24:MI:SS'') as HORA, ',
+'    ''SGT_INTERFACES'' as TABLA_ORIGEN, ',
+' ',
+'        /* EQUIPO_ID derivado solo de AUDIT_DETAIL - optimizado */ ',
+'    TO_NUMBER(( ',
+'        SELECT COALESCE(ad_eq.NEW_VALUE, ad_eq.OLD_VALUE) ',
+'          FROM AUDIT_DETAIL ad_eq ',
+'         WHERE ad_eq.TABLE_NAME = ''SGT_INTERFACES'' ',
+'           AND ad_eq.COLUMN_NAME = ''EQUIPO_ID'' ',
+'           AND ad_eq.PK_VALUE = ( ',
+'                SELECT ad_pk.PK_VALUE ',
+'                  FROM AUDIT_DETAIL ad_pk ',
+'                 WHERE ad_pk.AUDIT_ID = am.AUDIT_ID ',
+'                   AND ad_pk.TABLE_NAME = ''SGT_INTERFACES'' ',
+'                   AND ROWNUM = 1) ',
+'           AND ad_eq.AUDIT_ID <= am.AUDIT_ID ',
+'         ORDER BY CASE WHEN ad_eq.AUDIT_ID = am.AUDIT_ID THEN 0 ELSE 1 END, ',
+'                  ad_eq.AUDIT_ID DESC ',
+'         FETCH FIRST 1 ROW ONLY ',
+'    )) as EQUIPO_ID, ',
+' ',
+'    ''Interface'' as TIPO_COMPONENTE, ',
+'    (SELECT ad.PK_VALUE FROM AUDIT_DETAIL ad WHERE ad.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) as REGISTRO_ID, ',
+' ',
+'    (SELECT LISTAGG(ad.COLUMN_NAME || '': '' || COALESCE(ad.OLD_VALUE, ''[NULL]''), '' | '')  ',
+'            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) ',
+'       FROM AUDIT_DETAIL ad  ',
+'      WHERE ad.AUDIT_ID = am.AUDIT_ID  ',
+'        AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_OLD_VALUE, ',
+' ',
+'    (SELECT LISTAGG(ad.COLUMN_NAME || '': '' || COALESCE(ad.NEW_VALUE, ''[NULL]''), '' | '')  ',
+'            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) ',
+'       FROM AUDIT_DETAIL ad  ',
+'      WHERE ad.AUDIT_ID = am.AUDIT_ID  ',
+'        AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_NEW_VALUE, ',
+' ',
+'    am.TIMESTAMP as FECHA_HORA_FILTRO ',
+'FROM AUDIT_MASTER am ',
+'WHERE EXISTS ( ',
+'    SELECT 1 FROM AUDIT_DETAIL ad  ',
+'    WHERE ad.AUDIT_ID = am.AUDIT_ID ',
+'      AND ad.TABLE_NAME = ''SGT_INTERFACES'' ',
+') ',
+unistr('AND am.ACTION_TYPE NOT IN (''INSERT'', ''Inserci\00F3n'') '),
+' ',
+'UNION ALL ',
+' ',
+'-- ============================================================================ ',
+'-- 3. Cambios en SGT_ENLACES_FO vista desde EQUIPO_ID_A ',
+'-- ============================================================================ ',
+'SELECT  ',
+'    am.AUDIT_ID, ',
+'    am.APEX_USER as USUARIO, ',
+'    am.ACTION_TYPE as TIPO_OPERACION, ',
+'    am.TIMESTAMP as FECHA_HORA, ',
+'    TO_CHAR(am.TIMESTAMP, ''DD/MM/YYYY'') as FECHA, ',
+'    TO_CHAR(am.TIMESTAMP, ''HH24:MI:SS'') as HORA, ',
+'    ''SGT_ENLACES_FO'' as TABLA_ORIGEN, ',
+'    /* EQUIPO_ID_A derivado solo de AUDIT_DETAIL - optimizado */ ',
+'    TO_NUMBER(( ',
+'        SELECT COALESCE(ad_eq.NEW_VALUE, ad_eq.OLD_VALUE) ',
+'          FROM AUDIT_DETAIL ad_eq ',
+'         WHERE ad_eq.TABLE_NAME = ''SGT_ENLACES_FO'' ',
+'           AND ad_eq.COLUMN_NAME = ''EQUIPO_ID_A'' ',
+'           AND ad_eq.PK_VALUE = ( ',
+'                SELECT ad_pk.PK_VALUE ',
+'                  FROM AUDIT_DETAIL ad_pk ',
+'                 WHERE ad_pk.AUDIT_ID = am.AUDIT_ID ',
+'                   AND ad_pk.TABLE_NAME = ''SGT_ENLACES_FO'' ',
+'                   AND ROWNUM = 1) ',
+'           AND ad_eq.AUDIT_ID <= am.AUDIT_ID ',
+'         ORDER BY CASE WHEN ad_eq.AUDIT_ID = am.AUDIT_ID THEN 0 ELSE 1 END, ',
+'                  ad_eq.AUDIT_ID DESC ',
+'         FETCH FIRST 1 ROW ONLY ',
+'    )) as EQUIPO_ID, ',
+'    ''Enlace FO'' as TIPO_COMPONENTE, ',
+'    (SELECT ad.PK_VALUE FROM AUDIT_DETAIL ad WHERE ad.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) as REGISTRO_ID, ',
+'    -- CAMBIO: LISTAGG ',
+'    (SELECT LISTAGG(ad.COLUMN_NAME || '': '' || COALESCE(ad.OLD_VALUE, ''[NULL]''), '' | '')  ',
+'            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) ',
+'     FROM AUDIT_DETAIL ad  ',
+'     WHERE ad.AUDIT_ID = am.AUDIT_ID  ',
+'     AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_OLD_VALUE, ',
+'    (SELECT LISTAGG(ad.COLUMN_NAME || '': '' || COALESCE(ad.NEW_VALUE, ''[NULL]''), '' | '')  ',
+'            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) ',
+'     FROM AUDIT_DETAIL ad  ',
+'     WHERE ad.AUDIT_ID = am.AUDIT_ID  ',
+'     AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_NEW_VALUE, ',
+'    am.TIMESTAMP as FECHA_HORA_FILTRO ',
+'FROM AUDIT_MASTER am ',
+'WHERE EXISTS ( ',
+'    SELECT 1 FROM AUDIT_DETAIL ad  ',
+'    WHERE ad.AUDIT_ID = am.AUDIT_ID ',
+'    AND ad.TABLE_NAME = ''SGT_ENLACES_FO'' ',
+') ',
+unistr('AND am.ACTION_TYPE NOT IN (''INSERT'', ''Inserci\00F3n'') '),
+' ',
+'UNION ALL ',
+' ',
+'-- ============================================================================ ',
+'-- 4. Cambios en SGT_ENLACES_FO vista desde EQUIPO_ID_B ',
+'-- ============================================================================ ',
+'SELECT  ',
+'    am.AUDIT_ID, ',
+'    am.APEX_USER as USUARIO, ',
+'    am.ACTION_TYPE as TIPO_OPERACION, ',
+'    am.TIMESTAMP as FECHA_HORA, ',
+'    TO_CHAR(am.TIMESTAMP, ''DD/MM/YYYY'') as FECHA, ',
+'    TO_CHAR(am.TIMESTAMP, ''HH24:MI:SS'') as HORA, ',
+'    ''SGT_ENLACES_FO'' as TABLA_ORIGEN, ',
+'    /* EQUIPO_ID_B derivado solo de AUDIT_DETAIL - optimizado */ ',
+'    TO_NUMBER(( ',
+'        SELECT COALESCE(ad_eq.NEW_VALUE, ad_eq.OLD_VALUE) ',
+'          FROM AUDIT_DETAIL ad_eq ',
+'         WHERE ad_eq.TABLE_NAME = ''SGT_ENLACES_FO'' ',
+'           AND ad_eq.COLUMN_NAME = ''EQUIPO_ID_B'' ',
+'           AND ad_eq.PK_VALUE = ( ',
+'                SELECT ad_pk.PK_VALUE ',
+'                  FROM AUDIT_DETAIL ad_pk ',
+'                 WHERE ad_pk.AUDIT_ID = am.AUDIT_ID ',
+'                   AND ad_pk.TABLE_NAME = ''SGT_ENLACES_FO'' ',
+'                   AND ROWNUM = 1) ',
+'           AND ad_eq.AUDIT_ID <= am.AUDIT_ID ',
+'         ORDER BY CASE WHEN ad_eq.AUDIT_ID = am.AUDIT_ID THEN 0 ELSE 1 END, ',
+'                  ad_eq.AUDIT_ID DESC ',
+'         FETCH FIRST 1 ROW ONLY ',
+'    )) as EQUIPO_ID, ',
+'    ''Enlace FO'' as TIPO_COMPONENTE, ',
+'    (SELECT ad.PK_VALUE FROM AUDIT_DETAIL ad WHERE ad.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) as REGISTRO_ID, ',
+'    -- CAMBIO: LISTAGG ',
+'    (SELECT LISTAGG(ad.COLUMN_NAME || '': '' || COALESCE(ad.OLD_VALUE, ''[NULL]''), '' | '')  ',
+'            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) ',
+'     FROM AUDIT_DETAIL ad  ',
+'     WHERE ad.AUDIT_ID = am.AUDIT_ID  ',
+'     AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_OLD_VALUE, ',
+'    (SELECT LISTAGG(ad.COLUMN_NAME || '': '' || COALESCE(ad.NEW_VALUE, ''[NULL]''), '' | '')  ',
+'            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) ',
+'     FROM AUDIT_DETAIL ad  ',
+'     WHERE ad.AUDIT_ID = am.AUDIT_ID  ',
+'     AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_NEW_VALUE, ',
+'    am.TIMESTAMP as FECHA_HORA_FILTRO ',
+'FROM AUDIT_MASTER am ',
+'WHERE EXISTS ( ',
+'    SELECT 1 FROM AUDIT_DETAIL ad  ',
+'    WHERE ad.AUDIT_ID = am.AUDIT_ID ',
+'    AND ad.TABLE_NAME = ''SGT_ENLACES_FO'' ',
+') ',
+unistr('AND am.ACTION_TYPE NOT IN (''INSERT'', ''Inserci\00F3n'') '),
+' ',
+'ORDER BY FECHA_HORA_FILTRO DESC, AUDIT_ID DESC;'))
 );
 end;
 /
@@ -47125,17 +47197,121 @@ wwv_flow_imp_shared.create_install_object(
 );
 end;
 /
-prompt --application/deployment/install/upgrade_actualizar_idx_salas
+prompt --application/deployment/install/upgrade_auditoria_consolidado
 begin
 wwv_flow_imp_shared.create_install_script(
- p_id=>wwv_flow_imp.id(3987076042770738)
+ p_id=>wwv_flow_imp.id(4465053801455537)
 ,p_install_id=>wwv_flow_imp.id(519733554265288)
-,p_name=>'actualizar_idx_salas'
-,p_sequence=>40
+,p_name=>'auditoria consolidado'
+,p_sequence=>50
 ,p_script_type=>'UPGRADE'
 ,p_script_clob=>wwv_flow_string.join(wwv_flow_t_varchar2(
-'create unique index "SGT_SALAS_SALA_SIGLA_UNIQ"',
-'on "SGT_SALAS" ( "SITIO_ID",UPPER("SIGLAS") );'))
+'',
+'  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_AUDIT_CONSOLIDADO" ("AUDIT_ID", "USUARIO", "USUARIO_BD", "TIPO_OPERACION", "FECHA_HORA", "FECHA", "HORA", "APP_ID", "PAGE_ID", "IP_ADDRESS", "TABLA", "CAMPOS_MODIFICADOS", "CAMPOS_LISTA", "DETALLE_OLD_VAL'
+||'UE", "DETALLE_NEW_VALUE", "MODULO", "TIPO_CAMBIO", "NIVEL_CRITICIDAD", "TURNO", "PERIODO", "INDICADOR_VISUAL", "FECHA_HORA_FILTRO") AS ',
+'  SELECT  ',
+unistr('    -- Informaci\00F3n base de AUDIT_MASTER '),
+'    am.AUDIT_ID, ',
+'    am.APEX_USER as USUARIO, ',
+'    am.DB_USER as USUARIO_BD, ',
+'    am.ACTION_TYPE as TIPO_OPERACION, ',
+'    am.TIMESTAMP as FECHA_HORA, ',
+'    TO_CHAR(am.TIMESTAMP, ''DD/MM/YYYY'') as FECHA, ',
+'    TO_CHAR(am.TIMESTAMP, ''HH24:MI:SS'') as HORA, ',
+'    am.APP_ID, ',
+'    am.PAGE_ID, ',
+'    am.IP_ADDRESS, ',
+'     ',
+unistr('    -- Informaci\00F3n de la tabla afectada (toma la primera tabla si hay m\00FAltiples) '),
+'    (SELECT ad1.TABLE_NAME  ',
+'     FROM AUDIT_DETAIL ad1  ',
+'     WHERE ad1.AUDIT_ID = am.AUDIT_ID  ',
+'     AND ROWNUM = 1) as TABLA, ',
+'     ',
+unistr('    -- NUEVO: N\00FAmero total de campos modificados '),
+'    (SELECT COUNT(*)  ',
+'     FROM AUDIT_DETAIL ad2  ',
+'     WHERE ad2.AUDIT_ID = am.AUDIT_ID) as CAMPOS_MODIFICADOS, ',
+'     ',
+'    -- NUEVO: Lista concatenada de campos modificados ',
+'    (SELECT LISTAGG(ad3.COLUMN_NAME, '', '') WITHIN GROUP (ORDER BY ad3.COLUMN_NAME) ',
+'     FROM AUDIT_DETAIL ad3  ',
+'     WHERE ad3.AUDIT_ID = am.AUDIT_ID) as CAMPOS_LISTA, ',
+'     ',
+'    -- Solo valores anteriores concatenados (Campo: Valor_Anterior) ',
+'    (SELECT LISTAGG( ',
+'        ad4a.COLUMN_NAME || '': '' ||  ',
+'        CASE  ',
+'            WHEN ad4a.OLD_VALUE IS NULL THEN ''[NULL]'' ',
+'            WHEN LENGTH(ad4a.OLD_VALUE) > 50 THEN SUBSTR(ad4a.OLD_VALUE, 1, 47) || ''...'' ',
+'            ELSE ad4a.OLD_VALUE ',
+'        END,  ',
+'        '' | '') WITHIN GROUP (ORDER BY ad4a.COLUMN_NAME) ',
+'     FROM AUDIT_DETAIL ad4a  ',
+'     WHERE ad4a.AUDIT_ID = am.AUDIT_ID) as DETALLE_OLD_VALUE, ',
+'     ',
+'    -- Solo valores actuales concatenados (Campo: Valor_Nuevo) ',
+'    (SELECT LISTAGG( ',
+'        ad4b.COLUMN_NAME || '': '' ||  ',
+'        CASE  ',
+'            WHEN ad4b.NEW_VALUE IS NULL THEN ''[NULL]'' ',
+'            WHEN LENGTH(ad4b.NEW_VALUE) > 50 THEN SUBSTR(ad4b.NEW_VALUE, 1, 47) || ''...'' ',
+'            ELSE ad4b.NEW_VALUE ',
+'        END,  ',
+'        '' | '') WITHIN GROUP (ORDER BY ad4b.COLUMN_NAME) ',
+'     FROM AUDIT_DETAIL ad4b  ',
+'     WHERE ad4b.AUDIT_ID = am.AUDIT_ID) as DETALLE_NEW_VALUE, ',
+'     ',
+unistr('    -- Informaci\00F3n derivada para compatibilidad con filtros existentes '),
+'    CASE  ',
+'        WHEN (SELECT ad5.TABLE_NAME FROM AUDIT_DETAIL ad5 WHERE ad5.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) LIKE ''SGT_EQUIPOS'' THEN ''GESTION_ACTIVOS'' ',
+'        WHEN (SELECT ad5.TABLE_NAME FROM AUDIT_DETAIL ad5 WHERE ad5.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) LIKE ''SGT_SITIOS'' THEN ''GESTION_ACTIVOS'' ',
+'        WHEN (SELECT ad5.TABLE_NAME FROM AUDIT_DETAIL ad5 WHERE ad5.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) LIKE ''SGT_INTERFACES'' THEN ''GESTION_ACTIVOS'' ',
+'        WHEN (SELECT ad5.TABLE_NAME FROM AUDIT_DETAIL ad5 WHERE ad5.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) LIKE ''SGT_ENLACES%'' THEN ''GESTION_ENLACES'' ',
+'        WHEN (SELECT ad5.TABLE_NAME FROM AUDIT_DETAIL ad5 WHERE ad5.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) LIKE ''SGT_SERVICIOS%'' THEN ''GESTION_SERVICIOS'' ',
+'        ELSE ''OTROS'' ',
+'    END as MODULO, ',
+'     ',
+unistr('    -- Categorizaci\00F3n de la transacci\00F3n '),
+'    CASE  ',
+'        WHEN (SELECT COUNT(*) FROM AUDIT_DETAIL ad6 WHERE ad6.AUDIT_ID = am.AUDIT_ID) = 1 THEN ''Cambio Simple'' ',
+unistr('        WHEN (SELECT COUNT(*) FROM AUDIT_DETAIL ad6 WHERE ad6.AUDIT_ID = am.AUDIT_ID) <= 5 THEN ''Cambio M\00FAltiple'' '),
+'        ELSE ''Cambio Masivo'' ',
+'    END as TIPO_CAMBIO, ',
+'     ',
+unistr('    -- Nivel de criticidad de la transacci\00F3n '),
+'    CASE  ',
+unistr('        WHEN (SELECT ad7.TABLE_NAME FROM AUDIT_DETAIL ad7 WHERE ad7.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) IN (''USUARIOS'', ''ROLES'', ''PERMISOS'', ''SGT_USUARIOS'') THEN ''Cr\00EDtico'' '),
+'        WHEN (SELECT ad7.TABLE_NAME FROM AUDIT_DETAIL ad7 WHERE ad7.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) LIKE ''%CONFIG%''  ',
+'          OR (SELECT ad7.TABLE_NAME FROM AUDIT_DETAIL ad7 WHERE ad7.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) LIKE ''%PARAM%'' THEN ''Alto'' ',
+unistr('        WHEN am.ACTION_TYPE IN (''DELETE'', ''Eliminaci\00F3n'') THEN ''Alto'' '),
+'        WHEN (SELECT COUNT(*) FROM AUDIT_DETAIL ad8 WHERE ad8.AUDIT_ID = am.AUDIT_ID) > 10 THEN ''Alto'' ',
+'        ELSE ''Normal'' ',
+'    END as NIVEL_CRITICIDAD, ',
+'     ',
+'    -- Turno laboral ',
+'    CASE  ',
+'        WHEN TO_CHAR(am.TIMESTAMP, ''HH24:MI:SS'') BETWEEN ''00:00:00'' AND ''07:59:59'' THEN ''Nocturno'' ',
+'        WHEN TO_CHAR(am.TIMESTAMP, ''HH24:MI:SS'') BETWEEN ''08:00:00'' AND ''17:59:59'' THEN ''Laboral'' ',
+'        ELSE ''Vespertino'' ',
+'    END as TURNO, ',
+'     ',
+unistr('    -- Per\00EDodo relativo '),
+'    CASE  ',
+'        WHEN TRUNC(am.TIMESTAMP) = TRUNC(SYSDATE) THEN ''Hoy'' ',
+'        WHEN TRUNC(am.TIMESTAMP) = TRUNC(SYSDATE - 1) THEN ''Ayer'' ',
+'        WHEN TRUNC(am.TIMESTAMP) >= TRUNC(SYSDATE - 7) THEN ''Esta Semana'' ',
+'        ELSE ''Anterior'' ',
+'    END as PERIODO, ',
+'    CASE  ',
+unistr('        WHEN (SELECT COUNT(DISTINCT ad9.COLUMN_NAME) FROM AUDIT_DETAIL ad9 WHERE ad9.AUDIT_ID = am.AUDIT_ID) > 5 THEN ''\D83D\DD34'' '),
+unistr('        WHEN (SELECT COUNT(DISTINCT ad9.COLUMN_NAME) FROM AUDIT_DETAIL ad9 WHERE ad9.AUDIT_ID = am.AUDIT_ID) > 2 THEN ''\D83D\DFE1'' '),
+unistr('        ELSE ''\D83D\DFE2'' '),
+'    END as INDICADOR_VISUAL, ',
+'    am.TIMESTAMP as FECHA_HORA_FILTRO ',
+'FROM AUDIT_MASTER am ',
+'WHERE EXISTS (SELECT 1 FROM AUDIT_DETAIL ad WHERE ad.AUDIT_ID = am.AUDIT_ID) ',
+'ORDER BY am.TIMESTAMP DESC;'))
 );
 end;
 /

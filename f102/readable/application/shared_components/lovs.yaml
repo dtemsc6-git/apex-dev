@@ -1501,23 +1501,44 @@
     name: EQUIPO.ESTADO
 
   subscription: 
-    version-number: 39024137868910
+    version-number: 39024539200340
 
   source: 
     location: Static Values
 
   entries: 
-  - # ====== Entry: Activo =======================================
+  - # ====== Entry: Utilizado ====================================
     id: 2396839444355709
     entry: 
-      sequence: 1
-      display: Activo
-      return: Activo
+      sequence: 2
+      display: Utilizado
+      return: Utilizado
+
+  - # ====== Entry: No Utilizado =================================
+    id: 4430698095267491
+    entry: 
+      sequence: 3
+      display: No Utilizado
+      return: No Utilizado
+
+  - # ====== Entry: S/D ==========================================
+    id: 4431126359267491
+    entry: 
+      sequence: 4
+      display: S/D
+      return: S/D
+
+  - # ====== Entry: Retirado =====================================
+    id: 4432321048280065
+    entry: 
+      sequence: 7
+      display: Retirado
+      return: Retirado
 
   - # ====== Entry: Baja =========================================
     id: 17291005545094836159
     entry: 
-      sequence: 2
+      sequence: 8
       display: Baja
       return: Baja
 

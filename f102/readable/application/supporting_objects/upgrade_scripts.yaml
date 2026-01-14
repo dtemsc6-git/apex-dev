@@ -1,20 +1,4 @@
 ---
-- # ====== Upgrade Script: upgrade-sprint-17 ===================
-  id: 127571191573278
-  identification: 
-    name: upgrade-sprint-17
-
-  execution: 
-    sequence: 20
-
-- # ====== Upgrade Script: actualizar_interfaces ===============
-  id: 453847788933986
-  identification: 
-    name: actualizar_interfaces
-
-  execution: 
-    sequence: 10
-
 - # ====== Upgrade Script: CREAR_TABLAS_INTERFACES_2_3 =========
   id: 555245987626482
   identification: 
@@ -23,11 +7,19 @@
   execution: 
     sequence: 30
 
-- # ====== Upgrade Script: actualizar_idx_salas ================
-  id: 3987076042770738
+- # ====== Upgrade Script: Auditoria Módulo Equipos ============
+  id: 4464926950450468
   identification: 
-    name: actualizar_idx_salas
+    name: Auditoria Módulo Equipos
 
   execution: 
     sequence: 40
+
+- # ====== Upgrade Script: auditoria consolidado ===============
+  id: 4465053801455537
+  identification: 
+    name: auditoria consolidado
+
+  execution: 
+    sequence: 50
 

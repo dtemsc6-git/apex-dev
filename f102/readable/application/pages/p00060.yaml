@@ -156,7 +156,10 @@ regions:
     exclude-title-from-translation: false
 
   header-and-footer: 
-    header-text: Puede subir archivos XLSX que contengan datos de interfaces, los nombres de los equipos deben estar en la convención establecida dentro del sistema (Sitio.Sala.Rack.Equipo). Se permite hasta 400 registros por archivo.
+    header-text: |
+      Puede subir archivos XLSX que contengan datos de interfaces, los nombres de los equipos deben estar en la convención establecida dentro del sistema (Sitio.Sala.Rack.Equipo). 
+      <a href="https://docs.google.com/spreadsheets/d/1sfF78NQskgyj1gQKUNGmVWjvKU1_g27g/edit?usp=sharing&ouid=108343838433037799136&rtpof=true&sd=true" target="_blank">Descargar Plantilla Aquí</a>
+      Se permite hasta 400 registros por archivo.
 
   server-side-condition: 
     type: Item is NULL

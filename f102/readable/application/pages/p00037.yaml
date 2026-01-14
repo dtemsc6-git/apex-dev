@@ -247,13 +247,13 @@ regions:
             SELECT 1 FROM sgt_Equipos e
             WHERE e.rack_id = :P37_RACK_ID
               AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)
-              AND e.posicion = 'Front'
+              AND e.posicion = 'FRONT'
           ) THEN 
             '<span class="u-ocupada u-clickable">'|| 
             (SELECT e.nombre FROM sgt_Equipos e
              WHERE e.rack_id = :P37_RACK_ID
                AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)
-               AND e.posicion = 'Front'
+               AND e.posicion = 'FRONT'
              AND ROWNUM = 1) ||'</span>'
           ELSE
             '<span class="u-libre u-clickable" data-ua="'|| p.posicion_u ||'">Seleccionar Aqui</span>'
@@ -424,13 +424,13 @@ regions:
             SELECT 1 FROM sgt_Equipos e
             WHERE e.rack_id = :P37_RACK_ID
               AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)
-              AND e.posicion = 'Back'
+              AND e.posicion = 'BACK'
           ) THEN 
             '<span class="u-ocupada u-clickable">'|| 
             (SELECT e.nombre FROM sgt_Equipos e
              WHERE e.rack_id = :P37_RACK_ID
                AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)
-               AND e.posicion = 'Back'
+               AND e.posicion = 'BACK'
              AND ROWNUM = 1) ||'</span>'
           ELSE
             '<span class="u-libre u-clickable" data-pos="'|| p.posicion_u ||'">Seleccionar Aqui</span>'
@@ -906,7 +906,7 @@ dynamic-actions:
         
         
         // Preguntar si el elemento tiene la propiedad data-pos si tiene estamos en la vista posterior
-        var posicion = this.triggeringElement.hasAttribute('data-pos') ? "Back" : "Front";
+        var posicion = this.triggeringElement.hasAttribute('data-pos') ? "BACK" : "FRONT";
         
         
         // elemento que disparó el evento

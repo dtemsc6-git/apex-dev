@@ -201,7 +201,7 @@ regions:
     exclude-title-from-translation: false
 
   header-and-footer: 
-    header-text: Puede subir archivos XLSX que contengan datos de equipos, el nombre del rack debe estar en la convención establecida dentro del sistema (Sitio.Sala.Rack). Se permite hasta 100 registros por archivo.
+    header-text: 'Puede subir archivos XLSX que contengan datos de equipos, el nombre del rack debe estar en la convención establecida dentro del sistema (Sitio.Sala.Rack). <a href="https://docs.google.com/spreadsheets/d/1Vtdk4v2ZNKK7kj6CT6L8nxqdyJSiwTkY/edit?usp=sharing&ouid=108343838433037799136&rtpof=true&sd=true" target="_blank">Descargar Plantilla Aquí</a> Se permite hasta 100 registros por archivo.'
 
   server-side-condition: 
     type: Item is NULL
@@ -1149,38 +1149,34 @@ processes:
                       F_GET_LOVS(5, p.col006), --tIPO eQUIPO
                       --LOWER(p.col007), --sub_tipo_equipo
       
-                      (p.col008), --marca
-                      (p.col009), --modelo
-                      (p.col010),  --estado
-                      p.col011, --observaciones
-                      p.col012, --ni_ande
-                      p.col013, --serial_number
-                      p.col014, --version_hard
+                      (p.col007), --marca
+                      (p.col008), --modelo
+                      (p.col009),  --estado
+                      p.col010, --observaciones
+                      p.col011, --ni_ande
+                      p.col012, --serial_number
+                      p.col013, --version_hard
       
-                      p.col015, --version_soft
-                      p.col016, --patch_ver
-                      p.col017, --ip_gestion
-                      p.col018, --ali1
-                      p.col019, --ali2
-                      p.col020, --pro_id
-                      parse_flexible_date(p.col021), --fecha_imple
+                      p.col014, --version_soft
+                      p.col015, --patch_ver
+                      p.col016, --ip_gestion
+                      p.col017, --ali1
+                      p.col018, --ali2
+                      p.col019, --pro_id
+                      parse_flexible_date(p.col020), --fecha_imple
       
-                      (p.col022), -- altura
-                      (p.col023), --pos,
+                      (p.col021), -- altura
+                      (p.col022), --posicion,
                       F_GET_LOVS(4, p.col002) --SITIO  
                   );
       
                   v_count := v_count + 1;
       
               EXCEPTION
-                  WHEN DUP_VAL_ON_INDEX THEN
-                      v_error_count := v_error_count + 1;
-                      apex_debug.error('Mod: Equipos: Func: DL: Fila duplicada: ' || SQLERRM);
-                      CONTINUE;
-      
+                  
                   WHEN OTHERS THEN
                       v_error_count := v_error_count + 1;
-                      apex_debug.error('Mod: Equipos: Func: DL: Error en fila ' || TO_CHAR(v_count + v_error_count) || ': ' || SQLERRM);
+                      apex_debug.error('Mod: Equipos: Func DL: Error en fila: '|| TO_CHAR(v_count + v_error_count) || ': ' || SQLERRM);
                       CONTINUE;
               END;
       
