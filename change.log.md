@@ -1,12 +1,46 @@
-Control de cambios de la App antes del commit
-2026-01-13
+#Control de cambios de la App antes del commit
+###2026-02-23
+Aplicación: Formato de fecha a DD-MON-YYYY
+P1: HOME: Corrección en consulta que hacia referencia a campo sub_tipo_equipo que fue eliminado.
+P5: SGT_FORM_SALA: Se cambia un label del campo nombre de Detalle/Descripcion -> Nombre y se coloca como requerido, cambios cosmeticos.
+P6: DL_EQUIPOS: Cambios en las instrucciones de uso del excel.
+P8: SGT_LST_INTERFACES: Se cambia el orden de los campos y se elimina el boton edit.
+P12: SGT_FORM_RACKS: Se modifican los limites para permitir altura_u de 1 a 60.
+P13: SGT_LST_EQUIPOS: se modifica la consulta sql para mostrar el sub_tipo_equipo.
+P14: SGT_FORM_EQUIPO: Se elimina el campo sub_tipo_equipo, que estaba oculto. Se setea los valores de altura_u de 1 a 60, se cambia el LOV para que no muestre campos null. Se modifica los textos de ayuda, se elimina un server side condition para que el botón seleccionar U siempre se muestre.
+P25: SGT_LST_SITIOS: Se modifica la consulta para llevar a google maps en base a los datos GPS. Se setea un proceso para que cuando se deplegue la lista de sitios el caracter de separación de decimales sea el punto y no la coma.
+P26: SGT_FORM_SITIOS: Se modifica los valores posibles para los campos latitud y longitud, estos valores tambien estan seteados en la base de datos.
+P29: equipos_interface_dl: Cambio de titulo, corrección en la consulta para ver tambien cuando las interfaces son null. Cambio en el titulo de los reportes.
+P30: SGT_FROM_INTERFACES: LOV: INTERFACES.ESTADO se cambia para que no muestre valores null.
+P31: SGT_ENLACES_TRAMOS_DL: Cambio de nombre del titulo de la pagina, cambio del dataloader al que apunta.
+P39: GT_LST_ENLACE_TRAMOS_FO: Se cambia el heading del campo Nombre por el texto Observaciones, se agregar el botón importar.
+P44: IG_EQUIPOS: Se modifica la consulta para que despliege el "sub_tipo_equipo", y que pueda ser filtrado solo por los valores de "sub_tipo_equipo", se colocan campos (alcualizado_el y sub_tipo) como only query y display only.
+P45: IG_ENLACES_FO: Campo (TIPO, Tipo_enlace, ESTADO) se hace que la LOV no nuestre valores nulos. 
+P49: Grilla Interfaces: Se cambia el campo ESTADO como Popup LOV, y se centra la columna.
+P54: STEP-5: Wizard Servicios Paso 5, Se cambia el proceso: CONSULTAR_NIVEL_PRIORIDAD habia un error en el nombre de la LOV que consultaba.
+P55: Conexiones V2: Se cambia la consulta de la Grila para incluir el campo actualizado_el, tambien no estaba desplegando correctamente el sitio_b e interface_b, se corrigio eso. Sitio_B como requerido.
+++P58: TIPO INTERFAZ: Cre crea la pagina TIPO INTERFAZ Del tipo Interactive Grid. se crea la entrada en el menu y otros relacionados.
+Dataload definitions: CONEXIONES_DL se agrega esta definición para cargar conexiones
+Modificaciones del Menu para agregar nuevas entradas.
+LOVS: 
+--TIPO_EQUIPOS.SUB_TIPO
+--SUB_TIPO_EQUIPO
+mod:
+   EQUIPOS.POSICION
+   TIPO_CABLE
+   LOV_SGT_RACKS_FILTRADO
+   TIPO_ENLACE
+   ENLACE_FO.ESTADO
+   EQUIPO.ESTADO
+
+###2026-01-13
 LOV EQUIPO.ESTADO: Agregado valores de acuerdo al DER 
 DL_EQUIPOS: P6: Agregado platilla XLS para descarga.
 SGT_UBICAR_RACK: P37: Cambio de textos de Front a FRONT, Back a BACK para respetar valores de la db
 Agregar Interfaces a Multiples Equipos: P60: Agregado plantilla XLS para descarga
 Scripts de Actualización de la db.
 
-2026-01-12
+###2026-01-12
 
 cambios en las siguientes vistas:
 
