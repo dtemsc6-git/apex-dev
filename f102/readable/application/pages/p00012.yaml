@@ -656,7 +656,7 @@ page-items:
     alignment: Left
 
   settings: 
-    minimum-value: 0
+    minimum-value: 1
     maximum-value: 60
     number-alignment: Start
     virtual-keyboard: Numeric

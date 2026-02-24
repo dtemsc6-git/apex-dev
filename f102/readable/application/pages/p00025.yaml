@@ -102,7 +102,15 @@ regions:
              LONGITUD,
              "UBICACIÓN",
              OBSERVACION,
-             "UBICACIÓN" AS LinkColumn
+             CASE 
+                 WHEN LATITUD IS NOT NULL 
+                  AND LONGITUD IS NOT NULL THEN 
+                     'https://www.google.com/maps?q=' ||
+                     TO_CHAR(LATITUD, 'FM9999990D000000', 'NLS_NUMERIC_CHARACTERS=.,') || ',' ||
+                     TO_CHAR(LONGITUD, 'FM9999990D000000', 'NLS_NUMERIC_CHARACTERS=.,')
+                 ELSE 
+                     NULL
+             END AS GMAPS
       FROM SGT_SITIOS S
       left join sgt_ciudad ciudad on S.ciudad_id = ciudad.id
       LEFT JOIN SGT_DEPTO depto on ciudad.depto_id = depto.id
@@ -219,6 +227,88 @@ regions:
         alias: 69378249
 
     columns: 
+    - # ====== Column: LONGITUD ====================================
+      id: 10514814649507999
+      identification: 
+        column-name: LONGITUD
+        type: Plain Text
+
+      heading: 
+        heading: Longitud
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 81
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: LATITUD =====================================
+      id: 10514804525507998
+      identification: 
+        column-name: LATITUD
+        type: Plain Text
+
+      heading: 
+        heading: Latitud
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 71
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: DEPARTAMENTO ================================
       id: 3565410237232724
       identification: 
@@ -260,28 +350,28 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: LINKCOLUMN ==================================
-      id: 117089388284175048105
+    - # ====== Column: GMAPS =======================================
+      id: 4305385119367822
       identification: 
-        column-name: LINKCOLUMN
+        column-name: GMAPS
         type: Link
 
       heading: 
         heading: Ubicación
-        alignment: center
+        alignment: start
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 51
+        sequence: 91
         column-alignment: start
 
       accessibility: 
         value-identifies-row: false
 
       link: 
-        target: '#UBICACIÓN#'
+        target: '#GMAPS#'
         link-text: '<span class="t-Icon fa fa-map-marker" style="display: block; text-align: center;"></span>'
         link-attributes: target="_blank"
 
@@ -293,21 +383,18 @@ regions:
 
       enable-users-to: 
         hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
+        sort: false
+        filter: false
+        highlight: false
+        control-break: false
+        aggregate: false
+        compute: false
+        chart: false
+        group-by: false
+        pivot: false
 
       security: 
         escape-special-characters: true
-
-      configuration: 
-        build-option: Commented Out # 197180071872965446203
 
     - # ====== Column: CIUDAD_ID ===================================
       id: 117089389114757048113
@@ -446,91 +533,6 @@ regions:
 
       source: 
         primary-key: false
-
-      security: 
-        escape-special-characters: true
-
-      configuration: 
-        build-option: Commented Out # 197180071872965446203
-
-    - # ====== Column: LONGITUD ====================================
-      id: 117115185739415411770
-      identification: 
-        column-name: LONGITUD
-        type: Plain Text
-
-      heading: 
-        heading: Longitud
-        alignment: center
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 9
-        column-alignment: center
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: LATITUD =====================================
-      id: 117115186060932411770
-      identification: 
-        column-name: LATITUD
-        type: Plain Text
-
-      heading: 
-        heading: Latitud
-        alignment: center
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 8
-        column-alignment: center
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
 
       security: 
         escape-special-characters: true
@@ -832,4 +834,27 @@ dynamic-actions:
       event: Edit Report - Dialog Closed # 117115184116693411769
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+processes: 
+- # ====== Process: FORMATO_NUMERICO ===========================
+  id: 10514523303507996
+  identification: 
+    name: FORMATO_NUMERICO
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      EXECUTE IMMEDIATE 
+         'ALTER SESSION SET NLS_NUMERIC_CHARACTERS = ''.,''';
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
 

@@ -770,73 +770,6 @@ page-items:
       	    </ul>
       </p>
 
-- # ====== Page Item: P14_SUB_TIPO_EQUIPO ======================
-  id: 16831387621072382025
-  identification: 
-    name: P14_SUB_TIPO_EQUIPO
-    type: Select List
-
-  label: 
-    label: Sub Tipo Equipo
-    alignment: Left
-
-  settings: 
-    page-action-on-selection: None
-
-  multiple-values: 
-    type: No
-
-  layout: 
-    sequence: 40
-    region: DATOS_OPCIONALES # 200746701216699948331
-    slot: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating
-    template-options: 
-    - '#DEFAULT#'
-    height: 1
-
-  validation: 
-    value-required: false
-
-  list-of-values: 
-    type: Shared Component
-    list-of-values: SUB_TIPO_EQUIPO # 17292525545179850352
-    display-extra-values: true
-    display-null-value: true
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: SGT_FORM_EQUIPO # 200805748090942280007
-    column: SUB_TIPO_EQUIPO
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
-
-  session-state: 
-    storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
-
 - # ====== Page Item: P14_OBSERVACIONES ========================
   id: 16831387723238382026
   identification: 
@@ -1632,6 +1565,8 @@ page-items:
     alignment: Left
 
   settings: 
+    minimum-value: 1
+    maximum-value: 60
     number-alignment: Start
     virtual-keyboard: Decimal
 
@@ -2216,7 +2151,7 @@ page-items:
     type: Shared Component
     list-of-values: EQUIPO.ESTADO # 203663371051164540142
     display-extra-values: true
-    display-null-value: true
+    display-null-value: false
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -2243,12 +2178,12 @@ page-items:
     help-text: |
       <p>
       <ul>
-      <li>Planificado: El equipo se encuentra en etapa de proyecto de ingeniería</li>
-      <li>Activo: el equipo se encuentra en etapa de producción / está siendo utilizado</li>
-      <li>Baja: el equipo se dio de baja</li>
-      <li>Apagado: Durante el relevamiento el equipo se encuentra apagado pero no se retira</li>
-      <li>Desconocido: no se puede determinar en que etapa del ciclo de vida se encuentra el equipo</li>
-          </ul>
+      <li>Utilizado: Utilizar cuando el equipo se encuentra instalado y utilizado/operativo</li>
+      <li>No utilizado / Apagado: Utilizar cuando el equipo funciona correctamente pero no se encuentra utilizado o se encuentra apagado. Podría estar instalado en campo o almacenado en depósito</li>
+      <li>Baja: Utilizar cuando el equipo ya no será utilizado debido a avería u otros motivos, se sugiere especificar el motivo en campo "Observaciones"</li>
+      <li>Planificado: Utilizar cuando el equipo se encuentra en etapa de planificación o adquisición, y/o cuando se proyecta instalarlo en algún rack, de manera a reservar el espacio correspondiente</li>
+      <li>Desconocido: Utilizar cuando no se puede determinar estado actual del equipo o no corresponden ninguna de las opciones anteriores</li>
+      </ul>
       </p>
       
 
@@ -2358,10 +2293,6 @@ buttons:
   behavior: 
     action: Defined by Dynamic Action
     execute-validations: true
-
-  server-side-condition: 
-    type: Item is NOT NULL
-    item: P14_RACK_ID
 
 - # ====== Button: CANCEL ======================================
   id: 200805765475736280020

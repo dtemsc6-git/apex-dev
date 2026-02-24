@@ -1,25 +1,57 @@
 ---
-- # ====== Upgrade Script: CREAR_TABLAS_INTERFACES_2_3 =========
-  id: 555245987626482
+- # ====== Upgrade Script: sprint-11-sitios-racks ==============
+  id: 5999481472337220
   identification: 
-    name: CREAR_TABLAS_INTERFACES_2_3
+    name: sprint-11-sitios-racks
+
+  execution: 
+    sequence: 10
+
+- # ====== Upgrade Script: sprint-11-equipos-chk ===============
+  id: 5999737112324982
+  identification: 
+    name: sprint-11-equipos-chk
+
+  execution: 
+    sequence: 20
+
+- # ====== Upgrade Script: modificar-equipos ===================
+  id: 6081439331492897
+  identification: 
+    name: modificar-equipos
 
   execution: 
     sequence: 30
 
-- # ====== Upgrade Script: Auditoria Módulo Equipos ============
-  id: 4464926950450468
+- # ====== Upgrade Script: modificar-enlaces-tramos ============
+  id: 6089649068945272
   identification: 
-    name: Auditoria Módulo Equipos
+    name: modificar-enlaces-tramos
 
   execution: 
     sequence: 40
 
-- # ====== Upgrade Script: auditoria consolidado ===============
-  id: 4465053801455537
+- # ====== Upgrade Script: actualizar_v_sitios_gps =============
+  id: 6145463837423689
   identification: 
-    name: auditoria consolidado
+    name: actualizar_v_sitios_gps
 
   execution: 
     sequence: 50
+
+- # ====== Upgrade Script: actualizar_trigger_equipos ==========
+  id: 6170604034910029
+  identification: 
+    name: actualizar_trigger_equipos
+
+  execution: 
+    sequence: 60
+
+- # ====== Upgrade Script: actualizar_trigger_racks ============
+  id: 6170746067905972
+  identification: 
+    name: actualizar_trigger_racks
+
+  execution: 
+    sequence: 70
 

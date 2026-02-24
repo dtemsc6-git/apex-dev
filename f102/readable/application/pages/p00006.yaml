@@ -201,7 +201,9 @@ regions:
     exclude-title-from-translation: false
 
   header-and-footer: 
-    header-text: 'Puede subir archivos XLSX que contengan datos de equipos, el nombre del rack debe estar en la convención establecida dentro del sistema (Sitio.Sala.Rack). <a href="https://docs.google.com/spreadsheets/d/1Vtdk4v2ZNKK7kj6CT6L8nxqdyJSiwTkY/edit?usp=sharing&ouid=108343838433037799136&rtpof=true&sd=true" target="_blank">Descargar Plantilla Aquí</a> Se permite hasta 100 registros por archivo.'
+    header-text: |
+      Puede subir archivos XLSX que contengan datos de equipos, el nombre del rack debe estar en la convención establecida dentro del sistema (Sitio.Sala.Rack). <a href="https://docs.google.com/spreadsheets/d/1Vtdk4v2ZNKK7kj6CT6L8nxqdyJSiwTkY/edit?usp=sharing&ouid=108343838433037799136&rtpof=true&sd=true" target="_blank">Descargar Plantilla Modelo Aquí</a>.
+      Se permite hasta 100 registros por archivo.
 
   server-side-condition: 
     type: Item is NULL

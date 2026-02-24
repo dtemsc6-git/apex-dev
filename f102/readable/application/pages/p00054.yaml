@@ -1075,7 +1075,7 @@ processes:
               SELECT display_value INTO :P54_NIVEL_TEXTO
                  FROM   apex_application_lov_entries
                  WHERE  application_id = :APP_ID
-                 AND    list_of_values_name = 'NIVEL_PRIORIDAD'
+                 AND    list_of_values_name = 'SERVICIOS.NIVEL_PRIORIDAD'
                  AND    return_value = :P50_NIVEL_DE_PRIORIDAD;
           END;
       

@@ -475,7 +475,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Detalle/Descripción
+    label: Nombre
     alignment: Left
 
   settings: 
@@ -498,13 +498,13 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating
+    template: Required - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
 
   validation: 
-    value-required: false
+    value-required: true
     maximum-length: 50
 
   advanced: 
@@ -529,7 +529,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Agregar descripción de la sala
+    inline-help-text: Agregar nombre o descripción de la sala
 
 buttons: 
 - # ====== Button: CANCEL ======================================

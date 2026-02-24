@@ -295,12 +295,40 @@
     name: Navigation Menu
 
   subscription: 
-    version-number: 39024128186442
+    version-number: 39025612431834
 
   source: 
     type: Static Values
 
   entries: 
+  - # ====== Entry: Tipo de Interfaz =============================
+    id: 11588375750689097
+    label: 
+      label: Tipo de Interfaz
+
+    icon: 
+      image/icon-css-classes: fa-table-pointer
+
+    layout: 
+      sequence: 770
+      parent-entry: Administración # 32254645328005181908
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 58
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:58:&SESSION.::&DEBUG.::::'
+        page: 58 # TIPO INTERFAZ
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
   - # ====== Entry: Grilla Interfaces ============================
     id: 39221858471725
     label: 

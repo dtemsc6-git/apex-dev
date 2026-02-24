@@ -377,6 +377,9 @@ regions:
         group-by: true
         pivot: true
 
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
     - # ====== Column: ID ==========================================
       id: 44132896935995381955
       identification: 
@@ -402,7 +405,7 @@ regions:
         type: Plain Text
 
       heading: 
-        heading: Nombre
+        heading: Observaciones
         alignment: center
 
       single-row-view: 
@@ -477,6 +480,9 @@ regions:
       security: 
         escape-special-characters: true
 
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
     - # ====== Column: CREADO_EL ===================================
       id: 44132904673747381961
       identification: 
@@ -518,6 +524,9 @@ regions:
 
       security: 
         escape-special-characters: true
+
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
 
     - # ====== Column: ACTUALIZADO_POR =============================
       id: 44132905022422381961
@@ -683,6 +692,9 @@ regions:
 
       security: 
         escape-special-characters: true
+
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
 
     printing: 
       output: 
@@ -972,15 +984,12 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:31:&SESSION.::&DEBUG.:::'
-      page: 31 # SGT_ENLACES_TRAMOS_DL
+      page: 31 # SGT_IMPORTAR_CONEXIONES
 
     warn-on-unsaved-changes: Do Not Check
 
   security: 
     authorization-scheme: Implementador Rights # 56843702980053272617
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
 
 - # ====== Button: CREATE ======================================
   id: 44132905930012381962
@@ -1056,6 +1065,40 @@ buttons:
     build-option: Commented Out # 197180071872965446203
 
 dynamic-actions: 
+- # ====== Dynamic Action: Refresh =============================
+  id: 4305655555367825
+  identification: 
+    name: Refresh
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Dialog Closed or Canceled
+    selection-type: Region
+    region: SGT_LST_ENLACE_TRAMOS_FO # 44132896179006381953
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 4305829188367826
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: SGT_LST_ENLACE_TRAMOS_FO # 44132896179006381953
+
+    execution: 
+      sequence: 10
+      event: Refresh # 4305655555367825
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 - # ====== Dynamic Action: Edit Report - Dialog Closed =========
   id: 44132906257220381962
   identification: 

@@ -347,19 +347,29 @@ regions:
     id: 23868909420543
     identification: 
       column-name: ESTADO
-      type: Text Field
+      type: Popup LOV
 
     heading: 
       heading: Estado
-      alignment: center
+      alignment: start
 
     settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
 
     layout: 
       sequence: 70
-      column-alignment: center
+      column-alignment: start
       stretch: Use Report Setting
 
     accessibility: 
@@ -368,6 +378,12 @@ regions:
     validation: 
       value-required: false
       maximum-length: 255
+
+    list-of-values: 
+      type: Shared Component
+      list-of-values: INTERFACES.ESTADO # 43199625631148317953
+      display-extra-values: true
+      display-null-value: false
 
     source: 
       type: Database Column
@@ -387,7 +403,7 @@ regions:
       - Case Insensitive
       - Regular Expression
       text-case: Mixed
-      lov-type: Distinct Column
+      lov-type: Use List of Values
       exact-match: true
 
     export-/-printing: 
@@ -670,6 +686,9 @@ regions:
       control-break/aggregate: true
       hide: true
 
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
+
   - # ====== Column: ACTUALIZADO_EL ==============================
     id: 34886888420547
     identification: 
@@ -831,6 +850,9 @@ regions:
       sort: true
       control-break/aggregate: true
       hide: true
+
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
 
   - # ====== Column: APEX$ROW_ACTION =============================
     id: 39413567474712

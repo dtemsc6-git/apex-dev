@@ -627,10 +627,11 @@ regions:
           ss.siglas Sitio,
           s.siglas AS Sala,
           COUNT(DISTINCT r.id) AS total_racks,
-          COUNT(e.id) AS total_equipos,
-          COUNT(CASE WHEN e.sub_tipo_equipo = 'activo' THEN 1 END) AS total_activos,
-          COUNT(CASE WHEN e.sub_tipo_equipo = 'pasivo' THEN 1 END) AS total_pasivos,
-          COUNT(CASE WHEN e.sub_tipo_equipo = 'energía'  THEN 1 END) AS total_energia
+          COUNT(e.id) AS total_equipos
+          
+          --,COUNT(CASE WHEN e.sub_tipo_equipo = 'activo' THEN 1 END) AS total_activos,
+          --COUNT(CASE WHEN e.sub_tipo_equipo = 'pasivo' THEN 1 END) AS total_pasivos,
+          --COUNT(CASE WHEN e.sub_tipo_equipo = 'energía'  THEN 1 END) AS total_energia
       FROM 
           sgt_sitios ss 
       left join    
@@ -884,129 +885,6 @@ regions:
 
       layout: 
         sequence: 40
-        column-alignment: end
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: TOTAL_ACTIVOS ===============================
-      id: 45026643603757173746
-      identification: 
-        column-name: TOTAL_ACTIVOS
-        type: Plain Text
-
-      heading: 
-        heading: Total Activos
-        alignment: end
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 50
-        column-alignment: end
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: TOTAL_PASIVOS ===============================
-      id: 45026643723765173747
-      identification: 
-        column-name: TOTAL_PASIVOS
-        type: Plain Text
-
-      heading: 
-        heading: Total Pasivos
-        alignment: end
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 60
-        column-alignment: end
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: TOTAL_ENERGIA ===============================
-      id: 45026643887442173748
-      identification: 
-        column-name: TOTAL_ENERGIA
-        type: Plain Text
-
-      heading: 
-        heading: Total Energia
-        alignment: end
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 70
         column-alignment: end
 
       accessibility: 

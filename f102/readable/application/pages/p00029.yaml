@@ -4,7 +4,7 @@ id: 29
 identification: 
   name: equipos_interface_dl
   alias: EQUIPOS-INTERFACE-DL
-  title: Interfaces En Uso / Libres
+  title: Conexiones de Interfaces
 
 appearance: 
   page-mode: Modal Dialog
@@ -50,20 +50,22 @@ regions:
   id: 2361763298276201
   identification: 
     name: INTERFACES_LIBRES
-    title: Interfaces libres
+    title: Interfaces sin conexiones
     type: Classic Report
 
   source: 
     location: Local Database
     type: SQL Query
     sql-query: |
-      SELECT nombre AS interfaz, etiqueta, '<span class="u-libre">LIBRE</span>' AS estado  
+      SELECT nombre AS interfaz, etiqueta
       FROM sgt_interfaces
       WHERE equipo_id = :P29_EQUIPO
       AND id NOT IN (
-          SELECT interfaz_a_id FROM sgt_enlaces_tramos WHERE equipo_a_id = :P29_EQUIPO
-          UNION
-          SELECT interfaz_b_id FROM sgt_enlaces_tramos WHERE equipo_b_id = :P29_EQUIPO
+      
+          SELECT interfaz_a_id FROM sgt_enlaces_tramos WHERE equipo_a_id = :P29_EQUIPO and interfaz_a_id is not null 
+          UNION 
+          SELECT interfaz_b_id FROM sgt_enlaces_tramos WHERE equipo_b_id = :P29_EQUIPO and interfaz_b_id is not null 
+      
       )
       
       ORDER BY interfaz;
@@ -204,32 +206,6 @@ regions:
 
     security: 
       escape-special-characters: true
-
-  - # ====== Column: ESTADO ======================================
-    id: 2362103977276204
-    identification: 
-      column-name: ESTADO
-      type: Rich Text
-
-    heading: 
-      heading: Estado
-      alignment: start
-
-    layout: 
-      sequence: 30
-      column-alignment: start
-
-    settings: 
-      format: HTML
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
 
 - # ====== Region: New =========================================
   id: 2362165470276205
@@ -950,33 +926,20 @@ regions:
   id: 47902966756636091030
   identification: 
     name: INTERFACES_USADAS
-    title: Interfaces en uso
+    title: Interfaces con conexiones
     type: Classic Report
 
   source: 
     location: Local Database
     type: SQL Query
     sql-query: |
-      SELECT nombre interfaz, etiqueta, '<a><span class="u-ocupada">'||'EN USO'||'</span></a>' estado
+      SELECT nombre interfaz, etiqueta
       FROM sgt_interfaces i
       WHERE i.id IN (
-          SELECT interfaz_a_id FROM sgt_enlaces_tramos WHERE equipo_a_id = :P29_EQUIPO
+          SELECT interfaz_a_id FROM sgt_enlaces_tramos WHERE equipo_a_id = :P29_EQUIPO and interfaz_a_id is not null 
           UNION 
-          SELECT interfaz_b_id FROM sgt_enlaces_tramos WHERE equipo_b_id = :P29_EQUIPO
+          SELECT interfaz_b_id FROM sgt_enlaces_tramos WHERE equipo_b_id = :P29_EQUIPO and interfaz_b_id is not null 
       )
-      
-      /*
-      UNION ALL
-      
-      SELECT nombre AS interfaz, etiqueta, '<span class="u-libre> LIBRE </span>' AS estado  
-      FROM sgt_interfaces
-      WHERE equipo_id = :P29_EQUIPO
-      AND id NOT IN (
-          SELECT interfaz_a_id FROM sgt_enlaces_tramos WHERE equipo_a_id = :P29_EQUIPO
-          UNION
-          SELECT interfaz_b_id FROM sgt_enlaces_tramos WHERE equipo_b_id = :P29_EQUIPO
-      )
-      */
       ORDER BY interfaz;
 
   order-by: 
@@ -1117,38 +1080,6 @@ regions:
 
     security: 
       escape-special-characters: true
-
-  - # ====== Column: ESTADO ======================================
-    id: 47902967570337091038
-    identification: 
-      column-name: ESTADO
-      type: Plain Text
-
-    heading: 
-      heading: Estado
-      alignment: start
-
-    layout: 
-      sequence: 30
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: false
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: false
 
 - # ====== Region: CARGAR_DATOS ================================
   id: 47902967355520091036

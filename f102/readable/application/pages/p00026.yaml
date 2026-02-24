@@ -574,7 +574,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Cargar los datos en formato decimal
+    inline-help-text: 'Cargar los datos en formato decimal. Ejemplo: -57,573889'
 
 - # ====== Page Item: P26_LATITUD ==============================
   id: 117115199347635411782
@@ -634,7 +634,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Cargar los datos en formato decimal
+    inline-help-text: 'Cargar los datos en formato decimal. Ejemplo: -25,277778'
 
 - # ====== Page Item: P26_CIUDAD_ID ============================
   id: 117115200071276411783

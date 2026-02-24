@@ -1,4 +1,242 @@
 ---
+- # ====== Data Load Definition: CONEXIONES_DL =================
+  id: 11249926508172264
+  identification: 
+    name: CONEXIONES_DL
+
+  subscription: 
+    version-number: 39025744831405
+
+  target: 
+    type: Table
+    table-owner: Parsing Schema
+    table-name: SGT_ENLACES_TRAMOS
+    loading-method: Append
+
+  error-handling: 
+    when-on-error: Stop
+
+  advanced: 
+    commit-interval: 200
+    static-id: conexiones_dl
+
+  data-profiles: 
+    id: 11251915293172227
+    identification: 
+      name: CONEXIONES_DL
+
+    data-profile: 
+      format: XLSX
+
+    advanced: 
+      encoding: Unicode UTF-8
+      default-xlsx-sheet-name: sheet1.xml
+      first-line-contains-headers: true
+
+    columns: 
+    - # ====== Column: TIPO_CONEXION ===============================
+      id: 11250424895172264
+      identification: 
+        column-name: TIPO_CONEXION
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: TIPO_DE_CONEXIÓN
+
+      advanced: 
+        sequence: 50
+        hidden: false
+
+    - # ====== Column: NOMBRE ======================================
+      id: 11250170795172264
+      identification: 
+        column-name: NOMBRE
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: OBSERVACIONES
+
+      advanced: 
+        sequence: 55
+        hidden: false
+
+    - # ====== Column: EQUIPO_A ====================================
+      id: 11247428138260614
+      identification: 
+        column-name: EQUIPO_A
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: EQUIPO_A
+
+      advanced: 
+        sequence: 10
+        hidden: false
+
+    - # ====== Column: EQUIPO_B ====================================
+      id: 11246202996266412
+      identification: 
+        column-name: EQUIPO_B
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: EQUIPO_B
+
+      advanced: 
+        sequence: 30
+        hidden: false
+
+    - # ====== Column: INTERFAZ_B ==================================
+      id: 11245783663266412
+      identification: 
+        column-name: INTERFAZ_B
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: INTERFAZ_B
+
+      advanced: 
+        sequence: 40
+        hidden: false
+
+    - # ====== Column: EQUIPO_A_ID =================================
+      id: 11245218567272993
+      identification: 
+        column-name: EQUIPO_A_ID
+
+      source: 
+        type: SQL Expression
+        data-type: NUMBER
+        primary-key: false
+
+      computation: 
+        sql-expression: SELECT F_GET_LOVS(1, EQUIPO_A) FROM DUAL
+
+      advanced: 
+        sequence: 60
+        hidden: false
+
+    - # ====== Column: INTERFAZ_A ==================================
+      id: 11244512446285302
+      identification: 
+        column-name: INTERFAZ_A
+
+      source: 
+        type: Data
+        data-type: VARCHAR2
+        maximum-length: 4000
+        primary-key: false
+
+      parsing: 
+        selector-type: Name
+        selector: INTERFAZ_A
+
+      advanced: 
+        sequence: 20
+        hidden: false
+
+    - # ====== Column: EQUIPO_B_ID =================================
+      id: 11243767042298174
+      identification: 
+        column-name: EQUIPO_B_ID
+
+      source: 
+        type: SQL Expression
+        data-type: NUMBER
+        primary-key: false
+
+      computation: 
+        sql-expression: SELECT F_GET_LOVS(1, EQUIPO_B) FROM DUAL
+
+      advanced: 
+        sequence: 70
+        hidden: false
+
+    - # ====== Column: INTERFAZ_A_ID ===============================
+      id: 11217446184380308
+      identification: 
+        column-name: INTERFAZ_A_ID
+
+      source: 
+        type: SQL Expression
+        data-type: NUMBER
+        primary-key: false
+
+      computation: 
+        sql-expression: |
+          SELECT 
+              CASE
+                  WHEN INTERFAZ_A IS NULL THEN NULL
+                  ELSE NVL(
+                          (
+                              SELECT MAX(ID)
+                              FROM SGT_INTERFACES
+                              WHERE EQUIPO_ID = F_GET_LOVS(1, EQUIPO_A)
+                              AND NOMBRE = INTERFAZ_A
+                          ),
+                          0
+                       )
+              END AS ID
+          FROM DUAL
+
+      advanced: 
+        sequence: 100
+        hidden: false
+
+    - # ====== Column: INTERFAZ_B_ID ===============================
+      id: 11214162373453502
+      identification: 
+        column-name: INTERFAZ_B_ID
+
+      source: 
+        type: SQL Expression
+        data-type: NUMBER
+        primary-key: false
+
+      computation: 
+        sql-expression: |
+          SELECT 
+              CASE
+                  WHEN INTERFAZ_B IS NULL THEN NULL
+                  else  nvl( (SELECT I2.ID FROM 
+          SGT_INTERFACES I2 WHERE I2.EQUIPO_ID = (
+          SELECT F_GET_LOVS(1,EQUIPO_B) FROM DUAL ) AND I2.NOMBRE = INTERFAZ_B) 
+          , 0) end as ID from dual
+
+      advanced: 
+        sequence: 110
+        hidden: false
+
 - # ====== Data Load Definition: INTERFACES_L2 =================
   id: 494123609423295
   identification: 

@@ -55,7 +55,8 @@ regions:
              sb.ID SITIO_B,
              EQUIPO_B_ID,
              INTERFAZ_B_ID,
-             TIPO_CONEXION
+             TIPO_CONEXION,
+             et.ACTUALIZADO_EL
         from SGT_ENLACES_TRAMOS et
        
        INNER JOIN SGT_EQUIPOS ea on et.equipo_a_id = ea.id
@@ -165,6 +166,58 @@ regions:
         alias: 151223
 
   columns: 
+  - # ====== Column: ACTUALIZADO_EL ==============================
+    id: 11675823361796804
+    identification: 
+      column-name: ACTUALIZADO_EL
+      type: Date Picker
+
+    heading: 
+      heading: Actualizado El
+      alignment: start
+
+    settings: 
+      show-time: false
+      display-as: Popup
+      minimum-date: None
+      maximum-date: None
+      multiple-months: No
+      use-defaults: true
+
+    layout: 
+      sequence: 140
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+
+    source: 
+      type: Database Column
+      database-column: ACTUALIZADO_EL
+      data-type: TIMESTAMP
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      lov-type: Distinct Column
+      date-ranges: All
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
   - # ====== Column: SITIO_B =====================================
     id: 43568147474754
     identification: 
@@ -198,7 +251,7 @@ regions:
       value-identifies-row: false
 
     validation: 
-      value-required: false
+      value-required: true
 
     list-of-values: 
       type: Shared Component

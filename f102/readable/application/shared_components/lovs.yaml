@@ -128,26 +128,6 @@
       display: FOX_MPLS
       return: FOX_MPLS
 
-- # ====== List of Values: TIPO_EQUIPOS.SUB_TIPO ===============
-  id: 2422475915189537
-  identification: 
-    name: TIPO_EQUIPOS.SUB_TIPO
-
-  subscription: 
-    version-number: 39023376678607
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: SGT_TIPO_EQUIPOS
-
-  column-mapping: 
-    return: ID
-    display: GRUPO_EQUIPO
-    default-sort: GRUPO_EQUIPO
-    sort-direction: Ascending (Nulls Last)
-
 - # ====== List of Values: SITIOS.PROPIETARIOS =================
   id: 3735573462899488
   identification: 
@@ -201,25 +181,25 @@
     name: EQUIPOS.POSICION
 
   subscription: 
-    version-number: 39024137861602
+    version-number: 39025401094087
 
   source: 
     location: Static Values
 
   entries: 
-  - # ====== Entry: Front ========================================
+  - # ====== Entry: FRONT ========================================
     id: 3745945363707506
     entry: 
       sequence: 1
-      display: Front
-      return: Front
+      display: FRONT
+      return: FRONT
 
-  - # ====== Entry: Back =========================================
+  - # ====== Entry: BACK =========================================
     id: 3746332645707507
     entry: 
       sequence: 2
-      display: Back
-      return: Back
+      display: BACK
+      return: BACK
 
 - # ====== List of Values: TIPO_CABLE ==========================
   id: 16824711784220248610
@@ -227,12 +207,19 @@
     name: TIPO_CABLE
 
   subscription: 
-    version-number: 15652208728781
+    version-number: 39025535239818
 
   source: 
     location: Static Values
 
   entries: 
+  - # ====== Entry: PATCHCORD ====================================
+    id: 11592717889412501
+    entry: 
+      sequence: 6
+      display: PATCHCORD
+      return: PATCHCORD
+
   - # ====== Entry: ADSS =========================================
     id: 16824712104991248611
     entry: 
@@ -254,12 +241,12 @@
       display: ARMORED
       return: ARMORED
 
-  - # ====== Entry: PDC ==========================================
+  - # ====== Entry: OPDC =========================================
     id: 16824713302178248614
     entry: 
       sequence: 4
-      display: PDC
-      return: PDC
+      display: OPDC
+      return: OPDC
 
   - # ====== Entry: DROP =========================================
     id: 16824713726022248614
@@ -473,14 +460,14 @@
     name: LOV_SGT_RACKS_FILTRADO
 
   subscription: 
-    version-number: 15638121453211
+    version-number: 39025745751830
 
   source: 
     location: Local Database
     type: SQL Query
     sql-query: |
       select 
-             S.SIGLAS||'-'||R.NOMBRE MOSTRAR,
+             S.SIGLAS||'.'||R.NOMBRE MOSTRAR,
              R.ID VALOR        
         from SGT_RACKS R
         LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID
@@ -581,39 +568,6 @@
       sequence: 9
       display: Red Transporte
       return: Red Transporte
-
-- # ====== List of Values: SUB_TIPO_EQUIPO =====================
-  id: 17292525545179850352
-  identification: 
-    name: SUB_TIPO_EQUIPO
-
-  subscription: 
-    version-number: 15652208716321
-
-  source: 
-    location: Static Values
-
-  entries: 
-  - # ====== Entry: Activo =======================================
-    id: 17292525895987850353
-    entry: 
-      sequence: 1
-      display: Activo
-      return: Activo
-
-  - # ====== Entry: Pasivo =======================================
-    id: 17292526210753850354
-    entry: 
-      sequence: 2
-      display: Pasivo
-      return: Pasivo
-
-  - # ====== Entry: Energía ======================================
-    id: 17292526613330850354
-    entry: 
-      sequence: 3
-      display: Energía
-      return: Energía
 
 - # ====== List of Values: SALAS.NOMBRE ========================
   id: 18963831332535051533
@@ -729,12 +683,19 @@
     name: TIPO_ENLACE
 
   subscription: 
-    version-number: 15652209081831
+    version-number: 39025534715235
 
   source: 
     location: Static Values
 
   entries: 
+  - # ====== Entry: Acceso =======================================
+    id: 11599373303549549
+    entry: 
+      sequence: 3
+      display: Acceso
+      return: Acceso
+
   - # ====== Entry: Troncal ======================================
     id: 43126194379680167293
     entry: 
@@ -752,7 +713,7 @@
   - # ====== Entry: De terceros ==================================
     id: 43126195104628167294
     entry: 
-      sequence: 3
+      sequence: 4
       display: De terceros
       return: De terceros
 
@@ -1041,7 +1002,7 @@
     name: ENLACE_FO.ESTADO
 
   subscription: 
-    version-number: 39024137914073
+    version-number: 39025532590568
 
   source: 
     location: Static Values
@@ -1057,51 +1018,30 @@
   - # ====== Entry: Planificado ==================================
     id: 52385218233504497399
     entry: 
-      sequence: 2
+      sequence: 5
       display: Planificado
       return: Planificado
 
-  - # ====== Entry: Comisionamiento ==============================
+  - # ====== Entry: Cortado ======================================
     id: 52385218675755497399
     entry: 
-      sequence: 3
-      display: Comisionamiento
-      return: Comisionamiento
+      sequence: 2
+      display: Cortado
+      return: Cortado
 
-  - # ====== Entry: Falla ========================================
+  - # ====== Entry: Suprimido / Retirado =========================
     id: 52385219079385497400
     entry: 
-      sequence: 4
-      display: Falla
-      return: Falla
+      sequence: 3
+      display: Suprimido / Retirado
+      return: Suprimido / Retirado
 
-  - # ====== Entry: Mantenimiento ================================
+  - # ====== Entry: Desconocido ==================================
     id: 52385219411082497400
     entry: 
-      sequence: 5
-      display: Mantenimiento
-      return: Mantenimiento
-
-  - # ====== Entry: Sin supervisión ==============================
-    id: 52385219878390497400
-    entry: 
-      sequence: 6
-      display: Sin supervisión
-      return: Sin supervisión
-
-  - # ====== Entry: Decomisionado ================================
-    id: 52385220216597497400
-    entry: 
-      sequence: 7
-      display: Decomisionado
-      return: Decomisionado
-
-  - # ====== Entry: Retirado =====================================
-    id: 52385220628337497400
-    entry: 
-      sequence: 8
-      display: Retirado
-      return: Retirado
+      sequence: 4
+      display: Desconocido
+      return: Desconocido
 
 - # ====== List of Values: ACCESS_ROLES ========================
   id: 56800672530592124131
@@ -1501,7 +1441,7 @@
     name: EQUIPO.ESTADO
 
   subscription: 
-    version-number: 39024539200340
+    version-number: 39025531173749
 
   source: 
     location: Static Values
@@ -1510,56 +1450,35 @@
   - # ====== Entry: Utilizado ====================================
     id: 2396839444355709
     entry: 
-      sequence: 2
+      sequence: 1
       display: Utilizado
       return: Utilizado
-
-  - # ====== Entry: No Utilizado =================================
-    id: 4430698095267491
-    entry: 
-      sequence: 3
-      display: No Utilizado
-      return: No Utilizado
-
-  - # ====== Entry: S/D ==========================================
-    id: 4431126359267491
-    entry: 
-      sequence: 4
-      display: S/D
-      return: S/D
-
-  - # ====== Entry: Retirado =====================================
-    id: 4432321048280065
-    entry: 
-      sequence: 7
-      display: Retirado
-      return: Retirado
 
   - # ====== Entry: Baja =========================================
     id: 17291005545094836159
     entry: 
-      sequence: 8
+      sequence: 4
       display: Baja
       return: Baja
 
   - # ====== Entry: Desconocido ==================================
     id: 17292442094612840685
     entry: 
-      sequence: 5
+      sequence: 3
       display: Desconocido
       return: Desconocido
 
-  - # ====== Entry: Apagado ======================================
+  - # ====== Entry: No utilizado / Apagado =======================
     id: 203663371403443540142
     entry: 
-      sequence: 1
-      display: Apagado
-      return: Apagado
+      sequence: 2
+      display: No utilizado / Apagado
+      return: No utilizado / Apagado
 
   - # ====== Entry: Planificado ==================================
     id: 203663371724885540143
     entry: 
-      sequence: 6
+      sequence: 5
       display: Planificado
       return: Planificado
 

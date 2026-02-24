@@ -473,7 +473,7 @@ page-items:
     type: Shared Component
     list-of-values: INTERFACES.ESTADO # 43199625631148317953
     display-extra-values: true
-    display-null-value: true
+    display-null-value: false
 
   advanced: 
     warn-on-unsaved-changes: Page Default

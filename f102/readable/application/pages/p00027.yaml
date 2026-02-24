@@ -533,7 +533,7 @@ page-items:
       left join sgt_racks r on e.rack_id = r.id
       left join sgt_salas s on r.sala_id = s.id
       left join sgt_sitios ss on s.sitio_id = ss.id
-      where ss.id = :P27_SITIO_ID_A 
+      where ss.id = :P27_SITIO_ID_A AND e.tipo_equipo_id = 11
     display-extra-values: false
     display-null-value: true
     null-display-value: Valor no asignado
@@ -698,7 +698,7 @@ page-items:
       left join sgt_racks r on e.rack_id = r.id
       left join sgt_salas s on r.sala_id = s.id
       left join sgt_sitios ss on s.sitio_id = ss.id
-      where ss.id = :P27_SITIO_ID_B 
+      where ss.id = :P27_SITIO_ID_B AND e.tipo_equipo_id = 11
     display-extra-values: true
     display-null-value: true
     null-display-value: Valor no asignado
@@ -1088,7 +1088,7 @@ page-items:
     type: Shared Component
     list-of-values: TIPO_ENLACE # 43126193997789167292
     display-extra-values: true
-    display-null-value: true
+    display-null-value: false
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1286,7 +1286,7 @@ page-items:
     type: Shared Component
     list-of-values: ENLACE_FO.ESTADO # 52385217569870497397
     display-extra-values: true
-    display-null-value: true
+    display-null-value: false
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1695,17 +1695,24 @@ page-items:
   id: 51494079829111384806
   identification: 
     name: P27_TIPO_CABLE
-    type: Select List
+    type: Select Many
 
   label: 
     label: Tipo de cable
     alignment: Left
 
   settings: 
-    page-action-on-selection: None
+    fetch-on-search: false
+    use-defaults: true
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
 
   multiple-values: 
-    type: No
+    type: Delimited List
+    separator: ':'
 
   layout: 
     sequence: 20
@@ -1723,7 +1730,7 @@ page-items:
     template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
-    height: 1
+    width: 30
 
   validation: 
     value-required: false
@@ -1731,8 +1738,6 @@ page-items:
   list-of-values: 
     type: Shared Component
     list-of-values: TIPO_CABLE # 16824711784220248610
-    display-extra-values: true
-    display-null-value: true
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1746,9 +1751,6 @@ page-items:
 
   session-state: 
     storage: Per Request (Memory Only)
-
-  quick-picks: 
-    show-quick-picks: false
 
   security: 
     session-state-protection: Unrestricted

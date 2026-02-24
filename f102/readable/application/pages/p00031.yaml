@@ -1,10 +1,10 @@
 ---
-# ====== Page: SGT_ENLACES_TRAMOS_DL =========================
+# ====== Page: SGT_IMPORTAR_CONEXIONES =======================
 id: 31
 identification: 
-  name: SGT_ENLACES_TRAMOS_DL
-  alias: SGT-ENLACES-TRAMOS-DL
-  title: SGT_ENLACES_TRAMOS_DL
+  name: SGT_IMPORTAR_CONEXIONES
+  alias: SGT-IMPORTAR-CONEXIONES
+  title: Importar Conexiones
 
 appearance: 
   page-mode: Modal Dialog
@@ -155,6 +155,9 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
+  header-and-footer: 
+    header-text: 'Puede subir archivos XLSX que contengan datos de conexiones, el nombre del equipo debe estar en la convención establecida dentro del sistema (Sitio.Sala.Rack.Equipo). <a href="https://docs.google.com/spreadsheets/d/18PUm-HP3s4TGHi8DrJevGGngEf6uQtip/edit?usp=sharing&ouid=108343838433037799136&rtpof=true&sd=true" target="_blank">Descargar Plantilla Aquí</a> Se permite Archivos de hasta 1MB.'
+
   server-side-condition: 
     type: Item is NULL
     item: P31_FILE
@@ -227,7 +230,7 @@ regions:
                         p_content           => f.blob_content,
                         p_file_name         => f.filename,
                         p_xlsx_sheet_name   => case when :P31_XLSX_WORKSHEET is not null then :P31_XLSX_WORKSHEET end,
-                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'enlaces_tramos_dataload' ),
+                        p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'conexiones_dl' ),
                         p_max_rows          => 100 ) ) p
        where f.name = :P31_FILE
 
@@ -1095,7 +1098,7 @@ processes:
     execution-chain: None
 
   settings: 
-    data-load-definition: ENLACES_TRAMOS_DATALOAD # 44704159467494626128
+    data-load-definition: CONEXIONES_DL # 11249926508172264
     source-data-type: File Browse Item
     file-browse-item: P31_FILE
     page-item-containing-xlsx-sheet-name: P31_XLSX_WORKSHEET

@@ -94,7 +94,6 @@ regions:
     table-owner: Parsing Schema
     table-name: SGT_INTERFACES
     include-rowid-column: false
-    order-by-clause: ID DESC
 
   layout: 
     sequence: 10
@@ -128,28 +127,17 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 37204295305593013533
+    id: 11672560214796772
     link: 
-      link-column: Link to Custom Target
-      target: 
-        url: 'f?p=&APP_ID.:30:&SESSION.::&DEBUG.::P30_ID:#ID#'
-        page: 30 # SGT_FROM_INTERFACES
-        values: 
-          p30_id: '#ID#'
-
-      link-icon: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
-      authorization-scheme: Implementador Rights # 56843702980053272617
+      link-column: Exclude Link Column
 
     pagination: 
-      type: Row Ranges X to Y of Z
-      display-position: Top - Right
+      type: Row Ranges X to Y
+      display-position: Bottom - Right
 
     performance: 
       lazy-loading: false
-
-    messages: 
-      when-no-data-found: No data found.
-      when-more-data-found: 'The maximum row count for this report is #MAX_ROW_COUNT# rows.  Please apply a filter to reduce the number of records in your query.'
+      maximum-rows-to-process: 1000000
 
     search-bar: 
       include-search-bar: true
@@ -164,24 +152,27 @@ regions:
       select-columns: true
       rows-per-page: true
       sort: true
-      control-break: false
-      highlight: false
-      compute: false
-      aggregate: false
-      chart: false
-      group-by: false
-      pivot: false
-      flashback: false
-      save-report: false
-      reset: false
-      help: false
+      control-break: true
+      highlight: true
+      compute: true
+      aggregate: true
+      chart: true
+      group-by: true
+      pivot: true
+      flashback: true
+      save-report: true
+      save-public-report: false
+      reset: true
+      help: true
       download: true
       subscription: true
 
     download: 
       formats: 
       - CSV
+      - HTML
       - Excel
+      - PDF
       send-as-email: true
 
     heading: 
@@ -195,28 +186,49 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 37204450524790744674
+      id: 11322192421489661
       identification: 
         name: Primary Report
-        alias: 372044506
+        alias: 175789
 
     columns: 
-    - # ====== Column: VELOCIDAD_MBPS ==============================
-      id: 42091393474739
+    - # ====== Column: ID ==========================================
+      id: 11672458608796771
       identification: 
-        column-name: VELOCIDAD_MBPS
-        type: Plain Text
+        column-name: ID
+        type: Hidden
 
       heading: 
-        heading: Velocidad  (Mbps)
+        heading: Id
+
+      layout: 
+        sequence: 10
+
+      source: 
+        primary-key: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: EQUIPO_ID ===================================
+      id: 11672438439796770
+      identification: 
+        column-name: EQUIPO_ID
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: EQUIPOS.NOMBRE-COMPUESTO # 99183333741246371784
+
+      heading: 
+        heading: Equipo
         alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 220
-        column-alignment: center
+        sequence: 20
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -225,7 +237,7 @@ regions:
         primary-key: false
 
       column-filter: 
-        type: Default Based on Column Type
+        type: Use Named List of Values to Filter Exact Match
 
       enable-users-to: 
         hide: true
@@ -239,11 +251,8 @@ regions:
         group-by: true
         pivot: true
 
-      security: 
-        escape-special-characters: true
-
     - # ====== Column: NOMBRE ======================================
-      id: 32677701939172831917
+      id: 11672321987796769
       identification: 
         column-name: NOMBRE
         type: Plain Text
@@ -256,7 +265,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 10
+        sequence: 30
         column-alignment: center
 
       accessibility: 
@@ -284,7 +293,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: ETIQUETA ====================================
-      id: 32677702162580831919
+      id: 11672238425796768
       identification: 
         column-name: ETIQUETA
         type: Plain Text
@@ -297,8 +306,172 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 140
+        sequence: 40
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ESTADO ======================================
+      id: 11672136095796767
+      identification: 
+        column-name: ESTADO
+        type: Plain Text
+
+      heading: 
+        heading: Estado
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 50
         column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: TIPO_INTERFACE_ID ===========================
+      id: 11671947501796766
+      identification: 
+        column-name: TIPO_INTERFACE_ID
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: TIPO_INTERFAZ.NOMBRE # 41082575549472967716
+
+      heading: 
+        heading: Tipo de Interfaz
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 70
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: TX_EN_DBM ===================================
+      id: 11671889516796765
+      identification: 
+        column-name: TX_EN_DBM
+        type: Plain Text
+
+      heading: 
+        heading: Tx en dBm
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 100
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: RX_EN_DBM ===================================
+      id: 11671758003796764
+      identification: 
+        column-name: RX_EN_DBM
+        type: Plain Text
+
+      heading: 
+        heading: Rx en dBm
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 110
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -325,7 +498,7 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: MAC_ADDRESS =================================
-      id: 32677702376630831921
+      id: 11671648710796763
       identification: 
         column-name: MAC_ADDRESS
         type: Plain Text
@@ -338,8 +511,8 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 150
-        column-alignment: center
+        sequence: 120
+        column-alignment: start
 
       accessibility: 
         value-identifies-row: false
@@ -366,20 +539,20 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: CREADO_EL ===================================
-      id: 32677702867526831926
+      id: 11671641446796762
       identification: 
         column-name: CREADO_EL
         type: Plain Text
 
       heading: 
         heading: Creado El
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 160
+        sequence: 130
         column-alignment: start
 
       accessibility: 
@@ -411,21 +584,21 @@ regions:
         build-option: Commented Out # 197180071872965446203
 
     - # ====== Column: ACTUALIZADO_EL ==============================
-      id: 32677702930651831927
+      id: 11671518995796761
       identification: 
         column-name: ACTUALIZADO_EL
         type: Plain Text
 
       heading: 
-        heading: Actualizado El
+        heading: Actualizado el
         alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 170
-        column-alignment: center
+        sequence: 140
+        column-alignment: start
 
       accessibility: 
         value-identifies-row: false
@@ -452,251 +625,25 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: ID ==========================================
-      id: 37204296030033013679
-      identification: 
-        column-name: ID
-        type: Hidden
-
-      heading: 
-        heading: ID
-
-      layout: 
-        sequence: 0
-
-      source: 
-        primary-key: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: TX_EN_DBM ===================================
-      id: 37204298899757013681
-      identification: 
-        column-name: TX_EN_DBM
-        type: Plain Text
-
-      heading: 
-        heading: Tx en dBm
-        alignment: center
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 70
-        column-alignment: center
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: RX_EN_DBM ===================================
-      id: 37204299216629013681
-      identification: 
-        column-name: RX_EN_DBM
-        type: Plain Text
-
-      heading: 
-        heading: Rx en dBm
-        alignment: center
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 80
-        column-alignment: center
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: ESTADO ======================================
-      id: 37204300826007013683
-      identification: 
-        column-name: ESTADO
-        type: Plain Text
-
-      heading: 
-        heading: Estado
-        alignment: center
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 120
-        column-alignment: center
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: EQUIPO_ID ===================================
-      id: 51494080008876384808
-      identification: 
-        column-name: EQUIPO_ID
-        type: Plain Text (based on List of Values)
-
-      list-of-values: 
-        list-of-values: EQUIPOS.NOMBRE-COMPUESTO # 99183333741246371784
-
-      heading: 
-        heading: Equipo
-        alignment: center
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 180
-        column-alignment: center
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Use Named List of Values to Filter Exact Match
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-    - # ====== Column: TIPO_INTERFACE_ID ===========================
-      id: 51494080129574384809
-      identification: 
-        column-name: TIPO_INTERFACE_ID
-        type: Plain Text (based on List of Values)
-
-      list-of-values: 
-        list-of-values: TIPO_INTERFAZ.NOMBRE # 41082575549472967716
-
-      heading: 
-        heading: Tipo de Interfaz
-        alignment: center
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 190
-        column-alignment: center
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Use Named List of Values to Filter Exact Match
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
     - # ====== Column: ACTUALIZADO_POR =============================
-      id: 51494080270878384810
+      id: 11671389678796760
       identification: 
         column-name: ACTUALIZADO_POR
         type: Plain Text
 
       heading: 
-        heading: Actualizado Por
+        heading: Actualizado por
         alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 200
-        column-alignment: center
+        sequence: 150
+        column-alignment: start
 
       accessibility: 
         value-identifies-row: false
-
-      appearance: 
-        format-mask: 'YYYY-MON-DD HH24:MI'
 
       source: 
         primary-key: false
@@ -720,21 +667,106 @@ regions:
         escape-special-characters: true
 
     - # ====== Column: CREADO_POR ==================================
-      id: 51494080330409384811
+      id: 11671247278796759
       identification: 
         column-name: CREADO_POR
         type: Plain Text
 
       heading: 
         heading: Creado Por
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 210
+        sequence: 160
         column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
+    - # ====== Column: VELOCIDAD_MBPS ==============================
+      id: 11671150598796758
+      identification: 
+        column-name: VELOCIDAD_MBPS
+        type: Plain Text
+
+      heading: 
+        heading: Velocidad (Mbps)
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 80
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: VELOCIDAD_MPBS ==============================
+      id: 11671046620796757
+      identification: 
+        column-name: VELOCIDAD_MPBS
+        type: Plain Text
+
+      heading: 
+        heading: Velocidad Mpbs
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 170
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
@@ -769,11 +801,11 @@ regions:
         view-file-as: Attachment
 
       page: 
-        size: Letter
+        size: A4
         orientation: Landscape
-        units: Inches
-        width: 11
-        height: 8.5
+        units: Millimeters
+        width: 297
+        height: 210
         border-width: 0.5
         border-color: '#666666'
 
@@ -783,7 +815,7 @@ regions:
         font-size: 12
         font-color: '#000000'
         alignment: center
-        page-header-text: SGT_INTERFACES
+        page-header-text: Lista de Interfaces
 
       column-headings: 
         font: Helvetica
@@ -807,6 +839,36 @@ regions:
         alignment: center
 
 buttons: 
+- # ====== Button: TIPO_INTERFAZ ===============================
+  id: 11674191237796788
+  identification: 
+    button-name: TIPO_INTERFAZ
+    label: Tipo de Interfaz
+
+  layout: 
+    sequence: 40
+    region: SGT_INTERFACES # 37204295227652013533
+    slot: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:58:&SESSION.::&DEBUG.:::'
+      page: 58 # TIPO INTERFAZ
+
+    warn-on-unsaved-changes: Do Not Check
+
 - # ====== Button: IMPORTAR_VARIOS =============================
   id: 42568801474744
   identification: 
@@ -814,7 +876,7 @@ buttons:
     label: '&APP_TEXT$BTN_IMPORTAR_XLS!RAW.'
 
   layout: 
-    sequence: 60
+    sequence: 80
     region: SGT_INTERFACES # 37204295227652013533
     slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -844,7 +906,7 @@ buttons:
     label: '&APP_TEXT$BTN_GRILLA_EDITABLE!RAW.'
 
   layout: 
-    sequence: 40
+    sequence: 50
     region: SGT_INTERFACES # 37204295227652013533
     slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -874,7 +936,7 @@ buttons:
     label: '&APP_TEXT$BTN_IMPORTAR_XLS!RAW.'
 
   layout: 
-    sequence: 80
+    sequence: 90
     region: SGT_INTERFACES # 37204295227652013533
     slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -946,7 +1008,7 @@ buttons:
     label: '&APP_TEXT$BTN_CREAR!RAW.'
 
   layout: 
-    sequence: 50
+    sequence: 70
     region: SGT_INTERFACES # 37204295227652013533
     slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false

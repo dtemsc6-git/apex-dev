@@ -47,16 +47,16 @@ regions:
     location: Local Database
     type: SQL Query
     sql-query: |
-      select ID,
+      select e.ID,
       
       '<div class="t-ButtonGroup">' ||
-              '<a href="f?p=&APP_ID.:14:&APP_SESSION.:::10:P14_ID:' || ID || '" class="t-Button t-Button--small t-Button--success" title="Ver">' ||
+              '<a href="f?p=&APP_ID.:14:&APP_SESSION.:::10:P14_ID:' || e.ID || '" class="t-Button t-Button--small t-Button--success" title="Ver">' ||
                   '<span class="fa fa-eye"></span>' ||
               '</a>' ||
-              '<a href="f?p=&APP_ID.:14:&APP_SESSION.:::14:P14_ID:' || ID || '" class="t-Button t-Button--small t-Button--warning" title="Editar">' ||
+              '<a href="f?p=&APP_ID.:14:&APP_SESSION.:::14:P14_ID:' || e.ID || '" class="t-Button t-Button--small t-Button--warning" title="Editar">' ||
                   '<span class="fa fa-edit"></span>' ||
               '</a>' ||
-              '<a href="javascript:void(0);" onclick="eliminarRegistro(' || ID || ')" class="t-Button t-Button--small t-Button--danger" title="Eliminar">' ||
+              '<a href="javascript:void(0);" onclick="eliminarRegistro(' || e.ID || ')" class="t-Button t-Button--small t-Button--danger" title="Eliminar">' ||
                   '<span class="fa fa-trash"></span>' ||
               '</a>' ||
           '</div>' as ACCIONES,
@@ -64,10 +64,10 @@ regions:
              RACK_ID,
              U,
              TIPO_RED,
-             NOMBRE,
-             ID as FULL_NAME,
+             e.NOMBRE,
+             e.ID as FULL_NAME,
              TIPO_EQUIPO_ID,
-             TIPO_EQUIPO_ID as SUB_TIPO, 
+             te.grupo_equipo as SUB_TIPO, 
              
              MARCA,
              MODELO,
@@ -86,11 +86,12 @@ regions:
              ALTURA_U,
              POSICION,
              SITIO_ID,
-             CREADO_POR,
-             CREADO_EL,
-             ACTUALIZADO_POR,
-             ACTUALIZADO_EL
-        from SGT_EQUIPOS
+             e.CREADO_POR,
+             e.CREADO_EL,
+             e.ACTUALIZADO_POR,
+             e.ACTUALIZADO_EL
+        from SGT_EQUIPOS e
+        inner join sgt_tipo_equipos te on te.id = e.tipo_equipo_id 
 
   layout: 
     sequence: 10
@@ -208,6 +209,47 @@ regions:
         description: Prueba
 
     columns: 
+    - # ====== Column: SUB_TIPO ====================================
+      id: 10514487125507995
+      identification: 
+        column-name: SUB_TIPO
+        type: Plain Text
+
+      heading: 
+        heading: Sub Tipo
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 320
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: FULL_NAME ===================================
       id: 43394877474752
       identification: 
@@ -226,47 +268,6 @@ regions:
 
       layout: 
         sequence: 300
-        column-alignment: center
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Use Named List of Values to Filter Exact Match
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-    - # ====== Column: SUB_TIPO ====================================
-      id: 2415358636170212
-      identification: 
-        column-name: SUB_TIPO
-        type: Plain Text (based on List of Values)
-
-      list-of-values: 
-        list-of-values: TIPO_EQUIPOS.SUB_TIPO # 2422475915189537
-
-      heading: 
-        heading: Sub Tipo
-        alignment: center
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 80
         column-alignment: center
 
       accessibility: 

@@ -731,7 +731,7 @@ regions:
       type: Shared Component
       list-of-values: TIPO_ENLACE # 43126193997789167292
       display-extra-values: true
-      display-null-value: true
+      display-null-value: false
 
     source: 
       type: Database Column
@@ -899,7 +899,7 @@ regions:
       type: Shared Component
       list-of-values: ENLACE_FO.ESTADO # 52385217569870497397
       display-extra-values: true
-      display-null-value: true
+      display-null-value: false
 
     source: 
       type: Database Column
@@ -1373,22 +1373,34 @@ regions:
       control-break/aggregate: true
       hide: true
 
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
   - # ====== Column: TIPO_CABLE ==================================
     id: 88034736155974770404
     identification: 
       column-name: TIPO_CABLE
-      type: Select List
+      type: Popup LOV
 
     heading: 
       heading: Tipo de cable
-      alignment: center
+      alignment: start
+
+    settings: 
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: Delimited List
+      separator: ':'
 
     layout: 
       sequence: 260
-      column-alignment: center
+      column-alignment: start
       stretch: Use Report Setting
 
     accessibility: 
