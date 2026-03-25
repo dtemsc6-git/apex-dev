@@ -59,7 +59,7 @@ globalization:
   primary-language: Spanish (Paraguay) (es-py)
   document-direction: Left-To-Right
   language-derived-from: Application Primary Language
-  automatic-time-zone: false
+  automatic-time-zone: true
   automatic-csv-encoding: true
 
 application-format-masks: 
@@ -120,7 +120,7 @@ attributes:
   auto-dismiss-success-messages: false
 
 subscription: 
-  version-number: 39025843653414
+  version-number: 39026847722642
 
 substitutions: 
 - # ====== Substitution: APP_NAME ==============================

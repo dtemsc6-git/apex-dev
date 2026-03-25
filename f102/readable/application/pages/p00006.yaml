@@ -280,9 +280,8 @@ regions:
                         p_xlsx_sheet_name   => case when :P6_XLSX_WORKSHEET is not null then :P6_XLSX_WORKSHEET end,
                         --p_file_profile      => apex_data_loading.get_file_profile( p_static_id => 'sgt_dl_equipos' ),
                         p_max_rows          => 100 ) ) p
-       where f.name = :P6_FILE AND 
-       P.COL002 IS NOT NULL AND
-       P.COL006 IS NOT NULL
+       where f.name = :P6_FILE 
+       
        order by line_number
       
 
@@ -1209,6 +1208,9 @@ processes:
   server-side-condition: 
     when-button-pressed: LOAD # 203563556510480335065
 
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
 - # ====== Process: Close Dialog ===============================
   id: 41695591474735
   identification: 
@@ -1238,7 +1240,7 @@ processes:
     execution-chain: None
 
   settings: 
-    data-load-definition: SGT_DL_EQUIPOS # 203563300722479331029
+    data-load-definition: EQUIPOS_DL # 10894190201352016
     source-data-type: File Browse Item
     file-browse-item: P6_FILE
     page-item-containing-xlsx-sheet-name: P6_XLSX_WORKSHEET
@@ -1254,9 +1256,6 @@ processes:
 
   server-side-condition: 
     when-button-pressed: LOAD # 203563556510480335065
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
 
 - # ====== Process: Clear Cache ================================
   id: 203563557388426335065

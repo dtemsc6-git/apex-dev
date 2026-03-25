@@ -38,6 +38,47 @@ server-cache:
   caching: Disabled
 
 regions: 
+- # ====== Region: FILTRADO ====================================
+  id: 9767972531498176
+  identification: 
+    name: FILTRADO
+    title: Filtro Personalizado
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Collapsible
+    template-options: 
+    - '#DEFAULT#'
+    - is-expanded
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Conexiones V2 ===============================
   id: 3427235376555409
   identification: 
@@ -48,31 +89,59 @@ regions:
     location: Local Database
     type: SQL Query
     sql-query: |
-      select et.ID,
+      -- 1. Eliminamos el 1=1. No aporta nada.
+      -- 2. Reemplazamos las subconsultas IN por EXISTS. Es mucho más eficiente.
+      -- 3. Añadimos comentarios sobre la necesidad de índices.
+      
+      SELECT et.ID,
              sa.ID SITIO_A,
-             EQUIPO_A_ID,
-             INTERFAZ_A_ID,
-             sb.ID SITIO_B,
-             EQUIPO_B_ID,
-             INTERFAZ_B_ID,
-             TIPO_CONEXION,
+             et.EQUIPO_A_ID,  -- Asumimos que existe en la tabla, lo añadimos por claridad
+             et.INTERFAZ_A_ID,
+             sitio_b.ID SITIO_B,
+             et.EQUIPO_B_ID,
+             et.INTERFAZ_B_ID,
+             et.TIPO_CONEXION,
              et.ACTUALIZADO_EL
-        from SGT_ENLACES_TRAMOS et
-       
-       INNER JOIN SGT_EQUIPOS ea on et.equipo_a_id = ea.id
-       inner join sgt_racks r on ea.rack_id = r.id
-       inner join sgt_salas s on r.sala_id = s.id
-       inner join sgt_sitios sa on s.sitio_id = sa.id 
-      
-      INNER JOIN SGT_EQUIPOS eb on et.equipo_b_id = eb.id
-       inner join sgt_racks r on eb.rack_id = r.id
-       inner join sgt_salas s on r.sala_id = s.id
-       inner join sgt_sitios sb on s.sitio_id = sb.id 
-      
-      
+      FROM SGT_ENLACES_TRAMOS et
+      INNER JOIN SGT_EQUIPOS ea ON et.equipo_a_id = ea.id
+      INNER JOIN sgt_racks r ON ea.rack_id = r.id
+      INNER JOIN sgt_salas s ON r.sala_id = s.id
+      INNER JOIN sgt_sitios sa ON s.sitio_id = sa.id
+      INNER JOIN SGT_EQUIPOS eb ON et.equipo_b_id = eb.id
+      INNER JOIN sgt_racks rb ON eb.rack_id = rb.id
+      INNER JOIN sgt_salas sb ON rb.sala_id = sb.id
+      INNER JOIN sgt_sitios sitio_b ON sb.sitio_id = sitio_b.id
+      WHERE 1=1  -- <<< ELIMINADO: Esto sobra.
+            AND (:P55_EQUIPO_A IS NULL OR EQUIPO_A_ID = :P55_EQUIPO_A OR EQUIPO_B_ID = :P55_EQUIPO_A)
+             
+            AND (:P55_INTERFAZ_A IS NULL OR INTERFAZ_A_ID = :P55_INTERFAZ_A OR INTERFAZ_B_ID = :P55_INTERFAZ_A)
+            --AND (:P55_INTERFAZ_B IS NULL OR INTERFAZ_B_ID = :P55_INTERFAZ_B)
+            AND (:P55_TIPO_CONEXION IS NULL OR TIPO_CONEXION = :P55_TIPO_CONEXION)
+            -- MEJORA CLAVE: Usamos EXISTS en lugar de IN
+            AND (:P55_ENLACE_WAN IS NULL OR EXISTS (
+                SELECT 1
+                FROM SGT_CONEXIONES_ENLACE_WAN CEW
+                WHERE CEW.ENLACE_WAN_ID = :P55_ENLACE_WAN
+                  AND CEW.ENLACE_TRAMO_ID = et.ID  -- Correlacionamos con la fila exterior
+            ))
+            -- MEJORA CLAVE: Usamos EXISTS en lugar de IN
+            AND (:P55_SERVICIO IS NULL OR EXISTS (
+                SELECT 1
+                FROM SGT_CONEXIONES_SERVICIO CS
+                WHERE CS.SERVICIO_ID = :P55_SERVICIO
+                  AND CS.ENLACE_TRAMO_ID = et.ID  -- Correlacionamos con la fila exterior
+            ));
+    page-items-to-submit: 
+    - P55_EQUIPO_A
+    - P55_INTERFAZ_A
+    - P55_EQUIPO_B
+    - P55_INTERFAZ_B
+    - P55_TIPO_CONEXION
+    - P55_SERVICIO
+    - P55_ENLACE_WAN
 
   layout: 
-    sequence: 20
+    sequence: 30
     parent-region: No Parent
     slot: BODY
     start-new-layout: false
@@ -119,7 +188,7 @@ regions:
       lazy-loading: true
 
     appearance: 
-      select-first-row: true
+      select-first-row: false
       fixed-row-height: true
 
     pagination: 
@@ -551,10 +620,12 @@ regions:
       type: SQL Query
       sql-query: |
         SELECT 
-        CASE WHEN ETIQUETA IS NOT NULL THEN NOMBRE ||': '||ETIQUETA  ELSE NOMBRE END , ID FROM SGT_INTERFACES I
-        WHERE I.EQUIPO_ID =:EQUIPO_A_ID;
+        CASE WHEN ETIQUETA IS NOT NULL THEN NOMBRE ||':'||ETIQUETA  ELSE NOMBRE END DISPLAY, ID VALUE FROM SGT_INTERFACES
+        where EQUIPO_ID = :EQUIPO_A_ID
+        ORDER BY ID
       display-extra-values: true
       display-null-value: true
+      null-display-value: Seleccione Una
 
     cascading-list-of-values: 
       parent-column(s): 
@@ -691,13 +762,17 @@ regions:
       type: SQL Query
       sql-query: |
         SELECT 
-        CASE WHEN ETIQUETA IS NOT NULL THEN NOMBRE  ||': '|| ETIQUETA ELSE NOMBRE END , ID FROM SGT_INTERFACES I
-        WHERE I.EQUIPO_ID =:EQUIPO_b_ID;
+        CASE WHEN ETIQUETA IS NOT NULL THEN NOMBRE ||':'||ETIQUETA  ELSE NOMBRE END DISPLAY, ID VALUE FROM SGT_INTERFACES
+        where EQUIPO_ID = :EQUIPO_B_ID
+        ORDER BY ID
       display-extra-values: true
       display-null-value: true
+      null-display-value: Seleccione Una
 
     cascading-list-of-values: 
       parent-column(s): 
+      - EQUIPO_B_ID
+      items-to-submit: 
       - EQUIPO_B_ID
       parent-required: true
 
@@ -736,13 +811,14 @@ regions:
       value-identifies-row: false
 
     validation: 
-      value-required: false
+      value-required: true
 
     list-of-values: 
       type: Static Values
-      static-values: 'STATIC:Física;Física,Lógica;Lógica'
+      static-values: 'STATIC:Física;Física,Lógica;Lógica,Trasera;Trasera'
       display-extra-values: false
-      display-null-value: false
+      display-null-value: true
+      null-display-value: Seleccione una
 
     source: 
       type: Database Column
@@ -811,6 +887,655 @@ regions:
       font-size: 12
       font-color: '#000000'
       alignment: center
+
+page-items: 
+- # ====== Page Item: P55_ENLACE_WAN ===========================
+  id: 9768225644498178
+  identification: 
+    name: P55_ENLACE_WAN
+    type: Popup LOV
+
+  label: 
+    label: Enlace Wan
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 20
+    region: FILTRADO # 9767972531498176
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select nombre display, id value from sgt_enlaces_wan
+      where 
+      1=1
+      and 
+      (:P55_SERVICIO IS NULL 
+      OR id in 
+      (select enlace_id from 
+      sgt_enlaces_wan_servicio where servicio_id = :P55_servicio 
+      )
+      )
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: Seleccione Una
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P55_SERVICIO
+    items-to-submit: 
+    - P55_SERVICIO
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P55_SERVICIO =============================
+  id: 9768074370498177
+  identification: 
+    name: P55_SERVICIO
+    type: Popup LOV
+
+  label: 
+    label: Servicio
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 10
+    region: FILTRADO # 9767972531498176
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: SERVICIOS.NOMBRE # 44132876898299381933
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: Seleccione Una
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P55_TIPO_CONEXION ========================
+  id: 9767687408498173
+  identification: 
+    name: P55_TIPO_CONEXION
+    type: Select List
+
+  label: 
+    label: Tipo Conexión
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 80
+    region: FILTRADO # 9767972531498176
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select distinct tipo_conexion display, tipo_conexion value from sgt_enlaces_tramos et
+      where 1=1
+      
+      and 
+      (: P55_ENLACE_WAN is null or
+      et.ID IN (SELECT ENLACE_TRAMO_ID
+            FROM SGT_CONEXIONES_ENLACE_WAN WHERE ENLACE_WAN_ID = :P55_ENLACE_WAN )
+      )
+      AND 
+      (:P55_SERVICIO IS NULL OR 
+        et.ID IN (SELECT cs.ENLACE_TRAMO_ID
+            FROM SGT_CONEXIONES_SERVICIO cs WHERE cs.SERVICIO_ID = :P55_SERVICIO )
+       )
+      
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: Seleccione Una
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P55_SERVICIO
+    - P55_ENLACE_WAN
+    items-to-submit: 
+    - P55_SERVICIO
+    - P55_ENLACE_WAN
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P55_INTERFAZ_B ===========================
+  id: 9767550991498172
+  identification: 
+    name: P55_INTERFAZ_B
+    type: Popup LOV
+
+  label: 
+    label: Interfaz B
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 70
+    region: FILTRADO # 9767972531498176
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT 
+      CASE WHEN ETIQUETA IS NOT NULL THEN NOMBRE ||':'||ETIQUETA  ELSE NOMBRE END DISPLAY, ID VALUE FROM SGT_INTERFACES
+      where EQUIPO_ID = :P55_EQUIPO_B
+      ORDER BY ID
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: Seleccione una
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P55_EQUIPO_B
+    items-to-submit: 
+    - P55_INTERFAZ_B
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+- # ====== Page Item: P55_EQUIPO_B =============================
+  id: 9767481283498171
+  identification: 
+    name: P55_EQUIPO_B
+    type: Popup LOV
+
+  label: 
+    label: Equipo B
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 60
+    region: FILTRADO # 9767972531498176
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select distinct e.nombre , e.id
+      from
+      sgt_equipos e
+      inner join SGT_ENLACES_TRAMOS ET ON e.id = et.equipo_b_id  
+      WHERE 
+      1=1 
+      AND 
+      (:P55_ENLACE_WAN IS NULL OR 
+      
+      et.ID IN (SELECT ENLACE_TRAMO_ID
+            FROM SGT_CONEXIONES_ENLACE_WAN WHERE ENLACE_WAN_ID = :P55_ENLACE_WAN )
+       )
+       AND 
+       (:P55_SERVICIO IS NULL OR
+       
+      et.ID IN (SELECT cs.ENLACE_TRAMO_ID
+            FROM SGT_CONEXIONES_SERVICIO cs WHERE cs.SERVICIO_ID = :P55_SERVICIO )
+       )
+       
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: Seleccione una
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+- # ====== Page Item: P55_INTERFAZ_A ===========================
+  id: 9767419291498170
+  identification: 
+    name: P55_INTERFAZ_A
+    type: Popup LOV
+
+  label: 
+    label: Interfaz A
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 50
+    region: FILTRADO # 9767972531498176
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT 
+      CASE WHEN ETIQUETA IS NOT NULL THEN NOMBRE ||':'||ETIQUETA  ELSE NOMBRE END DISPLAY, ID VALUE FROM SGT_INTERFACES
+      where EQUIPO_ID = :P55_EQUIPO_A
+      ORDER BY ID
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: Seleccione una
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P55_EQUIPO_A
+    items-to-submit: 
+    - P55_EQUIPO_A
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P55_EQUIPO_A =============================
+  id: 9767299593498169
+  identification: 
+    name: P55_EQUIPO_A
+    type: Popup LOV
+
+  label: 
+    label: Equipo A
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 40
+    region: FILTRADO # 9767972531498176
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select distinct e.nombre , e.id
+      from
+      sgt_equipos e
+      inner join 
+        (
+          SELECT EQUIPO_A_ID EQUIPO_ID FROM SGT_ENLACES_TRAMOS
+          UNION
+          SELECT EQUIPO_B_ID EQUIPO_ID FROM SGT_ENLACES_TRAMOS
+        ) conexiones
+      
+      
+       ON e.id = conexiones.equipo_id  
+      WHERE 
+      1=1 
+      AND 
+      (:P55_ENLACE_WAN IS NULL OR 
+      
+      exists  (SELECT 1
+            FROM SGT_CONEXIONES_ENLACE_WAN WHERE ENLACE_WAN_ID = :P55_ENLACE_WAN )
+       )
+       AND 
+       (:P55_SERVICIO IS NULL OR
+       
+      exists  (SELECT 1
+            FROM SGT_CONEXIONES_SERVICIO WHERE SERVICIO_ID = :P55_SERVICIO )
+       )
+       
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: Seleccione una
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P55_SERVICIO
+    - P55_ENLACE_WAN
+    items-to-submit: 
+    - P55_SERVICIO
+    - P55_ENLACE_WAN
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+dynamic-actions: 
+- # ====== Dynamic Action: CHANGE ==============================
+  id: 9767835278498174
+  identification: 
+    name: CHANGE
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P55_EQUIPO_A
+    - P55_INTERFAZ_A
+    - P55_EQUIPO_B
+    - P55_INTERFAZ_B
+    - P55_TIPO_CONEXION
+    - P55_SERVICIO
+    - P55_ENLACE_WAN
+
+  actions: 
+  - # ====== Action: REFRESH_CONEXIONES_V2 =======================
+    id: 9767934393498175
+    identification: 
+      name: REFRESH_CONEXIONES_V2
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Conexiones V2 # 3427235376555409
+
+    execution: 
+      sequence: 10
+      event: CHANGE # 9767835278498174
+      fire-when-event-result-is: True
+      fire-on-initialization: false
 
 processes: 
 - # ====== Process: Conexiones V2: Guardar Datos de Cuadrícula I

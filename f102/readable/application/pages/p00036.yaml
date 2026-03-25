@@ -366,7 +366,7 @@ regions:
       id: 3568859252232759
       identification: 
         column-name: EQUIPO_A
-        type: Plain Text
+        type: Link
 
       heading: 
         heading: Equipo A
@@ -381,6 +381,15 @@ regions:
 
       accessibility: 
         value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:29:&SESSION.::&DEBUG.::P29_EQUIPO:#EQUIPO_ID_A#'
+          page: 29 # equipos_interface_dl
+          values: 
+            p29_equipo: '#EQUIPO_ID_A#'
+
+        link-text: '#EQUIPO_A#'
 
       source: 
         primary-key: false
@@ -448,7 +457,7 @@ regions:
       id: 3569057445232761
       identification: 
         column-name: EQUIPO_B
-        type: Plain Text
+        type: Link
 
       heading: 
         heading: Equipo B
@@ -463,6 +472,15 @@ regions:
 
       accessibility: 
         value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:29:&SESSION.::&DEBUG.::P29_EQUIPO:#EQUIPO_ID_B#'
+          page: 29 # equipos_interface_dl
+          values: 
+            p29_equipo: '#EQUIPO_ID_B#'
+
+        link-text: '#EQUIPO_B#'
 
       source: 
         primary-key: false

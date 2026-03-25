@@ -981,7 +981,7 @@ regions:
   attributes: 
     layout: 
       number-of-rows-type: Static Value
-      number-of-rows: 30
+      number-of-rows: 72
 
     appearance: 
       template-type: Theme
@@ -1130,25 +1130,17 @@ page-items:
   id: 32677703799508831935
   identification: 
     name: P29_EQUIPO
-    type: Popup LOV
+    type: Display Only
 
   label: 
     label: Equipo
     alignment: Left
 
   settings: 
-    display-as: Inline Popup
-    initial-fetch: Automatic
-    manual-entry: false
-    fetch-on-search: false
-
-  search: 
-    match-type: Contains
-    case-sensitive: false
-    minimum-characters: 0
-
-  multiple-values: 
-    type: No
+    format: Plain Text
+    based-on: Display Value of List of Values
+    show-line-breaks: true
+    send-on-page-submit: true
 
   layout: 
     sequence: 20
@@ -1166,16 +1158,11 @@ page-items:
     template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
-    width: 30
-
-  validation: 
-    value-required: false
 
   list-of-values: 
     type: Shared Component
     list-of-values: EQUIPOS.NOMBRE-COMPUESTO # 99183333741246371784
     display-extra-values: true
-    display-null-value: true
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1185,18 +1172,13 @@ page-items:
     used: Only when current value in session state is null
 
   session-state: 
+    data-type: VARCHAR2
     storage: Per Session (Persistent)
-
-  quick-picks: 
-    show-quick-picks: false
 
   security: 
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
 
 - # ====== Page Item: P29_FILE =================================
   id: 32677703872781831936

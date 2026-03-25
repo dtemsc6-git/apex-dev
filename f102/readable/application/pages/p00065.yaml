@@ -1,0 +1,1013 @@
+---
+# ====== Page: TEST_MAP_FO ===================================
+id: 65
+identification: 
+  name: TEST_MAP_FO
+  alias: TEST-MAP-FO
+  title: TEST_MAP_FO
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: FILTRO_MAPA =================================
+  id: 19486303112649965
+  identification: 
+    name: FILTRO_MAPA
+    title: Filtrar
+    type: Faceted Search
+
+  source: 
+    filtered-region: TEST_MAP_ENLACE_FO # 91253789154263229360
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+  attributes: 
+    settings: 
+      batch-facet-changes: false
+      compact-numbers-threshold: 10000
+      show-current-facets: No
+      show-total-row-count: No
+      show-charts: Dialog
+      display-chart-for-top-n-values: 10
+
+  facets: 
+  - # ====== Facet: P65_SEARCH ===================================
+    id: 19489516660649993
+    identification: 
+      name: P65_SEARCH
+      type: Search
+
+    label: 
+      label: Search
+
+    settings: 
+      search-type: Row Search
+      input-field: Top of Faceted Search Region
+
+    layout: 
+      sequence: 10
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Facet: P65_ZONA =====================================
+    id: 19490742112650006
+    identification: 
+      name: P65_ZONA
+      type: Radio Group
+
+    label: 
+      label: ZONA
+      show-label-for-current-facet: true
+
+    settings: 
+      hide-radio-buttons: false
+
+    layout: 
+      sequence: 40
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Disable
+      sort-by-top-counts: false
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: ZONA_ID
+      data-type: NUMBER
+
+    multiple-values: 
+      type: No
+
+    depending-on: 
+      facet: P65_SEARCH # 19489516660649993
+      type: is not null
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
+
+  - # ====== Facet: P65_TIPO_SITIO ===============================
+    id: 19491022312650008
+    identification: 
+      name: P65_TIPO_SITIO
+      type: Checkbox Group
+
+    label: 
+      label: TIPO_SITIO
+      show-label-for-current-facet: true
+
+    layout: 
+      sequence: 60
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: TIPO_SITIO
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
+
+  filters: 
+  - # ====== Filter: P65_SEARCH ==================================
+    id: 19489516660649993
+    identification: 
+      name: P65_SEARCH
+      type: Search
+
+    label: 
+      label: Search
+
+    settings: 
+      search-type: Row Search
+      collapsed-search-field: false
+
+    layout: 
+      sequence: 10
+
+    security: 
+      store-value-encrypted-in-session-state: true
+
+  - # ====== Filter: P65_ZONA ====================================
+    id: 19490742112650006
+    identification: 
+      name: P65_ZONA
+      type: Radio Group
+
+    label: 
+      label: ZONA
+
+    layout: 
+      sequence: 40
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Disable
+      sort-by-top-counts: false
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: ZONA_ID
+      data-type: NUMBER
+
+    multiple-values: 
+      type: No
+
+    depending-on: 
+      filter: P65_SEARCH # 19489516660649993
+      type: is not null
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
+
+  - # ====== Filter: P65_TIPO_SITIO ==============================
+    id: 19491022312650008
+    identification: 
+      name: P65_TIPO_SITIO
+      type: Checkbox Group
+
+    label: 
+      label: TIPO_SITIO
+
+    layout: 
+      sequence: 60
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: TIPO_SITIO
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
+
+- # ====== Region: TEST_MAP_ENLACE_FO ==========================
+  id: 91253789154263229360
+  identification: 
+    name: TEST_MAP_ENLACE_FO
+    title: Mapas Enlaces
+    type: Map
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |2
+       SELECT 
+          ef.id,
+          ef.nombre,
+      	ef.tipo_cable,
+      	ef."CERTIFICACIÓN" CERT,
+          case when (sa.latitud is null or sa.longitud is null or sb.latitud is null or sb.longitud is null ) then NULL
+          else 
+          SDO_GEOMETRY(
+              2002,  -- Tipo línea en 2D
+              4326,  -- Sin SRID (o pon el que corresponda, ej: 4326 para WGS84)
+              NULL,
+              SDO_ELEM_INFO_ARRAY(1, 2, 1),  -- Línea simple
+              SDO_ORDINATE_ARRAY(
+                  sa.longitud ,sa.latitud ,  -- Punto A
+                  sb.longitud ,sb.latitud    -- Punto B
+              )
+          ) end AS linea,
+          case when (sa.latitud is null or sa.longitud is null or sb.latitud is null or sb.longitud is null ) then NULL
+          else
+          ROUND(SDO_GEOM.SDO_DISTANCE(
+              SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(sa.longitud ,sa.latitud , NULL), NULL, NULL),
+              SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(sb.longitud ,sb.latitud, NULL), NULL, NULL),
+              0.005
+          ) / 1000, 2) end AS DISTANCIA_KM
+      
+      FROM sgt_enlaces_fo ef
+      inner join sgt_sitios sa on ef.sitio_id_a = sa.id
+      inner join sgt_sitios sb on ef.sitio_id_b = sb.id
+      
+      where  
+       :P65_ZONAS is null
+      or
+      ef.sitio_id_a IN (select ID from sgt_sitios s where s.zona_id = :P65_ZONAS)
+      or
+      ef.sitio_id_b IN (select ID from sgt_sitios s where s.zona_id = :P65_ZONAS)
+      
+      and (:P65_ENLACES_FO is null or ef.id = :P65_ENLACES_FO)
+    page-items-to-submit: 
+    - P65_ENLACES_FO
+    - P65_ZONAS
+
+  layout: 
+    sequence: 50
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes (No Grid)
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: TEST_MAP_WAN
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 10657306456478268
+    map: 
+      background: Default
+      height: 640
+
+    controls: 
+      navigation-bar: Zoom and Compass
+      navigation-bar-position: End
+      options: 
+      - Mousewheel Zoom
+      - Rectangle Zoom
+      - Scale Bar
+      - Distance Tool
+
+    initial-position-and-zoom: 
+      type: Based on Spatial Results
+
+    legend: 
+      show: true
+      position: End
+
+    attributes: 
+      messages-position: Below
+      unit-system: Metric
+
+    performance: 
+      lazy-loading: true
+
+    layers: 
+    - # ====== Layer: OPGW =========================================
+      id: 10674395384786144
+      identification: 
+        name: OPGW
+        layer-type: Lines
+
+      label: 
+        label: OPGW
+
+      layout: 
+        sequence: 30
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      row-assignment: 
+        column: TIPO_CABLE
+        value-for-this-layer: OPGW
+
+      column-mapping: 
+        geometry-column-data-type: SDO_GEOMETRY
+        geometry-column: LINEA
+
+      appearance: 
+        stroke-style: Solid
+        stroke-color: '#8e8e93'
+
+      tooltip: 
+        advanced-formatting: false
+        column: NOMBRE
+
+      info-window: 
+        advanced-formatting: true
+        html-expression: |
+          Podria mostrar mucha info del enlace:<br/>
+          Tipo Cable: &TIPO_CABLE. <br/>
+          Distancia: &DISTANCIA_KM. Km <br/>
+          Certificación: &CERT. Km </br>
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+    - # ====== Layer: ARMORED ======================================
+      id: 10674280706786143
+      identification: 
+        name: ARMORED
+        layer-type: Lines
+
+      layout: 
+        sequence: 40
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      row-assignment: 
+        column: TIPO_CABLE
+        value-for-this-layer: ARMORED
+
+      column-mapping: 
+        geometry-column-data-type: SDO_GEOMETRY
+        geometry-column: LINEA
+        primary-key-column: ID
+
+      appearance: 
+        stroke-style: Solid
+        stroke-color: '#5856d6'
+
+      tooltip: 
+        advanced-formatting: false
+        column: NOMBRE
+
+      info-window: 
+        advanced-formatting: true
+        html-expression: |
+          Podria mostrar mucha info del enlace:<br/>
+          Tipo Cable: &TIPO_CABLE <br/>
+          Distancia: &DISTANCIA_KM. Km <br/>
+          Certificación: &CERT. Km</br>
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+    - # ====== Layer: OTROS ========================================
+      id: 10674153787786142
+      identification: 
+        name: OTROS
+        layer-type: Lines
+
+      label: 
+        label: Otros
+
+      layout: 
+        sequence: 50
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      row-assignment: 
+        column: TIPO_CABLE
+        value-for-this-layer: <>ARMORED||<>OPGW||<>||ADSS
+
+      column-mapping: 
+        geometry-column-data-type: SDO_GEOMETRY
+        geometry-column: LINEA
+        primary-key-column: ID
+
+      appearance: 
+        stroke-style: Solid
+        stroke-color: '#101010'
+
+      tooltip: 
+        advanced-formatting: false
+
+      info-window: 
+        advanced-formatting: false
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+    - # ====== Layer: ADSS =========================================
+      id: 10656780904478266
+      identification: 
+        name: ADSS
+        layer-type: Lines
+
+      layout: 
+        sequence: 20
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      row-assignment: 
+        column: TIPO_CABLE
+        value-for-this-layer: ADSS
+
+      column-mapping: 
+        geometry-column-data-type: SDO_GEOMETRY
+        geometry-column: LINEA
+
+      appearance: 
+        stroke-style: Solid
+        stroke-color: '#4cd964'
+
+      tooltip: 
+        advanced-formatting: false
+        column: NOMBRE
+
+      info-window: 
+        advanced-formatting: true
+        html-expression: |
+          Podria mostrar mucha info del enlace:<br/>
+          Tipo Cable: &TIPO_CABLE. <br/>
+          Distancia: &DISTANCIA_KM. Km <br/>
+          Certificación: &CERT. Km </br>
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+    - # ====== Layer: SITIOS =======================================
+      id: 10656184517478265
+      identification: 
+        name: SITIOS
+        layer-type: Points
+
+      label: 
+        label: SITIOS
+
+      layout: 
+        sequence: 10
+
+      source: 
+        location: Local Database
+        type: SQL Query
+        sql-query: |2
+           select s.ID,
+                 SIGLAS,
+                 s.NOMBRE,
+                 s.TIPO_DE_SITIO,
+                 PROPIETARIO,
+                 ZONA_ID,
+                 CIUDAD_ID,
+                 LATITUD_OLD,
+                 LONGITUD_OLD,
+                 "UBICACIÓN",
+                 OBSERVACION,
+                 s.CREADO_POR,
+                 s.CREADO_EL,
+                 s.MODIFICADO_POR,
+                 s.MODIFICADO_EL,
+                 LATITUD,
+                 LONGITUD
+            from SGT_SITIOS s
+          
+              
+          
+          where 1=1 and 
+          
+          (:P65_ZONAS is null or s.id in (select id from sgt_sitios s where s.zona_id = :P65_ZONAS))
+          
+          and
+          
+          (:P65_enlaces_fo is null or S.ID IN 
+          (SELECT sitio_id_a from sgt_enlaces_fo where id = :P65_enlaces_fo
+          union
+          SELECT sitio_id_b from sgt_enlaces_fo where id = :P65_enlaces_fo
+          ) )
+          
+        page-items-to-submit: 
+        - P65_ZONAS
+        - P65_ENLACES_FO
+        use-spatial-index: false
+
+      column-mapping: 
+        geometry-column-data-type: Longitude/Latitude
+        longitude-column: LONGITUD
+        latitude-column: LATITUD
+        primary-key-column: ID
+
+      point-objects: 
+        style: SVG
+        shape: Default
+
+      point-clustering: 
+        enable: false
+
+      tooltip: 
+        advanced-formatting: false
+        column: NOMBRE
+
+      info-window: 
+        advanced-formatting: false
+        title-column: SIGLAS
+        body-column: NOMBRE
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+      messages: 
+        when-no-data-found: No data
+        when-more-data-found: More data
+
+page-items: 
+- # ====== Page Item: P65_ZONAS ================================
+  id: 10674618392786146
+  identification: 
+    name: P65_ZONAS
+    type: Select List
+
+  label: 
+    label: Zonas
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: LOV_SGT_ZONAS # 16829957726745633025
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: Seleccione Una
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P65_ENLACES_FO ===========================
+  id: 88053709146799055537
+  identification: 
+    name: P65_ENLACES_FO
+    type: Popup LOV
+
+  label: 
+    label: Enlace FO
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 30
+    region: No Parent
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select ef.nombre, ef.id from sgt_enlaces_fo ef
+      where
+      1=1 and (
+      :P65_ZONAS is null 
+      or    
+      ef.sitio_id_a in (select id from sgt_sitios s where s.zona_id = :P65_ZONAS)
+      or
+      ef.sitio_id_b in (select id from sgt_sitios s where s.zona_id = :P65_ZONAS)
+      )
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: Seleccione Una
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P65_ZONAS
+    items-to-submit: 
+    - P65_ZONAS
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+dynamic-actions: 
+- # ====== Dynamic Action: SetearListener ======================
+  id: 10653386653478251
+  identification: 
+    name: SetearListener
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P65_ENLACES_FO
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 10652942334478250
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        /*
+        var mapRegion = apex.region("TEST_MAP_WAN"); // Static ID de tu mapa
+        console.log(mapRegion);
+        
+        
+        mapRegion.widget().one("spatialmapchanged", function(){
+            // Obtener capa con las geometrías cargadas
+            var layerGroup = mapRegion.getLayer("features");
+            if (layerGroup && layerGroup.getLayers().length > 0) {
+                // Ajustar la vista a los puntos cargados
+                mapRegion.getMap().fitBounds(layerGroup.getBounds());
+            }
+        });
+        */
+        
+        
+        
+        
+        /*var region = apex.region("TEST_MAP_WAN");
+        console.log(region);
+        
+        region.widget().one("spatialmapchanged", function () {
+            var map = region.getMap();
+            var bounds = null;
+            console.log("spatialmapchanged");
+            map.eachLayer(function (layer) {
+                try {
+                    // 🟢 CAPA DE PUNTOS (marcadores)
+                    if (layer.getLatLng) {
+                        var ll = layer.getLatLng();
+                        if (!bounds) bounds = L.latLngBounds(ll, ll);
+                        else bounds.extend(ll);
+                    }
+        
+                    // 🔵 CAPA DE RUTAS (líneas o polígonos)
+                    else if (layer.getLatLngs) {
+                        var addLatLngs = function (arr) {
+                            arr.forEach(function (item) {
+                                if (Array.isArray(item)) {
+                                    addLatLngs(item);
+                                } else {
+                                    if (!bounds) bounds = L.latLngBounds(item, item);
+                                    else bounds.extend(item);
+                                }
+                            });
+                        };
+                        addLatLngs(layer.getLatLngs());
+                    }
+        
+                    // 🟣 GeoJSON (por si APEX devuelve datos como feature collection)
+                    else if (layer.feature && layer.feature.geometry) {
+                        var coords = layer.feature.geometry.coordinates;
+                        var addCoords = function (c) {
+                            if (Array.isArray(c[0])) c.forEach(addCoords);
+                            else {
+                                var ll = L.latLng(c[1], c[0]);
+                                if (!bounds) bounds = L.latLngBounds(ll, ll);
+                                else bounds.extend(ll);
+                            }
+                        };
+                        addCoords(coords);
+                    }
+                } catch (e) {
+                    console.error("Error procesando capa:", e);
+                }
+            });
+        
+            // Ajustar cámara si hay datos válidos
+            if (bounds && bounds.isValid()) {
+                map.fitBounds(bounds, { padding: [20, 20] }); // padding para no pegarse a los bordes
+            } else {
+                console.log("⚠️ No se encontraron coordenadas para centrar el mapa.");
+            }
+        });
+        */
+
+    execution: 
+      sequence: 10
+      event: SetearListener # 10653386653478251
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Refrescar ===========================
+  id: 10652484778478250
+  identification: 
+    name: Refrescar
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P65_ENLACES_FO
+    - P65_ZONAS
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 10651970659478249
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: TEST_MAP_ENLACE_FO # 91253789154263229360
+
+    execution: 
+      sequence: 10
+      event: Refrescar # 10652484778478250
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: GET_ONE_LNG_LAT ============================
+  id: 10653762281478252
+  identification: 
+    name: GET_ONE_LNG_LAT
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      --OBTIENE UNA LNG Y LAT PARA MOVER EL MAPA
+      declare
+      l_cursor SYS_REFCURSOR;
+      BEGIN
+      
+          open l_cursor for
+          SELECT LON, LAT FROM V_SITIOS_GPS V
+          INNER JOIN SGT_SITIOS_ENLACE_WAN SW ON V.ID = SW.SITIO_ID
+          WHERE SW.ENLACE_WAN_ID = :P65_WAN;
+      
+          -- DEBO RETORNAR EL PRIMER ELEMENTO NOMAS 
+          APEX_JSON.OPEN_OBJECT;
+          APEX_JSON.WRITE('data', l_cursor); -- Convierte el cursor a JSON array
+          APEX_JSON.CLOSE_OBJECT;
+      END;
+
+  execution: 
+    sequence: 10
+    point: Ajax Callback
+    run-process: Once Per Page Visit (default)
+

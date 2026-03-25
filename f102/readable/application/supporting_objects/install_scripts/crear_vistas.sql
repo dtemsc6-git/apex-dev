@@ -1,3 +1,4 @@
+
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_AUDIT_CONSOLIDADO" ("AUDIT_ID", "USUARIO", "USUARIO_BD", "TIPO_OPERACION", "FECHA_HORA", "FECHA", "HORA", "APP_ID", "PAGE_ID", "IP_ADDRESS", "TABLA", "CAMPOS_MODIFICADOS", "CAMPOS_LISTA", "DETALLE_OLD_VALUE", "DETALLE_NEW_VALUE", "MODULO", "TIPO_CAMBIO", "NIVEL_CRITICIDAD", "TURNO", "PERIODO", "INDICADOR_VISUAL", "FECHA_HORA_FILTRO") AS 
   SELECT  
     -- Información base de AUDIT_MASTER 
@@ -161,7 +162,8 @@ ORDER BY am.TIMESTAMP DESC;
     END as NIVEL_RIESGO,  
       
     -- Estado de cumplimiento  
-    CASE          WHEN SUM(CASE WHEN ACCION = 'DELETE' THEN 1 ELSE 0 END) > 0   
+    CASE   
+        WHEN SUM(CASE WHEN ACCION = 'DELETE' THEN 1 ELSE 0 END) > 0   
              AND TABLA IN ('SGT_SITIOS', 'SGT_EQUIPOS', 'SGT_SERVICIOS', 'SGT_ENLACES_FO', 'SGT_ENLACES_LOGICOS', 'SGT_INTERFACES', 'SGT_ENLACES_TRAMOS')  
              AND SUM(CASE WHEN TO_NUMBER(TO_CHAR(FECHA_HORA, 'HH24')) BETWEEN 0 AND 7 THEN 1 ELSE 0 END) > 0  
         THEN 'VIOLACION_POLITICA'  
@@ -612,37 +614,67 @@ ORDER BY am.TIMESTAMP DESC, ad.COLUMN_NAME;
     INNER JOIN sgt_salas salas_b on racks_b.sala_id = salas_b.id 
     inner join sgt_sitios sitios_b on  salas_b.sitio_id = sitios_b.id;
 
-  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_CONEXIONES_GENERAL_V2" ("SERV_ID", "SERVICIO", "NIVEL_DE_PRIORIDAD", "EQ_ID", "EQ", "IFACE_ID", "IFACE", "EQ_B_ID", "EQ_B", "IFACE_B_ID", "IFACE_B", "CONN_ID", "TIPO_CONEXION", "FO_ID", "FO_NOMBRE", "SEQ", "WAN_ID", "WAN") AS 
-  select  
-serv.id "SERV_ID", serv.nombre "SERVICIO", 
-serv.nivel_de_prioridad, 
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_CONEXIONES_GENERAL_V2" ("SERV_ID", "SERVICIO", "NIVEL_DE_PRIORIDAD", "EQ_ID", "EQ", "IFACE_ID", "IFACE", "EQ_B_ID", "EQ_B", "IFACE_B_ID", "IFACE_B", "CONN_ID", "TIPO_CONEXION", "FO_ID", "FO_NOMBRE", "SEQ", "WAN_ID", "WAN", "SEQ_WAN") AS 
+  SELECT  
+    serv.id                AS SERV_ID, 
+    serv.nombre            AS SERVICIO, 
+    serv.nivel_de_prioridad, 
     
-et.equipo_a_id "EQ_ID", eq_a.nombre "EQ", et.interfaz_a_id "IFACE_ID", iface_a.nombre "IFACE",  et.equipo_b_id "EQ_B_ID", eq_b.nombre "EQ_B", et.interfaz_b_id "IFACE_B_ID", 
-iface_b.nombre "IFACE_B", et.id "CONN_ID", et.tipo_conexion,  
-fo.id "FO_ID", fo.nombre "FO_NOMBRE",  
-conexionesServ.seq 
-,conexionesWan.enlace_wan_id "WAN_ID", wan.nombre "WAN" 
-from  
-sgt_servicios serv  
- 
-left join sgt_conexiones_servicio conexionesServ on serv.id = conexionesServ.servicio_id 
- 
-right join sgt_enlaces_tramos et on et.id = conexionesServ.enlace_tramo_id 
- 
-left JOIN SGT_CONEXIONES_ENLACE_WAN conexionesWan on conexionesWan.enlace_tramo_id = et.id  
-left join sgt_enlaces_wan wan on conexionesWan.enlace_wan_id = wan.id 
- 
-join sgt_interfaces iface_a on iface_a.id = et.interfaz_a_id 
-join sgt_interfaces iface_b on iface_b.id = et.interfaz_b_id 
- 
-join sgt_equipos eq_a on eq_a.id = et.equipo_a_id 
-join sgt_equipos eq_b on eq_b.id = et.equipo_b_id 
- 
-left join sgt_enlaces_fo fo on fo.equipo_id_a = et.equipo_a_id and fo.equipo_id_b = et.equipo_b_id   
- 
- 
- 
-order by serv.id, conn_id, conexionesServ.seq;
+    et.equipo_a_id         AS EQ_ID, 
+    eq_a.nombre            AS EQ, 
+    
+    et.interfaz_a_id       AS IFACE_ID, 
+    iface_a.nombre         AS IFACE,  
+    
+    et.equipo_b_id         AS EQ_B_ID, 
+    eq_b.nombre            AS EQ_B, 
+    
+    et.interfaz_b_id       AS IFACE_B_ID, 
+    iface_b.nombre         AS IFACE_B, 
+    
+    et.id                  AS CONN_ID, 
+    et.tipo_conexion,  
+    
+    fo.id                  AS FO_ID, 
+    fo.nombre              AS FO_NOMBRE,  
+    
+    conexionesServ.seq,
+    
+    conexionesWan.enlace_wan_id  AS WAN_ID, 
+    wan.nombre                   AS WAN,
+    conexionesWan.secuencia      as SEQ_WAN  
+
+FROM sgt_enlaces_tramos et
+
+LEFT JOIN sgt_conexiones_servicio conexionesServ 
+    ON conexionesServ.enlace_tramo_id = et.id 
+
+LEFT JOIN sgt_servicios serv  
+    ON serv.id = conexionesServ.servicio_id 
+
+LEFT JOIN SGT_CONEXIONES_ENLACE_WAN conexionesWan 
+    ON conexionesWan.enlace_tramo_id = et.id  
+
+LEFT JOIN sgt_enlaces_wan wan 
+    ON wan.id = conexionesWan.enlace_wan_id 
+
+JOIN sgt_interfaces iface_a 
+    ON iface_a.id = et.interfaz_a_id 
+
+JOIN sgt_interfaces iface_b 
+    ON iface_b.id = et.interfaz_b_id 
+
+JOIN sgt_equipos eq_a 
+    ON eq_a.id = et.equipo_a_id 
+
+JOIN sgt_equipos eq_b 
+    ON eq_b.id = et.equipo_b_id 
+
+LEFT JOIN sgt_enlaces_fo fo 
+    ON fo.equipo_id_a = et.equipo_a_id 
+   AND fo.equipo_id_b = et.equipo_b_id   
+
+ORDER BY serv.id, et.id, conexionesServ.seq;
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_ENLACES_LOGICOS_NOMBRES" ("ID", "ENLACE_NOMBRE", "SITIO_A", "SITIO_A_ID", "EQUIPO_A", "INTERFAZ_A", "SITIO_B", "SITIO_B_ID", "EQUIPO_B", "INTERFAZ_B", "GRUPO_RED") AS 
   SELECT  
@@ -675,25 +707,29 @@ ORDER BY
 EL.ID;
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SITIOS_GPS" ("ID", "ZONA_ID", "ZONA", "DEPARTAMENTO", "CIUDAD", "SIGLAS", "TIPO_SITIO", "LAT", "LON", "URL") AS 
-  SELECT  s."ID", z.id, z.nombre,d.nombre, c.nombre ,s."SIGLAS", s.tipo_de_sitio, sexagesimal_to_decimal(LATITUD), sexagesimal_to_decimal(LONGITUD), "UBICACIÓN" 
+  SELECT  s."ID", z.id, z.nombre,d.nombre, c.nombre ,s."SIGLAS", s.tipo_de_sitio, (LATITUD), (LONGITUD), "UBICACIÓN" 
   FROM  sgt_sitios s
   left JOIN SGT_CIUDAD c on  s.ciudad_id = c.id
   left join sgt_depto d on  c.depto_id = d.id
   join sgt_zonas z on s.zona_id = z.id;
 
-  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_TRAMOS_NOMBRES" ("ID", "SITIO_A", "SITIO_A_ID", "EQUIPO_A", "INTERFAZ_A", "SITIO_B", "SITIO_B_ID", "EQUIPO_B", "INTERFAZ_B", "TIPO_CONEXION", "ENLACE_ID") AS 
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_TRAMOS_NOMBRES" ("ID", "SITIO_A", "SITIO_A_ID", "EQUIPO_A", "IFACE_A_ID", "INTERFAZ_A", "ETIQUETA_A", "SITIO_B", "SITIO_B_ID", "EQUIPO_B", "IFACE_B_ID", "INTERFAZ_B", "ETIQUETA_B", "TIPO_CONEXION", "ENLACE_ID") AS 
   SELECT  
     et.id, 
     -- Lado A 
     sitio_a.siglas, 
     sitio_a.id, 
     eq_a.nombre AS equipo_a, 
+    inter_a.id as IFACE_A_ID,
     inter_a.nombre AS interfaz_a, 
+    inter_a.etiqueta as etiqueta_a,
     -- Lado B 
     sitio_b.siglas, 
     sitio_b.id, 
     eq_b.nombre AS equipo_b, 
+    inter_B.id as IFACE_B_ID,
     inter_b.nombre AS interfaz_b, 
+    inter_b.etiqueta as etiqueta_b,
     et.tipo_conexion as tipo_conexion, 
     et.enlace_id as enlace_id 
 FROM  
@@ -710,4 +746,4 @@ FROM
     inner join sgt_racks racks_b on eq_b.rack_id = racks_b.id 
     INNER JOIN sgt_salas salas_b on racks_b.sala_id = salas_b.id 
     inner join sgt_sitios sitio_b on  salas_b.sitio_id = sitio_b.id 
-    order by et.id; 
+    order by et.id;

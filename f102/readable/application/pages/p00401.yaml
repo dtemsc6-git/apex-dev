@@ -3,20 +3,14 @@
 id: 401
 identification: 
   name: Crear el enlace WAN
-  alias: STEP-11
-  title: Crear el enlace WAN
+  alias: CREAR-ENLACE-WAN
+  title: Datos del enlace WAN
 
 appearance: 
-  page-mode: Modal Dialog
-  dialog-template: Wizard Modal Dialog
+  page-mode: Normal
+  page-template: Theme Default
   template-options: 
   - '#DEFAULT#'
-
-dialog: 
-  width: 780
-  height: 580
-  chained: true
-  resizable: true
 
 navigation-menu: 
   override-user-interface-level: false
@@ -113,9 +107,10 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes
+    template: Wizard Container
     template-options: 
     - '#DEFAULT#'
+    - t-Wizard--hideStepsXSmall
     render-components: Above Content
 
   accessibility: 
@@ -144,8 +139,8 @@ regions:
 
   layout: 
     sequence: 10
-    parent-region: No Parent
-    slot: BODY
+    parent-region: Wizard Progress # 85027390957573935782
+    slot: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -181,9 +176,9 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 10
+    sequence: 20
     parent-region: No Parent
-    slot: REGION_POSITION_03
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -206,6 +201,9 @@ regions:
 
   customization: 
     customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
 
   attributes: 
     settings: 
@@ -381,8 +379,8 @@ buttons:
     label: Cancel
 
   layout: 
-    sequence: 10
-    region: Buttons # 85027391113273935782
+    sequence: 40
+    region: Wizard Progress # 85027390957573935782
     slot: CLOSE
     start-new-layout: false
     start-new-row: true
@@ -397,8 +395,12 @@ buttons:
     - '#DEFAULT#'
 
   behavior: 
-    action: Defined by Dynamic Action
-    execute-validations: true
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:::'
+      page: 34 # SGT_LST_ENLACES_LOGICOS
+
+    warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: NEXT ========================================
   id: 85027392906591935784
@@ -407,8 +409,8 @@ buttons:
     label: Next
 
   layout: 
-    sequence: 30
-    region: Buttons # 85027391113273935782
+    sequence: 50
+    region: Wizard Progress # 85027390957573935782
     slot: NEXT
     start-new-layout: false
     start-new-row: true

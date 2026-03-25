@@ -1,0 +1,22 @@
+---
+- # ====== Application Process: set-timezone-py ================
+  id: 6948703220604965
+  identification: 
+    name: set-timezone-py
+    type: NATIVE_PLSQL
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      BEGIN
+          APEX_UTIL.SET_SESSION_TIME_ZONE('-03:00');
+      END;
+
+  execution: 
+    sequence: 1
+    point: After Authentication
+
+  subscription: 
+    version-number: 39026241906438
+

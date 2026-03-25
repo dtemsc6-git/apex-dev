@@ -4,7 +4,7 @@ id: 37
 identification: 
   name: SGT_UBICAR_EQUIPO_RACK
   alias: UBICAR-EQUIPO-RACK
-  title: Ubicar Equipo
+  title: Vista del Rack
 
 appearance: 
   page-mode: Modal Dialog

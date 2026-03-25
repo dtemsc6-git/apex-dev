@@ -99,7 +99,7 @@ regions:
       lazy-loading: false
 
     appearance: 
-      select-first-row: true
+      select-first-row: false
       fixed-row-height: true
 
     pagination: 
@@ -182,15 +182,29 @@ regions:
     id: 20929820420542
     identification: 
       column-name: EQUIPO_ID
-      type: Select List
+      type: Popup LOV
 
     heading: 
       heading: Equipo
-      alignment: center
+      alignment: start
+
+    settings: 
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
 
     layout: 
       sequence: 40
-      column-alignment: center
+      column-alignment: start
       stretch: Use Report Setting
 
     accessibility: 
@@ -223,7 +237,8 @@ regions:
       - Case Insensitive
       - Regular Expression
       text-case: Mixed
-      lov-type: None
+      lov-type: Distinct Column
+      exact-match: true
 
     export-/-printing: 
       include-in-export-/-print: true

@@ -461,7 +461,7 @@ regions:
     type: Region Display Selector
 
   layout: 
-    sequence: 40
+    sequence: 50
     parent-region: SGT_FORM_EQUIPO # 200805748090942280007
     slot: BODY
     start-new-layout: false
@@ -628,6 +628,36 @@ regions:
       show-line-breaks: true
 
 page-items: 
+- # ====== Page Item: P14_SUB_TIPO =============================
+  id: 9766188787498158
+  identification: 
+    name: P14_SUB_TIPO
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 40
+    region: SGT_FORM_EQUIPO # 200805748090942280007
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
 - # ====== Page Item: P14_UNIDAD_ENCARGADA =====================
   id: 16831387285978382021
   identification: 
@@ -1231,14 +1261,22 @@ page-items:
   id: 47902964454304091007
   identification: 
     name: P14_RACK_ID
-    type: Select List
+    type: Popup LOV
 
   label: 
     label: Rack
     alignment: Left
 
   settings: 
-    page-action-on-selection: None
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
 
   multiple-values: 
     type: No
@@ -1259,7 +1297,7 @@ page-items:
     template: Required - Floating
     template-options: 
     - '#DEFAULT#'
-    height: 1
+    width: 30
 
   validation: 
     value-required: true
@@ -1733,7 +1771,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 50
+    sequence: 60
     region: SGT_FORM_EQUIPO # 200805748090942280007
     slot: BODY
 
@@ -1766,7 +1804,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 60
+    sequence: 70
     region: SGT_FORM_EQUIPO # 200805748090942280007
     slot: BODY
 
@@ -1799,7 +1837,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 70
+    sequence: 80
     region: SGT_FORM_EQUIPO # 200805748090942280007
     slot: BODY
 
@@ -1832,7 +1870,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 80
+    sequence: 90
     region: SGT_FORM_EQUIPO # 200805748090942280007
     slot: BODY
 
@@ -1890,6 +1928,7 @@ page-items:
     - '#DEFAULT#'
     format-mask: 000.000.000.000
     width: 30
+    value-placeholder: Ingrese una IP
 
   validation: 
     value-required: false
@@ -1905,10 +1944,6 @@ page-items:
     query-only: false
     primary-key: false
 
-  default: 
-    type: Static
-    static-value: 0.0.0.0
-
   session-state: 
     storage: Per Request (Memory Only)
 
@@ -1920,6 +1955,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Si el equipo cuenta con una IP de gestión, puede agregar ese dato aquí.
 
 - # ====== Page Item: P14_ID ===================================
   id: 200805748333846280008
@@ -2424,6 +2462,106 @@ buttons:
     item: P14_ID
 
 dynamic-actions: 
+- # ====== Dynamic Action: MOSTRAR_IP_GESTION ==================
+  id: 9766976863498166
+  identification: 
+    name: MOSTRAR_IP_GESTION
+
+  execution: 
+    sequence: 90
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P14_SUB_TIPO
+
+  client-side-condition: 
+    type: Item = Value
+    item: P14_SUB_TIPO
+    value: Activo
+
+  actions: 
+  - # ====== Action: Hide ========================================
+    id: 9767166706498168
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P14_IP_GESTION
+
+    execution: 
+      sequence: 10
+      event: MOSTRAR_IP_GESTION # 9766976863498166
+      fire-when-event-result-is: False
+      fire-on-initialization: true
+
+  - # ====== Action: Show ========================================
+    id: 9767071152498167
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P14_IP_GESTION
+
+    execution: 
+      sequence: 10
+      event: MOSTRAR_IP_GESTION # 9766976863498166
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: set_sub_tipo ========================
+  id: 9765923719498155
+  identification: 
+    name: set_sub_tipo
+
+  execution: 
+    sequence: 80
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P14_TIPO_EQUIPO_ID
+
+  actions: 
+  - # ====== Action: SET_SUB_TIPO ================================
+    id: 9765965181498156
+    identification: 
+      name: SET_SUB_TIPO
+      action: Set Value
+
+    settings: 
+      set-type: SQL Statement
+      sql-statement: |
+        select grupo_equipo from sgt_tipo_equipos
+        where id = :p14_tipo_equipo_id
+      items-to-submit: 
+      - P14_TIPO_EQUIPO_ID
+      escape-special-characters: true
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P14_SUB_TIPO
+
+    execution: 
+      sequence: 10
+      event: set_sub_tipo # 9765923719498155
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
 - # ====== Dynamic Action: ActualizarTitulo ====================
   id: 29962992883062667722
   identification: 

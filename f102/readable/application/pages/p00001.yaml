@@ -578,7 +578,7 @@ regions:
     type: Region Display Selector
 
   layout: 
-    sequence: 20
+    sequence: 30
     parent-region: No Parent
     slot: BODY
     start-new-layout: false
@@ -1738,4 +1738,26 @@ dynamic-actions:
       event: ActualizarTipoRed # 78443843173936367111
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+processes: 
+- # ====== Process: New ========================================
+  id: 9765688074498153
+  identification: 
+    name: New
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      SELECT
+          
+          CURRENT_TIMESTAMP INTO :APP_TZ
+      FROM dual;
+
+  execution: 
+    sequence: 10
+    point: After Regions
+    run-process: Once Per Page Visit (default)
 

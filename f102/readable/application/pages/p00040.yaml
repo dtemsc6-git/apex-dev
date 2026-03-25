@@ -354,7 +354,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: SGT_ENLACES_FO.NOMBRE # 43769668587515608859
+    list-of-values: ENLACES_FO.NOMBRE # 43769668587515608859
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -508,10 +508,8 @@ page-items:
     value-required: false
 
   list-of-values: 
-    type: SQL Query
-    sql-query: |
-      SELECT NOMBRE, ID FROM SGT_INTERFACES I
-      WHERE I.EQUIPO_ID =:P40_EQUIPO_A_ID;
+    type: Shared Component
+    list-of-values: 'INTERFACES.NOMBRE:EQUIQUETA' # 10667323669687122
     display-extra-values: true
     display-null-value: true
 
@@ -673,10 +671,8 @@ page-items:
     value-required: false
 
   list-of-values: 
-    type: SQL Query
-    sql-query: |
-      SELECT NOMBRE, ID FROM SGT_INTERFACES I
-      WHERE I.EQUIPO_ID =:P40_EQUIPO_b_ID;
+    type: Shared Component
+    list-of-values: 'INTERFACES.NOMBRE:EQUIQUETA' # 10667323669687122
     display-extra-values: true
     display-null-value: true
 

@@ -1,4 +1,17 @@
 ---
+- # ====== Application Item: APP_TZ ============================
+  id: 10961360018231164
+  identification: 
+    name: APP_TZ
+    scope: Application
+
+  security: 
+    session-state-protection: Restricted - May not be set from browser
+    escape-special-characters: true
+
+  subscription: 
+    version-number: 39026262299546
+
 - # ====== Application Item: DEPTO_ID ==========================
   id: 17306282514286614204
   identification: 

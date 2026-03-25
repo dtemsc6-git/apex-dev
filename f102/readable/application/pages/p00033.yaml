@@ -216,7 +216,7 @@ regions:
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: SGT_ENLACES_FO.NOMBRE # 43769668587515608859
+        list-of-values: ENLACES_FO.NOMBRE # 43769668587515608859
 
       heading: 
         heading: Enlace
@@ -298,7 +298,7 @@ regions:
         type: Plain Text (based on List of Values)
 
       list-of-values: 
-        list-of-values: SGT_SERVICIOS.NOMBRE # 44132876898299381933
+        list-of-values: SERVICIOS.NOMBRE # 44132876898299381933
 
       heading: 
         heading: Servicio

@@ -278,7 +278,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: SGT_SERVICIOS.NOMBRE # 44132876898299381933
+    list-of-values: SERVICIOS.NOMBRE # 44132876898299381933
     display-extra-values: true
     display-null-value: true
 

@@ -1,10 +1,10 @@
 ---
-# ====== Page: PRUEBA_SERVICIOS ==============================
-id: 410
+# ====== Page: VISTA_ZONA_GLOBAL =============================
+id: 63
 identification: 
-  name: PRUEBA_SERVICIOS
-  alias: PRUEBA-SERVICIOS
-  title: Vista Servicios
+  name: VISTA_ZONA_GLOBAL
+  alias: VISTA-ZONA-GLOBAL
+  title: Vista global zona
 
 appearance: 
   page-mode: Normal
@@ -38,7 +38,7 @@ server-cache:
 
 regions: 
 - # ====== Region: Breadcrumb ==================================
-  id: 86192633630523544723
+  id: 11681840190412877
   identification: 
     name: Breadcrumb
     type: Breadcrumb
@@ -81,7 +81,7 @@ regions:
       - '#DEFAULT#'
 
 - # ====== Region: Search Results ==============================
-  id: 86192634426161544747
+  id: 11681103564412880
   identification: 
     name: Search Results
     type: Classic Report
@@ -90,7 +90,7 @@ regions:
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: V_CONEXIONES_GENERAL_V2
+    table-name: V_ZONAS_VISTA_GENERAL
     include-rowid-column: false
 
   order-by: 
@@ -107,10 +107,12 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Interactive Report
+    template: Standard
     template-options: 
     - '#DEFAULT#'
-    - t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+    - t-Region--noPadding
+    - t-Region--hideHeader js-addHiddenHeadingRoleDesc
+    - t-Region--scrollBody
     render-components: Above Content
 
   accessibility: 
@@ -130,15 +132,18 @@ regions:
   attributes: 
     layout: 
       number-of-rows-type: Static Value
-      number-of-rows: 15
+      number-of-rows: 50
 
     appearance: 
       template-type: Theme
       template: Standard
       template-options: 
       - '#DEFAULT#'
-      - t-Report--altRowsDefault
+      - t-Report--stretch
+      - t-Report--staticRowColors
       - t-Report--rowHighlight
+      - t-Report--inline
+      - t-Report--hideNoPagination
 
     pagination: 
       type: Row Ranges X to Y (with next and previous links)
@@ -147,6 +152,10 @@ regions:
 
     performance: 
       lazy-loading: false
+      maximum-rows-to-process: 100000
+
+    messages: 
+      when-no-data-found: no data found
 
     break-formatting: 
       break-columns: No Break
@@ -165,18 +174,18 @@ regions:
       enabled: false
 
   columns: 
-  - # ====== Column: SEQ_WAN =====================================
-    id: 10673552451786136
+  - # ====== Column: Z_ID ========================================
+    id: 11677736646413100
     identification: 
-      column-name: SEQ_WAN
+      column-name: Z_ID
       type: Plain Text
 
     heading: 
-      heading: Seq Wan
+      heading: Z Id
       alignment: end
 
     layout: 
-      sequence: 310
+      sequence: 1
       column-alignment: end
 
     accessibility: 
@@ -197,19 +206,56 @@ regions:
     security: 
       escape-special-characters: true
 
-  - # ====== Column: SERVICIO ====================================
-    id: 86194387698093320825
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
+
+  - # ====== Column: Z_NOMBRE ====================================
+    id: 11677284436413101
     identification: 
-      column-name: SERVICIO
+      column-name: Z_NOMBRE
       type: Plain Text
 
     heading: 
-      heading: Servicio
+      heading: Z Nombre
       alignment: start
 
     layout: 
-      sequence: 130
+      sequence: 2
       column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: SITIO_ID ====================================
+    id: 11676939966413101
+    identification: 
+      column-name: SITIO_ID
+      type: Plain Text
+
+    heading: 
+      heading: Sitio Id
+      alignment: end
+
+    layout: 
+      sequence: 3
+      column-alignment: end
 
     accessibility: 
       value-identifies-row: false
@@ -229,24 +275,29 @@ regions:
     security: 
       escape-special-characters: true
 
-  - # ====== Column: TIPO_CONEXION ===============================
-    id: 86194387916728320828
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
+
+  - # ====== Column: SITIO_NOMBRE ================================
+    id: 11676537962413101
     identification: 
-      column-name: TIPO_CONEXION
+      column-name: SITIO_NOMBRE
       type: Plain Text
 
     heading: 
-      heading: Tipo Conexion
+      heading: Sitio Nombre
       alignment: start
 
     layout: 
-      sequence: 160
+      sequence: 4
       column-alignment: start
 
     accessibility: 
       value-identifies-row: false
 
     sorting: 
+      default-sequence: 1
+      direction: Ascending
       sortable: true
 
     export-/-printing: 
@@ -261,21 +312,61 @@ regions:
     security: 
       escape-special-characters: true
 
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
-  - # ====== Column: SERV_ID =====================================
-    id: 88034736676169770409
+  - # ====== Column: SITIO_SIGLAS ================================
+    id: 11676149817413101
     identification: 
-      column-name: SERV_ID
+      column-name: SITIO_SIGLAS
+      type: Link
+
+    heading: 
+      heading: Sitio Siglas
+      alignment: start
+
+    layout: 
+      sequence: 5
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:66:&SESSION.::&DEBUG.::P66_SITIO_ID:#SITIO_ID#'
+        page: 66 # Vista Sitio
+        values: 
+          p66_sitio_id: '#SITIO_ID#'
+
+      link-text: '#SITIO_SIGLAS#'
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: SALA_ID =====================================
+    id: 11675732857413101
+    identification: 
+      column-name: SALA_ID
       type: Plain Text
 
     heading: 
-      heading: Serv Id
+      heading: Sala Id
       alignment: end
 
     layout: 
-      sequence: 170
+      sequence: 6
       column-alignment: end
 
     accessibility: 
@@ -299,59 +390,26 @@ regions:
     configuration: 
       build-option: Commented Out # 197180071872965446203
 
-  - # ====== Column: EQ_ID =======================================
-    id: 88034736732665770410
+  - # ====== Column: SALA_NOMBRE =================================
+    id: 11675269754413101
     identification: 
-      column-name: EQ_ID
+      column-name: SALA_NOMBRE
       type: Plain Text
 
     heading: 
-      heading: Eq Id
-      alignment: end
+      heading: Sala Nombre
+      alignment: start
 
     layout: 
-      sequence: 180
-      column-alignment: end
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
-  - # ====== Column: EQ ==========================================
-    id: 88034736833952770411
-    identification: 
-      column-name: EQ
-      type: Plain Text
-
-    heading: 
-      heading: Equipo A
-      alignment: center
-
-    layout: 
-      sequence: 200
+      sequence: 7
       column-alignment: start
 
     accessibility: 
       value-identifies-row: false
 
     sorting: 
+      default-sequence: 1
+      direction: Ascending
       sortable: true
 
     export-/-printing: 
@@ -366,18 +424,61 @@ regions:
     security: 
       escape-special-characters: true
 
-  - # ====== Column: IFACE_ID ====================================
-    id: 88034736954553770412
+  - # ====== Column: SALA_SIGLAS =================================
+    id: 11674925119413102
     identification: 
-      column-name: IFACE_ID
+      column-name: SALA_SIGLAS
+      type: Link
+
+    heading: 
+      heading: Sala Siglas
+      alignment: start
+
+    layout: 
+      sequence: 8
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:64:&SESSION.::&DEBUG.::P64_SALA_ID:#SALA_ID#'
+        page: 64 # Vista Sala
+        values: 
+          p64_sala_id: '#SALA_ID#'
+
+      link-text: '#SALA_SIGLAS#'
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: RACK_ID =====================================
+    id: 11674509076413102
+    identification: 
+      column-name: RACK_ID
       type: Plain Text
 
     heading: 
-      heading: Iface Id
+      heading: Rack Id
       alignment: end
 
     layout: 
-      sequence: 210
+      sequence: 9
       column-alignment: end
 
     accessibility: 
@@ -401,395 +502,142 @@ regions:
     configuration: 
       build-option: Commented Out # 197180071872965446203
 
-  - # ====== Column: IFACE =======================================
-    id: 88034737078167770413
+  - # ====== Column: RACK_NOMBRE =================================
+    id: 11674092589413102
     identification: 
-      column-name: IFACE
+      column-name: RACK_NOMBRE
+      type: Link
+
+    heading: 
+      heading: Rack Nombre
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:37:&SESSION.::&DEBUG.::P37_RACK_ID:#RACK_ID#'
+        page: 37 # SGT_UBICAR_EQUIPO_RACK
+        values: 
+          p37_rack_id: '#RACK_ID#'
+
+      link-text: '#RACK_NOMBRE#'
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EQUIPO_ID ===================================
+    id: 11673697526413102
+    identification: 
+      column-name: EQUIPO_ID
+      type: Hidden
+
+    layout: 
+      sequence: 11
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EQUIPO_NOMBRE ===============================
+    id: 11673306385413102
+    identification: 
+      column-name: EQUIPO_NOMBRE
+      type: Link
+
+    heading: 
+      heading: Equipo Nombre
+      alignment: start
+
+    layout: 
+      sequence: 12
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:29:&SESSION.::&DEBUG.::P29_EQUIPO:#EQUIPO_ID#'
+        page: 29 # equipos_interface_dl
+        values: 
+          p29_equipo: '#EQUIPO_ID#'
+
+      link-text: '#EQUIPO_NOMBRE#'
+
+    sorting: 
+      default-sequence: 1
+      direction: Ascending
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TIPO_EQUIPO_ID ==============================
+    id: 11672859433413102
+    identification: 
+      column-name: TIPO_EQUIPO_ID
+      type: Hidden
+
+    layout: 
+      sequence: 13
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TIPO_EQUIPO_NOMBRE ==========================
+    id: 11672521718413102
+    identification: 
+      column-name: TIPO_EQUIPO_NOMBRE
       type: Plain Text
 
     heading: 
-      heading: Interfaz A
-      alignment: center
+      heading: Tipo Equipo Nombre
+      alignment: start
 
     layout: 
-      sequence: 220
+      sequence: 14
       column-alignment: start
 
     accessibility: 
       value-identifies-row: false
 
     sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: EQ_B_ID =====================================
-    id: 88034737118327770414
-    identification: 
-      column-name: EQ_B_ID
-      type: Plain Text
-
-    heading: 
-      heading: Eq B Id
-      alignment: end
-
-    layout: 
-      sequence: 230
-      column-alignment: end
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
-  - # ====== Column: EQ_B ========================================
-    id: 88034737268984770415
-    identification: 
-      column-name: EQ_B
-      type: Plain Text
-
-    heading: 
-      heading: Equipo B
-      alignment: center
-
-    layout: 
-      sequence: 240
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: IFACE_B_ID ==================================
-    id: 88034737370984770416
-    identification: 
-      column-name: IFACE_B_ID
-      type: Plain Text
-
-    heading: 
-      heading: Iface B Id
-      alignment: end
-
-    layout: 
-      sequence: 250
-      column-alignment: end
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
-  - # ====== Column: IFACE_B =====================================
-    id: 88034737466352770417
-    identification: 
-      column-name: IFACE_B
-      type: Plain Text
-
-    heading: 
-      heading: Interfaz B
-      alignment: center
-
-    layout: 
-      sequence: 260
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: CONN_ID =====================================
-    id: 88034737598520770418
-    identification: 
-      column-name: CONN_ID
-      type: Plain Text
-
-    heading: 
-      heading: Conn Id
-      alignment: end
-
-    layout: 
-      sequence: 270
-      column-alignment: end
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
-  - # ====== Column: FO_ID =======================================
-    id: 88034737608638770419
-    identification: 
-      column-name: FO_ID
-      type: Plain Text
-
-    heading: 
-      heading: Fo Id
-      alignment: end
-
-    layout: 
-      sequence: 280
-      column-alignment: end
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
-  - # ====== Column: FO_NOMBRE ===================================
-    id: 88034737726741770420
-    identification: 
-      column-name: FO_NOMBRE
-      type: Plain Text
-
-    heading: 
-      heading: Enlace FO
-      alignment: center
-
-    layout: 
-      sequence: 320
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: SEQ =========================================
-    id: 88034738846401770431
-    identification: 
-      column-name: SEQ
-      type: Plain Text
-
-    heading: 
-      heading: Seq Srv
-      alignment: center
-
-    layout: 
-      sequence: 290
-      column-alignment: end
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: WAN_ID ======================================
-    id: 88034739038354770433
-    identification: 
-      column-name: WAN_ID
-      type: Plain Text
-
-    heading: 
-      heading: Wan Id
-      alignment: end
-
-    layout: 
-      sequence: 330
-      column-alignment: end
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
-  - # ====== Column: WAN =========================================
-    id: 88034739131359770434
-    identification: 
-      column-name: WAN
-      type: Plain Text
-
-    heading: 
-      heading: Enlace WAN
-      alignment: center
-
-    layout: 
-      sequence: 300
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: NIVEL_DE_PRIORIDAD ==========================
-    id: 88034739817804770441
-    identification: 
-      column-name: NIVEL_DE_PRIORIDAD
-      type: Plain Text (based on List of Values)
-
-    heading: 
-      heading: Nivel de Prioridad
-      alignment: center
-
-    layout: 
-      sequence: 140
-      column-alignment: end
-
-    accessibility: 
-      value-identifies-row: false
-
-    list-of-values: 
-      type: Shared Component
-      list-of-values: SERVICIOS.NIVEL_PRIORIDAD # 83355472626096331408
-
-    sorting: 
+      default-sequence: 1
+      direction: Ascending
       sortable: true
 
     export-/-printing: 
@@ -805,13 +653,13 @@ regions:
       escape-special-characters: true
 
 - # ====== Region: Search ======================================
-  id: 86192634559312544747
+  id: 11681004863412880
   identification: 
     name: Search
     type: Faceted Search
 
   source: 
-    filtered-region: Search Results # 86192634426161544747
+    filtered-region: Search Results # 11681103564412880
 
   layout: 
     sequence: 10
@@ -855,10 +703,10 @@ regions:
       display-chart-for-top-n-values: 10
 
   facets: 
-  - # ====== Facet: P410_SEARCH ==================================
-    id: 86192635000310544748
+  - # ====== Facet: P63_SEARCH ===================================
+    id: 11680488905412884
     identification: 
-      name: P410_SEARCH
+      name: P63_SEARCH
       type: Search
 
     label: 
@@ -872,23 +720,23 @@ regions:
       sequence: 10
 
     source: 
-      database-column(s): SITIO_A,EQUIPO_A,INTERFAZ_A,SITIO_B,EQUIPO_B,INTERFAZ_B,SERVICIO,TIPO_CONEXION
+      database-column(s): Z_NOMBRE,SITIO_NOMBRE,SITIO_SIGLAS,SALA_NOMBRE,SALA_SIGLAS,RACK_NOMBRE,EQUIPO_NOMBRE,TIPO_EQUIPO_NOMBRE
 
     security: 
       store-value-encrypted-in-session-state: true
 
-  - # ====== Facet: P410_FO_NOMBRE ===============================
-    id: 86192635419517544749
+  - # ====== Facet: P63_Z_NOMBRE =================================
+    id: 11680107786412885
     identification: 
-      name: P410_FO_NOMBRE
+      name: P63_Z_NOMBRE
       type: Checkbox Group
 
     label: 
-      label: Enlace FO
+      label: Z Nombre
       show-label-for-current-facet: true
 
     layout: 
-      sequence: 50
+      sequence: 20
 
     appearance: 
       display: Inline
@@ -916,7 +764,7 @@ regions:
       collapsible: false
 
     source: 
-      database-column: FO_NOMBRE
+      database-column: Z_NOMBRE
       data-type: VARCHAR2
 
     multiple-values: 
@@ -926,14 +774,14 @@ regions:
       store-value-encrypted-in-session-state: true
       escape-special-characters: true
 
-  - # ====== Facet: P410_SERVICIO ================================
-    id: 86192635842945544749
+  - # ====== Facet: P63_SITIO_SIGLAS =============================
+    id: 11679690668412885
     identification: 
-      name: P410_SERVICIO
+      name: P63_SITIO_SIGLAS
       type: Checkbox Group
 
     label: 
-      label: Servicio
+      label: Sitio Siglas
       show-label-for-current-facet: true
 
     layout: 
@@ -965,7 +813,7 @@ regions:
       collapsible: false
 
     source: 
-      database-column: SERVICIO
+      database-column: SITIO_SIGLAS
       data-type: VARCHAR2
 
     multiple-values: 
@@ -975,112 +823,14 @@ regions:
       store-value-encrypted-in-session-state: true
       escape-special-characters: true
 
-  - # ====== Facet: P410_EQUIPO ==================================
-    id: 86192636249335544749
+  - # ====== Facet: P63_SALA_SIGLAS ==============================
+    id: 11679438052412885
     identification: 
-      name: P410_EQUIPO
+      name: P63_SALA_SIGLAS
       type: Checkbox Group
 
     label: 
-      label: Equipo
-      show-label-for-current-facet: true
-
-    layout: 
-      sequence: 60
-
-    appearance: 
-      display: Inline
-
-    list-of-values: 
-      type: Distinct Values
-      sort-direction: Ascending
-      include-null-option: false
-
-    list-entries: 
-      compute-counts: true
-      show-counts: true
-      zero-count-entries: Hide
-      sort-by-top-counts: true
-      show-selected-first: false
-      maximum-displayed-entries: 7
-      display-filter-initially: false
-
-    actions-menu: 
-      filter: true
-      chart: true
-
-    advanced: 
-      show-chart-initially: false
-      collapsible: false
-
-    source: 
-      database-column: EQ
-      data-type: VARCHAR2
-
-    multiple-values: 
-      type: No
-
-    security: 
-      store-value-encrypted-in-session-state: true
-      escape-special-characters: true
-
-  - # ====== Facet: P410_INTERFAZ_A ==============================
-    id: 86192636674560544750
-    identification: 
-      name: P410_INTERFAZ_A
-      type: Checkbox Group
-
-    label: 
-      label: Interfaz A
-      show-label-for-current-facet: true
-
-    layout: 
-      sequence: 70
-
-    appearance: 
-      display: Inline
-
-    list-of-values: 
-      type: Distinct Values
-      sort-direction: Ascending
-      include-null-option: false
-
-    list-entries: 
-      compute-counts: true
-      show-counts: true
-      zero-count-entries: Hide
-      sort-by-top-counts: true
-      show-selected-first: false
-      maximum-displayed-entries: 7
-      display-filter-initially: false
-
-    actions-menu: 
-      filter: true
-      chart: true
-
-    advanced: 
-      show-chart-initially: false
-      collapsible: false
-
-    source: 
-      database-column: IFACE
-      data-type: VARCHAR2
-
-    multiple-values: 
-      type: No
-
-    security: 
-      store-value-encrypted-in-session-state: true
-      escape-special-characters: true
-
-  - # ====== Facet: P410_WAN =====================================
-    id: 88034738979345770432
-    identification: 
-      name: P410_WAN
-      type: Checkbox Group
-
-    label: 
-      label: Wan
+      label: Sala Siglas
       show-label-for-current-facet: true
 
     layout: 
@@ -1112,7 +862,56 @@ regions:
       collapsible: false
 
     source: 
-      database-column: WAN
+      database-column: SALA_SIGLAS
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Facet: P63_TIPO_EQUIPO_NOMBRE =======================
+    id: 11679006418412885
+    identification: 
+      name: P63_TIPO_EQUIPO_NOMBRE
+      type: Checkbox Group
+
+    label: 
+      label: Tipo Equipo Nombre
+      show-label-for-current-facet: true
+
+    layout: 
+      sequence: 50
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: TIPO_EQUIPO_NOMBRE
       data-type: VARCHAR2
 
     multiple-values: 
@@ -1123,10 +922,10 @@ regions:
       escape-special-characters: true
 
   filters: 
-  - # ====== Filter: P410_SEARCH =================================
-    id: 86192635000310544748
+  - # ====== Filter: P63_SEARCH ==================================
+    id: 11680488905412884
     identification: 
-      name: P410_SEARCH
+      name: P63_SEARCH
       type: Search
 
     label: 
@@ -1140,22 +939,22 @@ regions:
       sequence: 10
 
     source: 
-      database-column(s): SITIO_A,EQUIPO_A,INTERFAZ_A,SITIO_B,EQUIPO_B,INTERFAZ_B,SERVICIO,TIPO_CONEXION
+      database-column(s): Z_NOMBRE,SITIO_NOMBRE,SITIO_SIGLAS,SALA_NOMBRE,SALA_SIGLAS,RACK_NOMBRE,EQUIPO_NOMBRE,TIPO_EQUIPO_NOMBRE
 
     security: 
       store-value-encrypted-in-session-state: true
 
-  - # ====== Filter: P410_FO_NOMBRE ==============================
-    id: 86192635419517544749
+  - # ====== Filter: P63_Z_NOMBRE ================================
+    id: 11680107786412885
     identification: 
-      name: P410_FO_NOMBRE
+      name: P63_Z_NOMBRE
       type: Checkbox Group
 
     label: 
-      label: Enlace FO
+      label: Z Nombre
 
     layout: 
-      sequence: 50
+      sequence: 20
 
     list-of-values: 
       type: Distinct Values
@@ -1174,7 +973,7 @@ regions:
       type: None
 
     source: 
-      database-column: FO_NOMBRE
+      database-column: Z_NOMBRE
       data-type: VARCHAR2
 
     multiple-values: 
@@ -1184,14 +983,14 @@ regions:
       store-value-encrypted-in-session-state: true
       escape-special-characters: true
 
-  - # ====== Filter: P410_SERVICIO ===============================
-    id: 86192635842945544749
+  - # ====== Filter: P63_SITIO_SIGLAS ============================
+    id: 11679690668412885
     identification: 
-      name: P410_SERVICIO
+      name: P63_SITIO_SIGLAS
       type: Checkbox Group
 
     label: 
-      label: Servicio
+      label: Sitio Siglas
 
     layout: 
       sequence: 30
@@ -1213,7 +1012,7 @@ regions:
       type: None
 
     source: 
-      database-column: SERVICIO
+      database-column: SITIO_SIGLAS
       data-type: VARCHAR2
 
     multiple-values: 
@@ -1223,92 +1022,14 @@ regions:
       store-value-encrypted-in-session-state: true
       escape-special-characters: true
 
-  - # ====== Filter: P410_EQUIPO =================================
-    id: 86192636249335544749
+  - # ====== Filter: P63_SALA_SIGLAS =============================
+    id: 11679438052412885
     identification: 
-      name: P410_EQUIPO
+      name: P63_SALA_SIGLAS
       type: Checkbox Group
 
     label: 
-      label: Equipo
-
-    layout: 
-      sequence: 60
-
-    list-of-values: 
-      type: Distinct Values
-      sort-direction: Ascending
-      include-null-option: false
-
-    list-entries: 
-      compute-counts: true
-      show-counts: true
-      zero-count-entries: Hide
-      sort-by-top-counts: true
-      show-selected-first: false
-      client-side-filtering: false
-
-    suggestions: 
-      type: None
-
-    source: 
-      database-column: EQ
-      data-type: VARCHAR2
-
-    multiple-values: 
-      type: No
-
-    security: 
-      store-value-encrypted-in-session-state: true
-      escape-special-characters: true
-
-  - # ====== Filter: P410_INTERFAZ_A =============================
-    id: 86192636674560544750
-    identification: 
-      name: P410_INTERFAZ_A
-      type: Checkbox Group
-
-    label: 
-      label: Interfaz A
-
-    layout: 
-      sequence: 70
-
-    list-of-values: 
-      type: Distinct Values
-      sort-direction: Ascending
-      include-null-option: false
-
-    list-entries: 
-      compute-counts: true
-      show-counts: true
-      zero-count-entries: Hide
-      sort-by-top-counts: true
-      show-selected-first: false
-      client-side-filtering: false
-
-    suggestions: 
-      type: None
-
-    source: 
-      database-column: IFACE
-      data-type: VARCHAR2
-
-    multiple-values: 
-      type: No
-
-    security: 
-      store-value-encrypted-in-session-state: true
-      escape-special-characters: true
-
-  - # ====== Filter: P410_WAN ====================================
-    id: 88034738979345770432
-    identification: 
-      name: P410_WAN
-      type: Checkbox Group
-
-    label: 
-      label: Wan
+      label: Sala Siglas
 
     layout: 
       sequence: 40
@@ -1330,7 +1051,46 @@ regions:
       type: None
 
     source: 
-      database-column: WAN
+      database-column: SALA_SIGLAS
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
+  - # ====== Filter: P63_TIPO_EQUIPO_NOMBRE ======================
+    id: 11679006418412885
+    identification: 
+      name: P63_TIPO_EQUIPO_NOMBRE
+      type: Checkbox Group
+
+    label: 
+      label: Tipo Equipo Nombre
+
+    layout: 
+      sequence: 50
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: TIPO_EQUIPO_NOMBRE
       data-type: VARCHAR2
 
     multiple-values: 
@@ -1341,7 +1101,7 @@ regions:
       escape-special-characters: true
 
 - # ====== Region: Button Bar ==================================
-  id: 86192637347386544750
+  id: 11678698633412885
   identification: 
     name: Button Bar
     type: Static Content
@@ -1383,82 +1143,16 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-page-items: 
-- # ====== Page Item: P410_ORDER_BY ============================
-  id: 86192639008187544753
-  identification: 
-    name: P410_ORDER_BY
-    type: Select List
-
-  label: 
-    label: Order By
-    alignment: Left
-
-  settings: 
-    page-action-on-selection: None
-
-  multiple-values: 
-    type: No
-
-  layout: 
-    sequence: 10
-    region: Search Results # 86192634426161544747
-    slot: ORDER_BY_ITEM
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating
-    template-options: 
-    - '#DEFAULT#'
-    height: 1
-
-  validation: 
-    value-required: true
-
-  list-of-values: 
-    type: Static Values
-    static-values: 'STATIC2:Equipo A;EQUIPO_A,Servicio;SERVICIO'
-    display-extra-values: false
-    display-null-value: false
-
-  advanced: 
-    warn-on-unsaved-changes: Ignore
-
-  source: 
-    type: Null
-    used: Only when current value in session state is null
-
-  default: 
-    type: Static
-    static-value: EQUIPO_A
-
-  session-state: 
-    storage: Per Session (Persistent)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
 buttons: 
 - # ====== Button: RESET =======================================
-  id: 86192637833557544751
+  id: 11678221630412886
   identification: 
     button-name: RESET
     label: Reset
 
   layout: 
     sequence: 10
-    region: Button Bar # 86192637347386544750
+    region: Button Bar # 11678698633412885
     slot: NEXT
     start-new-layout: false
     start-new-row: true
@@ -1478,9 +1172,9 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:410:&APP_SESSION.::&DEBUG.:RR,410::'
-      page: 410 # PRUEBA_SERVICIOS
-      clear-cache: RR,410
+      url: 'f?p=&APP_ID.:63:&APP_SESSION.::&DEBUG.:RR,63::'
+      page: 63 # VISTA_ZONA_GLOBAL
+      clear-cache: RR,63
 
     warn-on-unsaved-changes: Do Not Check
 

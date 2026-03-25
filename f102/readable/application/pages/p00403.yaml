@@ -7,15 +7,10 @@ identification:
   title: Seleccionar las conexiones
 
 appearance: 
-  page-mode: Modal Dialog
-  dialog-template: Wizard Modal Dialog
+  page-mode: Normal
+  page-template: Theme Default
   template-options: 
   - '#DEFAULT#'
-
-dialog: 
-  height: 400
-  chained: true
-  resizable: true
 
 navigation-menu: 
   override-user-interface-level: false
@@ -38,6 +33,12 @@ javascript:
                 opt.style.display = "none"; // ocultar
             }
         });
+    }
+
+css: 
+  inline: |
+    .shuttle select {
+        overflow: scroll;
     }
 
 security: 
@@ -78,9 +79,10 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes
+    template: Wizard Container
     template-options: 
     - '#DEFAULT#'
+    - t-Wizard--hideStepsXSmall
     render-components: Above Content
 
   accessibility: 
@@ -108,9 +110,9 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 10
-    parent-region: No Parent
-    slot: BODY
+    sequence: 20
+    parent-region: Wizard Progress # 85027400233403935790
+    slot: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -118,9 +120,10 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes
+    template: Cards Container
     template-options: 
     - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
     render-components: Above Content
 
   accessibility: 
@@ -148,7 +151,7 @@ regions:
   layout: 
     sequence: 10
     parent-region: No Parent
-    slot: REGION_POSITION_03
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -172,12 +175,142 @@ regions:
   customization: 
     customizable: Not Customizable By End Users
 
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
   attributes: 
     settings: 
       output-as: HTML
       expand-shortcuts: false
 
 page-items: 
+- # ====== Page Item: P403_FILTRAR_SITIO =======================
+  id: 10673802114786138
+  identification: 
+    name: P403_FILTRAR_SITIO
+    type: Select One
+
+  label: 
+    label: Filtrar Sitio
+    alignment: Left
+
+  settings: 
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  layout: 
+    sequence: 20
+    region: Seleccionar las conexiones # 85027400348108935790
+    slot: ORDER_BY_ITEM
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Static Values
+    static-values: 'STATIC2:Display1;Return1,Display2;Return2'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+- # ====== Page Item: P403_FILTRAR_TIPO_CONEXION ===============
+  id: 10673656972786137
+  identification: 
+    name: P403_FILTRAR_TIPO_CONEXION
+    type: Select List
+
+  label: 
+    label: Filtrar Tipo Conexion
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 40
+    region: Seleccionar las conexiones # 85027400348108935790
+    slot: ORDER_BY_ITEM
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Static Values
+    static-values: 'STATIC2:Física;Física,Lógica;Lógica,Trasera;Trasera'
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: Seleccione Uno
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
 - # ====== Page Item: P403_FILTRAR_CONEXIONES ==================
   id: 85693680819376747615
   identification: 
@@ -217,7 +350,7 @@ page-items:
     value-required: false
 
   advanced: 
-    warn-on-unsaved-changes: Page Default
+    warn-on-unsaved-changes: Ignore
 
   source: 
     type: Null
@@ -252,7 +385,7 @@ page-items:
     separator: ','
 
   layout: 
-    sequence: 20
+    sequence: 30
     region: Seleccionar las conexiones # 85027400348108935790
     slot: BODY
     alignment: Left
@@ -267,7 +400,7 @@ page-items:
     template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
-    height: 5
+    height: 10
 
   validation: 
     value-required: false
@@ -276,18 +409,49 @@ page-items:
     type: SQL Query
     sql-query: |
       SELECT 
-         SITIO_A||'.'||EQUIPO_A || ':' || INTERFAZ_A || '>'|| SITIO_B ||'.'|| EQUIPO_B || ':' || INTERFAZ_B AS display_value,
+          EQUIPO_A || ':' || INTERFAZ_A ||':'|| etiqueta_a 
+          || ' > '||  EQUIPO_B || ':' || INTERFAZ_B || ':' || etiqueta_b 
+          AS display_value,
           conexiones.id AS return_value
       FROM v_tramos_nombres conexiones
       WHERE conexiones.sitio_a_id IN (
-         
           SELECT column_value FROM apex_string.split_numbers(:P402_SITIOS, ',')
-      
-          
       )
+      and (:P403_FILTRAR_TIPO_CONEXION IS NULL OR TIPO_CONEXION = :P403_FILTRAR_TIPO_CONEXION)
+      /*
+      and 
+      TIPO_CONEXION <> 'Trasera'
+      
+      union
+      
+       select  EQUIPO_A || ':' || INTERFAZ_A ||':'|| etiqueta_a 
+          || ' > '||  EQUIPO_B || ':' || INTERFAZ_B || ':' || etiqueta_b 
+          AS display_value,
+          t.id AS return_value from v_tramos_nombres t join (   
+          select * from sgt_enlaces_tramos
+          where tipo_conexion = 'Trasera'
+          and
+          interfaz_a_id in 
+          (
+              select iface_a_id int_id from v_tramos_nombres where id in (SELECT column_value FROM apex_string.split_numbers(:P402_SITIOS, ','))
+              union
+              select iface_b_id int_id from v_tramos_nombres where id in (SELECT column_value FROM apex_string.split_numbers(:P402_SITIOS, ','))
+          )
+      ) q1
+       on t.id = q1.id 
+       */
     display-extra-values: true
 
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P403_FILTRAR_TIPO_CONEXION
+    items-to-submit: 
+    - P403_FILTRAR_TIPO_CONEXION
+    parent-required: true
+
   advanced: 
+    css-classes: 
+    - shuttle-sgt
     warn-on-unsaved-changes: Page Default
 
   source: 
@@ -315,7 +479,7 @@ buttons:
 
   layout: 
     sequence: 10
-    region: Buttons # 85027400480820935790
+    region: Wizard Progress # 85027400233403935790
     slot: CLOSE
     start-new-layout: false
     start-new-row: true
@@ -330,8 +494,12 @@ buttons:
     - '#DEFAULT#'
 
   behavior: 
-    action: Defined by Dynamic Action
-    execute-validations: true
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:::'
+      page: 34 # SGT_LST_ENLACES_LOGICOS
+
+    warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: PREVIOUS ====================================
   id: 85027402128292935792
@@ -341,7 +509,7 @@ buttons:
 
   layout: 
     sequence: 20
-    region: Buttons # 85027400480820935790
+    region: Wizard Progress # 85027400233403935790
     slot: PREVIOUS
     start-new-layout: false
     start-new-row: true
@@ -370,7 +538,7 @@ buttons:
 
   layout: 
     sequence: 30
-    region: Buttons # 85027400480820935790
+    region: Wizard Progress # 85027400233403935790
     slot: NEXT
     start-new-layout: false
     start-new-row: true

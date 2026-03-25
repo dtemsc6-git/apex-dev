@@ -7,15 +7,10 @@ identification:
   title: Seleccionar los sitios
 
 appearance: 
-  page-mode: Modal Dialog
-  dialog-template: Wizard Modal Dialog
+  page-mode: Normal
+  page-template: Theme Default
   template-options: 
   - '#DEFAULT#'
-
-dialog: 
-  height: 400
-  chained: true
-  resizable: true
 
 navigation-menu: 
   override-user-interface-level: false
@@ -78,9 +73,10 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes
+    template: Wizard Container
     template-options: 
     - '#DEFAULT#'
+    - t-Wizard--hideStepsXSmall
     render-components: Above Content
 
   accessibility: 
@@ -108,9 +104,9 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 10
-    parent-region: No Parent
-    slot: BODY
+    sequence: 20
+    parent-region: Wizard Progress # 85027395281953935786
+    slot: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -148,7 +144,7 @@ regions:
   layout: 
     sequence: 10
     parent-region: No Parent
-    slot: REGION_POSITION_03
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -171,6 +167,9 @@ regions:
 
   customization: 
     customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
 
   attributes: 
     settings: 
@@ -309,7 +308,7 @@ buttons:
 
   layout: 
     sequence: 10
-    region: Buttons # 85027395498502935786
+    region: Wizard Progress # 85027395281953935786
     slot: CLOSE
     start-new-layout: false
     start-new-row: true
@@ -324,8 +323,12 @@ buttons:
     - '#DEFAULT#'
 
   behavior: 
-    action: Defined by Dynamic Action
-    execute-validations: true
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:::'
+      page: 34 # SGT_LST_ENLACES_LOGICOS
+
+    warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: PREVIOUS ====================================
   id: 85027397128322935788
@@ -335,7 +338,7 @@ buttons:
 
   layout: 
     sequence: 20
-    region: Buttons # 85027395498502935786
+    region: Wizard Progress # 85027395281953935786
     slot: PREVIOUS
     start-new-layout: false
     start-new-row: true
@@ -364,7 +367,7 @@ buttons:
 
   layout: 
     sequence: 30
-    region: Buttons # 85027395498502935786
+    region: Wizard Progress # 85027395281953935786
     slot: NEXT
     start-new-layout: false
     start-new-row: true
@@ -513,8 +516,10 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:403:&APP_SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      url: 'f?p=&APP_ID.:403:&SESSION.::&DEBUG.::P403_FILTRAR_SITIO:&P402_SITIOS.&success_msg=#SUCCESS_MSG#'
       page: 403 # Seleccionar las conexiones
+      values: 
+        p403_filtrar_sitio: '&P402_SITIOS.'
 
   server-side-condition: 
     when-button-pressed: NEXT # 85027397279918935788

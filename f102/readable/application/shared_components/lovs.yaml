@@ -1,4 +1,71 @@
 ---
+- # ====== List of Values: CONEXIONES.EQUIPO_A.NOMBRE ==========
+  id: 10679387732974297
+  identification: 
+    name: CONEXIONES.EQUIPO_A.NOMBRE
+
+  subscription: 
+    version-number: 39026410957304
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT DISTINCT E.NOMBRE , E.ID FROM 
+      SGT_ENLACES_TRAMOS ET
+      INNER JOIN SGT_EQUIPOS E
+      ON ET.EQUIPO_A_ID = E.ID
+      ORDER BY E.ID
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: Use Order By from Query
+
+- # ====== List of Values: CONEXIONES.EQUIPO_B.NOMBRE ==========
+  id: 10679187974969274
+  identification: 
+    name: CONEXIONES.EQUIPO_B.NOMBRE
+
+  subscription: 
+    version-number: 39026410963268
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT DISTINCT E.NOMBRE , E.ID FROM 
+      SGT_ENLACES_TRAMOS ET
+      INNER JOIN SGT_EQUIPOS E
+      ON ET.EQUIPO_B_ID = E.ID
+      ORDER BY E.ID
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: Use Order By from Query
+
+- # ====== List of Values: INTERFACES.NOMBRE:EQUIQUETA =========
+  id: 10667323669687122
+  identification: 
+    name: 'INTERFACES.NOMBRE:EQUIQUETA'
+
+  subscription: 
+    version-number: 39026411933540
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT 
+      CASE WHEN ETIQUETA IS NOT NULL THEN NOMBRE ||':'||ETIQUETA  ELSE NOMBRE END DISPLAY, ID VALUE FROM SGT_INTERFACES
+      ORDER BY ID
+
+  column-mapping: 
+    return: VALUE
+    display: DISPLAY
+    default-sort: Use Order By from Query
+
 - # ====== List of Values: INTERFACES.NOMBRE-COMPUESTO =========
   id: 515008900594460
   identification: 
@@ -891,13 +958,13 @@
       display: HALF
       return: HALF
 
-- # ====== List of Values: SGT_ENLACES_FO.NOMBRE ===============
+- # ====== List of Values: ENLACES_FO.NOMBRE ===================
   id: 43769668587515608859
   identification: 
-    name: SGT_ENLACES_FO.NOMBRE
+    name: ENLACES_FO.NOMBRE
 
   subscription: 
-    version-number: 15624723738900
+    version-number: 39026410687578
 
   source: 
     location: Local Database
@@ -931,13 +998,13 @@
     default-sort: NOMBRE
     sort-direction: Ascending (Nulls Last)
 
-- # ====== List of Values: SGT_SERVICIOS.NOMBRE ================
+- # ====== List of Values: SERVICIOS.NOMBRE ====================
   id: 44132876898299381933
   identification: 
-    name: SGT_SERVICIOS.NOMBRE
+    name: SERVICIOS.NOMBRE
 
   subscription: 
-    version-number: 15624889444856
+    version-number: 39026410303639
 
   source: 
     location: Local Database

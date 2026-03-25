@@ -261,7 +261,7 @@ regions:
 
     list-of-values: 
       type: Shared Component
-      list-of-values: SGT_ENLACES_FO.NOMBRE # 43769668587515608859
+      list-of-values: ENLACES_FO.NOMBRE # 43769668587515608859
       display-extra-values: true
       display-null-value: true
 

@@ -1,4 +1,7 @@
 #Control de cambios de la App antes del commit
+###2026-02-24
+P49: Grilla Interfaces: Campo EQUIPO_ID se cambia el tipo de Select List a Popup Lov.
+
 ###2026-02-23
 Aplicación: Formato de fecha a DD-MON-YYYY
 P1: HOME: Corrección en consulta que hacia referencia a campo sub_tipo_equipo que fue eliminado.

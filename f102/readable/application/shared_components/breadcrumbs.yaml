@@ -5,6 +5,20 @@
     name: Breadcrumb
 
   entries: 
+  - # ====== Entry: Vista Global =================================
+    id: 11681301045412879
+    identification: 
+      name: Vista Global
+      page-number: 63
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:63:&SESSION.::&DEBUG.:::'
+        page: 63 # VISTA_ZONA_GLOBAL
+
   - # ====== Entry: Interfaces L2 ================================
     id: 479823010375745
     identification: 

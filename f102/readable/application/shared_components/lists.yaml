@@ -295,12 +295,39 @@
     name: Navigation Menu
 
   subscription: 
-    version-number: 39025612431834
+    version-number: 39026416673017
 
   source: 
     type: Static Values
 
   entries: 
+  - # ====== Entry: VISTA_ZONA_GLOBAL ============================
+    id: 11682196326412876
+    label: 
+      label: VISTA_ZONA_GLOBAL
+
+    icon: 
+      image/icon-css-classes: fa-table-search
+
+    layout: 
+      sequence: 780
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 63
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:63:&APP_SESSION.::&DEBUG.:::'
+        page: 63 # VISTA_ZONA_GLOBAL
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
   - # ====== Entry: Tipo de Interfaz =============================
     id: 11588375750689097
     label: 
@@ -322,6 +349,31 @@
       target: 
         url: 'f?p=&APP_ID.:58:&SESSION.::&DEBUG.::::'
         page: 58 # TIPO INTERFAZ
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: TEST_MAP_FO ==================================
+    id: 10657962158478278
+    label: 
+      label: TEST_MAP_FO
+
+    layout: 
+      sequence: 790
+      parent-entry: Enlaces FO # 43997218319186517993
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 65
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:65:&APP_SESSION.::&DEBUG.:::'
+        page: 65 # TEST_MAP_FO
 
     click-counting: 
       count-clicks: false

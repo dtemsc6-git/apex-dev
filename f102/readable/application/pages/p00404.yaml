@@ -7,15 +7,10 @@ identification:
   title: Verificar las instrucciones
 
 appearance: 
-  page-mode: Modal Dialog
-  dialog-template: Wizard Modal Dialog
+  page-mode: Normal
+  page-template: Theme Default
   template-options: 
   - '#DEFAULT#'
-
-dialog: 
-  height: 400
-  chained: true
-  resizable: true
 
 navigation-menu: 
   override-user-interface-level: false
@@ -73,7 +68,7 @@ javascript:
     
                 var container = document.getElementById("network");
                 var network = new vis.Network(container, data, {
-                    layout: { hierarchical: { enabled: true, direction: "LR" }, },
+                    layout: { hierarchical: { enabled: true, direction: "RL" }, },
                     physics: { enabled: false, solver: "forceAtlas2Based" }
                 });
             }
@@ -152,9 +147,10 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes
+    template: Wizard Container
     template-options: 
     - '#DEFAULT#'
+    - t-Wizard--hideStepsXSmall
     render-components: Above Content
 
   accessibility: 
@@ -183,8 +179,8 @@ regions:
 
   layout: 
     sequence: 10
-    parent-region: No Parent
-    slot: BODY
+    parent-region: Wizard Progress # 85027405264778935793
+    slot: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -221,8 +217,8 @@ regions:
 
   layout: 
     sequence: 10
-    parent-region: No Parent
-    slot: REGION_POSITION_03
+    parent-region: Verificar las instrucciones # 85027405378790935793
+    slot: SUB_REGIONS
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -245,6 +241,9 @@ regions:
 
   customization: 
     customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
 
   attributes: 
     settings: 
@@ -397,17 +396,19 @@ regions:
     location: Local Database
     type: SQL Query
     sql-query: |
+      with seleccionados as (SELECT column_value id, rownum posicion 
+              FROM apex_string.split_numbers(:P403_CONEXIONES, ',')
+              order by posicion desc
+      )
       SELECT 
-          t.id as Elemento,
+          t.id as Elemento,s.posicion, 
           t.equipo_a || ':'|| t.interfaz_a ||'►'|| t.equipo_b || ':'|| t.interfaz_b Conexión
           
       FROM 
-          V_TRAMOS_NOMBRES t
-      WHERE 
-          t.id IN (
-              SELECT column_value 
-              FROM apex_string.split_numbers(:P403_CONEXIONES, ',')
-          )
+          V_TRAMOS_NOMBRES t join seleccionados s on t.id = s.id
+      
+      
+      
 
   layout: 
     sequence: 10
@@ -473,6 +474,47 @@ regions:
         alias: 857338393
 
     columns: 
+    - # ====== Column: POSICION ====================================
+      id: 10674079005786141
+      identification: 
+        column-name: POSICION
+        type: Plain Text
+
+      heading: 
+        heading: Posicion
+        alignment: end
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: end
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: ELEMENTO ====================================
       id: 85693682287122747629
       identification: 
@@ -514,9 +556,6 @@ regions:
       security: 
         escape-special-characters: true
 
-      configuration: 
-        build-option: Commented Out # 197180071872965446203
-
     - # ====== Column: CONEXIÓN ====================================
       id: 85693682340240747630
       identification: 
@@ -531,7 +570,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 20
+        sequence: 30
         column-alignment: start
 
       accessibility: 
@@ -566,8 +605,8 @@ buttons:
     label: Cancel
 
   layout: 
-    sequence: 10
-    region: Buttons # 85027405443039935793
+    sequence: 20
+    region: Wizard Progress # 85027405264778935793
     slot: CLOSE
     start-new-layout: false
     start-new-row: true
@@ -582,8 +621,12 @@ buttons:
     - '#DEFAULT#'
 
   behavior: 
-    action: Defined by Dynamic Action
-    execute-validations: true
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:::'
+      page: 34 # SGT_LST_ENLACES_LOGICOS
+
+    warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: FINISH ======================================
   id: 85027407059183935795
@@ -593,7 +636,7 @@ buttons:
 
   layout: 
     sequence: 40
-    region: Buttons # 85027405443039935793
+    region: Wizard Progress # 85027405264778935793
     slot: NEXT
     start-new-layout: false
     start-new-row: true
@@ -621,7 +664,7 @@ buttons:
 
   layout: 
     sequence: 20
-    region: Buttons # 85027405443039935793
+    region: Wizard Progress # 85027405264778935793
     slot: PREVIOUS
     start-new-layout: false
     start-new-row: true
@@ -650,8 +693,8 @@ buttons:
 
   layout: 
     sequence: 10
-    region: Buttons # 85027405443039935793
-    slot: DELETE
+    region: Wizard Progress # 85027405264778935793
+    slot: CLOSE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -711,23 +754,51 @@ dynamic-actions:
       fire-on-initialization: false
 
 processes: 
-- # ====== Process: Close Dialog ===============================
-  id: 85027409694589935797
+- # ====== Process: CONEXIONES_PUERTOS =========================
+  id: 10673957349786140
   identification: 
-    name: Close Dialog
-    type: Close Dialog
+    name: CONEXIONES_PUERTOS
+    type: Execute Code
     execution-chain: None
 
-  settings: 
-    show-success-messages: true
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      declare
+      l_cursor SYS_REFCURSOR;
+      begin
+      
+      open l_cursor for
+      
+      
+      
+      SELECT JSON_ARRAYAGG( 
+                   JSON_OBJECT('id' VALUE id, 'eq_id' value eq_id, 'label' VALUE label,  
+                   'shape' VALUE 'box', 'color' VALUE '#00AAFF', 'level' VALUE seq) 
+                 RETURNING CLOB) 
+          INTO l_nodes 
+       
+          FROM ( 
+             SELECT C.eq_ID as id ,C.EQ as label, (c.seq)/10 seq  
+             FROM V_CONEXIONES_GENERAL_V2 C WHERE C.WAN_ID = P_SERVICIO_ID 
+             UNION 
+             SELECT C.eq_B_ID as id, C.eq_b_ID as, C.EQ_B as label, (c.seq + 10) / 10  
+             FROM V_CONEXIONES_GENERAL_V2 C WHERE C.WAN_ID = P_SERVICIO_ID 
+             order by seq 
+          ); 
+      
+      
+      APEX_JSON.OPEN_OBJECT;
+          APEX_JSON.WRITE('data', l_cursor); -- Convierte el cursor a JSON array
+          APEX_JSON.CLOSE_OBJECT;
+      
+          end;
 
   execution: 
-    sequence: 40
-    point: Processing
+    sequence: 20
+    point: Ajax Callback
     run-process: Once Per Page Visit (default)
-
-  error: 
-    display-location: Inline in Notification
 
 - # ====== Process: DATOS_GRAFO ================================
   id: 85693682171725747628
@@ -830,7 +901,7 @@ processes:
           -- ===========================================
           l_seq := 10;
           FOR rec IN (
-              SELECT column_value AS tramo_id
+              SELECT column_value tramo_id
               FROM TABLE(apex_string.split_numbers(:P403_CONEXIONES, ','))
               ORDER BY ROWNUM
           )
@@ -935,6 +1006,21 @@ processes:
     authorization-scheme: Implementador Rights # 56843702980053272617
 
 branches: 
+- # ====== Branch: PAG_34 ======================================
+  id: 10673889175786139
+  identification: 
+    name: PAG_34
+
+  execution: 
+    sequence: 10
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 34 # SGT_LST_ENLACES_LOGICOS
+
 - # ====== Branch: Go To Page 403 ==============================
   id: 85027408890995935797
   identification: 
