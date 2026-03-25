@@ -1,4 +1,83 @@
 #Control de cambios de la App antes del commit
+###2026-03-25
+P01: HOME: Ordenar Y capturar el APP_TZ
+P06: DL_EQUIPOS: Cambio de lógica para carga de XLS
+P13: SGT_LST_EQUIPOS: Cambio de los filtros el la lista a fin de que muestre valores unicos
+P14: SGT_FORM_EQUIPO: Ocultar algunos campos, quitar la IP por defecto del equipo, hacer que el campo IP se visible condicionalmente.
+P29: equipos_interface_dl: Mostrar el fullname del equipo, mostrar todas las interfaces. 
+P30: SGT_FROM_INTERFACES: Eliminar Procesos de creación de multiples interfaces basados en formato de corchetes (ej ge0/0/[0-10])
+P33: BORRAME: esta pagina debe borrarse
+P36: SGT_LST_ENLACES_FO_2: Se agrega link para visualizar P29
+P37: SGT_UBICAR_EQUIPO_RACK: Cambio del titulo
+P39: SGT_LST_ENLACE_TRAMOS_FO: Ajuste automatico de LOV referenciadas por la pagina
+P40: SGT_FORM_ENLACE_TRAMOS_FO: Ajuste automatico de LOV referenciadas por la pagina
+P41: FORM_AGREGAR_CONEXIONES: Ajuste automatico de LOV referenciadas por la pagina
+P43: SGT_SERVICIOS_VIEW: Posible a Borrar
+P44: IG_EQUIPOS: Mejora en los filtros de la Grilla.
+P49: GRILLA-INTERFACES: No seleccionar la primera fila, cambios en componentes LOV para mejor filtrado.
+P55: Conexiones V2: Filtros personalizados, mejora en la consulta SQL otras mejoras en el filtrado.
+P63:++ agregado
+P64:++ agregado
+P65:++ agregado
+P66:++ agregado
+P400: PruebaTopologia: Ajuste automatico de LOV referenciadas por la pagina
+P401: CREAR-ENLACE-WAN: Cambio de modal a normal.
+P402: SELECCIONAR-LOS-SITIOS: Cambio de modal a normal.
+P403: SELECCIONAR-LAS-CONEXIONES: Cambio de modal a normal.
+P404: VERIFICAR-LAS-INSTRUCCIONES: Cambio de modal a normal.
+P410: PRUEBA-SERVICIOS: Agregada SEQ_WAN para ordenar por este campo.
+app_items: Agregado la variable ++APP_TZ para guardar la zona horaria a fin de que la hora de los reportes coincida con la hora local actualmente hay un desfase de 3 horas.
+app_processes: ++set-timezone-py para setear la zona horaría de la APP al iniciar sesión.
+breadcrumbs: Nuevas entradas debido a nuevas páginas.
+Data Load Definition: Nuevas definiciones para nuevas lógicas de importaciones de equipos.
+Nuevas entradas a los menus de navegación debido a nuevas páginas de la App 
+Modificaciones de LOVs 
+##db:
+###Tablas
+SGT_ENLACES_FO: 
+CHECK (ESTADO IN ('Activo', 'Cortado', 'Suprimido / Retirado', 'Desconocido', 'Planificado')) ENABLE
+SGT_ENLACES_TRAMOS: 
+"EQUIPO_A_ID" NUMBER NOT NULL ENABLE, 
+"EQUIPO_B_ID" NUMBER NOT NULL ENABLE, 
+"TIPO_CONEXION" VARCHAR2(100) DEFAULT 'Física' NOT NULL ENABLE, 
+SGT_EQUIPOS:
+"RACK_ID" NUMBER NOT NULL ENABLE, 
+"TIPO_RED" VARCHAR2(50) NOT NULL ENABLE, 
+"TIPO_EQUIPO_ID" NUMBER NOT NULL ENABLE, 
+"ESTADO" VARCHAR2(50) DEFAULT 'Planificado' NOT NULL ENABLE, 
+"ALTURA_U" NUMBER NOT NULL ENABLE, 
+CONSTRAINT "CHK_POSICION_VALUES" CHECK (POSICION IN ('FRONT', 'BACK' )) ENABLE, 
+CONSTRAINT "CHK_ESTADOS_VALUES" CHECK (estado IN ('Utilizado', 'No utilizado / Apagado', 'Desconocido', 'Baja', 'Planificado')) ENABLE
+SGT_INTERFACES:
+"ESTADO" VARCHAR2(255 CHAR) NOT NULL ENABLE, 
+ CONSTRAINT "SGT_INTERFACES_ESTADO_CK" CHECK (estado IN ('NA', 'UP', 'DOWN')) ENABLE
+SGT_RACKS:
+"ALTURA_U" NUMBER(2,0), 
+CONSTRAINT "SGT_RACKS_ALTURA_U_CK" CHECK (altura_u BETWEEN 1 AND 60) ENABLE 
+SGT_SALAS:
+CONSTRAINT "SGT_SALAS_SIGLAS_NN" CHECK ( "SIGLAS" is not null ) ENABLE, 
+CONSTRAINT "SGT_SALAS_NOMBRE_NN" CHECK ( "NOMBRE" IS NOT NULL ) ENABLE
+SGT_SITIOS:
+"LATITUD" NUMBER(9,6), 
+"LONGITUD" NUMBER(9,6),
+CONSTRAINT "SGT_SITIOS_LATITUD_CHK" CHECK ( "LATITUD" between -90 and 90  ) ENABLE, 
+CONSTRAINT "SGT_SITIOS_LONGITUD_CHK" CHECK ( "LONGITUD" BETWEEN -180 AND 180 ) ENABLE
+
+###Indices:
+CREATE INDEX "IDX_ENLACES_TRAMOS_EQUIPO_A" ON "SGT_ENLACES_TRAMOS" ("EQUIPO_A_ID") ;
+CREATE INDEX "IDX_ENLACES_TRAMOS_EQUIPO_B" ON "SGT_ENLACES_TRAMOS" ("EQUIPO_B_ID") ;
+CREATE INDEX "IDX_ENLACES_TRAMOS_INTERFAZ_A" ON "SGT_ENLACES_TRAMOS" ("INTERFAZ_A_ID") ;
+CREATE INDEX "IDX_ENLACES_TRAMOS_INTERFAZ_B" ON "SGT_ENLACES_TRAMOS" ("INTERFAZ_B_ID") ;
+CREATE INDEX "IDX_ENLACES_TRAMOS_TIPO_CONEXION" ON "SGT_ENLACES_TRAMOS" ("TIPO_CONEXION")
+CREATE INDEX "IDX_EQUIPOS_RACK_ID" ON "SGT_EQUIPOS" ("RACK_ID") ;
+CREATE INDEX "IDX_RACKS_SALA_ID" ON "SGT_RACKS" ("SALA_ID") ;
+CREATE INDEX "IDX_SALAS_SITIO_ID" ON "SGT_SALAS" ("SITIO_ID") ;
+
+###Vistas:
+V_CONEXIONES_GENERAL_V2: Recrear:
+V_SITIOS_GPS: Revisar:
+V_TRAMOS_NOMBRES: Recrear
+
 ###2026-02-24
 P49: Grilla Interfaces: Campo EQUIPO_ID se cambia el tipo de Select List a Popup Lov.
 
