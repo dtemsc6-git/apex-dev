@@ -1,6 +1,9 @@
 #Control de cambios de la App antes del commit
+
 ###2026-03-25
+
 P01: HOME: Ordenar Y capturar el APP_TZ
+
 P06: DL_EQUIPOS: Cambio de lógica para carga de XLS
 P13: SGT_LST_EQUIPOS: Cambio de los filtros el la lista a fin de que muestre valores unicos
 P14: SGT_FORM_EQUIPO: Ocultar algunos campos, quitar la IP por defecto del equipo, hacer que el campo IP se visible condicionalmente.
