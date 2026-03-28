@@ -5,6 +5,7 @@ identification:
   name: Seleccionar los sitios
   alias: SELECCIONAR-LOS-SITIOS
   title: Seleccionar los sitios
+  page-group: WZRD_WAN # 10124169972715358
 
 appearance: 
   page-mode: Normal
@@ -36,6 +37,7 @@ javascript:
     }
 
 security: 
+  authorization-scheme: Implementador Rights # 56843702980053272617
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -389,33 +391,6 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
 dynamic-actions: 
-- # ====== Dynamic Action: Cancel Dialog =======================
-  id: 85027397399173935788
-  identification: 
-    name: Cancel Dialog
-
-  execution: 
-    sequence: 10
-    event-scope: Static
-    type: Immediate
-
-  when: 
-    event: Click
-    selection-type: Button
-    button: CANCEL # 85027396933146935788
-
-  actions: 
-  - # ====== Action: Cancel Dialog ===============================
-    id: 85027398154826935789
-    identification: 
-      action: Cancel Dialog
-
-    execution: 
-      sequence: 10
-      event: Cancel Dialog # 85027397399173935788
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
 - # ====== Dynamic Action: NO_SUBMIT ===========================
   id: 85693680486970747611
   identification: 

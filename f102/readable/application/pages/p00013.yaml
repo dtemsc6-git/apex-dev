@@ -50,10 +50,10 @@ regions:
       select e.ID,
       
       '<div class="t-ButtonGroup">' ||
-              '<a href="f?p=&APP_ID.:14:&APP_SESSION.:::10:P14_ID:' || e.ID || '" class="t-Button t-Button--small t-Button--success" title="Ver">' ||
+              '<a href="APEX_UTIL.PREPARE_URL(f?p=&APP_ID.:14:&APP_SESSION.:::14:P14_ID:' || e.ID || ')" class="t-Button t-Button--small t-Button--success" title="Ver">' ||
                   '<span class="fa fa-eye"></span>' ||
               '</a>' ||
-              '<a href="f?p=&APP_ID.:14:&APP_SESSION.:::14:P14_ID:' || e.ID || '" class="t-Button t-Button--small t-Button--warning" title="Editar">' ||
+              '<a href="APEX_UTIL.PREPARE_URL(f?p=&APP_ID.:14:&APP_SESSION.:::14:P14_ID:' || e.ID || ')" class="t-Button t-Button--small t-Button--warning" title="Editar">' ||
                   '<span class="fa fa-edit"></span>' ||
               '</a>' ||
               '<a href="javascript:void(0);" onclick="eliminarRegistro(' || e.ID || ')" class="t-Button t-Button--small t-Button--danger" title="Eliminar">' ||
@@ -92,6 +92,7 @@ regions:
              e.ACTUALIZADO_EL
         from SGT_EQUIPOS e
         inner join sgt_tipo_equipos te on te.id = e.tipo_equipo_id 
+        order by e.actualizado_el DESC
 
   layout: 
     sequence: 10

@@ -26,6 +26,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: Implementador Rights # 56843702980053272617
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -998,7 +999,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: GRUPO_RED # 2352388603111525
+    list-of-values: ENLACES_WAN.GRUPO_RED # 9899227200025403
     display-extra-values: true
     display-null-value: true
 

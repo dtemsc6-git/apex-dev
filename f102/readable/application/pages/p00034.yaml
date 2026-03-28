@@ -88,11 +88,10 @@ regions:
     link: 
       link-column: Link to Custom Target
       target: 
-        url: 'f?p=&APP_ID.:401:&SESSION.::&DEBUG.:RP,401,402,403:P35_ID,P401_ID:\#ID#\,\#ID#\'
+        url: 'f?p=&APP_ID.:401:&SESSION.::&DEBUG.:RP,401,402,403:P401_ID:\#ID#\'
         page: 401 # Crear el enlace WAN
         clear-cache: RP,401,402,403
         values: 
-          p35_id: '#ID#'
           p401_id: '#ID#'
 
       link-icon: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
@@ -520,76 +519,6 @@ regions:
       - '#DEFAULT#'
 
 buttons: 
-- # ====== Button: CREATE ======================================
-  id: 43769696399199608886
-  identification: 
-    button-name: CREATE
-    label: '&APP_TEXT$BTN_CREAR!RAW.'
-
-  layout: 
-    sequence: 10
-    region: SGT_LST_ENLACES_WAN # 43769687535719608878
-    slot: RIGHT_OF_IR_SEARCH_BAR
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text
-    hot: true
-    template-options: 
-    - '#DEFAULT#'
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:35:&APP_SESSION.::&DEBUG.:35::'
-      page: 35 # SGT_FORM_ENLACES_LOGICOS
-      clear-cache: 35
-
-    warn-on-unsaved-changes: Do Not Check
-
-  security: 
-    authorization-scheme: Implementador Rights # 56843702980053272617
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
-
-- # ====== Button: CONEXIONES ==================================
-  id: 78443845919854367139
-  identification: 
-    button-name: CONEXIONES
-    label: Conexiones
-
-  layout: 
-    sequence: 20
-    region: SGT_LST_ENLACES_WAN # 43769687535719608878
-    slot: RIGHT_OF_IR_SEARCH_BAR
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text
-    hot: false
-    template-options: 
-    - '#DEFAULT#'
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:42:&SESSION.::&DEBUG.:::'
-      page: 42 # FORM_CONEXIONES_ENLACES_WAN
-
-    warn-on-unsaved-changes: Do Not Check
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
-
 - # ====== Button: ASISTENTE ===================================
   id: 78443846730153367147
   identification: 

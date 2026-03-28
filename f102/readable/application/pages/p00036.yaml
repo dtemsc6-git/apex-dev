@@ -128,6 +128,8 @@ regions:
         LEFT JOIN sgt_equipos eq_b on fo.equipo_id_b = eq_b.id
         LEFT JOIN sgt_sitios s_a on fo.sitio_id_a = s_a.id
         LEFT JOIN sgt_sitios s_b on fo.sitio_id_b = s_b.id
+      
+        order by fo.ACTUALIZADO_EL DESC
 
   layout: 
     sequence: 10

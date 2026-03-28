@@ -295,7 +295,7 @@
     name: Navigation Menu
 
   subscription: 
-    version-number: 39026416673017
+    version-number: 39026912567398
 
   source: 
     type: Static Values
@@ -727,34 +727,6 @@
       target: 
         url: 'f?p=&APP_ID.:39:&SESSION.::&DEBUG.::::'
         page: 39 # SGT_LST_ENLACE_TRAMOS_FO
-
-    click-counting: 
-      count-clicks: false
-
-    user-defined-attributes: 
-      translatable: false
-
-  - # ====== Entry: Vista conexiones (Obsoleto) ==================
-    id: 47197333522557019192
-    label: 
-      label: Vista conexiones (Obsoleto)
-
-    icon: 
-      image/icon-css-classes: fa-exchange
-
-    layout: 
-      sequence: 210
-      parent-entry: Experimental # 32254844724062918042
-
-    is-current: 
-      type: Pages
-      pages: 
-      - 43
-
-    link: 
-      target: 
-        url: 'f?p=&APP_ID.:43:&SESSION.::&DEBUG.::::'
-        page: 43 # SGT_SERVICIOS_VIEW
 
     click-counting: 
       count-clicks: false

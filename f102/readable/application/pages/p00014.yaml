@@ -4,6 +4,7 @@ id: 14
 identification: 
   name: SGT_FORM_EQUIPO
   alias: SGT-FORM-EQUIPO
+  title: Formulario Equipo
   page-group: Implementadores # 57024536698229459190
 
 appearance: 
@@ -25,6 +26,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: Implementador Rights # 56843702980053272617
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -2647,7 +2649,6 @@ dynamic-actions:
             success: function(data) {
                 console.log(data);
                 apex.item("P14_NOMBRE").setValue(data.nombre);
-                apex.item("P14_SUB_TIPO_EQUIPO").setValue(data.sub_tipo_equipo);
             },
             error: function(pData) {        
             console.log(pData);
@@ -2803,7 +2804,7 @@ dynamic-actions:
     affected-elements: 
       selection-type: Item(s)
       item(s): 
-      - P14_FECHA_IMPLEMENTACION
+      - P14_FECHA_IMPLE
 
     execution: 
       sequence: 10

@@ -4,6 +4,7 @@ id: 26
 identification: 
   name: SGT_FORM_SITIOS
   alias: SGT-FORM-SITIOS
+  title: Formulario Sitios
   page-group: Implementadores # 57024536698229459190
 
 appearance: 

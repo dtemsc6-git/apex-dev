@@ -51,15 +51,33 @@
     name: 'INTERFACES.NOMBRE:EQUIQUETA'
 
   subscription: 
-    version-number: 39026411933540
+    version-number: 39026910376033
 
   source: 
     location: Local Database
     type: SQL Query
     sql-query: |
       SELECT 
-      CASE WHEN ETIQUETA IS NOT NULL THEN NOMBRE ||':'||ETIQUETA  ELSE NOMBRE END DISPLAY, ID VALUE FROM SGT_INTERFACES
+      CASE WHEN ETIQUETA IS NOT NULL THEN NOMBRE ||' : '||ETIQUETA  ELSE NOMBRE END DISPLAY, ID VALUE FROM SGT_INTERFACES
       ORDER BY ID
+
+  column-mapping: 
+    return: VALUE
+    display: DISPLAY
+    default-sort: Use Order By from Query
+
+- # ====== List of Values: ENLACES_WAN.GRUPO_RED ===============
+  id: 9899227200025403
+  identification: 
+    name: ENLACES_WAN.GRUPO_RED
+
+  subscription: 
+    version-number: 39026938205941
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: SELECT DISTINCT GRUPO_RED DISPLAY, GRUPO_RED VALUE FROM SGT_ENLACES_WAN ORDER BY DISPLAY
 
   column-mapping: 
     return: VALUE
@@ -112,88 +130,6 @@
     return: VALOR
     display: DISPLAY
     default-sort: Use Order By from Query
-
-- # ====== List of Values: GRUPO_RED ===========================
-  id: 2352388603111525
-  identification: 
-    name: GRUPO_RED
-
-  subscription: 
-    version-number: 39022127381201
-
-  source: 
-    location: Static Values
-
-  entries: 
-  - # ====== Entry: AVIAT ========================================
-    id: 2352678389111527
-    entry: 
-      sequence: 1
-      display: AVIAT
-      return: AVIAT
-
-  - # ====== Entry: ECI_ECCA =====================================
-    id: 2353110358111527
-    entry: 
-      sequence: 2
-      display: ECI_ECCA
-      return: ECI_ECCA
-
-  - # ====== Entry: ECI_SDH ======================================
-    id: 2353505654111528
-    entry: 
-      sequence: 3
-      display: ECI_SDH
-      return: ECI_SDH
-
-  - # ====== Entry: FOX ==========================================
-    id: 2353879686111528
-    entry: 
-      sequence: 4
-      display: FOX
-      return: FOX
-
-  - # ====== Entry: JUMBO_SW =====================================
-    id: 2354289759111528
-    entry: 
-      sequence: 5
-      display: JUMBO_SW
-      return: JUMBO_SW
-
-  - # ====== Entry: LOOP_TC ======================================
-    id: 2354685606111528
-    entry: 
-      sequence: 6
-      display: LOOP_TC
-      return: LOOOP_TC
-
-  - # ====== Entry: NEC ==========================================
-    id: 2355070315111528
-    entry: 
-      sequence: 7
-      display: NEC
-      return: NEC
-
-  - # ====== Entry: HUAWEI_DWDM ==================================
-    id: 2355451632111528
-    entry: 
-      sequence: 8
-      display: HUAWEI_DWDM
-      return: HUAWEI_DWDM
-
-  - # ====== Entry: HUAWEI_MPLS ==================================
-    id: 2355849200111528
-    entry: 
-      sequence: 9
-      display: HUAWEI_MPLS
-      return: HUAWEI_MPLS
-
-  - # ====== Entry: FOX_MPLS =====================================
-    id: 2356322960111528
-    entry: 
-      sequence: 10
-      display: FOX_MPLS
-      return: FOX_MPLS
 
 - # ====== List of Values: SITIOS.PROPIETARIOS =================
   id: 3735573462899488

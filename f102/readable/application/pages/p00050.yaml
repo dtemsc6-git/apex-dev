@@ -5,6 +5,7 @@ identification:
   name: Step 1
   alias: STEP-1
   title: Datos del Servicio
+  page-group: WZRD_WAN # 10124169972715358
 
 appearance: 
   page-mode: Modal Dialog
@@ -26,6 +27,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: Implementador Rights # 56843702980053272617
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum

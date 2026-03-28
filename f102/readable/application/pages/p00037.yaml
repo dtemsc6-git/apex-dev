@@ -260,8 +260,6 @@ regions:
         END AS Equipo
       FROM Pisos p
       ORDER BY p.posicion_u DESC;
-    page-items-to-submit: 
-    - P37_ID
 
   order-by: 
     type: None

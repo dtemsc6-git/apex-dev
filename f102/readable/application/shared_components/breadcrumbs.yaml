@@ -84,34 +84,6 @@
         url: 'f?p=&APP_ID.:47:&SESSION.::&DEBUG.:::'
         page: 47 # MAPA_SITIOS
 
-  - # ====== Entry: Enlaces ======================================
-    id: 16823534894042212508
-    identification: 
-      name: Enlaces
-      page-number: 7
-
-    execution: 
-      sequence: 10
-
-    link: 
-      target: 
-        url: 'f?p=&APP_ID.:7:&APP_SESSION.::&DEBUG.:::'
-        page: 7 # TEST_Enlaces
-
-  - # ====== Entry: Enlaces2 =====================================
-    id: 16844080318703906768
-    identification: 
-      name: Enlaces2
-      page-number: 16
-
-    execution: 
-      sequence: 10
-
-    link: 
-      target: 
-        url: 'f?p=&APP_ID.:16:&APP_SESSION.::&DEBUG.:::'
-        page: 16 # TEST_ENLACES_2
-
   - # ====== Entry: Interfaces ===================================
     id: 37204295089123013533
     identification: 
@@ -198,20 +170,6 @@
       target: 
         url: 'f?p=&APP_ID.:39:&SESSION.::&DEBUG.:::'
         page: 39 # SGT_LST_ENLACE_TRAMOS_FO
-
-  - # ====== Entry: Vista de conexiones ==========================
-    id: 47197334404430019195
-    identification: 
-      name: Vista de conexiones
-      page-number: 43
-
-    execution: 
-      sequence: 10
-
-    link: 
-      target: 
-        url: 'f?p=&APP_ID.:43:&SESSION.::&DEBUG.:::'
-        page: 43 # SGT_SERVICIOS_VIEW
 
   - # ====== Entry: Control de Accesos ===========================
     id: 56800692870322124528
@@ -355,20 +313,6 @@
       target: 
         url: 'f?p=&APP_ID.:1:&APP_SESSION.::&DEBUG.:::'
         page: 1 # Home
-
-  - # ====== Entry: Sitios 2 =====================================
-    id: 200703031338888282559
-    identification: 
-      name: Sitios 2
-      page-number: 9
-
-    execution: 
-      sequence: 10
-
-    link: 
-      target: 
-        url: 'f?p=&APP_ID.:9:&SESSION.::&DEBUG.:::'
-        page: 9 # TEST_LST_SITIOS
 
   - # ====== Entry: Racks ========================================
     id: 200718430323993803903

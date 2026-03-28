@@ -4,6 +4,7 @@ id: 22
 identification: 
   name: SGT_FORM_DEPTO
   alias: SGT-FORM-DEPTO
+  title: Formulario Departamento
   page-group: Implementadores # 57024536698229459190
 
 appearance: 

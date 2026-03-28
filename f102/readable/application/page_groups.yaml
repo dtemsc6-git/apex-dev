@@ -1,4 +1,12 @@
 ---
+- # ====== Page Group: WZRD_WAN ================================
+  id: 10124169972715358
+  identification: 
+    name: WZRD_WAN
+
+  description: 
+    description: Paginas del Wizard WAN
+
 - # ====== Page Group: Técnicos ================================
   id: 57023520474492442229
   identification: 

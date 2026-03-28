@@ -643,7 +643,8 @@ regions:
       GROUP BY 
           ss.siglas, s.siglas
       HAVING 
-          COUNT(DISTINCT r.id) > 0;
+          COUNT(DISTINCT r.id) > 0
+      order by SITIO
 
   layout: 
     sequence: 20
@@ -970,7 +971,7 @@ regions:
           'locales ANDE' as CARD_SUBTITLE,
           'fa fa-university' as CARD_ICON,
           'is-success' as CARD_COLOR,
-          'f?p='|| :APP_ID || ':25:' || :APP_SESSION  as href
+          APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':25:' || :APP_SESSION ) as HREF
       FROM sgt_sitios s
       
       UNION ALL
@@ -981,7 +982,7 @@ regions:
           'Salas comunicación ANDE' as CARD_SUBTITLE,
           'fa fa-map-marker' as CARD_ICON,
           'is-success' as CARD_COLOR,
-          'f?p='|| :APP_ID || ':4:' || :APP_SESSION  as href
+           APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':4:' || :APP_SESSION)  as HREF
       FROM sgt_salas ss
       UNION ALL
       
@@ -991,7 +992,7 @@ regions:
           'Racks de ANDE' as CARD_SUBTITLE,
           'fa fa-server' as CARD_ICON,
           'is-success' as CARD_COLOR,
-          'f?p='|| :APP_ID || ':11:' || :APP_SESSION  as href
+          APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':11:' || :APP_SESSION ) as HREF
       FROM sgt_racks r
       
       UNION ALL
@@ -1002,7 +1003,7 @@ regions:
           'Activos / Pasivos / Otros' as CARD_SUBTITLE,
           'fa fa-microchip' as CARD_ICON,
           'is-success' as CARD_COLOR,
-          'f?p='|| :APP_ID || ':13:' || :APP_SESSION  as href
+          APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':13:' || :APP_SESSION ) as HREF
       FROM sgt_equipos e
       
       UNION ALL
@@ -1013,7 +1014,7 @@ regions:
           'Interfaces / Puertos' as CARD_SUBTITLE,
           'fa fa-' as CARD_ICON,
           'is-success' as CARD_COLOR,
-          'f?p='|| :APP_ID || ':8:' || :APP_SESSION  as href
+          APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':8:' || :APP_SESSION)  as HREF
       FROM sgt_interfaces i
       
       UNION ALL
@@ -1025,7 +1026,7 @@ regions:
           'Servicios de Comunicaciones' as CARD_SUBTITLE,
           'fa fa-sitemap-horizontal' as CARD_ICON,
           'is-success' as CARD_COLOR,
-          'f?p='|| :APP_ID || ':410:' || :APP_SESSION  as href
+          APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':410:' || :APP_SESSION ) as HREF
       FROM sgt_servicios srv
       
       union
@@ -1038,7 +1039,7 @@ regions:
                'fm999G999G999D00') || ' km' as CARD_SUBTITLE,
           'fa fa-sitemap-horizontal' as CARD_ICON,
           'is-success' as CARD_COLOR,
-          'f?p='|| :APP_ID || ':36:' || :APP_SESSION  as href
+          APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':36:' || :APP_SESSION ) as HREF
       FROM sgt_enlaces_fo fo
       
       union 
@@ -1049,7 +1050,7 @@ regions:
           'Enlaces WAN' as CARD_SUBTITLE,
           'fa fa-sitemap-horizontal' as CARD_ICON,
           'is-success' as CARD_COLOR,
-          'f?p='|| :APP_ID || ':34:' || :APP_SESSION  as href
+          APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':34:' || :APP_SESSION ) as HREF
       FROM sgt_enlaces_wan wan
       
       

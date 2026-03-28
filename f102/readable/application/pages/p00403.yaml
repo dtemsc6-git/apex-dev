@@ -5,6 +5,7 @@ identification:
   name: Seleccionar las conexiones
   alias: SELECCIONAR-LAS-CONEXIONES
   title: Seleccionar las conexiones
+  page-group: WZRD_WAN # 10124169972715358
 
 appearance: 
   page-mode: Normal
@@ -42,6 +43,7 @@ css:
     }
 
 security: 
+  authorization-scheme: Implementador Rights # 56843702980053272617
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -560,33 +562,6 @@ buttons:
     warn-on-unsaved-changes: Do Not Check
 
 dynamic-actions: 
-- # ====== Dynamic Action: Cancel Dialog =======================
-  id: 85027402384485935792
-  identification: 
-    name: Cancel Dialog
-
-  execution: 
-    sequence: 10
-    event-scope: Static
-    type: Immediate
-
-  when: 
-    event: Click
-    selection-type: Button
-    button: CANCEL # 85027401980974935792
-
-  actions: 
-  - # ====== Action: Cancel Dialog ===============================
-    id: 85027403198407935792
-    identification: 
-      action: Cancel Dialog
-
-    execution: 
-      sequence: 10
-      event: Cancel Dialog # 85027402384485935792
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
 - # ====== Dynamic Action: NO_SUBMIT ===========================
   id: 85693680957433747616
   identification: 

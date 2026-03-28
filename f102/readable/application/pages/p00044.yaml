@@ -21,6 +21,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: Implementador Rights # 56843702980053272617
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum

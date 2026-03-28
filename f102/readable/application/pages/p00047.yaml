@@ -617,7 +617,6 @@ regions:
         geometry-column-data-type: Longitude/Latitude
         longitude-column: LON
         latitude-column: LAT
-        primary-key-column: ID
 
       point-objects: 
         style: SVG

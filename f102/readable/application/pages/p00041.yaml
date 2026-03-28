@@ -25,6 +25,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: Implementador Rights # 56843702980053272617
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -410,13 +411,6 @@ regions:
       display-extra-values: true
       display-null-value: true
 
-    cascading-list-of-values: 
-      parent-column(s): 
-      - SITIO
-      items-to-submit: 
-      - SITIO
-      parent-required: true
-
     source: 
       type: Database Column
       database-column: EQUIPO_A_ID
@@ -427,10 +421,23 @@ regions:
     default: 
       duplicate-copies-existing-value: true
 
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
     export-/-printing: 
       include-in-export-/-print: true
 
     enable-users-to: 
+      sort: true
+      control-break/aggregate: true
       hide: true
 
   - # ====== Column: INTERFAZ_A_ID ===============================
@@ -540,13 +547,6 @@ regions:
       display-extra-values: true
       display-null-value: true
 
-    cascading-list-of-values: 
-      parent-column(s): 
-      - SITIO
-      items-to-submit: 
-      - SITIO
-      parent-required: true
-
     source: 
       type: Database Column
       database-column: EQUIPO_B_ID
@@ -557,10 +557,23 @@ regions:
     default: 
       duplicate-copies-existing-value: true
 
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
     export-/-printing: 
       include-in-export-/-print: true
 
     enable-users-to: 
+      sort: true
+      control-break/aggregate: true
       hide: true
 
   - # ====== Column: INTERFAZ_B_ID ===============================

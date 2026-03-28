@@ -1,4 +1,42 @@
 #Control de cambios de la App antes del commit
+###2026-03-28:
+Páginas eliminadas:
+P7, P9, P15, P16, P17, P18, P42, P43
+Páginas modificadas:
+P01: ORDER BY.
+P03: Titulo de pagina.
+P05: Titulo de pagina. Implementador Rights.
+P06: Implementador Rights
+P08: Eliminar Button: REEMPLAZAR
+P10: Implementador Rights
+P12: Implementador Rights
+P13: Utilizar APEX_UTIL.PREPARE_URL para las url, más seguro y recomendado.
+P14: title: Formulario Equipo, eliminado apex.item("P14_SUB_TIPO_EQUIPO").setValue(data.sub_tipo_equipo) -> sin uso
+P19: Eliminado: Button: CREATE.
+P22: title: Formulario Departamento. 
+P24: title: Formulario Ciudades.
+P26: title: Formulario Sitios.
+P27: authorization-scheme: Implementador Rights
+P28: authorization-scheme: Implementador Rights
+P29: Eliminar tabs sin uso.
+P30: authorization-scheme: Implementador Rights
+P31: authorization-scheme: Implementador Rights
+P34: Clear de parametros enviados por Link Target, se estaba pasando un ID sin uso: p35_id: '#ID#', Eliminado Button: CREATE.
+P35: authorization-scheme: Implementador Rights
+P36: ORDER BY
+P37: Remover submit de item: P37_ID
+p38: authorization-scheme: Implementador Rights
+p40: authorization-scheme: Implementador Rights
+p41: authorization-scheme: Implementador Rights
+p44: authorization-scheme: Implementador Rights
+p47: remover el campo primary-key-column: ID
+p50: page-group: WZRD_WAN, authorization-scheme: Implementador Rights
+p401: page-group: WZRD_WAN, uthorization-scheme: Implementador Rights, eliminar: Dynamic Action: Cancel Dialog
+p402: page-group: WZRD_WAN, uthorization-scheme: Implementador Rights, eliminar: Dynamic Action: Cancel Dialog
+p403: page-group: WZRD_WAN, uthorization-scheme: Implementador Rights, eliminar: Dynamic Action: Cancel Dialog
+P404: page-group: WZRD_WAN, uthorization-scheme: Implementador Rights, eliminar: Dynamic Action: Cancel Dialog
+list.yaml: Menu de navegación, eliminación de entradas por paginas eliminadas.
+lovs.yaml: Cambios de LOV, eliminar LOV GRUPO_RED, nueva LOV dinámica para grupo de red.
 
 ###2026-03-25
 
@@ -6,7 +44,8 @@ P01: HOME: Ordenar Y capturar el APP_TZ
 
 P06: DL_EQUIPOS: Cambio de lógica para carga de XLS
 P13: SGT_LST_EQUIPOS: Cambio de los filtros el la lista a fin de que muestre valores unicos
-P14: SGT_FORM_EQUIPO: Ocultar algunos campos, quitar la IP por defecto del equipo, hacer que el campo IP se visible condicionalmente.
+P14: SGT_FORM_EQUIPO: Ocultar algunos campos, quitar la IP por defecto del equipo, hacer que el campo
+IP se visible condicionalmente.
 P29: equipos_interface_dl: Mostrar el fullname del equipo, mostrar todas las interfaces. 
 P30: SGT_FROM_INTERFACES: Eliminar Procesos de creación de multiples interfaces basados en formato de corchetes (ej ge0/0/[0-10])
 P33: BORRAME: esta pagina debe borrarse
@@ -67,19 +106,23 @@ CONSTRAINT "SGT_SITIOS_LATITUD_CHK" CHECK ( "LATITUD" between -90 and 90  ) ENAB
 CONSTRAINT "SGT_SITIOS_LONGITUD_CHK" CHECK ( "LONGITUD" BETWEEN -180 AND 180 ) ENABLE
 
 ###Indices:
-CREATE INDEX "IDX_ENLACES_TRAMOS_EQUIPO_A" ON "SGT_ENLACES_TRAMOS" ("EQUIPO_A_ID") ;
-CREATE INDEX "IDX_ENLACES_TRAMOS_EQUIPO_B" ON "SGT_ENLACES_TRAMOS" ("EQUIPO_B_ID") ;
-CREATE INDEX "IDX_ENLACES_TRAMOS_INTERFAZ_A" ON "SGT_ENLACES_TRAMOS" ("INTERFAZ_A_ID") ;
-CREATE INDEX "IDX_ENLACES_TRAMOS_INTERFAZ_B" ON "SGT_ENLACES_TRAMOS" ("INTERFAZ_B_ID") ;
-CREATE INDEX "IDX_ENLACES_TRAMOS_TIPO_CONEXION" ON "SGT_ENLACES_TRAMOS" ("TIPO_CONEXION")
-CREATE INDEX "IDX_EQUIPOS_RACK_ID" ON "SGT_EQUIPOS" ("RACK_ID") ;
-CREATE INDEX "IDX_RACKS_SALA_ID" ON "SGT_RACKS" ("SALA_ID") ;
-CREATE INDEX "IDX_SALAS_SITIO_ID" ON "SGT_SALAS" ("SITIO_ID") ;
+CREATE INDEX "IDX_SALAS_SITIO_ID" ON "SGT_SALAS" ("SITIO_ID")	WKSP_DTESCPROD
+CREATE INDEX "IDX_RACKS_SALA_ID" ON "SGT_RACKS" ("SALA_ID")	WKSP_DTESCPROD
+CREATE INDEX "IDX_EQUIPOS_RACK_ID" ON "SGT_EQUIPOS" ("RACK_ID")	WKSP_DTESCPROD
+CREATE INDEX "IDX_ENLACES_TRAMOS_TIPO_CONEXION" ON "SGT_ENLACES_TRAMOS" ("TIPO_CONEXION")	
+CREATE INDEX "IDX_ENLACES_TRAMOS_INTERFAZ_B" ON "SGT_ENLACES_TRAMOS" ("INTERFAZ_B_ID")	
+CREATE INDEX "IDX_ENLACES_TRAMOS_INTERFAZ_A" ON "SGT_ENLACES_TRAMOS" ("INTERFAZ_A_ID")	
+CREATE INDEX "IDX_ENLACES_TRAMOS_EQUIPO_B" ON "SGT_ENLACES_TRAMOS" ("EQUIPO_B_ID")	
+CREATE INDEX "IDX_ENLACES_TRAMOS_EQUIPO_A" ON "SGT_ENLACES_TRAMOS" ("EQUIPO_A_ID")	
+CREATE INDEX IDX_CUIDAD_DEPTO ON SGT_CIUDAD ("DEPTO_ID")	WKSP_DTESCPROD
+CREATE INDEX IDX_CUIDAD_DEPTO" ON SGT_CIUDAD ("DEPTO_ID")	WKSP_DTESCPROD
+CREATE INDEX IDX_CONEXIONES_SERVICIO_COMPUESTO ON SGT_CONEXIONES_SERVICIO ("SERVICIO_ID", "ENLACE_TRAMO_ID")
+CREATE INDEX "IDX_CONEXIONES_ENLACE_WAN_COMPUESTO" ON "SGT_CONEXIONES_ENLACE_WAN" ("ENLACE_WAN_ID","ENLACE_TRAMO_ID")
 
 ###Vistas:
 V_CONEXIONES_GENERAL_V2: Recrear:
-V_SITIOS_GPS: Revisar:
 V_TRAMOS_NOMBRES: Recrear
+++V_ZONAS_VISTA_GENERAL
 
 ###2026-02-24
 P49: Grilla Interfaces: Campo EQUIPO_ID se cambia el tipo de Select List a Popup Lov.

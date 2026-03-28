@@ -965,42 +965,6 @@ buttons:
   configuration: 
     build-option: Commented Out # 197180071872965446203
 
-- # ====== Button: REEMPLAZAR ==================================
-  id: 32677703268145831930
-  identification: 
-    button-name: REEMPLAZAR
-    label: Reemplazar
-
-  layout: 
-    sequence: 30
-    region: SGT_INTERFACES # 37204295227652013533
-    slot: RIGHT_OF_IR_SEARCH_BAR
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text
-    hot: true
-    template-options: 
-    - '#DEFAULT#'
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:28:&SESSION.::&DEBUG.:::'
-      page: 28 # DL_INTERFACE
-
-    warn-on-unsaved-changes: Do Not Check
-
-  security: 
-    authorization-scheme: Implementador Rights # 56843702980053272617
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
-
 - # ====== Button: CREATE ======================================
   id: 42101939449904121406
   identification: 

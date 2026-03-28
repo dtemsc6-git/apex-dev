@@ -5,6 +5,7 @@ identification:
   name: Crear el enlace WAN
   alias: CREAR-ENLACE-WAN
   title: Datos del enlace WAN
+  page-group: WZRD_WAN # 10124169972715358
 
 appearance: 
   page-mode: Normal
@@ -20,6 +21,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: Implementador Rights # 56843702980053272617
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -350,7 +352,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: GRUPO_RED # 2352388603111525
+    list-of-values: ENLACES_WAN.GRUPO_RED # 9899227200025403
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -430,34 +432,6 @@ buttons:
     execute-validations: true
     show-processing: false
     warn-on-unsaved-changes: Do Not Check
-
-dynamic-actions: 
-- # ====== Dynamic Action: Cancel Dialog =======================
-  id: 85027393019655935784
-  identification: 
-    name: Cancel Dialog
-
-  execution: 
-    sequence: 10
-    event-scope: Static
-    type: Immediate
-
-  when: 
-    event: Click
-    selection-type: Button
-    button: CANCEL # 85027392695011935784
-
-  actions: 
-  - # ====== Action: Cancel Dialog ===============================
-    id: 85027393833996935785
-    identification: 
-      action: Cancel Dialog
-
-    execution: 
-      sequence: 10
-      event: Cancel Dialog # 85027393019655935784
-      fire-when-event-result-is: True
-      fire-on-initialization: false
 
 processes: 
 - # ====== Process: Initialize form Crear el enlace WAN ========

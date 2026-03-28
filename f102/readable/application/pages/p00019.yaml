@@ -565,43 +565,6 @@ regions:
       - '#DEFAULT#'
 
 buttons: 
-- # ====== Button: CREATE ======================================
-  id: 44129484756696328241
-  identification: 
-    button-name: CREATE
-    label: '&APP_TEXT$BTN_CREAR!RAW.'
-
-  layout: 
-    sequence: 10
-    region: SGT_LST_SERVICIOS # 44129480491990328235
-    slot: RIGHT_OF_IR_SEARCH_BAR
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    button-template: Text
-    hot: true
-    template-options: 
-    - '#DEFAULT#'
-
-  behavior: 
-    action: Redirect to Page in this Application
-    target: 
-      url: 'f?p=&APP_ID.:38:&APP_SESSION.::&DEBUG.:38::'
-      page: 38 # SGT_FORM_SERVICIOS
-      clear-cache: 38
-
-    warn-on-unsaved-changes: Do Not Check
-
-  security: 
-    authorization-scheme: Implementador Rights # 56843702980053272617
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
-
 - # ====== Button: WZRD ========================================
   id: 64554407807328252536
   identification: 

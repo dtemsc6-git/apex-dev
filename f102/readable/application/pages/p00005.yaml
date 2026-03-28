@@ -4,6 +4,7 @@ id: 5
 identification: 
   name: SGT_FORM_SALA
   alias: SGT-FORM-SALA
+  title: Formulario Sala
   page-group: Implementadores # 57024536698229459190
 
 appearance: 
@@ -25,6 +26,7 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
+  authorization-scheme: Implementador Rights # 56843702980053272617
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum

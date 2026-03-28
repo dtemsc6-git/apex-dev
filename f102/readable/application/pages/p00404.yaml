@@ -5,6 +5,7 @@ identification:
   name: Verificar las instrucciones
   alias: VERIFICAR-LAS-INSTRUCCIONES
   title: Verificar las instrucciones
+  page-group: WZRD_WAN # 10124169972715358
 
 appearance: 
   page-mode: Normal
@@ -110,6 +111,7 @@ css:
     }
 
 security: 
+  authorization-scheme: Implementador Rights # 56843702980053272617
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -724,34 +726,6 @@ buttons:
 
   security: 
     authorization-scheme: Implementador Rights # 56843702980053272617
-
-dynamic-actions: 
-- # ====== Dynamic Action: Cancel Dialog =======================
-  id: 85027407349265935795
-  identification: 
-    name: Cancel Dialog
-
-  execution: 
-    sequence: 10
-    event-scope: Static
-    type: Immediate
-
-  when: 
-    event: Click
-    selection-type: Button
-    button: CANCEL # 85027406975700935795
-
-  actions: 
-  - # ====== Action: Cancel Dialog ===============================
-    id: 85027408186156935796
-    identification: 
-      action: Cancel Dialog
-
-    execution: 
-      sequence: 10
-      event: Cancel Dialog # 85027407349265935795
-      fire-when-event-result-is: True
-      fire-on-initialization: false
 
 processes: 
 - # ====== Process: CONEXIONES_PUERTOS =========================
