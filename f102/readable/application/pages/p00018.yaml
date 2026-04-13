@@ -1,0 +1,759 @@
+---
+# ====== Page: Servicios =====================================
+id: 18
+identification: 
+  name: Servicios
+  alias: SERVICIOS
+  title: Servicios
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Servicios ===================================
+  id: 11421119665489712
+  identification: 
+    name: Servicios
+    type: Interactive Grid
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select es.ID,
+             SERVICIO_ID,
+             CASE 
+      WHEN WAN_ID IS NULL THEN
+      (
+          SELECT vse.SITIO_ID FROM v_sitios_equipos vse WHERE vse.equipo_id = es.EQUIPO_A_ID
+          fetch first 1 row only
+      )
+      ELSE 
+      (
+          select vse.sitio_id from v_sitios_equipos vse
+          inner join sgt_equipos_wan ew on ew.equipo_a_id = vse.equipo_id
+          where ew.wan_id = es.wan_id 
+          fetch first 1 row only
+      )
+      
+      END
+             
+             SITIO_ID,
+             WAN_ID,
+             EQUIPO_A_ID,
+             INTERFAZ_A_ID,
+             FO_ID,
+             SEQ
+      
+        from SGT_EQUIPOS_SERVICIO es
+      
+        
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 11420688376489713
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Add Row
+      - Update Row
+      - Delete Row
+      lost-update-type: Row Values
+      add-row-if-empty: true
+
+    performance: 
+      lazy-loading: false
+
+    appearance: 
+      select-first-row: true
+      fixed-row-height: true
+
+    pagination: 
+      type: Scroll
+      show-total-count: true
+
+    toolbar: 
+      show: true
+      controls: 
+      - Search Column Selection
+      - Search Field
+      - Actions Menu
+      - Reset Button
+      - Save Button
+
+    enable-users-to: 
+      save-public-report: false
+      flashback: true
+      define-chart-view: true
+      download: true
+
+    download: 
+      formats: 
+      - CSV
+      - HTML
+      - PDF
+      - Excel
+      send-as-email: true
+
+    heading: 
+      fixed-to: Page
+
+    icon-view: 
+      show: false
+
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 11420237645489713
+      identification: 
+        name: Primary Report
+        alias: 204559
+
+  columns: 
+  - # ====== Column: SERVICIO_ID =================================
+    id: 11593148440382697
+    identification: 
+      column-name: SERVICIO_ID
+      type: Popup LOV
+
+    heading: 
+      heading: Servicio
+      alignment: start
+
+    settings: 
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
+
+    layout: 
+      sequence: 40
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+
+    list-of-values: 
+      type: Shared Component
+      list-of-values: SERVICIOS.NOMBRE # 44132876898299381933
+      display-extra-values: true
+      display-null-value: true
+
+    source: 
+      type: Database Column
+      database-column: SERVICIO_ID
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Use List of Values
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  - # ====== Column: APEX$ROW_SELECTOR ===========================
+    id: 11419860434489715
+    identification: 
+      column-name: APEX$ROW_SELECTOR
+      type: Row Selector
+
+    settings: 
+      enable-multi-select: true
+      show-select-all: true
+      hide-control: false
+
+    layout: 
+      sequence: 10
+
+  - # ====== Column: APEX$ROW_ACTION =============================
+    id: 11419329265489716
+    identification: 
+      column-name: APEX$ROW_ACTION
+      type: Actions Menu
+
+    layout: 
+      sequence: 20
+
+  - # ====== Column: ID ==========================================
+    id: 11418314967489718
+    identification: 
+      column-name: ID
+      type: Hidden
+
+    settings: 
+      value-protected: true
+
+    layout: 
+      sequence: 30
+
+    accessibility: 
+      value-identifies-row: false
+
+    source: 
+      type: Database Column
+      database-column: ID
+      data-type: NUMBER
+      query-only: true
+      primary-key: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+
+  - # ====== Column: SITIO_ID ====================================
+    id: 11416372342489719
+    identification: 
+      column-name: SITIO_ID
+      type: Popup LOV
+
+    heading: 
+      heading: Sitio
+      alignment: start
+
+    settings: 
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
+
+    layout: 
+      sequence: 50
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+
+    list-of-values: 
+      type: Shared Component
+      list-of-values: SGT_SITIOS.SIGLAS # 202814172118838557260
+      display-extra-values: true
+      display-null-value: true
+
+    source: 
+      type: Database Column
+      database-column: SITIO_ID
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  - # ====== Column: WAN_ID ======================================
+    id: 11415338695489719
+    identification: 
+      column-name: WAN_ID
+      type: Popup LOV
+
+    heading: 
+      heading: Wan
+      alignment: start
+
+    settings: 
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
+
+    layout: 
+      sequence: 70
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: |
+        select distinct w.nombre, W.id
+        
+        from sgt_enlaces_wan w
+        
+        inner join sgt_equipos_wan ew on w.id = ew.wan_id
+        
+        join v_sitios_equipos vse on vse.equipo_id = ew.equipo_a_id
+        
+        
+        where vse.sitio_id = :SITIO_ID
+        
+      display-extra-values: true
+      display-null-value: true
+      null-display-value: Seleccione Una
+
+    cascading-list-of-values: 
+      parent-column(s): 
+      - SITIO_ID
+      items-to-submit: 
+      - SITIO_ID
+      parent-required: true
+
+    source: 
+      type: Database Column
+      database-column: WAN_ID
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      hide: true
+
+  - # ====== Column: FO_ID =======================================
+    id: 11412347403489720
+    identification: 
+      column-name: FO_ID
+      type: Popup LOV
+
+    heading: 
+      heading: FO
+      alignment: start
+
+    settings: 
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
+
+    layout: 
+      sequence: 100
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: |
+        SELECT NOMBRE, ID
+        FROM SGT_ENLACES_FO
+        WHERE
+        SGT_ENLACES_FO.EQUIPO_ID_A = :EQUIPO_ID
+        OR
+        SGT_ENLACES_FO.EQUIPO_ID_b = :EQUIPO_ID
+      display-extra-values: true
+      display-null-value: true
+      null-display-value: Seleccione Una
+
+    cascading-list-of-values: 
+      parent-column(s): 
+      - EQUIPO_ID
+      items-to-submit: 
+      - EQUIPO_ID
+      parent-required: true
+
+    source: 
+      type: Database Column
+      database-column: FO_ID
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      hide: true
+
+  - # ====== Column: SEQ =========================================
+    id: 11411381243489721
+    identification: 
+      column-name: SEQ
+      type: Number Field
+
+    heading: 
+      heading: Seq
+      alignment: end
+
+    settings: 
+      number-alignment: Start
+      virtual-keyboard: Decimal
+
+    layout: 
+      sequence: 110
+      column-alignment: end
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+
+    source: 
+      type: Database Column
+      database-column: SEQ
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      lov-type: None
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  - # ====== Column: EQUIPO_A_ID =================================
+    id: 11308136702021402
+    identification: 
+      column-name: EQUIPO_A_ID
+      type: Popup LOV
+
+    heading: 
+      heading: Equipo
+      alignment: start
+
+    settings: 
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
+
+    layout: 
+      sequence: 80
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: |
+        select e.nombre, e.id from sgt_equipos e 
+        left join v_sitios_equipos vse on e.id = vse.equipo_id
+        where vse.sitio_id = :SITIO_ID
+      display-extra-values: true
+      display-null-value: true
+      null-display-value: Seleccione Una
+
+    cascading-list-of-values: 
+      parent-column(s): 
+      - SITIO_ID
+      items-to-submit: 
+      - SITIO_ID
+      parent-required: true
+
+    source: 
+      type: Database Column
+      database-column: EQUIPO_A_ID
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      hide: true
+
+  - # ====== Column: INTERFAZ_A_ID ===============================
+    id: 11308033376021401
+    identification: 
+      column-name: INTERFAZ_A_ID
+      type: Popup LOV
+
+    heading: 
+      heading: Interfaz
+      alignment: start
+
+    settings: 
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
+
+    layout: 
+      sequence: 90
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: |
+        select i.nombre || ' : '|| nvl(i.etiqueta, 'Sin etiqueta') , i.id
+        from
+        sgt_interfaces i
+        where i.equipo_id = :EQUIPO_A_ID
+      display-extra-values: true
+      display-null-value: true
+      null-display-value: Seleccione una
+
+    cascading-list-of-values: 
+      parent-column(s): 
+      - EQUIPO_A_ID
+      items-to-submit: 
+      - EQUIPO_A_ID
+      parent-required: true
+
+    source: 
+      type: Database Column
+      database-column: INTERFAZ_A_ID
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      hide: true
+
+  printing: 
+    page: 
+      size: Letter
+      orientation: Landscape
+      units: Inches
+      width: 11
+      height: 8.5
+      border-width: 0.5
+      border-color: '#666666'
+
+    page-header: 
+      font: Helvetica
+      font-weight: Normal
+      font-size: 12
+      font-color: '#000000'
+      alignment: center
+      page-header-text: Servicios
+
+    column-headings: 
+      font: Helvetica
+      font-weight: Bold
+      font-size: 10
+      font-color: '#000000'
+      background-color: '#EEEEEE'
+
+    columns: 
+      font: Helvetica
+      font-weight: Normal
+      font-size: 10
+      font-color: '#000000'
+      background-color: '#FFFFFF'
+
+    page-footer: 
+      font: Helvetica
+      font-weight: Normal
+      font-size: 12
+      font-color: '#000000'
+      alignment: center
+
+processes: 
+- # ====== Process: Servicios - Save Interactive Grid Data =====
+  id: 11403923630489726
+  identification: 
+    name: Servicios - Save Interactive Grid Data
+    type: Interactive Grid - Automatic Row Processing (DML)
+    execution-chain: None
+    editable-region: Servicios # 11421119665489712
+
+  settings: 
+    target-type: Region Source
+    prevent-lost-updates: true
+    lock-row: Yes
+    return-primary-key(s)-after-insert: true
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    execution-scope: For Created and Modified Rows
+

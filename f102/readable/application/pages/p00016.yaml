@@ -1,10 +1,10 @@
 ---
-# ====== Page: Grilla enlaces WAN ============================
-id: 10
+# ====== Page: Grilla Servicios ==============================
+id: 16
 identification: 
-  name: Grilla enlaces WAN
-  alias: GRILLA-ENLACES-WAN
-  title: Grilla enlaces WAN
+  name: Grilla Servicios
+  alias: GRILLA-SERVICIOS
+  title: Grilla Servicios
 
 appearance: 
   page-mode: Normal
@@ -37,17 +37,17 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Grilla enlaces WAN ==========================
-  id: 11083637674715977
+- # ====== Region: Grilla Servicios ============================
+  id: 11064418428656686
   identification: 
-    name: Grilla enlaces WAN
+    name: Grilla Servicios
     type: Interactive Grid
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: SGT_ENLACES_WAN
+    table-name: SGT_SERVICIOS
     include-rowid-column: false
 
   layout: 
@@ -79,7 +79,7 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 11083154963715976
+    id: 11063970298656685
     edit: 
       enabled: true
       allowed-operations: 
@@ -134,23 +134,14 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 11082771502715975
+      id: 11063524873656685
       identification: 
         name: Primary Report
-        alias: 207934
+        alias: 208126
 
   columns: 
-  - # ====== Column: APEX$ROW_ACTION =============================
-    id: 11307743112021398
-    identification: 
-      column-name: APEX$ROW_ACTION
-      type: Actions Menu
-
-    layout: 
-      sequence: 20
-
   - # ====== Column: APEX$ROW_SELECTOR ===========================
-    id: 11307623065021397
+    id: 11063167534656685
     identification: 
       column-name: APEX$ROW_SELECTOR
       type: Row Selector
@@ -163,8 +154,17 @@ regions:
     layout: 
       sequence: 10
 
+  - # ====== Column: APEX$ROW_ACTION =============================
+    id: 11062689784656685
+    identification: 
+      column-name: APEX$ROW_ACTION
+      type: Actions Menu
+
+    layout: 
+      sequence: 20
+
   - # ====== Column: ID ==========================================
-    id: 11082346120715973
+    id: 11061667157656684
     identification: 
       column-name: ID
       type: Hidden
@@ -196,7 +196,7 @@ regions:
       control-break/aggregate: true
 
   - # ====== Column: NOMBRE ======================================
-    id: 11081347041715970
+    id: 11060620392656684
     identification: 
       column-name: NOMBRE
       type: Text Field
@@ -218,7 +218,7 @@ regions:
       value-identifies-row: false
 
     validation: 
-      value-required: true
+      value-required: false
       maximum-length: 255
 
     source: 
@@ -250,15 +250,29 @@ regions:
       control-break/aggregate: true
       hide: true
 
-  - # ====== Column: GRUPO_RED ===================================
-    id: 11080369213715969
+  - # ====== Column: NIVEL_DE_PRIORIDAD ==========================
+    id: 11059635448656683
     identification: 
-      column-name: GRUPO_RED
-      type: Select List
+      column-name: NIVEL_DE_PRIORIDAD
+      type: Popup LOV
 
     heading: 
-      heading: Grupo Red
+      heading: Nivel De Prioridad
       alignment: start
+
+    settings: 
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
 
     layout: 
       sequence: 50
@@ -269,19 +283,18 @@ regions:
       value-identifies-row: false
 
     validation: 
-      value-required: true
+      value-required: false
 
     list-of-values: 
       type: Shared Component
-      list-of-values: ENLACES_WAN.GRUPO_RED # 9899227200025403
+      list-of-values: SERVICIOS.NIVEL_PRIORIDAD # 83355472626096331408
       display-extra-values: true
       display-null-value: true
-      null-display-value: Seleccione una
 
     source: 
       type: Database Column
-      database-column: GRUPO_RED
-      data-type: VARCHAR2
+      database-column: NIVEL_DE_PRIORIDAD
+      data-type: NUMBER
       query-only: false
       primary-key: false
 
@@ -303,11 +316,67 @@ regions:
       include-in-export-/-print: true
 
     enable-users-to: 
-      sort: false
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  - # ====== Column: DESCRIPCION =================================
+    id: 11058674404656683
+    identification: 
+      column-name: DESCRIPCION
+      type: Text Field
+
+    heading: 
+      heading: Descripcion
+      alignment: start
+
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
+
+    layout: 
+      sequence: 60
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+      maximum-length: 50
+
+    source: 
+      type: Database Column
+      database-column: DESCRIPCION
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
       hide: true
 
   - # ====== Column: CREADO_POR ==================================
-    id: 11079358242715969
+    id: 11057630337656683
     identification: 
       column-name: CREADO_POR
       type: Display Only
@@ -321,7 +390,7 @@ regions:
       based-on: Item Value
 
     layout: 
-      sequence: 60
+      sequence: 70
       column-alignment: start
       stretch: Use Report Setting
 
@@ -332,8 +401,11 @@ regions:
       type: Database Column
       database-column: CREADO_POR
       data-type: VARCHAR2
-      query-only: true
+      query-only: false
       primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
 
     session-state: 
       data-type: VARCHAR2
@@ -358,7 +430,7 @@ regions:
       hide: true
 
   - # ====== Column: CREADO_EL ===================================
-    id: 11078333038715968
+    id: 11056648129656682
     identification: 
       column-name: CREADO_EL
       type: Display Only
@@ -372,7 +444,7 @@ regions:
       based-on: Item Value
 
     layout: 
-      sequence: 70
+      sequence: 80
       column-alignment: start
       stretch: Use Report Setting
 
@@ -382,9 +454,12 @@ regions:
     source: 
       type: Database Column
       database-column: CREADO_EL
-      data-type: TIMESTAMP
-      query-only: true
+      data-type: DATE
+      query-only: false
       primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
 
     session-state: 
       data-type: VARCHAR2
@@ -403,7 +478,7 @@ regions:
       hide: true
 
   - # ====== Column: ACTUALIZADO_POR =============================
-    id: 11077310220715968
+    id: 11055617507656682
     identification: 
       column-name: ACTUALIZADO_POR
       type: Display Only
@@ -417,7 +492,7 @@ regions:
       based-on: Item Value
 
     layout: 
-      sequence: 80
+      sequence: 90
       column-alignment: start
       stretch: Use Report Setting
 
@@ -428,8 +503,11 @@ regions:
       type: Database Column
       database-column: ACTUALIZADO_POR
       data-type: VARCHAR2
-      query-only: true
+      query-only: false
       primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
 
     session-state: 
       data-type: VARCHAR2
@@ -454,7 +532,7 @@ regions:
       hide: true
 
   - # ====== Column: ACTUALIZADO_EL ==============================
-    id: 11076388960715968
+    id: 11054665984656681
     identification: 
       column-name: ACTUALIZADO_EL
       type: Display Only
@@ -468,7 +546,7 @@ regions:
       based-on: Item Value
 
     layout: 
-      sequence: 90
+      sequence: 100
       column-alignment: start
       stretch: Use Report Setting
 
@@ -478,9 +556,12 @@ regions:
     source: 
       type: Database Column
       database-column: ACTUALIZADO_EL
-      data-type: TIMESTAMP
-      query-only: true
+      data-type: DATE
+      query-only: false
       primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
 
     session-state: 
       data-type: VARCHAR2
@@ -514,7 +595,7 @@ regions:
       font-size: 12
       font-color: '#000000'
       alignment: center
-      page-header-text: Grilla enlaces WAN
+      page-header-text: Grilla Servicios
 
     column-headings: 
       font: Helvetica
@@ -538,13 +619,13 @@ regions:
       alignment: center
 
 processes: 
-- # ====== Process: Grilla enlaces WAN - Save Interactive Grid D
-  id: 11307537889021396
+- # ====== Process: Grilla Servicios - Save Interactive Grid Dat
+  id: 11053651144656679
   identification: 
-    name: Grilla enlaces WAN - Save Interactive Grid Data
+    name: Grilla Servicios - Save Interactive Grid Data
     type: Interactive Grid - Automatic Row Processing (DML)
     execution-chain: None
-    editable-region: Grilla enlaces WAN # 11083637674715977
+    editable-region: Grilla Servicios # 11064418428656686
 
   settings: 
     target-type: Region Source

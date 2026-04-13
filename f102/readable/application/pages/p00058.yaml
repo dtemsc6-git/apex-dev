@@ -263,67 +263,12 @@ regions:
       value-identifies-row: false
 
     validation: 
-      value-required: false
+      value-required: true
       maximum-length: 64
 
     source: 
       type: Database Column
       database-column: NOMBRE
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: VALOR =======================================
-    id: 11582516689689086
-    identification: 
-      column-name: VALOR
-      type: Text Field
-
-    heading: 
-      heading: Valor
-      alignment: center
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 50
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 255
-
-    source: 
-      type: Database Column
-      database-column: VALOR
       data-type: VARCHAR2
       query-only: false
       primary-key: false

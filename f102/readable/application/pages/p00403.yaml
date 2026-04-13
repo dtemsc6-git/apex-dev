@@ -416,10 +416,28 @@ page-items:
           AS display_value,
           conexiones.id AS return_value
       FROM v_tramos_nombres conexiones
+      WHERE conexiones.equipo_a_id IN (
+          SELECT column_value FROM apex_string.split_numbers(:P405_EQUIPOS, ',')
+      )
+      OR 
+      conexiones.equipo_b_id IN (
+          SELECT column_value FROM apex_string.split_numbers(:P405_EQUIPOS, ',')
+      )
+      
+      /*
+      MODIFICADO: DMF: 2026-04-06
+      SELECT 
+          EQUIPO_A || ':' || INTERFAZ_A ||':'|| etiqueta_a 
+          || ' > '||  EQUIPO_B || ':' || INTERFAZ_B || ':' || etiqueta_b 
+          AS display_value,
+          conexiones.id AS return_value
+      FROM v_tramos_nombres conexiones
       WHERE conexiones.sitio_a_id IN (
           SELECT column_value FROM apex_string.split_numbers(:P402_SITIOS, ',')
       )
+      
       and (:P403_FILTRAR_TIPO_CONEXION IS NULL OR TIPO_CONEXION = :P403_FILTRAR_TIPO_CONEXION)
+      */
       /*
       and 
       TIPO_CONEXION <> 'Trasera'
@@ -498,8 +516,9 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:::'
+      url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:405::'
       page: 34 # SGT_LST_ENLACES_LOGICOS
+      clear-cache: 405
 
     warn-on-unsaved-changes: Do Not Check
 
@@ -644,8 +663,8 @@ branches:
   behavior: 
     type: Page or URL (Redirect)
     target: 
-      url: 'f?p=&APP_ID.:402:&APP_SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
-      page: 402 # Seleccionar los sitios
+      url: 'f?p=&APP_ID.:405:&SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 405 # Seleccionar Equipos
 
   server-side-condition: 
     when-button-pressed: PREVIOUS # 85027402128292935792

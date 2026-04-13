@@ -565,6 +565,36 @@ regions:
       - '#DEFAULT#'
 
 buttons: 
+- # ====== Button: GRILLA ======================================
+  id: 11307448458021395
+  identification: 
+    button-name: GRILLA
+    label: Grilla Editable
+
+  layout: 
+    sequence: 30
+    region: SGT_LST_SERVICIOS # 44129480491990328235
+    slot: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:16:&SESSION.::&DEBUG.:::'
+      page: 16 # Grilla Servicios
+
+    warn-on-unsaved-changes: Do Not Check
+
 - # ====== Button: WZRD ========================================
   id: 64554407807328252536
   identification: 

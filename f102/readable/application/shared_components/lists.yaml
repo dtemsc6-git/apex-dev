@@ -195,12 +195,34 @@
     name: WZRD_CONEXIONES_WAN
 
   subscription: 
-    version-number: 15653174290726
+    version-number: 39027237569203
 
   source: 
     type: Static Values
 
   entries: 
+  - # ====== Entry: Seleccionar Equipos ==========================
+    id: 8413928840062448
+    label: 
+      label: Seleccionar Equipos
+
+    layout: 
+      sequence: 25
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:405:&SESSION.::&DEBUG.::::'
+        page: 405 # Seleccionar Equipos
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
   - # ====== Entry: Crear el enlace WAN ==========================
     id: 85027391402073935782
     label: 
@@ -295,7 +317,7 @@
     name: Navigation Menu
 
   subscription: 
-    version-number: 39026912567398
+    version-number: 39027449654853
 
   source: 
     type: Static Values
@@ -356,13 +378,156 @@
     user-defined-attributes: 
       translatable: false
 
-  - # ====== Entry: TEST_MAP_FO ==================================
-    id: 10657962158478278
+  - # ====== Entry: Conexiones de Enlaces WAN ====================
+    id: 11494815772047172
     label: 
-      label: TEST_MAP_FO
+      label: Conexiones de Enlaces WAN
+
+    icon: 
+      image/icon-css-classes: fa-table-pointer
 
     layout: 
-      sequence: 790
+      sequence: 830
+      parent-entry: Enlaces Wan # 43769687185927608877
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 407
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:407:&SESSION.::&DEBUG.::::'
+        page: 407 # Enlaces WAN
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Conexiones de Servicios ======================
+    id: 11421564370489709
+    label: 
+      label: Conexiones de Servicios
+
+    icon: 
+      image/icon-css-classes: fa-table-pointer
+
+    layout: 
+      sequence: 850
+      parent-entry: Servicios # 44129480090934328234
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 18
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:18:&SESSION.::&DEBUG.::::'
+        page: 18 # Servicios
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Visor de Servicios 2 =========================
+    id: 11388630930940700
+    label: 
+      label: Visor de Servicios 2
+
+    icon: 
+      image/icon-css-classes: fa-table-search
+
+    layout: 
+      sequence: 850
+      parent-entry: Servicios # 44129480090934328234
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 17
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:17:&APP_SESSION.::&DEBUG.:::'
+        page: 17 # Visor de Servicios 2
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Grilla enlaces WAN ===========================
+    id: 11084002546715980
+    label: 
+      label: Grilla enlaces WAN
+
+    icon: 
+      image/icon-css-classes: fa-table-edit
+
+    layout: 
+      sequence: 820
+      parent-entry: Enlaces Wan # 43769687185927608877
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10:&SESSION.::&DEBUG.::::'
+        page: 10 # Grilla enlaces WAN
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Grilla Servicios =============================
+    id: 11064816247656686
+    label: 
+      label: Grilla Servicios
+
+    icon: 
+      image/icon-css-classes: fa-table-edit
+
+    layout: 
+      sequence: 840
+      parent-entry: Servicios # 44129480090934328234
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 16
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:16:&SESSION.::&DEBUG.::::'
+        page: 16 # Grilla Servicios
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Mapa enlaces FO ==============================
+    id: 10657962158478278
+    label: 
+      label: Mapa enlaces FO
+
+    icon: 
+      image/icon-css-classes: fa-map-marker
+
+    layout: 
+      sequence: 845
       parent-entry: Enlaces FO # 43997218319186517993
 
     is-current: 
@@ -372,8 +537,8 @@
 
     link: 
       target: 
-        url: 'f?p=&APP_ID.:65:&APP_SESSION.::&DEBUG.:::'
-        page: 65 # TEST_MAP_FO
+        url: 'f?p=&APP_ID.:65:&SESSION.::&DEBUG.::::'
+        page: 65 # Mapa Tendido Fibra
 
     click-counting: 
       count-clicks: false
@@ -552,6 +717,61 @@
       target: 
         url: 'f?p=&APP_ID.:55:&SESSION.::&DEBUG.::::'
         page: 55 # Conexiones V2
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Unir Enlace Wan ==============================
+    id: 8103068637777224
+    label: 
+      label: Unir Enlace Wan
+
+    icon: 
+      image/icon-css-classes: fa-file-o
+
+    layout: 
+      sequence: 800
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 450
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:450:&APP_SESSION.::&DEBUG.:::'
+        page: 450 # Unir Enlace Wan
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Topología WAN ================================
+    id: 8120808884958374
+    label: 
+      label: Topología WAN
+
+    icon: 
+      image/icon-css-classes: fa-file-o
+
+    layout: 
+      sequence: 845
+      parent-entry: Enlaces Wan # 43769687185927608877
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 449
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:449:&SESSION.::&DEBUG.::::'
+        page: 449 # Topología WAN
 
     click-counting: 
       count-clicks: false
@@ -956,17 +1176,17 @@
     user-defined-attributes: 
       translatable: false
 
-  - # ====== Entry: TEST_MAP_WAN =================================
+  - # ====== Entry: Mapa Enlace Wan ==============================
     id: 91234823666936944300
     label: 
-      label: TEST_MAP_WAN
+      label: Mapa Enlace Wan
 
     icon: 
       image/icon-css-classes: fa-map-marker
 
     layout: 
-      sequence: 710
-      parent-entry: Experimental # 32254844724062918042
+      sequence: 845
+      parent-entry: Enlaces Wan # 43769687185927608877
 
     is-current: 
       type: Pages

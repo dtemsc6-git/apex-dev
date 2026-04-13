@@ -84,6 +84,34 @@
         url: 'f?p=&APP_ID.:47:&SESSION.::&DEBUG.:::'
         page: 47 # MAPA_SITIOS
 
+  - # ====== Entry: Unir Enlace Wan ==============================
+    id: 8104006472777218
+    identification: 
+      name: Unir Enlace Wan
+      page-number: 450
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:450:&APP_SESSION.::&DEBUG.:::'
+        page: 450 # Unir Enlace Wan
+
+  - # ====== Entry: Topología WAN ================================
+    id: 8121706471958373
+    identification: 
+      name: Topología WAN
+      page-number: 449
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:449:&APP_SESSION.::&DEBUG.:::'
+        page: 449 # Topología WAN
+
   - # ====== Entry: Interfaces ===================================
     id: 37204295089123013533
     identification: 
@@ -267,6 +295,9 @@
     execution: 
       sequence: 10
 
+    appearance: 
+      parent-entry: Ciudades # 117116224489950765985
+
     link: 
       target: 
         url: 'f?p=&APP_ID.:25:&SESSION.::&DEBUG.:::'
@@ -281,6 +312,9 @@
     execution: 
       sequence: 10
 
+    appearance: 
+      parent-entry: Departamentos # 118015534741522003225
+
     link: 
       target: 
         url: 'f?p=&APP_ID.:23:&SESSION.::&DEBUG.:::'
@@ -294,6 +328,9 @@
 
     execution: 
       sequence: 10
+
+    appearance: 
+      parent-entry: Zonas # 202695224080943202497
 
     link: 
       target: 
@@ -323,6 +360,9 @@
     execution: 
       sequence: 10
 
+    appearance: 
+      parent-entry: Salas # 202814184707018557272
+
     link: 
       target: 
         url: 'f?p=&APP_ID.:11:&SESSION.::&DEBUG.:::'
@@ -336,6 +376,9 @@
 
     execution: 
       sequence: 10
+
+    appearance: 
+      parent-entry: Racks # 200718430323993803903
 
     link: 
       target: 
@@ -364,6 +407,9 @@
 
     execution: 
       sequence: 10
+
+    appearance: 
+      parent-entry: Sitios # 117115182895578411768
 
     link: 
       target: 

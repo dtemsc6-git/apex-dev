@@ -399,8 +399,9 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:::'
+      url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:405::'
       page: 34 # SGT_LST_ENLACES_LOGICOS
+      clear-cache: 405
 
     warn-on-unsaved-changes: Do Not Check
 

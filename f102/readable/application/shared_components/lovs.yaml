@@ -1,4 +1,27 @@
 ---
+- # ====== List of Values: ENLACES_WAN.FILTRADO_EN_USO =========
+  id: 11153295181398791
+  identification: 
+    name: ENLACES_WAN.FILTRADO_EN_USO
+
+  subscription: 
+    version-number: 39027403382266
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT DISTINCT WAN.NOMBRE, WAN.ID FROM 
+      SGT_EQUIPOS_WAN EW
+      INNER JOIN SGT_ENLACES_WAN WAN ON
+      EW.WAN_ID = WAN.ID
+      ORDER BY WAN.ID  
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: Use Order By from Query
+
 - # ====== List of Values: CONEXIONES.EQUIPO_A.NOMBRE ==========
   id: 10679387732974297
   identification: 

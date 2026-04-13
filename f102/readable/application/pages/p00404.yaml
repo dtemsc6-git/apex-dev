@@ -30,6 +30,8 @@ javascript:
      */
     
     apex.server.process(
+    
+        //'CONEXIONES_PUERTOS', { pageItems: '' },
         'DATOS_GRAFO', { pageItems: '' },
         {
             success: function (apiData) {
@@ -129,6 +131,175 @@ server-cache:
   caching: Disabled
 
 regions: 
+- # ====== Region: Equipos =====================================
+  id: 7258667992679354
+  identification: 
+    name: Equipos
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: Verificar las instrucciones # 85027405378790935793
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: EQUIPOS =====================================
+  id: 7258848371679355
+  identification: 
+    name: EQUIPOS
+    title: Equipos
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      with seleccionados as (
+          SELECT column_value equipo_id
+              FROM TABLE(apex_string.split_numbers(:P405_EQUIPOS, ','))
+              ORDER BY ROWNUM
+      )
+      SELECT 
+          
+         te.nombre ||' : '||e.nombre  Equipos  
+      FROM 
+          sgt_equipos e
+          join seleccionados s on e.id = s.equipo_id
+          join sgt_tipo_equipos te on e.tipo_equipo_id = te.id
+      
+      order by rownum
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 10
+    parent-region: Equipos # 7258667992679354
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Interactive Report
+    template-options: 
+    - '#DEFAULT#'
+    - t-IRR-region--hideHeader js-addHiddenHeadingRoleDesc
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: EQUIPOS =====================================
+    id: 7259316363679360
+    identification: 
+      column-name: EQUIPOS
+      type: Plain Text
+
+    heading: 
+      heading: Equipos
+      alignment: start
+
+    layout: 
+      sequence: 10
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
 - # ====== Region: Wizard Progress =============================
   id: 85027405264778935793
   identification: 
@@ -308,6 +479,7 @@ regions:
   id: 85693681519527747622
   identification: 
     name: SITIOS
+    title: Sitios
     type: Static Content
 
   source: 
@@ -352,10 +524,11 @@ regions:
   id: 85693681667589747623
   identification: 
     name: CONEXIONES
+    title: Conexiones
     type: Static Content
 
   layout: 
-    sequence: 30
+    sequence: 40
     parent-region: Verificar las instrucciones # 85027405378790935793
     slot: SUB_REGIONS
     start-new-layout: false
@@ -388,27 +561,29 @@ regions:
       output-as: HTML
       expand-shortcuts: false
 
-- # ====== Region: New =========================================
+- # ====== Region: CONEXIONES ==================================
   id: 85693681719678747624
   identification: 
-    name: New
+    name: CONEXIONES
+    title: Conexiones
     type: Interactive Report
 
   source: 
     location: Local Database
     type: SQL Query
     sql-query: |
-      with seleccionados as (SELECT column_value id, rownum posicion 
-              FROM apex_string.split_numbers(:P403_CONEXIONES, ',')
-              order by posicion desc
+      with seleccionados as (
+          SELECT column_value tramo_id
+              FROM TABLE(apex_string.split_numbers(:P403_CONEXIONES, ','))
+              ORDER BY ROWNUM
       )
       SELECT 
-          t.id as Elemento,s.posicion, 
-          t.equipo_a || ':'|| t.interfaz_a ||'►'|| t.equipo_b || ':'|| t.interfaz_b Conexión
+          
+         t.equipo_a || ':'|| t.interfaz_a ||'►'|| t.equipo_b || ':'|| t.interfaz_b Conexión
           
       FROM 
-          V_TRAMOS_NOMBRES t join seleccionados s on t.id = s.id
-      
+          V_TRAMOS_NOMBRES t join seleccionados s on t.id = s.tramo_id
+      order by rownum
       
       
 
@@ -476,88 +651,6 @@ regions:
         alias: 857338393
 
     columns: 
-    - # ====== Column: POSICION ====================================
-      id: 10674079005786141
-      identification: 
-        column-name: POSICION
-        type: Plain Text
-
-      heading: 
-        heading: Posicion
-        alignment: end
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 20
-        column-alignment: end
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: ELEMENTO ====================================
-      id: 85693682287122747629
-      identification: 
-        column-name: ELEMENTO
-        type: Plain Text
-
-      heading: 
-        heading: Elemento
-        alignment: end
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 10
-        column-alignment: end
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
     - # ====== Column: CONEXIÓN ====================================
       id: 85693682340240747630
       identification: 
@@ -572,7 +665,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 30
+        sequence: 20
         column-alignment: start
 
       accessibility: 
@@ -625,8 +718,9 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:::'
+      url: 'f?p=&APP_ID.:34:&SESSION.::&DEBUG.:405::'
       page: 34 # SGT_LST_ENLACES_LOGICOS
+      clear-cache: 405
 
     warn-on-unsaved-changes: Do Not Check
 
@@ -740,32 +834,22 @@ processes:
     language: PL/SQL
     pl/sql-code: |
       declare
-      l_cursor SYS_REFCURSOR;
+      L_NODES CLOB;
+      l_edges CLOB;
+      
       begin
+          
+            apex_debug.message('dmf: CONEXIONES_PUERTOS: %s', :P403_CONEXIONES); 
       
-      open l_cursor for
+              L_NODES := GET_NODOS_IFACE_WAN(:P403_CONEXIONES);
+            --L_EDGES := GET_EDGES_IFACE(:P400_SERVICIO_ID);
       
-      
-      
-      SELECT JSON_ARRAYAGG( 
-                   JSON_OBJECT('id' VALUE id, 'eq_id' value eq_id, 'label' VALUE label,  
-                   'shape' VALUE 'box', 'color' VALUE '#00AAFF', 'level' VALUE seq) 
-                 RETURNING CLOB) 
-          INTO l_nodes 
-       
-          FROM ( 
-             SELECT C.eq_ID as id ,C.EQ as label, (c.seq)/10 seq  
-             FROM V_CONEXIONES_GENERAL_V2 C WHERE C.WAN_ID = P_SERVICIO_ID 
-             UNION 
-             SELECT C.eq_B_ID as id, C.eq_b_ID as, C.EQ_B as label, (c.seq + 10) / 10  
-             FROM V_CONEXIONES_GENERAL_V2 C WHERE C.WAN_ID = P_SERVICIO_ID 
-             order by seq 
-          ); 
-      
-      
-      APEX_JSON.OPEN_OBJECT;
-          APEX_JSON.WRITE('data', l_cursor); -- Convierte el cursor a JSON array
-          APEX_JSON.CLOSE_OBJECT;
+            htp.p(
+            JSON_OBJECT(
+              'nodes' VALUE L_NODES FORMAT JSON,
+              'edges' VALUE l_edges FORMAT JSON
+            )
+            );
       
           end;
 
@@ -831,6 +915,9 @@ processes:
           DELETE FROM sgt_conexiones_enlace_wan
           WHERE enlace_wan_id = :P401_ID;
       
+          DELETE FROM sgt_equipos_wan
+          WHERE wan_id = :P401_ID;
+      
           -- ===========================================
           -- 2. INSERTAR o ACTUALIZAR datos del ENLACE_WAN
           -- ===========================================
@@ -891,6 +978,29 @@ processes:
               );
               l_seq := l_seq + 10;
           END LOOP;
+      
+          --======================================= 
+          --.5 Insertar datos en sgt_equipos_wan
+          --=======================================
+           l_seq := 10;
+          FOR rec IN (
+              SELECT column_value equipo_id
+              FROM TABLE(apex_string.split_numbers(:P405_EQUIPOS, ','))
+              ORDER BY ROWNUM
+          )
+          LOOP
+              INSERT INTO sgt_equipos_wan (
+                  equipo_id,
+                  wan_id,
+                  seq
+              ) VALUES (
+                  rec.equipo_id,
+                  :P401_ID,
+                  l_seq
+              );
+              l_seq := l_seq + 10;
+          END LOOP;
+      
       END;
       
 
@@ -925,6 +1035,7 @@ processes:
     - 401
     - 402
     - 403
+    - 405
 
   execution: 
     sequence: 30

@@ -7,6 +7,14 @@
   description: 
     description: Paginas del Wizard WAN
 
+- # ====== Page Group: WZRD_SERVICIOS ==========================
+  id: 8412123750108214
+  identification: 
+    name: WZRD_SERVICIOS
+
+  description: 
+    description: Pagina para agrupar los servicios
+
 - # ====== Page Group: Técnicos ================================
   id: 57023520474492442229
   identification: 

@@ -88,9 +88,9 @@ regions:
     link: 
       link-column: Link to Custom Target
       target: 
-        url: 'f?p=&APP_ID.:401:&SESSION.::&DEBUG.:RP,401,402,403:P401_ID:\#ID#\'
+        url: 'f?p=&APP_ID.:401:&SESSION.::&DEBUG.:RP,401,402,403,405:P401_ID:\#ID#\'
         page: 401 # Crear el enlace WAN
-        clear-cache: RP,401,402,403
+        clear-cache: RP,401,402,403,405
         values: 
           p401_id: '#ID#'
 
@@ -519,6 +519,36 @@ regions:
       - '#DEFAULT#'
 
 buttons: 
+- # ====== Button: GRILLA_EDITABLE =============================
+  id: 11307194700021392
+  identification: 
+    button-name: GRILLA_EDITABLE
+    label: Grilla Editable
+
+  layout: 
+    sequence: 50
+    region: SGT_LST_ENLACES_WAN # 43769687535719608878
+    slot: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:10:&SESSION.::&DEBUG.:::'
+      page: 10 # Grilla enlaces WAN
+
+    warn-on-unsaved-changes: Do Not Check
+
 - # ====== Button: ASISTENTE ===================================
   id: 78443846730153367147
   identification: 
@@ -544,9 +574,9 @@ buttons:
   behavior: 
     action: Redirect to Page in this Application
     target: 
-      url: 'f?p=&APP_ID.:401:&SESSION.::&DEBUG.:401,402::'
+      url: 'f?p=&APP_ID.:401:&SESSION.::&DEBUG.:401,402,403,405::'
       page: 401 # Crear el enlace WAN
-      clear-cache: 401,402
+      clear-cache: 401,402,403,405
 
     warn-on-unsaved-changes: Do Not Check
 

@@ -4,7 +4,7 @@ id: 420
 identification: 
   name: TEST_MAP_WAN
   alias: TEST-MAP-WAN
-  title: TEST_MAP_WAN
+  title: Mapa Wan
 
 appearance: 
   page-mode: Normal
@@ -319,6 +319,14 @@ regions:
     table-owner: Parsing Schema
     table-name: V_SITIOS_GPS
     include-rowid-column: false
+    where-clause: |
+      id in 
+      (select DISTINCT sitio_id from V_SITIOS_EQUIPOS VSE 
+      JOIN SGT_EQUIPOS_WAN SEW ON VSE.EQUIPO_ID = SEW.EQUIPO_A_ID
+      where SEW.WAN_ID = :P420_WAN
+      )
+    page-items-to-submit: 
+    - P420_WAN
 
   layout: 
     sequence: 30
@@ -358,12 +366,14 @@ regions:
       navigation-bar: Zoom and Compass
       navigation-bar-position: End
       options: 
+      - Mousewheel Zoom
       - Rectangle Zoom
       - Scale Bar
-      - Infinite Map
+      - Get Browser Location
       - Distance Tool
 
     initial-position-and-zoom: 
+      get-position-from-browser: false
       type: Based on Spatial Results
 
     legend: 
@@ -505,7 +515,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: ENLACES_WAN # 84737308969826577554
+    list-of-values: ENLACES_WAN.FILTRADO_EN_USO # 11153295181398791
     display-extra-values: true
     display-null-value: true
 
@@ -528,6 +538,60 @@ page-items:
     restricted-characters: All characters can be saved.
 
 dynamic-actions: 
+- # ====== Dynamic Action: MOVER_MAPS ==========================
+  id: 11307907874021400
+  identification: 
+    name: MOVER_MAPS
+
+  execution: 
+    sequence: 40
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: After Refresh
+    selection-type: Region
+    region: TEST_MAP_WAN # 91234824068233944300
+
+  actions: 
+  - # ====== Action: MOVER_MAPS ==================================
+    id: 11307847096021399
+    identification: 
+      name: MOVER_MAPS
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        var map = apex.region("TEST_MAP_WAN").call("getMapObject");
+        console.log("Maps");
+        console.log(map);
+        console.log("Layers");
+        
+        console.log(map.getStyle().layers);
+        // Esperar un pequeño tiempo para asegurar que las capas estén renderizadas
+        setTimeout(function () {
+            console.log("Dentro de setTimeout Llamando a flyto");
+            
+            console.log(map.getStyle().layers);
+            var bounds = map.getBounds();
+            console.log(bounds);  
+        
+             map.fitBounds(bounds, {
+                    maxZoom: 15,
+                    duration: 1000
+                });  
+        
+        }, 300);
+
+    execution: 
+      sequence: 10
+      event: MOVER_MAPS # 11307907874021400
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
+
 - # ====== Dynamic Action: Refrescar ===========================
   id: 88034740127484770444
   identification: 
@@ -701,8 +765,9 @@ processes:
       
           open l_cursor for
           SELECT LON, LAT FROM V_SITIOS_GPS V
-          INNER JOIN SGT_SITIOS_ENLACE_WAN SW ON V.ID = SW.SITIO_ID
-          WHERE SW.ENLACE_WAN_ID = :P420_WAN;
+          join v_sitios_equipos se  on   V.ID = se.SITIO_ID
+          join sgt_equipos_wan wan on se.equipo_id = wan.equipo_a_id
+          WHERE wan.WAN_ID = :P420_WAN;
       
           -- DEBO RETORNAR EL PRIMER ELEMENTO NOMAS 
           APEX_JSON.OPEN_OBJECT;

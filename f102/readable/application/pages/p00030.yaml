@@ -221,7 +221,7 @@ page-items:
     virtual-keyboard: Decimal
 
   layout: 
-    sequence: 140
+    sequence: 110
     region: SGT_FROM_INTERFACES # 43191653727341446998
     slot: BODY
     alignment: Left
@@ -305,7 +305,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Nombre
+    label: Nombre/Número de interfaz
     alignment: Left
 
   settings: 
@@ -359,12 +359,12 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: |
-      Ingresar nombre de la interfaz.
-      Puede agregar rangos [1-48] para crear varios ítems
+    inline-help-text: Ingresar nombre de la interfaz. Se sugiere la nomenclatura Slot_Placa_Puerto.
     help-text: |
-      Puede agregar rangos ejemplo: 
-      ge/[0-2]/[0-3]/[0-10] para crear varios ítems. La cantidad maxima de items por creación esta limitada a 100 registros. 
+      Puede agregar rangos para crear varias interfaces.
+      Ejemplo: 
+      ge/[0-2]/[0-3]/[0-10].
+      La cantidad maxima de items por creación esta limitada a 100 registros. 
 
 - # ====== Page Item: P30_ETIQUETA =============================
   id: 43191655271762447001
@@ -428,10 +428,6 @@ page-items:
 
   help: 
     inline-help-text: Ingresar etiqueta o descripción de la interfaz
-    help-text: |
-      Puede agregar rangos ejemplo: 
-      ge/[0-2]/[0-3]/[0-10] para crear varios ítems.
-      La cantidad maxima de ítems por creación esta limitada a 100 registros. 
 
 - # ====== Page Item: P30_ESTADO ===============================
   id: 43191655605756447002
@@ -474,7 +470,7 @@ page-items:
     type: Shared Component
     list-of-values: INTERFACES.ESTADO # 43199625631148317953
     display-extra-values: true
-    display-null-value: false
+    display-null-value: true
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -498,7 +494,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Ingresar estado de la interfaz
+    inline-help-text: Seleccionar estado de configuración de la interfaz
 
 - # ====== Page Item: P30_TX_EN_DBM ============================
   id: 43191657228678447003
@@ -687,7 +683,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Ingresar MAC-Address
+    inline-help-text: Ingresar MAC-Address de la interfaz
 
 - # ====== Page Item: P30_CREADO_EL ============================
   id: 43191659610484447006
@@ -901,7 +897,8 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Ingresar el equipo donde se encuentra la interfaz
+    inline-help-text: Ingresar el equipo al que pertenece la interfaz
+    help-text: Las opciones desplegadas están en formato Sitio.Sala.Rack.Equipo
 
 - # ====== Page Item: P30_TIPO_INTERFACE_ID ====================
   id: 47902963934699091002
@@ -928,7 +925,7 @@ page-items:
     type: No
 
   layout: 
-    sequence: 60
+    sequence: 100
     region: SGT_FROM_INTERFACES # 43191653727341446998
     slot: BODY
     alignment: Left
@@ -940,13 +937,13 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating
+    template: Required - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
 
   validation: 
-    value-required: false
+    value-required: true
 
   list-of-values: 
     type: Shared Component

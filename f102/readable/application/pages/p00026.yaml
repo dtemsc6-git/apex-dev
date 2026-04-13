@@ -454,6 +454,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Indicar si posee alguna observación acerca del sitio
+
 - # ====== Page Item: P26_UBICACIÓN ============================
   id: 117115198596718411781
   identification: 
@@ -575,7 +578,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: 'Cargar los datos en formato decimal. Ejemplo: -57,573889'
+    inline-help-text: 'Indicar la coordenada de longitud en formato decimal. Ejemplo: -57,573889'
 
 - # ====== Page Item: P26_LATITUD ==============================
   id: 117115199347635411782
@@ -635,7 +638,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: 'Cargar los datos en formato decimal. Ejemplo: -25,277778'
+    inline-help-text: 'Indicar la coordenada de latitud en formato decimal. Ejemplo: -25,277778'
 
 - # ====== Page Item: P26_CIUDAD_ID ============================
   id: 117115200071276411783
@@ -716,6 +719,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Indicar ciudad a la cual perternece el sitio
+
 - # ====== Page Item: P26_ZONA_ID ==============================
   id: 117115200529531411783
   identification: 
@@ -779,6 +785,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Indicar zona a la cual perternece el sitio
 
 - # ====== Page Item: P26_PROPIETARIO ==========================
   id: 117115200850136411784
@@ -844,6 +853,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Seleccionar propietario del sitio
+
 - # ====== Page Item: P26_TIPO_DE_SITIO ========================
   id: 117115201263963411784
   identification: 
@@ -908,6 +920,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Indicar tipo de sitio
+
 - # ====== Page Item: P26_NOMBRE ===============================
   id: 117115201732887411785
   identification: 
@@ -968,6 +983,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Indicar nombre del sitio
+
 - # ====== Page Item: P26_SIGLAS ===============================
   id: 117115202125021411785
   identification: 
@@ -1027,6 +1045,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Asignar sigla/abreviación indentificatoria del sitio
 
 - # ====== Page Item: P26_ID ===================================
   id: 117115202482023411786

@@ -370,7 +370,7 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating
+    template: Required - Floating
     template-options: 
     - '#DEFAULT#'
     width: 32
@@ -401,9 +401,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: |
-      Indicar un nombre para el enlace. El nombre debe ser único y se recomienda el formato "SitioA_SitioB_TipoCable_NroEnlace".
-      Long. máx. 255 char.
+    inline-help-text: Asignar un nombre al enlace. El nombre debe ser único y se recomienda el formato SitioA_SitioB_TipoCable_NroEnlace.
 
 - # ====== Page Item: P27_SITIO_ID_A ===========================
   id: 42627027999555534084
@@ -742,7 +740,7 @@ page-items:
     type: Number Field
 
   label: 
-    label: Certificación
+    label: Certificación (Km.)
     alignment: Left
 
   settings: 
@@ -793,7 +791,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Indicar la longitud de la fibra óptica según medición de OTDR
+    inline-help-text: Indicar la longitud de la fibra óptica en kilómetros según medición de OTDR
 
 - # ====== Page Item: P27_UNIDAD_MEDIDA ========================
   id: 42627029970410534086
@@ -830,7 +828,7 @@ page-items:
     height: 1
 
   validation: 
-    value-required: true
+    value-required: false
 
   list-of-values: 
     type: Static Values
@@ -861,6 +859,9 @@ page-items:
 
   help: 
     inline-help-text: Seleccionar la unidad de medida de la certificación
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
 
 - # ====== Page Item: P27_ABS_LONGITUD =========================
   id: 42627030377702534087
@@ -1048,6 +1049,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Seleccionar el tipo de cable de fibra óptica
+
 - # ====== Page Item: P27_TIPO =================================
   id: 42627031560669534088
   identification: 
@@ -1077,19 +1081,19 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating
+    template: Required - Floating
     template-options: 
     - '#DEFAULT#'
     height: 1
 
   validation: 
-    value-required: false
+    value-required: true
 
   list-of-values: 
     type: Shared Component
     list-of-values: TIPO_ENLACE # 43126193997789167292
     display-extra-values: true
-    display-null-value: false
+    display-null-value: true
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1113,7 +1117,21 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Indicar el tipo de enlace
+    inline-help-text: Seleccionar el tipo de enlace
+    help-text: |
+      <p>
+      Opciones:
+      <p>
+          <ul>
+      	
+      <li>Troncal: Unión de sitios diferentes.</li>
+      <li>Interno: Cableado interno dentro de un sitio dado.</li>
+      <li>Acceso: Conexiones a gabinetes de poste, reconectadores o cualquier otro equipo externo ubicado fuera de un sitio.</li>
+      <li>De Terceros: El enlace no pertenece a ANDE.</li>
+      
+      	    </ul>
+      </p>
+      
 
 - # ====== Page Item: P27_LT ===================================
   id: 42627031981740534088
@@ -1144,13 +1162,13 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating
+    template: Required - Floating
     template-options: 
     - '#DEFAULT#'
     height: 1
 
   validation: 
-    value-required: false
+    value-required: true
 
   list-of-values: 
     type: Shared Component
@@ -1178,6 +1196,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Seleccionar tipo de tendido eléctrico utilizado por el enlace
 
 - # ====== Page Item: P27_CONECTOR =============================
   id: 42627032334366534088
@@ -1244,7 +1265,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Indicar el tipo de conector de los DIOs extremos
+    inline-help-text: Seleccionar el tipo de conector de los DIOs extremos
 
 - # ====== Page Item: P27_ESTADO ===============================
   id: 42627032711544534089
@@ -1275,19 +1296,19 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating
+    template: Required - Floating
     template-options: 
     - '#DEFAULT#'
     height: 1
 
   validation: 
-    value-required: false
+    value-required: true
 
   list-of-values: 
     type: Shared Component
     list-of-values: ENLACE_FO.ESTADO # 52385217569870497397
     display-extra-values: true
-    display-null-value: false
+    display-null-value: true
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1328,7 +1349,7 @@ page-items:
     syntax-highlighting: true
 
   layout: 
-    sequence: 120
+    sequence: 90
     region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
@@ -1366,6 +1387,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Insertar observaciones o comentarios si los hubiere
+
 - # ====== Page Item: P27_PROYECTO_DE_IMPLEMENTACIÓN ===========
   id: 42627033597283534089
   identification: 
@@ -1373,7 +1397,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Proyecto De Implementación
+    label: Proyecto de Implementación
     alignment: Left
 
   settings: 
@@ -1384,7 +1408,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 100
+    sequence: 120
     region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
@@ -1448,7 +1472,7 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 110
+    sequence: 130
     region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
@@ -1517,7 +1541,7 @@ page-items:
     separator: ':'
 
   layout: 
-    sequence: 10
+    sequence: 110
     region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
@@ -1559,6 +1583,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Seleccionar unidad administrativa actual del enlace
 
 - # ====== Page Item: P27_CREADO_POR ===========================
   id: 42627035196248534091
@@ -1758,6 +1785,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Seleccionar el tipo o los tipos de cable de fibra óptica que utiliza el enlace (Puede seleccionar más de uno)
+
 - # ====== Page Item: P27_TIPO_TENDIDO =========================
   id: 51494079924446384807
   identification: 
@@ -1821,6 +1851,18 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Seleccionar el tipo de tendido de fibra óptica
+    help-text: |
+      <p>
+      Aclaración:
+      <p>
+          <ul>
+      <li>Mix: Se refiere a mezcla de tipos de tendido (aéreo y subterráneo)</li>
+      	    </ul>
+      </p>
+      
 
 buttons: 
 - # ====== Button: CANCEL ======================================

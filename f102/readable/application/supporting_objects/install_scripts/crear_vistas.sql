@@ -1,4 +1,3 @@
-
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_AUDIT_CONSOLIDADO" ("AUDIT_ID", "USUARIO", "USUARIO_BD", "TIPO_OPERACION", "FECHA_HORA", "FECHA", "HORA", "APP_ID", "PAGE_ID", "IP_ADDRESS", "TABLA", "CAMPOS_MODIFICADOS", "CAMPOS_LISTA", "DETALLE_OLD_VALUE", "DETALLE_NEW_VALUE", "MODULO", "TIPO_CAMBIO", "NIVEL_CRITICIDAD", "TURNO", "PERIODO", "INDICADOR_VISUAL", "FECHA_HORA_FILTRO") AS 
   SELECT  
     -- Información base de AUDIT_MASTER 
@@ -162,8 +161,7 @@ ORDER BY am.TIMESTAMP DESC;
     END as NIVEL_RIESGO,  
       
     -- Estado de cumplimiento  
-    CASE   
-        WHEN SUM(CASE WHEN ACCION = 'DELETE' THEN 1 ELSE 0 END) > 0   
+    CASE          WHEN SUM(CASE WHEN ACCION = 'DELETE' THEN 1 ELSE 0 END) > 0   
              AND TABLA IN ('SGT_SITIOS', 'SGT_EQUIPOS', 'SGT_SERVICIOS', 'SGT_ENLACES_FO', 'SGT_ENLACES_LOGICOS', 'SGT_INTERFACES', 'SGT_ENLACES_TRAMOS')  
              AND SUM(CASE WHEN TO_NUMBER(TO_CHAR(FECHA_HORA, 'HH24')) BETWEEN 0 AND 7 THEN 1 ELSE 0 END) > 0  
         THEN 'VIOLACION_POLITICA'  
@@ -358,6 +356,200 @@ FROM V_AUDIT_GENERAL
   
 ORDER BY FECHA_HORA DESC, TABLA, CAMPO;
 
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_AUDIT_EQUIPOS" ("AUDIT_ID", "USUARIO", "TIPO_OPERACION", "FECHA_HORA", "FECHA", "HORA", "TABLA_ORIGEN", "EQUIPO_ID", "TIPO_COMPONENTE", "REGISTRO_ID", "DETALLE_OLD_VALUE", "DETALLE_NEW_VALUE", "FECHA_HORA_FILTRO") AS 
+  SELECT  
+    am.AUDIT_ID, 
+    am.APEX_USER as USUARIO, 
+    am.ACTION_TYPE as TIPO_OPERACION, 
+    am.TIMESTAMP as FECHA_HORA, 
+    TO_CHAR(am.TIMESTAMP, 'DD/MM/YYYY') as FECHA, 
+    TO_CHAR(am.TIMESTAMP, 'HH24:MI:SS') as HORA, 
+    'SGT_EQUIPOS' as TABLA_ORIGEN, 
+    TO_NUMBER((SELECT ad.PK_VALUE FROM AUDIT_DETAIL ad WHERE ad.AUDIT_ID = am.AUDIT_ID AND ad.TABLE_NAME = 'SGT_EQUIPOS' AND ROWNUM = 1)) as EQUIPO_ID, 
+    'Equipo Principal' as TIPO_COMPONENTE, 
+    (SELECT ad.PK_VALUE FROM AUDIT_DETAIL ad WHERE ad.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) as REGISTRO_ID, 
+    -- CAMBIO: Concatenar TODOS los campos con LISTAGG 
+    (SELECT LISTAGG(ad.COLUMN_NAME || ': ' || COALESCE(ad.OLD_VALUE, '[NULL]'), ' | ')  
+            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) 
+     FROM AUDIT_DETAIL ad  
+     WHERE ad.AUDIT_ID = am.AUDIT_ID  
+     AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_OLD_VALUE, 
+    (SELECT LISTAGG(ad.COLUMN_NAME || ': ' || COALESCE(ad.NEW_VALUE, '[NULL]'), ' | ')  
+            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) 
+     FROM AUDIT_DETAIL ad  
+     WHERE ad.AUDIT_ID = am.AUDIT_ID  
+     AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_NEW_VALUE, 
+    am.TIMESTAMP as FECHA_HORA_FILTRO 
+FROM AUDIT_MASTER am 
+WHERE EXISTS ( 
+    SELECT 1 FROM AUDIT_DETAIL ad  
+    WHERE ad.AUDIT_ID = am.AUDIT_ID 
+    AND ad.TABLE_NAME = 'SGT_EQUIPOS' 
+) 
+AND am.ACTION_TYPE NOT IN ('INSERT', 'Inserción') 
+ 
+UNION ALL 
+ 
+-- ============================================================================ 
+-- 2. Cambios en SGT_INTERFACES 
+-- ============================================================================ 
+SELECT  
+    am.AUDIT_ID, 
+    am.APEX_USER as USUARIO, 
+    am.ACTION_TYPE as TIPO_OPERACION, 
+    am.TIMESTAMP as FECHA_HORA, 
+    TO_CHAR(am.TIMESTAMP, 'DD/MM/YYYY') as FECHA, 
+    TO_CHAR(am.TIMESTAMP, 'HH24:MI:SS') as HORA, 
+    'SGT_INTERFACES' as TABLA_ORIGEN, 
+ 
+        /* EQUIPO_ID derivado solo de AUDIT_DETAIL - optimizado */ 
+    TO_NUMBER(( 
+        SELECT COALESCE(ad_eq.NEW_VALUE, ad_eq.OLD_VALUE) 
+          FROM AUDIT_DETAIL ad_eq 
+         WHERE ad_eq.TABLE_NAME = 'SGT_INTERFACES' 
+           AND ad_eq.COLUMN_NAME = 'EQUIPO_ID' 
+           AND ad_eq.PK_VALUE = ( 
+                SELECT ad_pk.PK_VALUE 
+                  FROM AUDIT_DETAIL ad_pk 
+                 WHERE ad_pk.AUDIT_ID = am.AUDIT_ID 
+                   AND ad_pk.TABLE_NAME = 'SGT_INTERFACES' 
+                   AND ROWNUM = 1) 
+           AND ad_eq.AUDIT_ID <= am.AUDIT_ID 
+         ORDER BY CASE WHEN ad_eq.AUDIT_ID = am.AUDIT_ID THEN 0 ELSE 1 END, 
+                  ad_eq.AUDIT_ID DESC 
+         FETCH FIRST 1 ROW ONLY 
+    )) as EQUIPO_ID, 
+ 
+    'Interface' as TIPO_COMPONENTE, 
+    (SELECT ad.PK_VALUE FROM AUDIT_DETAIL ad WHERE ad.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) as REGISTRO_ID, 
+ 
+    (SELECT LISTAGG(ad.COLUMN_NAME || ': ' || COALESCE(ad.OLD_VALUE, '[NULL]'), ' | ')  
+            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) 
+       FROM AUDIT_DETAIL ad  
+      WHERE ad.AUDIT_ID = am.AUDIT_ID  
+        AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_OLD_VALUE, 
+ 
+    (SELECT LISTAGG(ad.COLUMN_NAME || ': ' || COALESCE(ad.NEW_VALUE, '[NULL]'), ' | ')  
+            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) 
+       FROM AUDIT_DETAIL ad  
+      WHERE ad.AUDIT_ID = am.AUDIT_ID  
+        AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_NEW_VALUE, 
+ 
+    am.TIMESTAMP as FECHA_HORA_FILTRO 
+FROM AUDIT_MASTER am 
+WHERE EXISTS ( 
+    SELECT 1 FROM AUDIT_DETAIL ad  
+    WHERE ad.AUDIT_ID = am.AUDIT_ID 
+      AND ad.TABLE_NAME = 'SGT_INTERFACES' 
+) 
+AND am.ACTION_TYPE NOT IN ('INSERT', 'Inserción') 
+ 
+UNION ALL 
+ 
+-- ============================================================================ 
+-- 3. Cambios en SGT_ENLACES_FO vista desde EQUIPO_ID_A 
+-- ============================================================================ 
+SELECT  
+    am.AUDIT_ID, 
+    am.APEX_USER as USUARIO, 
+    am.ACTION_TYPE as TIPO_OPERACION, 
+    am.TIMESTAMP as FECHA_HORA, 
+    TO_CHAR(am.TIMESTAMP, 'DD/MM/YYYY') as FECHA, 
+    TO_CHAR(am.TIMESTAMP, 'HH24:MI:SS') as HORA, 
+    'SGT_ENLACES_FO' as TABLA_ORIGEN, 
+    /* EQUIPO_ID_A derivado solo de AUDIT_DETAIL - optimizado */ 
+    TO_NUMBER(( 
+        SELECT COALESCE(ad_eq.NEW_VALUE, ad_eq.OLD_VALUE) 
+          FROM AUDIT_DETAIL ad_eq 
+         WHERE ad_eq.TABLE_NAME = 'SGT_ENLACES_FO' 
+           AND ad_eq.COLUMN_NAME = 'EQUIPO_ID_A' 
+           AND ad_eq.PK_VALUE = ( 
+                SELECT ad_pk.PK_VALUE 
+                  FROM AUDIT_DETAIL ad_pk 
+                 WHERE ad_pk.AUDIT_ID = am.AUDIT_ID 
+                   AND ad_pk.TABLE_NAME = 'SGT_ENLACES_FO' 
+                   AND ROWNUM = 1) 
+           AND ad_eq.AUDIT_ID <= am.AUDIT_ID 
+         ORDER BY CASE WHEN ad_eq.AUDIT_ID = am.AUDIT_ID THEN 0 ELSE 1 END, 
+                  ad_eq.AUDIT_ID DESC 
+         FETCH FIRST 1 ROW ONLY 
+    )) as EQUIPO_ID, 
+    'Enlace FO' as TIPO_COMPONENTE, 
+    (SELECT ad.PK_VALUE FROM AUDIT_DETAIL ad WHERE ad.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) as REGISTRO_ID, 
+    -- CAMBIO: LISTAGG 
+    (SELECT LISTAGG(ad.COLUMN_NAME || ': ' || COALESCE(ad.OLD_VALUE, '[NULL]'), ' | ')  
+            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) 
+     FROM AUDIT_DETAIL ad  
+     WHERE ad.AUDIT_ID = am.AUDIT_ID  
+     AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_OLD_VALUE, 
+    (SELECT LISTAGG(ad.COLUMN_NAME || ': ' || COALESCE(ad.NEW_VALUE, '[NULL]'), ' | ')  
+            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) 
+     FROM AUDIT_DETAIL ad  
+     WHERE ad.AUDIT_ID = am.AUDIT_ID  
+     AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_NEW_VALUE, 
+    am.TIMESTAMP as FECHA_HORA_FILTRO 
+FROM AUDIT_MASTER am 
+WHERE EXISTS ( 
+    SELECT 1 FROM AUDIT_DETAIL ad  
+    WHERE ad.AUDIT_ID = am.AUDIT_ID 
+    AND ad.TABLE_NAME = 'SGT_ENLACES_FO' 
+) 
+AND am.ACTION_TYPE NOT IN ('INSERT', 'Inserción') 
+ 
+UNION ALL 
+ 
+-- ============================================================================ 
+-- 4. Cambios en SGT_ENLACES_FO vista desde EQUIPO_ID_B 
+-- ============================================================================ 
+SELECT  
+    am.AUDIT_ID, 
+    am.APEX_USER as USUARIO, 
+    am.ACTION_TYPE as TIPO_OPERACION, 
+    am.TIMESTAMP as FECHA_HORA, 
+    TO_CHAR(am.TIMESTAMP, 'DD/MM/YYYY') as FECHA, 
+    TO_CHAR(am.TIMESTAMP, 'HH24:MI:SS') as HORA, 
+    'SGT_ENLACES_FO' as TABLA_ORIGEN, 
+    /* EQUIPO_ID_B derivado solo de AUDIT_DETAIL - optimizado */ 
+    TO_NUMBER(( 
+        SELECT COALESCE(ad_eq.NEW_VALUE, ad_eq.OLD_VALUE) 
+          FROM AUDIT_DETAIL ad_eq 
+         WHERE ad_eq.TABLE_NAME = 'SGT_ENLACES_FO' 
+           AND ad_eq.COLUMN_NAME = 'EQUIPO_ID_B' 
+           AND ad_eq.PK_VALUE = ( 
+                SELECT ad_pk.PK_VALUE 
+                  FROM AUDIT_DETAIL ad_pk 
+                 WHERE ad_pk.AUDIT_ID = am.AUDIT_ID 
+                   AND ad_pk.TABLE_NAME = 'SGT_ENLACES_FO' 
+                   AND ROWNUM = 1) 
+           AND ad_eq.AUDIT_ID <= am.AUDIT_ID 
+         ORDER BY CASE WHEN ad_eq.AUDIT_ID = am.AUDIT_ID THEN 0 ELSE 1 END, 
+                  ad_eq.AUDIT_ID DESC 
+         FETCH FIRST 1 ROW ONLY 
+    )) as EQUIPO_ID, 
+    'Enlace FO' as TIPO_COMPONENTE, 
+    (SELECT ad.PK_VALUE FROM AUDIT_DETAIL ad WHERE ad.AUDIT_ID = am.AUDIT_ID AND ROWNUM = 1) as REGISTRO_ID, 
+    -- CAMBIO: LISTAGG 
+    (SELECT LISTAGG(ad.COLUMN_NAME || ': ' || COALESCE(ad.OLD_VALUE, '[NULL]'), ' | ')  
+            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) 
+     FROM AUDIT_DETAIL ad  
+     WHERE ad.AUDIT_ID = am.AUDIT_ID  
+     AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_OLD_VALUE, 
+    (SELECT LISTAGG(ad.COLUMN_NAME || ': ' || COALESCE(ad.NEW_VALUE, '[NULL]'), ' | ')  
+            WITHIN GROUP (ORDER BY ad.COLUMN_NAME) 
+     FROM AUDIT_DETAIL ad  
+     WHERE ad.AUDIT_ID = am.AUDIT_ID  
+     AND (ad.OLD_VALUE IS NOT NULL OR ad.NEW_VALUE IS NOT NULL)) as DETALLE_NEW_VALUE, 
+    am.TIMESTAMP as FECHA_HORA_FILTRO 
+FROM AUDIT_MASTER am 
+WHERE EXISTS ( 
+    SELECT 1 FROM AUDIT_DETAIL ad  
+    WHERE ad.AUDIT_ID = am.AUDIT_ID 
+    AND ad.TABLE_NAME = 'SGT_ENLACES_FO' 
+) 
+AND am.ACTION_TYPE NOT IN ('INSERT', 'Inserción') 
+ 
+ORDER BY FECHA_HORA_FILTRO DESC, AUDIT_ID DESC;
+
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_AUDIT_GENERAL" ("AUDIT_ID", "USUARIO", "USUARIO_BD", "ACCION", "FECHA_HORA", "FECHA", "HORA", "APP_ID", "PAGE_ID", "IP_ADDRESS", "TABLA", "CAMPO", "VALOR_ANTERIOR", "VALOR_NUEVO", "ID_REGISTRO", "COLUMNA_PK", "TIPO_OPERACION", "TIPO_CAMBIO", "MODULO", "CRITICIDAD", "PERIODO", "CATEGORIA_CAMPO", "NOMBRE_REGISTRO") AS 
   SELECT  
     am.AUDIT_ID, 
@@ -399,8 +591,8 @@ ORDER BY FECHA_HORA DESC, TABLA, CAMPO;
         WHEN ad.TABLE_NAME = 'SGT_INTERFACES' THEN 'Gestión de Interfaces' 
         WHEN ad.TABLE_NAME = 'SGT_ENLACES_FO' THEN 'Gestión de Enlaces de Fibra Óptica' 
         WHEN ad.TABLE_NAME = 'SGT_ENLACES_TRAMOS' THEN 'Gestión de Enlaces - Tramos' 
-        WHEN ad.TABLE_NAME = 'SGT_ENLACES_LOGICOS' THEN 'Gestión de Enlaces Lógicos' 
-        WHEN ad.TABLE_NAME = 'SGT_ENLACE_LOGICO_TRAMO' THEN 'Gestión de Enlace Lógico - Tramos' 
+       -- WHEN ad.TABLE_NAME = 'SGT_ENLACES_LOGICOS' THEN 'Gestión de Enlaces Lógicos' 
+       -- WHEN ad.TABLE_NAME = 'SGT_ENLACE_LOGICO_TRAMO' THEN 'Gestión de Enlace Lógico - Tramos' 
         WHEN ad.TABLE_NAME = 'SGT_SERVICIOS' THEN 'Gestión de Servicios' 
         WHEN ad.TABLE_NAME = 'SGT_RACKS' THEN 'Gestión de Racks' 
     WHEN ad.TABLE_NAME = 'SGT_CONEXIONES_SERVICIO' THEN 'Gestión de Conexiones - Servicio' 
@@ -484,11 +676,11 @@ ORDER BY FECHA_HORA DESC, TABLA, CAMPO;
                 (SELECT et.NOMBRE FROM SGT_ENLACES_TRAMOS et WHERE et.ID = TO_NUMBER(ad.PK_VALUE)), 
                 'Enlace Tramo ID: ' || ad.PK_VALUE 
             ) 
-        WHEN ad.TABLE_NAME = 'SGT_ENLACES_LOGICOS' THEN  
+       /* WHEN ad.TABLE_NAME = 'SGT_ENLACES_LOGICOS' THEN  
             COALESCE( 
                 (SELECT el.NOMBRE FROM SGT_ENLACES_LOGICOS el WHERE el.ID = TO_NUMBER(ad.PK_VALUE)), 
                 'Enlace Lógico ID: ' || ad.PK_VALUE 
-            ) 
+            )*/ 
         WHEN ad.TABLE_NAME = 'SGT_SERVICIOS' THEN  
             COALESCE( 
                 (SELECT s.NOMBRE FROM SGT_SERVICIOS s WHERE s.ID = TO_NUMBER(ad.PK_VALUE)), 
@@ -534,13 +726,13 @@ ORDER BY FECHA_HORA DESC, TABLA, CAMPO;
                 (SELECT c.NOMBRE FROM SGT_CIUDAD c WHERE c.ID = TO_NUMBER(ad.PK_VALUE)), 
                 'Ciudad ID: ' || ad.PK_VALUE 
             ) 
-        WHEN ad.TABLE_NAME = 'SGT_ENLACE_LOGICO_TRAMO' THEN  
+        /*WHEN ad.TABLE_NAME = 'SGT_ENLACE_LOGICO_TRAMO' THEN  
             'Relación Enlace-Tramo ID: ' || ad.PK_VALUE || 
             COALESCE( 
                 ' (EL:' || (SELECT elt.ENLACE_LOGICO_ID FROM SGT_ENLACE_LOGICO_TRAMO elt WHERE elt.ID = TO_NUMBER(ad.PK_VALUE)) || 
                 ' - TR:' || (SELECT elt.TRAMO_ID FROM SGT_ENLACE_LOGICO_TRAMO elt WHERE elt.ID = TO_NUMBER(ad.PK_VALUE)) || ')', 
                 '' 
-            ) 
+            )*/ 
         WHEN ad.TABLE_NAME = 'SGT_CONEXIONES_SERVICIO' THEN  
             'Conexión Servicio ID: ' || ad.PK_VALUE || 
             COALESCE( 
@@ -582,37 +774,6 @@ ORDER BY FECHA_HORA DESC, TABLA, CAMPO;
 FROM AUDIT_MASTER am 
 JOIN AUDIT_DETAIL ad ON am.AUDIT_ID = ad.AUDIT_ID 
 ORDER BY am.TIMESTAMP DESC, ad.COLUMN_NAME;
-
-  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_CONEXIONES_GENERAL" ("SITIO_A", "SITIO_A_ID", "EQUIPO_A", "EQUIPO_A_ID", "INTERFAZ_A", "INTERFAZ_A_ID", "SITIO_B", "SITIO_B_ID", "EQUIPO_B", "EQUIPO_B_ID", "INTERFAZ_B", "INTERFAZ_B_ID", "SERVICIO", "SERVICIO_ID", "CONEXION_ID", "TIPO_CONEXION") AS 
-  SELECT 
-     sitios_a.SIGLAS "SITIO_A", sitios_a.id "SITIO_A_ID",  
-        
-     eq_a.nombre, eq_a.id, 
-     inter_a.nombre, inter_a.id, 
-     sitios_b.SIGLAS "SITIO_B", sitios_b.id "SITIO_B_ID",  
-     eq_b.nombre, eq_b.id, 
-     inter_b.nombre, inter_b.id, 
-     srv.nombre, srv.id , et.ID "CONEXION_ID",et.tipo_conexion  
- 
-     FROM  
-      
-     sgt_enlaces_tramos et 
---    INNER JOIN sgt_sitios sitio_a ON el.sitio_a_id = sitio_a.id 
-    inner join sgt_conexiones_servicio conexionesServ on et.id = conexionesServ.enlace_tramo_id 
-    inner join sgt_servicios srv on conexionesServ.servicio_id  = srv.id 
- 
-    INNER JOIN sgt_equipos eq_a ON et.equipo_a_id = eq_a.id 
-    INNER JOIN sgt_interfaces inter_a ON et.interfaz_a_id = inter_a.id 
-    inner join sgt_racks racks_a on eq_a.rack_id = racks_a.id 
-    INNER JOIN sgt_salas salas_a on  racks_a.sala_id = salas_a.id     
-    inner join sgt_sitios sitios_a on  salas_a.sitio_id = sitios_a.id 
- 
-     
-    INNER JOIN sgt_equipos eq_b ON et.equipo_b_id = eq_b.id 
-    INNER JOIN sgt_interfaces inter_b ON et.interfaz_b_id = inter_b.id 
-    inner join sgt_racks racks_b on eq_b.rack_id = racks_b.id 
-    INNER JOIN sgt_salas salas_b on racks_b.sala_id = salas_b.id 
-    inner join sgt_sitios sitios_b on  salas_b.sitio_id = sitios_b.id;
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_CONEXIONES_GENERAL_V2" ("SERV_ID", "SERVICIO", "NIVEL_DE_PRIORIDAD", "EQ_ID", "EQ", "IFACE_ID", "IFACE", "EQ_B_ID", "EQ_B", "IFACE_B_ID", "IFACE_B", "CONN_ID", "TIPO_CONEXION", "FO_ID", "FO_NOMBRE", "SEQ", "WAN_ID", "WAN", "SEQ_WAN") AS 
   SELECT  
@@ -676,35 +837,43 @@ LEFT JOIN sgt_enlaces_fo fo
 
 ORDER BY serv.id, et.id, conexionesServ.seq;
 
-  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_ENLACES_LOGICOS_NOMBRES" ("ID", "ENLACE_NOMBRE", "SITIO_A", "SITIO_A_ID", "EQUIPO_A", "INTERFAZ_A", "SITIO_B", "SITIO_B_ID", "EQUIPO_B", "INTERFAZ_B", "GRUPO_RED") AS 
-  SELECT  
-    el.id, 
-    el.nombre, 
-    sitios_a.siglas AS sitio_a, 
-    sitios_a.id as sitio_a_id,  
-    equipo_a.nombre AS equipo_a, 
-    interfaz_a.nombre AS interfaz_a, 
-    sitios_b.siglas AS sitio_b, 
-    sitios_b.id as sitio_b_id, 
-    equipo_b.nombre AS equipo_b, 
-    interfaz_b.nombre AS interfaz_b, 
-    el.grupo_red 
-FROM  
-    sgt_enlaces_logicos el 
---    INNER JOIN sgt_sitios sitio_a ON el.sitio_a_id = sitio_a.id 
-    INNER JOIN sgt_equipos equipo_a ON el.equipo_a_id = equipo_a.id 
-    INNER JOIN sgt_interfaces interfaz_a ON el.interfaz_a_id = interfaz_a.id 
-    inner join sgt_racks racks_a on equipo_a.rack_id = racks_a.id 
-    INNER JOIN sgt_salas salas_a on  racks_a.sala_id = salas_a.id 
-    INNER JOIN sgt_sitios sitios_a on salas_a.sitio_id = sitios_a.id 
- 
-    INNER JOIN sgt_equipos equipo_b ON el.equipo_b_id = equipo_b.id 
-    INNER JOIN sgt_interfaces interfaz_b ON el.interfaz_b_id = interfaz_b.id 
-    inner join sgt_racks racks_b on equipo_b.rack_id = racks_b.id 
-    INNER JOIN sgt_salas salas_b on  racks_b.sala_id = salas_b.id 
-    INNER JOIN sgt_sitios sitios_b on salas_b.sitio_id = sitios_b.id 
-ORDER BY 
-EL.ID;
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SERVICIOS" ("SERVICIO", "NIVEL_DE_PRIORIDAD", "SITIOS", "WAN", "EQUIPO", "INTERFACE", "FO", "SEQ", "WAN_SEQ") AS 
+  Select ss.nombre servicio, ss.nivel_de_prioridad , s.siglas, null as wan , equipos.nombre Equipo, iface.nombre Interface, null as fo, es.seq, null as wan_seq 
+
+from
+
+sgt_equipos_servicio es
+
+
+join sgt_equipos equipos on equipos.id = es.equipo_a_id
+left join sgt_interfaces iface on iface.id = es.interfaz_a_id
+left join sgt_sitios s on s.id = equipos.sitio_id
+left join sgt_servicios ss on ss.id = es.servicio_id
+
+union 
+
+select ss.nombre Servicio, ss.nivel_de_prioridad , s.siglas, wan.nombre , equipos.nombre equipo, iface.nombre Interface, null as fo, es.seq, ew.seq 
+
+from
+
+sgt_equipos_wan ew
+
+join sgt_enlaces_wan wan on wan.id = ew.wan_id
+join sgt_equipos_servicio es on es.wan_id = ew.wan_id
+join sgt_equipos equipos on equipos.id = ew.equipo_a_id
+left join sgt_interfaces iface on iface.id = ew.interfaz_a_id
+left join sgt_sitios s on s.id = equipos.sitio_id
+left join sgt_servicios ss on ss.id = es.servicio_id
+
+order by Servicio, seq, wan_seq;
+
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SITIOS_EQUIPOS" ("SITIO_ID", "EQUIPO_ID") AS 
+  select ss.id sitio_id, e.id equipo_id
+from 
+sgt_equipos e
+ inner join sgt_racks r on e.rack_id = r.id
+ inner join sgt_salas s on r.sala_id = s.id
+ inner join sgt_sitios ss on s.sitio_id = ss.id;
 
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SITIOS_GPS" ("ID", "ZONA_ID", "ZONA", "DEPARTAMENTO", "CIUDAD", "SIGLAS", "TIPO_SITIO", "LAT", "LON", "URL") AS 
   SELECT  s."ID", z.id, z.nombre,d.nombre, c.nombre ,s."SIGLAS", s.tipo_de_sitio, (LATITUD), (LONGITUD), "UBICACIÓN" 
@@ -713,20 +882,22 @@ EL.ID;
   left join sgt_depto d on  c.depto_id = d.id
   join sgt_zonas z on s.zona_id = z.id;
 
-  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_TRAMOS_NOMBRES" ("ID", "SITIO_A", "SITIO_A_ID", "EQUIPO_A", "IFACE_A_ID", "INTERFAZ_A", "ETIQUETA_A", "SITIO_B", "SITIO_B_ID", "EQUIPO_B", "IFACE_B_ID", "INTERFAZ_B", "ETIQUETA_B", "TIPO_CONEXION", "ENLACE_ID") AS 
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_TRAMOS_NOMBRES" ("ID", "SITIO_A", "SITIO_A_ID", "EQUIPO_A", "EQUIPO_A_ID", "IFACE_A_ID", "INTERFAZ_A", "ETIQUETA_A", "SITIO_B", "SITIO_B_ID", "EQUIPO_B", "EQUIPO_B_ID", "IFACE_B_ID", "INTERFAZ_B", "ETIQUETA_B", "TIPO_CONEXION", "ENLACE_ID") AS 
   SELECT  
     et.id, 
     -- Lado A 
     sitio_a.siglas, 
     sitio_a.id, 
-    eq_a.nombre AS equipo_a, 
+    eq_a.nombre AS equipo_a,
+    eq_a.id as equipo_a_id, 
     inter_a.id as IFACE_A_ID,
     inter_a.nombre AS interfaz_a, 
     inter_a.etiqueta as etiqueta_a,
     -- Lado B 
     sitio_b.siglas, 
     sitio_b.id, 
-    eq_b.nombre AS equipo_b, 
+    eq_b.nombre AS equipo_b,
+    eq_b.id as equipo_b_id, 
     inter_B.id as IFACE_B_ID,
     inter_b.nombre AS interfaz_b, 
     inter_b.etiqueta as etiqueta_b,
@@ -747,3 +918,17 @@ FROM
     INNER JOIN sgt_salas salas_b on racks_b.sala_id = salas_b.id 
     inner join sgt_sitios sitio_b on  salas_b.sitio_id = sitio_b.id 
     order by et.id;
+
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_ZONAS_VISTA_GENERAL" ("Z_ID", "Z_NOMBRE", "SITIO_ID", "SITIO_NOMBRE", "SITIO_SIGLAS", "SALA_ID", "SALA_NOMBRE", "SALA_SIGLAS", "RACK_ID", "RACK_NOMBRE", "EQUIPO_ID", "EQUIPO_NOMBRE", "TIPO_EQUIPO_ID", "TIPO_EQUIPO_NOMBRE") AS 
+  select z.id, z.nombre, s.id, s.nombre, s.siglas ,
+  sa.id, sa.nombre, sa.siglas,
+  ra.id, ra.nombre,
+  e.id, e.nombre,
+  te.id, te.nombre
+  from sgt_zonas z
+  inner join sgt_sitios s on z.id = s.zona_id
+  INNER JOIN SGT_SALAS sa on s.id = sa.sitio_id
+  INNER JOIN SGT_RACKS ra on sa.id = ra.sala_id
+  INNER JOIN SGT_EQUIPOS e on ra.id = e.rack_id
+  inner join sgt_tipo_equipos te on te.id = e.tipo_equipo_id
+  WHERE z.parent_id is not null; 

@@ -186,7 +186,7 @@ regions:
 
     heading: 
       heading: Equipo
-      alignment: start
+      alignment: center
 
     settings: 
       display-as: Inline Popup
@@ -362,25 +362,11 @@ regions:
     id: 23868909420543
     identification: 
       column-name: ESTADO
-      type: Popup LOV
+      type: Select List
 
     heading: 
       heading: Estado
       alignment: start
-
-    settings: 
-      display-as: Inline Popup
-      initial-fetch: Automatic
-      manual-entry: false
-      fetch-on-search: false
-
-    search: 
-      match-type: Contains
-      case-sensitive: false
-      minimum-characters: 0
-
-    multiple-values: 
-      type: No
 
     layout: 
       sequence: 70
@@ -392,13 +378,12 @@ regions:
 
     validation: 
       value-required: false
-      maximum-length: 255
 
     list-of-values: 
       type: Shared Component
       list-of-values: INTERFACES.ESTADO # 43199625631148317953
       display-extra-values: true
-      display-null-value: false
+      display-null-value: true
 
     source: 
       type: Database Column

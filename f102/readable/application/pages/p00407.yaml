@@ -1,10 +1,10 @@
 ---
-# ====== Page: Grilla enlaces WAN ============================
-id: 10
+# ====== Page: Enlaces WAN ===================================
+id: 407
 identification: 
-  name: Grilla enlaces WAN
-  alias: GRILLA-ENLACES-WAN
-  title: Grilla enlaces WAN
+  name: Enlaces WAN
+  alias: ENLACES-WAN
+  title: Conexiones de enlaces WAN
 
 appearance: 
   page-mode: Normal
@@ -37,18 +37,28 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Grilla enlaces WAN ==========================
-  id: 11083637674715977
+- # ====== Region: Enlaces WAN =================================
+  id: 11494463219047172
   identification: 
-    name: Grilla enlaces WAN
+    name: Enlaces WAN
     type: Interactive Grid
 
   source: 
     location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: SGT_ENLACES_WAN
-    include-rowid-column: false
+    type: SQL Query
+    sql-query: |
+      select ew.ID,
+             WAN_ID,
+             e.SITIO_ID,
+             EQUIPO_A_ID,
+             INTERFAZ_A_ID,
+             FO_ID,
+             SEQ
+      
+        from SGT_EQUIPOS_WAN ew
+      
+        LEFT join sgt_equipos e on ew.equipo_a_id = e.id
+      
 
   layout: 
     sequence: 20
@@ -79,7 +89,7 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 11083154963715976
+    id: 11493902644047173
     edit: 
       enabled: true
       allowed-operations: 
@@ -134,23 +144,14 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 11082771502715975
+      id: 11493527954047173
       identification: 
         name: Primary Report
-        alias: 207934
+        alias: 203826
 
   columns: 
-  - # ====== Column: APEX$ROW_ACTION =============================
-    id: 11307743112021398
-    identification: 
-      column-name: APEX$ROW_ACTION
-      type: Actions Menu
-
-    layout: 
-      sequence: 20
-
   - # ====== Column: APEX$ROW_SELECTOR ===========================
-    id: 11307623065021397
+    id: 11493104826047173
     identification: 
       column-name: APEX$ROW_SELECTOR
       type: Row Selector
@@ -163,8 +164,17 @@ regions:
     layout: 
       sequence: 10
 
+  - # ====== Column: APEX$ROW_ACTION =============================
+    id: 11492634208047173
+    identification: 
+      column-name: APEX$ROW_ACTION
+      type: Actions Menu
+
+    layout: 
+      sequence: 20
+
   - # ====== Column: ID ==========================================
-    id: 11082346120715973
+    id: 11491622949047174
     identification: 
       column-name: ID
       type: Hidden
@@ -195,70 +205,29 @@ regions:
       sort: true
       control-break/aggregate: true
 
-  - # ====== Column: NOMBRE ======================================
-    id: 11081347041715970
+  - # ====== Column: WAN_ID ======================================
+    id: 11490598819047174
     identification: 
-      column-name: NOMBRE
-      type: Text Field
+      column-name: WAN_ID
+      type: Popup LOV
 
     heading: 
-      heading: Nombre
+      heading: Wan
       alignment: start
 
     settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
 
-    layout: 
-      sequence: 40
-      column-alignment: start
-      stretch: Use Report Setting
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
 
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: true
-      maximum-length: 255
-
-    source: 
-      type: Database Column
-      database-column: NOMBRE
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: GRUPO_RED ===================================
-    id: 11080369213715969
-    identification: 
-      column-name: GRUPO_RED
-      type: Select List
-
-    heading: 
-      heading: Grupo Red
-      alignment: start
+    multiple-values: 
+      type: No
 
     layout: 
       sequence: 50
@@ -269,19 +238,18 @@ regions:
       value-identifies-row: false
 
     validation: 
-      value-required: true
+      value-required: false
 
     list-of-values: 
       type: Shared Component
-      list-of-values: ENLACES_WAN.GRUPO_RED # 9899227200025403
+      list-of-values: ENLACES_WAN # 84737308969826577554
       display-extra-values: true
       display-null-value: true
-      null-display-value: Seleccione una
 
     source: 
       type: Database Column
-      database-column: GRUPO_RED
-      data-type: VARCHAR2
+      database-column: WAN_ID
+      data-type: NUMBER
       query-only: false
       primary-key: false
 
@@ -296,47 +264,65 @@ regions:
       - Case Insensitive
       - Regular Expression
       text-case: Mixed
-      lov-type: Use List of Values
-      exact-match: true
+      lov-type: None
 
     export-/-printing: 
       include-in-export-/-print: true
 
     enable-users-to: 
-      sort: false
+      sort: true
+      control-break/aggregate: true
       hide: true
 
-  - # ====== Column: CREADO_POR ==================================
-    id: 11079358242715969
+  - # ====== Column: SITIO_ID ====================================
+    id: 11489686776047175
     identification: 
-      column-name: CREADO_POR
-      type: Display Only
+      column-name: SITIO_ID
+      type: Popup LOV
 
     heading: 
-      heading: Creado Por
+      heading: Sitio
       alignment: start
 
     settings: 
-      format: Plain Text
-      based-on: Item Value
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
 
     layout: 
-      sequence: 60
+      sequence: 40
       column-alignment: start
       stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
-    source: 
-      type: Database Column
-      database-column: CREADO_POR
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
+    validation: 
+      value-required: false
 
-    session-state: 
-      data-type: VARCHAR2
+    list-of-values: 
+      type: Shared Component
+      list-of-values: SGT_SITIOS.SIGLAS # 202814172118838557260
+      display-extra-values: true
+      display-null-value: true
+
+    source: 
+      type: SQL Expression
+      sql-expression: |
+        select e.sitio_id from sgt_equipos e
+        where
+        e.id = equipo_a_id 
+        
+      data-type: NUMBER
 
     column-filter: 
       enabled: true
@@ -346,8 +332,7 @@ regions:
       - Case Insensitive
       - Regular Expression
       text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
+      lov-type: None
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -357,64 +342,29 @@ regions:
       control-break/aggregate: true
       hide: true
 
-  - # ====== Column: CREADO_EL ===================================
-    id: 11078333038715968
+  - # ====== Column: FO_ID =======================================
+    id: 11486643988047176
     identification: 
-      column-name: CREADO_EL
-      type: Display Only
+      column-name: FO_ID
+      type: Popup LOV
 
     heading: 
-      heading: Creado El
+      heading: FO
       alignment: start
 
     settings: 
-      format: Plain Text
-      based-on: Item Value
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
 
-    layout: 
-      sequence: 70
-      column-alignment: start
-      stretch: Use Report Setting
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
 
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: CREADO_EL
-      data-type: TIMESTAMP
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      lov-type: Distinct Column
-      date-ranges: All
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: ACTUALIZADO_POR =============================
-    id: 11077310220715968
-    identification: 
-      column-name: ACTUALIZADO_POR
-      type: Display Only
-
-    heading: 
-      heading: Actualizado Por
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
+    multiple-values: 
+      type: No
 
     layout: 
       sequence: 80
@@ -424,26 +374,82 @@ regions:
     accessibility: 
       value-identifies-row: false
 
+    validation: 
+      value-required: false
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: |
+        Select nombre , id
+        from sgt_enlaces_fo
+        where sgt_enlaces_fo.equipo_id_a = :EQUIPO_A_ID 
+        or 
+        sgt_enlaces_fo.equipo_id_b = :EQUIPO_A_ID 
+      display-extra-values: true
+      display-null-value: true
+      null-display-value: Seleccione Una
+
+    cascading-list-of-values: 
+      parent-column(s): 
+      - EQUIPO_A_ID
+      items-to-submit: 
+      - EQUIPO_A_ID
+      parent-required: true
+
     source: 
       type: Database Column
-      database-column: ACTUALIZADO_POR
-      data-type: VARCHAR2
-      query-only: true
+      database-column: FO_ID
+      data-type: NUMBER
+      query-only: false
       primary-key: false
 
-    session-state: 
-      data-type: VARCHAR2
+    default: 
+      duplicate-copies-existing-value: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      hide: true
+
+  - # ====== Column: SEQ =========================================
+    id: 11485629009047176
+    identification: 
+      column-name: SEQ
+      type: Number Field
+
+    heading: 
+      heading: Seq
+      alignment: end
+
+    settings: 
+      number-alignment: Start
+      virtual-keyboard: Decimal
+
+    layout: 
+      sequence: 90
+      column-alignment: end
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+
+    source: 
+      type: Database Column
+      database-column: SEQ
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
 
     column-filter: 
       enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
+      lov-type: None
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -453,49 +459,143 @@ regions:
       control-break/aggregate: true
       hide: true
 
-  - # ====== Column: ACTUALIZADO_EL ==============================
-    id: 11076388960715968
+  - # ====== Column: EQUIPO_A_ID =================================
+    id: 11308378867021404
     identification: 
-      column-name: ACTUALIZADO_EL
-      type: Display Only
+      column-name: EQUIPO_A_ID
+      type: Popup LOV
 
     heading: 
-      heading: Actualizado El
+      heading: Equipo
       alignment: start
 
     settings: 
-      format: Plain Text
-      based-on: Item Value
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
 
     layout: 
-      sequence: 90
+      sequence: 60
       column-alignment: start
       stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
+    validation: 
+      value-required: false
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: |
+        select e.nombre, e.id from sgt_equipos e 
+        left join v_sitios_equipos vse on e.id = vse.equipo_id
+        where vse.sitio_id = :SITIO_ID
+        
+        
+        
+      display-extra-values: true
+      display-null-value: true
+      null-display-value: Seleccione Una
+
+    cascading-list-of-values: 
+      parent-column(s): 
+      - SITIO_ID
+      items-to-submit: 
+      - SITIO_ID
+      parent-required: true
+
     source: 
       type: Database Column
-      database-column: ACTUALIZADO_EL
-      data-type: TIMESTAMP
-      query-only: true
+      database-column: EQUIPO_A_ID
+      data-type: NUMBER
+      query-only: false
       primary-key: false
 
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      lov-type: Distinct Column
-      date-ranges: All
+    default: 
+      duplicate-copies-existing-value: true
 
     export-/-printing: 
       include-in-export-/-print: true
 
     enable-users-to: 
-      sort: true
-      control-break/aggregate: true
+      hide: true
+
+  - # ====== Column: INTERFAZ_A_ID ===============================
+    id: 11308213450021403
+    identification: 
+      column-name: INTERFAZ_A_ID
+      type: Popup LOV
+
+    heading: 
+      heading: Interfaz
+      alignment: start
+
+    settings: 
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
+
+    layout: 
+      sequence: 70
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+
+    list-of-values: 
+      type: SQL Query
+      sql-query: |
+        select i.nombre || ' : '|| nvl(i.etiqueta, 'Sin etiqueta') , i.id
+        from
+        sgt_interfaces i
+        where i.equipo_id = :EQUIPO_A_ID
+      display-extra-values: true
+      display-null-value: true
+
+    cascading-list-of-values: 
+      parent-column(s): 
+      - EQUIPO_A_ID
+      items-to-submit: 
+      - EQUIPO_A_ID
+      parent-required: true
+
+    source: 
+      type: Database Column
+      database-column: INTERFAZ_A_ID
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
       hide: true
 
   printing: 
@@ -514,7 +614,7 @@ regions:
       font-size: 12
       font-color: '#000000'
       alignment: center
-      page-header-text: Grilla enlaces WAN
+      page-header-text: Enlaces WAN
 
     column-headings: 
       font: Helvetica
@@ -538,13 +638,13 @@ regions:
       alignment: center
 
 processes: 
-- # ====== Process: Grilla enlaces WAN - Save Interactive Grid D
-  id: 11307537889021396
+- # ====== Process: Enlaces WAN - Save Interactive Grid Data ===
+  id: 11478693647047182
   identification: 
-    name: Grilla enlaces WAN - Save Interactive Grid Data
+    name: Enlaces WAN - Save Interactive Grid Data
     type: Interactive Grid - Automatic Row Processing (DML)
     execution-chain: None
-    editable-region: Grilla enlaces WAN # 11083637674715977
+    editable-region: Enlaces WAN # 11494463219047172
 
   settings: 
     target-type: Region Source

@@ -1,0 +1,396 @@
+---
+# ====== Page: Topología WAN =================================
+id: 449
+identification: 
+  name: Topología WAN
+  alias: TOPOLOGÍA-WAN
+  title: Topología WAN
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+javascript: 
+  file-urls: 
+  - 'https://unpkg.com/vis-network/standalone/umd/vis-network.min.js'
+  - '#APP_FILES#p400_vista_conexiones#MIN#.js'
+  function-and-global-variable-declaration: |
+    generarGrafo = function () {
+    
+        apex.server.process(
+            'DATOS_GRAFO', { pageItems: ['P449_WAN'] },
+            {
+                success: function (data) {
+                    console.log(data); // Acceder a los datos
+                    
+    
+                    data.nodes.sort((a, b) => a.level - b.level);
+    
+    
+                    if (true) {
+                        console.log("filtrar nodos");
+                        var mapNodos = new Map();
+                        var nodosFiltrados = [];
+                        var level = 0;
+                        var prev_eq = 0;
+                        data.nodes.forEach(nodo => {
+                            if (!mapNodos.has(nodo.id)) {
+                                console.log(nodo);
+                                if (prev_eq !== nodo.eq_id) {
+                                     level++;  
+                                     prev_eq = nodo.eq_id; 
+                                     console.log("subiendo un nivel");
+                                }
+                                mapNodos.set(nodo.id, true);
+                                nodosFiltrados.push({
+                                    id: nodo.id,
+                                    label: nodo.label,
+                                    shape: nodo.shape, // Forma para interfaces
+                                    color: nodo.color,
+                                    level: level
+                                });
+                            }
+    
+                         
+    
+    
+                        });
+                        data.nodes = nodosFiltrados;
+                       
+    
+                    }
+    
+                    var nodes = new vis.DataSet(data.nodes);
+                    var edges = new vis.DataSet(data.edges);
+    
+                    var data = { nodes: nodes, edges: edges };
+    
+                    var container = document.getElementById("network");
+                    var network = new vis.Network(container, data, {
+                        layout: {
+                            improvedLayout: true,
+                            hierarchical: {
+                                enabled: true,
+                                levelSeparation: 75,
+                                direction:"UD"
+                            }
+                        }
+                        ,physics: { enabled: false, solver: "forceAtlas2Based" }
+                    });
+                }
+    
+    
+                ,
+                error: function (pError) {
+                    console.error('Error:', pError);
+                }
+            }
+        );
+    }
+
+css: 
+  inline: |
+    #network {
+        width: auto;
+        height: 600px;
+        border: 1px solid lightgray;
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: network =====================================
+  id: 7256609784679333
+  identification: 
+    name: network
+    title: Network
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    css-classes: 
+    - network
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: network
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Controles ===================================
+  id: 7256704537679334
+  identification: 
+    name: Controles
+    type: Static Content
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    - margin-bottom-none
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Breadcrumb ==================================
+  id: 8121239023958374
+  identification: 
+    name: Breadcrumb
+    type: Breadcrumb
+
+  source: 
+    breadcrumb: Breadcrumb # 197180072443235446203
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Title Bar
+    template-options: 
+    - '#DEFAULT#'
+    - t-BreadcrumbRegion--useBreadcrumbTitle
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    appearance: 
+      breadcrumb-template: Breadcrumb
+      template-options: 
+      - '#DEFAULT#'
+
+page-items: 
+- # ====== Page Item: P449_WAN =================================
+  id: 7256767043679335
+  identification: 
+    name: P449_WAN
+    type: Popup LOV
+
+  label: 
+    label: Wan
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 10
+    region: Controles # 7256704537679334
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      SELECT DISTINCT NOMBRE, W.ID FROM 
+      SGT_ENLACES_WAN W
+      INNER JOIN 
+      SGT_CONEXIONES_ENLACE_WAN CW
+      ON W.ID = CW.ENLACE_WAN_ID
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Ignore
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+dynamic-actions: 
+- # ====== Dynamic Action: DATOS_GRAFO =========================
+  id: 7256927620679336
+  identification: 
+    name: DATOS_GRAFO
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P449_WAN
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 7256991678679337
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: generarGrafo();
+
+    execution: 
+      sequence: 10
+      event: DATOS_GRAFO # 7256927620679336
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: DATOS_GRAFO ================================
+  id: 7257128395679338
+  identification: 
+    name: DATOS_GRAFO
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      DECLARE
+      
+      L_NODES CLOB;
+      L_EDGES CLOB;
+      BEGIN
+       
+         L_NODES := GET_WAN_NODOS_IFACE(:P449_WAN);
+         L_EDGES := GET_WAN_EDGES_IFACE(:P449_WAN);
+      
+         
+         htp.p(
+            JSON_OBJECT(
+              'nodes' VALUE l_nodes FORMAT JSON,
+              'edges' VALUE l_edges FORMAT JSON
+            ) 
+          );
+      
+      
+      END;
+
+  execution: 
+    sequence: 10
+    point: Ajax Callback
+    run-process: Once Per Page Visit (default)
+

@@ -139,7 +139,7 @@ page-items:
     type: Popup LOV
 
   label: 
-    label: Ciudad
+    label: Departamento, Ciudad
     alignment: Left
 
   settings: 
@@ -202,7 +202,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Seleccionar Departamento, Ciudad
+    inline-help-text: Seleccionar departamento, ciudad donde se encuentra ubicada la sala
 
 - # ====== Page Item: P5_DEPTO =================================
   id: 42592133042810121697
@@ -329,7 +329,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: 'Ingresar sigla de la sala. Ej.: SC01'
+    inline-help-text: 'Asignar sigla/abreviación identificatoria de la sala (nombre corto). Ejemplo: SC01'
 
 - # ====== Page Item: P5_TITULO ================================
   id: 117089388196113048104
@@ -468,7 +468,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Seleccionar sitio
+    inline-help-text: Seleccionar el sitio donde se encuentra ubicada la sala
 
 - # ====== Page Item: P5_NOMBRE ================================
   id: 202816056921894564101
@@ -531,7 +531,7 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Agregar nombre o descripción de la sala
+    inline-help-text: Indicar nombre o descripción identificatoria de la sala
 
 buttons: 
 - # ====== Button: CANCEL ======================================

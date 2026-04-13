@@ -195,7 +195,7 @@ regions:
       value-identifies-row: false
 
     validation: 
-      value-required: false
+      value-required: true
       maximum-length: 255
 
     source: 
@@ -231,15 +231,29 @@ regions:
     id: 88029835417481630933
     identification: 
       column-name: SITIO_ID_A
-      type: Select List
+      type: Popup LOV
 
     heading: 
       heading: Sitio A
       alignment: center
 
+    settings: 
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
+
     layout: 
       sequence: 50
-      column-alignment: center
+      column-alignment: start
       stretch: Use Report Setting
 
     accessibility: 
@@ -343,15 +357,29 @@ regions:
     id: 88029835634435630935
     identification: 
       column-name: SITIO_ID_B
-      type: Select List
+      type: Popup LOV
 
     heading: 
       heading: Sitio B
       alignment: center
 
+    settings: 
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
+
     layout: 
       sequence: 70
-      column-alignment: center
+      column-alignment: start
       stretch: Use Report Setting
 
     accessibility: 
@@ -553,6 +581,9 @@ regions:
       control-break/aggregate: true
       hide: true
 
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
+
   - # ====== Column: ABS_LONGITUD ================================
     id: 88029836058114630939
     identification: 
@@ -725,7 +756,7 @@ regions:
       value-identifies-row: false
 
     validation: 
-      value-required: false
+      value-required: true
 
     list-of-values: 
       type: Shared Component
@@ -781,7 +812,7 @@ regions:
       value-identifies-row: false
 
     validation: 
-      value-required: false
+      value-required: true
 
     list-of-values: 
       type: Shared Component
@@ -893,13 +924,13 @@ regions:
       value-identifies-row: false
 
     validation: 
-      value-required: false
+      value-required: true
 
     list-of-values: 
       type: Shared Component
       list-of-values: ENLACE_FO.ESTADO # 52385217569870497397
       display-extra-values: true
-      display-null-value: false
+      display-null-value: true
 
     source: 
       type: Database Column

@@ -8,10 +8,15 @@ identification:
   page-group: Implementadores # 57024536698229459190
 
 appearance: 
-  page-mode: Normal
-  page-template: Theme Default
+  page-mode: Modal Dialog
+  dialog-template: Drawer
   template-options: 
   - '#DEFAULT#'
+  - js-dialog-class-t-Drawer--pullOutEnd
+
+dialog: 
+  chained: true
+  resizable: true
 
 navigation-menu: 
   override-user-interface-level: false
@@ -663,7 +668,7 @@ page-items:
     virtual-keyboard: Numeric
 
   layout: 
-    sequence: 80
+    sequence: 50
     region: Datos # 29962991573714667709
     slot: BODY
     alignment: Left
@@ -679,7 +684,6 @@ page-items:
     template-options: 
     - '#DEFAULT#'
     width: 30
-    value-placeholder: Ingrese aquí la cantidad de U del rack
 
   validation: 
     value-required: true
@@ -706,6 +710,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Ingresar cantidad de U que posee rack
+
 - # ====== Page Item: P12_DIMENCIONES ==========================
   id: 42592132305097121689
   identification: 
@@ -724,7 +731,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 90
+    sequence: 100
     region: Datos # 29962991573714667709
     slot: BODY
     alignment: Left
@@ -766,6 +773,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Indicar dimensiones del rack (Largo*ancho*altura)
+
 - # ====== Page Item: P12_MARCA ================================
   id: 42592132425381121690
   identification: 
@@ -784,7 +794,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 50
+    sequence: 70
     region: Datos # 29962991573714667709
     slot: BODY
     alignment: Left
@@ -826,6 +836,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Indicar marca del rack
+
 - # ====== Page Item: P12_TITULO ===============================
   id: 117089387609062048098
   identification: 
@@ -866,7 +879,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 100
+    sequence: 110
     region: Datos # 29962991573714667709
     slot: BODY
 
@@ -896,7 +909,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 110
+    sequence: 120
     region: Datos # 29962991573714667709
     slot: BODY
 
@@ -926,7 +939,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 120
+    sequence: 130
     region: Datos # 29962991573714667709
     slot: BODY
 
@@ -956,7 +969,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 130
+    sequence: 140
     region: Datos # 29962991573714667709
     slot: BODY
 
@@ -1003,7 +1016,7 @@ page-items:
     separator: ':'
 
   layout: 
-    sequence: 20
+    sequence: 60
     region: Datos # 29962991573714667709
     slot: BODY
     alignment: Left
@@ -1045,6 +1058,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Seleccionar unidad administrativa encargada del rack
+
 - # ====== Page Item: P12_MODELO ===============================
   id: 200718417514962803892
   identification: 
@@ -1063,7 +1079,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 60
+    sequence: 80
     region: Datos # 29962991573714667709
     slot: BODY
     alignment: Left
@@ -1105,6 +1121,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Indicar modelo del rack
+
 - # ====== Page Item: P12_DETALLE ==============================
   id: 200718417851159803892
   identification: 
@@ -1123,7 +1142,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 140
+    sequence: 40
     region: Datos # 29962991573714667709
     slot: BODY
     alignment: Left
@@ -1135,13 +1154,13 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Optional - Floating
+    template: Required - Floating
     template-options: 
     - '#DEFAULT#'
     width: 32
 
   validation: 
-    value-required: false
+    value-required: true
     maximum-length: 255
 
   advanced: 
@@ -1165,6 +1184,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Ingresar descripción o referencia para ubicar el rack
+
 - # ====== Page Item: P12_NOMBRE ===============================
   id: 202816056687892564098
   identification: 
@@ -1172,7 +1194,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: Sigla/Nombre del Rack
+    label: Sigla del Rack
     alignment: Left
 
   settings: 
@@ -1183,7 +1205,7 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 40
+    sequence: 30
     region: Datos # 29962991573714667709
     slot: BODY
     alignment: Left
@@ -1225,6 +1247,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Asignar sigla/abreviación identificatoria del rack (nombre corto)
+
 - # ====== Page Item: P12_SALA_ID ==============================
   id: 202816057904285564109
   identification: 
@@ -1232,7 +1257,7 @@ page-items:
     type: Popup LOV
 
   label: 
-    label: Sala
+    label: Sitio.Sala
     alignment: Left
 
   settings: 
@@ -1250,7 +1275,7 @@ page-items:
     type: No
 
   layout: 
-    sequence: 30
+    sequence: 20
     region: Datos # 29962991573714667709
     slot: BODY
     alignment: Left
@@ -1301,6 +1326,9 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Seleccionar sala donde se encuentra ubicado el rack
 
 buttons: 
 - # ====== Button: CANCEL ======================================

@@ -1,3 +1,89 @@
+create or replace function "CREAR_RUTA_SRV" (P_SERVICIO_ID IN INTEGER)
+RETURN SDO_GEOMETRY
+AS
+l_coords SDO_ORDINATE_ARRAY := SDO_ORDINATE_ARRAY(); 
+i PLS_INTEGER := 1; 
+ 
+begin 
+    --buscar todos los sitios de la wan 
+    apex_debug.message('dmf: Funcion CREAR_RUTA_SERVICIOS:' ); 
+ 
+     
+    apex_debug.message('dmf: Funcion CREAR_RUTA_SERVICIOS SRV_ID: $S',P_SERVICIO_ID ); 
+    FOR r IN ( 
+        SELECT s.lat, s.lon, seq   
+        FROM v_sitios_gps s 
+        inner join sgt_sitios_servicio on s.id =  sitio_id 
+             
+        WHERE servicio_id = P_SERVICIO_ID  -- Use the parameter here 
+        order by seq 
+             
+        ) 
+    LOOP 
+        l_coords.EXTEND(2); 
+        apex_debug.message('dmf: Funcion CREAR_RUTA_SRV LOOP: $S',i ); 
+        l_coords(i)   := r.lon; 
+        l_coords(i+1) := r.lat; 
+        i := i + 2; 
+    END LOOP; 
+ 
+    RETURN SDO_GEOMETRY( 
+        2002, 4326, NULL, 
+        SDO_ELEM_INFO_ARRAY(1,2,1), 
+        l_coords 
+    ); 
+end "CREAR_RUTA_SRV";
+/
+create or replace function "CREAR_RUTA_WAN" (P_WAN_ID in integer) 
+return SDO_GEOMETRY 
+as 
+ 
+ l_coords SDO_ORDINATE_ARRAY := SDO_ORDINATE_ARRAY(); 
+ i PLS_INTEGER := 1; 
+ 
+begin 
+    --buscar todos los sitios de la wan 
+    apex_debug.message('dmf: Funcion CREAR_RUTA_WAN:' ); 
+ 
+     
+    apex_debug.message('dmf: Funcion CREAR_RUTA_WAN WAN_ID: $S',P_WAN_ID ); 
+    FOR r IN ( 
+        SELECT s.lat, s.lon   
+        FROM v_sitios_gps s 
+        --inner join sgt_sitios_enlace_wan on s.id =  sitio_id     
+        --WHERE enlace_wan_id = P_WAN_ID  -- Use the parameter here 
+         INNER JOIN  (
+             SELECT SITIO_ID, SEQ
+FROM (
+    SELECT VSE.SITIO_ID, SEW.SEQ,
+           ROW_NUMBER() OVER (PARTITION BY VSE.SITIO_ID ORDER BY SEW.SEQ) AS rn
+    FROM V_SITIOS_EQUIPOS VSE
+    JOIN SGT_EQUIPOS_WAN SEW ON VSE.EQUIPO_ID = SEW.EQUIPO_A_ID
+    WHERE SEW.WAN_ID = P_WAN_ID
+) t
+WHERE rn = 1
+ORDER BY SEQ
+          ) TMP ON S.ID = TMP.SITIO_ID
+        
+        --order by seq 
+             
+        ) 
+    LOOP 
+        l_coords.EXTEND(2); 
+        apex_debug.message('dmf: Funcion CREAR_RUTA_WAN LOOP: $S',i ); 
+        l_coords(i)   := r.lon; 
+        l_coords(i+1) := r.lat; 
+        i := i + 2; 
+    END LOOP; 
+ 
+    RETURN SDO_GEOMETRY( 
+        2002, 4326, NULL, 
+        SDO_ELEM_INFO_ARRAY(1,2,1), 
+        l_coords 
+    ); 
+ 
+end "CREAR_RUTA_WAN";
+/
 create or replace FUNCTION F_GET_LOVS (  
     p_id_lov NUMBER,   
     p_mostrar VARCHAR2  
@@ -78,101 +164,6 @@ EXCEPTION
     WHEN OTHERS THEN  
         RAISE;  
 END F_GET_LOVS;
-/
-create or replace FUNCTION parse_flexible_date(p_date IN VARCHAR2) 
-RETURN DATE 
-IS 
-    v_date DATE; 
-BEGIN 
-    BEGIN 
-        v_date := TO_DATE(p_date, 'YYYY-MM-DD'); 
-    EXCEPTION WHEN OTHERS THEN 
-        BEGIN 
-            v_date := TO_DATE(p_date, 'DD-MM-YYYY'); 
-        EXCEPTION WHEN OTHERS THEN 
-            BEGIN 
-                v_date := TO_DATE(p_date, 'YY-MM-DD'); 
-            EXCEPTION WHEN OTHERS THEN 
-                v_date := NULL; 
-            END; 
-        END; 
-    END; 
-    RETURN v_date; 
-END;
-/
-create or replace function "CREAR_RUTA_SRV" (P_SERVICIO_ID IN INTEGER)
-RETURN SDO_GEOMETRY
-AS
-l_coords SDO_ORDINATE_ARRAY := SDO_ORDINATE_ARRAY(); 
-i PLS_INTEGER := 1; 
- 
-begin 
-    --buscar todos los sitios de la wan 
-    apex_debug.message('dmf: Funcion CREAR_RUTA_SERVICIOS:' ); 
- 
-     
-    apex_debug.message('dmf: Funcion CREAR_RUTA_SERVICIOS SRV_ID: $S',P_SERVICIO_ID ); 
-    FOR r IN ( 
-        SELECT s.lat, s.lon, seq   
-        FROM v_sitios_gps s 
-        inner join sgt_sitios_servicio on s.id =  sitio_id 
-             
-        WHERE servicio_id = P_SERVICIO_ID  -- Use the parameter here 
-        order by seq 
-             
-        ) 
-    LOOP 
-        l_coords.EXTEND(2); 
-        apex_debug.message('dmf: Funcion CREAR_RUTA_SRV LOOP: $S',i ); 
-        l_coords(i)   := r.lon; 
-        l_coords(i+1) := r.lat; 
-        i := i + 2; 
-    END LOOP; 
- 
-    RETURN SDO_GEOMETRY( 
-        2002, 4326, NULL, 
-        SDO_ELEM_INFO_ARRAY(1,2,1), 
-        l_coords 
-    ); 
-end "CREAR_RUTA_SRV";
-/
-create or replace function "CREAR_RUTA_WAN" (P_WAN_ID in integer) 
-return SDO_GEOMETRY 
-as 
- 
- l_coords SDO_ORDINATE_ARRAY := SDO_ORDINATE_ARRAY(); 
- i PLS_INTEGER := 1; 
- 
-begin 
-    --buscar todos los sitios de la wan 
-    apex_debug.message('dmf: Funcion CREAR_RUTA_WAN:' ); 
- 
-     
-    apex_debug.message('dmf: Funcion CREAR_RUTA_WAN WAN_ID: $S',P_WAN_ID ); 
-    FOR r IN ( 
-        SELECT s.lat, s.lon, seq   
-        FROM v_sitios_gps s 
-        inner join sgt_sitios_enlace_wan on s.id =  sitio_id 
-             
-        WHERE enlace_wan_id = P_WAN_ID  -- Use the parameter here 
-        order by seq 
-             
-        ) 
-    LOOP 
-        l_coords.EXTEND(2); 
-        apex_debug.message('dmf: Funcion CREAR_RUTA_WAN LOOP: $S',i ); 
-        l_coords(i)   := r.lon; 
-        l_coords(i+1) := r.lat; 
-        i := i + 2; 
-    END LOOP; 
- 
-    RETURN SDO_GEOMETRY( 
-        2002, 4326, NULL, 
-        SDO_ELEM_INFO_ARRAY(1,2,1), 
-        l_coords 
-    ); 
- 
-end "CREAR_RUTA_WAN";
 /
 create or replace function "GET_EDGES_EQUIPOS" (P_SERVICIO_ID IN NUMBER) 
 /*
@@ -386,6 +377,27 @@ begin
     return l_nodes; 
 end "GET_NODOS_SITIOS";
 /
+create or replace FUNCTION parse_flexible_date(p_date IN VARCHAR2) 
+RETURN DATE 
+IS 
+    v_date DATE; 
+BEGIN 
+    BEGIN 
+        v_date := TO_DATE(p_date, 'YYYY-MM-DD'); 
+    EXCEPTION WHEN OTHERS THEN 
+        BEGIN 
+            v_date := TO_DATE(p_date, 'DD-MM-YYYY'); 
+        EXCEPTION WHEN OTHERS THEN 
+            BEGIN 
+                v_date := TO_DATE(p_date, 'YY-MM-DD'); 
+            EXCEPTION WHEN OTHERS THEN 
+                v_date := NULL; 
+            END; 
+        END; 
+    END; 
+    RETURN v_date; 
+END;
+/
 create or replace function "SEXAGESIMAL_TO_DECIMAL" (p_coord IN VARCHAR2) 
 return number 
 as 
@@ -442,3 +454,165 @@ begin
     END IF; 
 end "URL_TO_LAT";
 /
+create or replace function "GET_WAN_EDGES_IFACE" (P_WAN_ID IN NUMBER) 
+return CLOB 
+as 
+L_EDGES CLOB; 
+begin 
+     
+    ---======================== 
+    ---Crear los edge 
+    ---======================= 
+    SELECT JSON_ARRAYAGG( 
+             JSON_OBJECT( 
+               'from' VALUE origen_id, 
+               'to'   VALUE destino_id, 
+               'label' VALUE edge_label, 
+               'id' VALUE edge_id 
+             ) RETURNING CLOB) 
+    INTO l_edges 
+    from ( 
+        select  
+        iface_id as origen_id, 
+        iface_b_id as destino_id, 
+        fo_nombre as edge_label, 
+        conn_id as edge_id 
+        from v_conexiones_general_v2 
+        where WAN_id = P_WAN_ID 
+        order by eq_id 
+ 
+    ); 
+ 
+    RETURN L_EDGES;  
+end "GET_WAN_EDGES_IFACE";
+/
+create or replace function "GET_WAN_NODOS_IFACE" (P_WAN_ID IN NUMBER)
+/*
+@Author: DMF
+@Objetivo: Una funcion que retorna la lista de equipos e interfaces que participan en el enlace WAN
+Como el enlace WAN puede o no estar creado se le pasan como parametros los IDS de las conexiones intervinientes
+
+*/
+return CLOB
+as
+L_NODES CLOB;
+begin
+
+    apex_debug.message('dmf: GET_NODOS_IFACE_WAN: %s', P_WAN_ID ); 
+
+
+    SELECT JSON_ARRAYAGG( 
+             JSON_OBJECT('eq_id' value eq_id,'id' value  id, 'label' VALUE "label",  
+             'shape' VALUE 'box', 'color' VALUE '#00AAFF',  
+             'level' value seq 
+             ) 
+           RETURNING CLOB) 
+    INTO L_NODES 
+    
+    FROM ( 
+ 
+        SELECT  
+            c.eq_id, 
+            C.IFACE_ID AS id,             
+            C.EQ || CHR(10) || C.IFACE "label", 
+            (c.SEQ_WAN / 10) seq 
+        FROM V_CONEXIONES_GENERAL_V2 C 
+        WHERE c.WAN_ID = P_WAN_ID 
+        union    
+        SELECT    
+             c.eq_b_id, 
+                C.iface_b_id ,        
+                C.EQ_B || CHR(10) || C.IFACE_B AS label_b,                
+                (c.SEQ_WAN + 10 ) / 10 
+        FROM V_CONEXIONES_GENERAL_V2 C 
+        WHERE c.WAN_ID = P_WAN_ID 
+        ORDER BY SEQ  
+    ); 
+
+    RETURN L_NODES;
+
+
+end "GET_WAN_NODOS_IFACE";
+/
+create or replace FUNCTION VERIFICAR_DISPONIBILIDAD_U (
+    p_equipo_id in NUMBER,
+    p_rack_id   IN NUMBER,
+    p_u_inicio  IN NUMBER,
+    p_u_fin     IN NUMBER,
+    p_posicion  IN char
+) RETURN VARCHAR2 AS
+    r_valor VARCHAR2(2);
+    v_total_registros NUMBER;
+    v_espacios_libres NUMBER;
+BEGIN
+    -- Validación básica de parámetros
+           
+       apex_debug.log_long_message('VERIFICAR_DISPONIBILIDAD_U: SELECT VERIFICAR_DISPONIBILIDAD_U('
+       ||p_equipo_id ||','|| p_rack_id ||', '
+       ||p_u_inicio  ||','|| p_u_fin      ||','
+       ||p_posicion 
+       ||') FROM DUAL ');
+    
+
+
+    IF p_u_fin < p_u_inicio THEN
+        apex_debug.log_long_message('VERIFICAR_DISPONIBILIDAD_U check rango invalido: inicio: '||p_u_inicio ||', fin: '||p_u_fin);
+        RETURN 'NA'; -- Rango inválido
+        
+    END IF;
+
+   
+
+    WITH Pisos(posicion_u) AS (
+        SELECT 1 FROM DUAL
+        UNION ALL
+        SELECT posicion_u + 1 FROM Pisos
+        WHERE posicion_u + 1 <= (
+            SELECT altura_u FROM sgt_Racks WHERE id = p_rack_id
+        )
+    ),
+    RackU AS (
+        SELECT 
+            p.posicion_u AS "U", 
+            CASE 
+                WHEN EXISTS (
+                    SELECT 1 FROM sgt_Equipos e
+                    WHERE e.rack_id = p_rack_id
+                        AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)
+                        AND (e.posicion) = (p_posicion) 
+                        AND (p_equipo_id IS NULL OR e.id != p_equipo_id)
+                ) THEN 
+                    (SELECT e.id FROM sgt_Equipos e
+                     WHERE e.rack_id = p_rack_id
+                       AND p.posicion_u BETWEEN e.u AND (e.u + e.altura_u - 1)
+                       AND e.posicion = (p_posicion)
+                       AND (p_equipo_id IS NULL OR e.id != p_equipo_id)
+                       AND ROWNUM = 1)
+                ELSE NULL END
+             Equipo
+        FROM Pisos p
+    )   
+      SELECT 
+  CASE 
+    WHEN COUNT(*) = SUM(CASE WHEN Equipo IS NULL THEN 1 ELSE 0 END)
+    THEN 'OK'
+    ELSE 'NA'
+  END INTO r_valor
+  
+  
+FROM RackU
+WHERE "U" BETWEEN p_u_inicio AND p_u_fin;
+    apex_debug.log_long_message('VERIFICAR_DISPONIBILIDAD_U resultado consulta: '||r_valor);
+    RETURN r_valor;
+
+EXCEPTION
+    WHEN NO_DATA_FOUND THEN
+        -- Si no hay datos en el rango especificado
+        RETURN 'OK';
+    WHEN OTHERS THEN
+        -- Manejo de errores
+        DBMS_OUTPUT.PUT_LINE('Error: ' || SQLERRM);
+        apex_debug.log_long_message('Error en la consulta: '|| SQLERRM);
+        RETURN 'NA';
+END VERIFICAR_DISPONIBILIDAD_U;
+/ 

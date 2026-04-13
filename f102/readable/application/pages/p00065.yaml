@@ -1,10 +1,10 @@
 ---
-# ====== Page: TEST_MAP_FO ===================================
+# ====== Page: Mapa Tendido Fibra ============================
 id: 65
 identification: 
-  name: TEST_MAP_FO
-  alias: TEST-MAP-FO
-  title: TEST_MAP_FO
+  name: Mapa Tendido Fibra
+  alias: MAPA-TENDIDO-FIBRA
+  title: Mapa Tendido Fibra
 
 appearance: 
   page-mode: Normal
@@ -340,8 +340,15 @@ regions:
        SELECT 
           ef.id,
           ef.nombre,
-      	ef.tipo_cable,
-      	ef."CERTIFICACIÓN" CERT,
+          ef.cantidad_de_pelos,
+      	
+          CASE 
+              WHEN ef.tipo_cable NOT IN ('ADSS', 'ARMORED', 'OPGW') THEN 'COMBINADOS'
+              ELSE ef.tipo_cable 
+          END  FILTRO_CABLE
+          ,
+          ef.tipo_cable, 
+          ef."CERTIFICACIÓN" CERT,
           case when (sa.latitud is null or sa.longitud is null or sb.latitud is null or sb.longitud is null ) then NULL
           else 
           SDO_GEOMETRY(
@@ -367,12 +374,12 @@ regions:
       inner join sgt_sitios sb on ef.sitio_id_b = sb.id
       
       where  
-       :P65_ZONAS is null
+      ( :P65_ZONAS is null
       or
       ef.sitio_id_a IN (select ID from sgt_sitios s where s.zona_id = :P65_ZONAS)
       or
       ef.sitio_id_b IN (select ID from sgt_sitios s where s.zona_id = :P65_ZONAS)
-      
+      )
       and (:P65_ENLACES_FO is null or ef.id = :P65_ENLACES_FO)
     page-items-to-submit: 
     - P65_ENLACES_FO
@@ -453,7 +460,7 @@ regions:
         use-spatial-index: false
 
       row-assignment: 
-        column: TIPO_CABLE
+        column: FILTRO_CABLE
         value-for-this-layer: OPGW
 
       column-mapping: 
@@ -471,8 +478,10 @@ regions:
       info-window: 
         advanced-formatting: true
         html-expression: |
-          Podria mostrar mucha info del enlace:<br/>
+          Podría mostrar mucha info del enlace:<br/>
+          Enlace: &NOMBRE. <br/>
           Tipo Cable: &TIPO_CABLE. <br/>
+          Cantidad FO: &CANTIDAD_DE_PELOS. <br/>
           Distancia: &DISTANCIA_KM. Km <br/>
           Certificación: &CERT. Km </br>
 
@@ -494,7 +503,7 @@ regions:
         use-spatial-index: false
 
       row-assignment: 
-        column: TIPO_CABLE
+        column: FILTRO_CABLE
         value-for-this-layer: ARMORED
 
       column-mapping: 
@@ -513,23 +522,25 @@ regions:
       info-window: 
         advanced-formatting: true
         html-expression: |
-          Podria mostrar mucha info del enlace:<br/>
-          Tipo Cable: &TIPO_CABLE <br/>
+          Podría mostrar mucha info del enlace:<br/>
+          Enlace: &NOMBRE. <br/>
+          Tipo Cable: &TIPO_CABLE. <br/>
+          Cantidad FO: &CANTIDAD_DE_PELOS. <br/>
           Distancia: &DISTANCIA_KM. Km <br/>
-          Certificación: &CERT. Km</br>
+          Certificación: &CERT. Km </br>
 
       legend: 
         show: true
         enable-to-hide: true
 
-    - # ====== Layer: OTROS ========================================
+    - # ====== Layer: COMBINADOS ===================================
       id: 10674153787786142
       identification: 
-        name: OTROS
+        name: COMBINADOS
         layer-type: Lines
 
       label: 
-        label: Otros
+        label: Combinados
 
       layout: 
         sequence: 50
@@ -539,8 +550,8 @@ regions:
         use-spatial-index: false
 
       row-assignment: 
-        column: TIPO_CABLE
-        value-for-this-layer: <>ARMORED||<>OPGW||<>||ADSS
+        column: FILTRO_CABLE
+        value-for-this-layer: COMBINADOS
 
       column-mapping: 
         geometry-column-data-type: SDO_GEOMETRY
@@ -549,13 +560,20 @@ regions:
 
       appearance: 
         stroke-style: Solid
-        stroke-color: '#101010'
+        stroke-color: '#ff9500'
 
       tooltip: 
         advanced-formatting: false
 
       info-window: 
-        advanced-formatting: false
+        advanced-formatting: true
+        html-expression: |
+          Podría mostrar mucha info del enlace:<br/>
+          Enlace: &NOMBRE. <br/>
+          Tipo Cable: &TIPO_CABLE. <br/>
+          Cantidad FO: &CANTIDAD_DE_PELOS. <br/>
+          Distancia: &DISTANCIA_KM. Km <br/>
+          Certificación: &CERT. Km </br>
 
       legend: 
         show: true
@@ -575,7 +593,7 @@ regions:
         use-spatial-index: false
 
       row-assignment: 
-        column: TIPO_CABLE
+        column: FILTRO_CABLE
         value-for-this-layer: ADSS
 
       column-mapping: 
@@ -593,8 +611,10 @@ regions:
       info-window: 
         advanced-formatting: true
         html-expression: |
-          Podria mostrar mucha info del enlace:<br/>
+          Podría mostrar mucha info del enlace:<br/>
+          Enlace: &NOMBRE. <br/>
           Tipo Cable: &TIPO_CABLE. <br/>
+          Cantidad FO: &CANTIDAD_DE_PELOS. <br/>
           Distancia: &DISTANCIA_KM. Km <br/>
           Certificación: &CERT. Km </br>
 

@@ -794,11 +794,15 @@ page-items:
     inline-help-text: Seleccionar el tipo de red a la que pertenece el equipo
     help-text: |
       <p>
+      Aclaraciones para algunas de las opciones:
+      <p>
           <ul>
       	
-      <li>Externa: se refiere a equipos que no pertenecen a la ANDE</li>
-      <li> Misceláneas: se refiere a equipos de cableado estructurado o energía/alimentación </li>
+      
       <li> Red Transporte: Se refiere a los equipos de transmisión y planta externa (fibra óptica troncal) </li>
+      <li> Misceláneas: se refiere a equipos de cableado estructurado o energía/alimentación </li>
+      <li>Externa: se refiere a equipos que no pertenecen a la ANDE</li>
+      
       	    </ul>
       </p>
 

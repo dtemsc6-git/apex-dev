@@ -129,11 +129,18 @@ regions:
   attributes: 
     id: 11672560214796772
     link: 
-      link-column: Exclude Link Column
+      link-column: Link to Custom Target
+      target: 
+        url: 'f?p=&APP_ID.:30:&SESSION.::&DEBUG.::P30_ID:#ID#'
+        page: 30 # SGT_FROM_INTERFACES
+        values: 
+          p30_id: '#ID#'
+
+      link-icon: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
 
     pagination: 
       type: Row Ranges X to Y
-      display-position: Bottom - Right
+      display-position: Top - Right
 
     performance: 
       lazy-loading: false
