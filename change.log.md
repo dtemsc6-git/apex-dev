@@ -1,4 +1,83 @@
 #Control de cambios de la App antes del commit
+###: 2026-05-29:
+
+Cambios Frontend
+
+@cvegaf  @dtemsc6 
+
+###Modificados:
+PAGE:001
+PAGE:017
+PAGE:09999
+
+###: 2026-05-28
+Cambios Frontend:
+@dtemsc6 
+
+Nuevo Menú 2.0: Debido a los cambios de menú en prod.
+
+Archivos
+Dependencias Salas
+Dependencias Salas
+Mapa KMZ
+Mapas Servicios
+Subir Esquemas
+
+###Paginas Nuevas:
+PAGE:007 Historial Equipo  
+PAGE:009 Dependencias Sitio
+PAGE:015 Subir KMZ    
+PAGE:033 Dependencias Salas
+PAGE:042 Dependencias Racks   
+PAGE:043 Tipo de Wan 
+PAGE:068 Tipo Equipo 
+PAGE:465 Interfaces  
+PAGE:460 Mapa KMZ  
+PAGE:421 Mapas Servicios  
+PAGE:470 Subir Fotos  
+PAGE:471 Archivos  
+PAGE:472 Cargar Archivos  
+ 
+###Page Group Nuevo:
+Archivos
+
+###Modificaciones:
+
+###Paginas:
+
+PAGE:004 SGT_LST_SALAS  
+PAGE:005 SGT_FORM_SALA  
+PAGE:010 Grilla enlaces WAN  
+PAGE:011 SGT_LST_RACKS  
+PAGE:013 SGT_LST_EQUIPOS  
+PAGE:014 SGT_FORM_EQUIPO  
+PAGE:016 Grilla Servicios  
+PAGE:018 Servicios  
+PAGE:025 SGT_LST_SITIOS  
+PAGE:026 SGT_FORM_SITIOS  
+PAGE:030 SGT_FROM_INTERFACES  
+PAGE:032 Comentarios  
+PAGE:036 SGT_LST_ENLACES_FO_2  
+PAGE:037 SGT_UBICAR_EQUIPO_RACK  
+PAGE:044 IG_EQUIPOS  
+PAGE:047 MAPA_SITIOS  
+PAGE:063 VISTA_ZONA_GLOBAL  
+PAGE:065 Mapa Tendido Fibra  
+PAGE:407 Enlaces WAN
+
+###Eliminados:
+ENLACES_LOGICOS.NOMBRE  
+INTERFACES.DUPLEX  
+INTERFACES.MODO  
+LOV_SGT_CIUDAD  
+LOV_SGT_SALAS  
+LOV_SGT_SITIOS  
+MODO_FO
+
+###Paginas Eliminadas:
+PAGE:64 Vista Sala  
+PAGE:66 Vista Sitio
+
 ###2026-03-28:
 Páginas eliminadas:
 P7, P9, P15, P16, P17, P18, P42, P43
