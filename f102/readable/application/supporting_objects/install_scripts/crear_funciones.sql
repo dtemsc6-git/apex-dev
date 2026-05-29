@@ -377,83 +377,6 @@ begin
     return l_nodes; 
 end "GET_NODOS_SITIOS";
 /
-create or replace FUNCTION parse_flexible_date(p_date IN VARCHAR2) 
-RETURN DATE 
-IS 
-    v_date DATE; 
-BEGIN 
-    BEGIN 
-        v_date := TO_DATE(p_date, 'YYYY-MM-DD'); 
-    EXCEPTION WHEN OTHERS THEN 
-        BEGIN 
-            v_date := TO_DATE(p_date, 'DD-MM-YYYY'); 
-        EXCEPTION WHEN OTHERS THEN 
-            BEGIN 
-                v_date := TO_DATE(p_date, 'YY-MM-DD'); 
-            EXCEPTION WHEN OTHERS THEN 
-                v_date := NULL; 
-            END; 
-        END; 
-    END; 
-    RETURN v_date; 
-END;
-/
-create or replace function "SEXAGESIMAL_TO_DECIMAL" (p_coord IN VARCHAR2) 
-return number 
-as 
- 
-l_grados   NUMBER; 
-    l_minutos  NUMBER := 0; 
-    l_segundos NUMBER := 0; 
-    l_signo    NUMBER := 1; 
-    l_decimal  NUMBER; 
-BEGIN 
-    -- Signo según hemisferio 
-    IF p_coord LIKE '%S%' OR p_coord LIKE '%O%' THEN 
-        l_signo := -1; 
-    END IF; 
- 
-    -- Extraer grados, minutos y segundos usando REGEXP 
-    BEGIN 
-        SELECT TO_NUMBER(REGEXP_SUBSTR(p_coord, '(\d+)', 1, 1)) INTO l_grados FROM dual; 
-        SELECT NVL(TO_NUMBER(REGEXP_SUBSTR(p_coord, '(\d+)', 1, 2)), 0) INTO l_minutos FROM dual; 
-        SELECT NVL(TO_NUMBER(REGEXP_SUBSTR(p_coord, '(\d+)', 1, 3)), 0) INTO l_segundos FROM dual; 
-    EXCEPTION 
-        WHEN NO_DATA_FOUND THEN 
-            RETURN NULL; 
-    END; 
- 
-    -- Conversión a decimal 
-    l_decimal := l_signo * (l_grados + (l_minutos/60) + (l_segundos/3600)); 
- 
-    RETURN ROUND(l_decimal,7); 
-END;
-/
-create or replace function "URL_TO_LAT" (p_coord IN VARCHAR2) 
-return coord_obj 
-as 
- l_match    VARCHAR2(4000); 
- l_lat number; 
- l_long number; 
-begin 
-    -- Caso 1: URL de Google Maps con formato decimal 
-    IF p_coord LIKE 'http%' THEN 
-        -- Buscar patrón de coordenadas decimales (-##.####, -##.####) 
-        l_match := REGEXP_SUBSTR(p_coord, '[-]?\d+(\.\d+)?[, ]+[-]?\d+(\.\d+)?'); 
- 
-        IF l_match IS NOT NULL THEN 
-            -- Si queremos la primera parte (latitud): 
-            l_lat := TO_NUMBER(REGEXP_SUBSTR(l_match, '[-]?\d+(\.\d+)?', 1, 1)); 
-            l_long := TO_NUMBER(REGEXP_SUBSTR(l_match, '[-]?\d+(\.\d+)?', 1, 2)); 
-            RETURN coord_obj(l_lat, l_long); 
-        ELSE 
-            RETURN coord_obj(NULL, NULL); 
-        END IF; 
-    ELSE 
-        RETURN coord_obj(NULL, NULL); 
-    END IF; 
-end "URL_TO_LAT";
-/
 create or replace function "GET_WAN_EDGES_IFACE" (P_WAN_ID IN NUMBER) 
 return CLOB 
 as 
@@ -533,6 +456,83 @@ begin
 
 
 end "GET_WAN_NODOS_IFACE";
+/
+create or replace FUNCTION parse_flexible_date(p_date IN VARCHAR2) 
+RETURN DATE 
+IS 
+    v_date DATE; 
+BEGIN 
+    BEGIN 
+        v_date := TO_DATE(p_date, 'YYYY-MM-DD'); 
+    EXCEPTION WHEN OTHERS THEN 
+        BEGIN 
+            v_date := TO_DATE(p_date, 'DD-MM-YYYY'); 
+        EXCEPTION WHEN OTHERS THEN 
+            BEGIN 
+                v_date := TO_DATE(p_date, 'YY-MM-DD'); 
+            EXCEPTION WHEN OTHERS THEN 
+                v_date := NULL; 
+            END; 
+        END; 
+    END; 
+    RETURN v_date; 
+END;
+/
+create or replace function "SEXAGESIMAL_TO_DECIMAL" (p_coord IN VARCHAR2) 
+return number 
+as 
+ 
+l_grados   NUMBER; 
+    l_minutos  NUMBER := 0; 
+    l_segundos NUMBER := 0; 
+    l_signo    NUMBER := 1; 
+    l_decimal  NUMBER; 
+BEGIN 
+    -- Signo según hemisferio 
+    IF p_coord LIKE '%S%' OR p_coord LIKE '%O%' THEN 
+        l_signo := -1; 
+    END IF; 
+ 
+    -- Extraer grados, minutos y segundos usando REGEXP 
+    BEGIN 
+        SELECT TO_NUMBER(REGEXP_SUBSTR(p_coord, '(\d+)', 1, 1)) INTO l_grados FROM dual; 
+        SELECT NVL(TO_NUMBER(REGEXP_SUBSTR(p_coord, '(\d+)', 1, 2)), 0) INTO l_minutos FROM dual; 
+        SELECT NVL(TO_NUMBER(REGEXP_SUBSTR(p_coord, '(\d+)', 1, 3)), 0) INTO l_segundos FROM dual; 
+    EXCEPTION 
+        WHEN NO_DATA_FOUND THEN 
+            RETURN NULL; 
+    END; 
+ 
+    -- Conversión a decimal 
+    l_decimal := l_signo * (l_grados + (l_minutos/60) + (l_segundos/3600)); 
+ 
+    RETURN ROUND(l_decimal,7); 
+END;
+/
+create or replace function "URL_TO_LAT" (p_coord IN VARCHAR2) 
+return coord_obj 
+as 
+ l_match    VARCHAR2(4000); 
+ l_lat number; 
+ l_long number; 
+begin 
+    -- Caso 1: URL de Google Maps con formato decimal 
+    IF p_coord LIKE 'http%' THEN 
+        -- Buscar patrón de coordenadas decimales (-##.####, -##.####) 
+        l_match := REGEXP_SUBSTR(p_coord, '[-]?\d+(\.\d+)?[, ]+[-]?\d+(\.\d+)?'); 
+ 
+        IF l_match IS NOT NULL THEN 
+            -- Si queremos la primera parte (latitud): 
+            l_lat := TO_NUMBER(REGEXP_SUBSTR(l_match, '[-]?\d+(\.\d+)?', 1, 1)); 
+            l_long := TO_NUMBER(REGEXP_SUBSTR(l_match, '[-]?\d+(\.\d+)?', 1, 2)); 
+            RETURN coord_obj(l_lat, l_long); 
+        ELSE 
+            RETURN coord_obj(NULL, NULL); 
+        END IF; 
+    ELSE 
+        RETURN coord_obj(NULL, NULL); 
+    END IF; 
+end "URL_TO_LAT";
 /
 create or replace FUNCTION VERIFICAR_DISPONIBILIDAD_U (
     p_equipo_id in NUMBER,

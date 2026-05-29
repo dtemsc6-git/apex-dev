@@ -50,7 +50,16 @@ regions:
     sql-query: |
       select SGT_RACKS.ID,
               
-        '<a class="fa fa-search" title="Ver rack">Ver</a>'  ACCIONES , 
+        '<ul>' ||
+              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:12:&APP_SESSION.::::P12_ID:'|| SGT_RACKS.ID )||'>Editar</a></li>' || 
+              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:470:&APP_SESSION.::::P470_ENTIDAD,P470_PK_ID:3,' || SGT_RACKS.ID )||'>Imágenes</a></li>' || 
+              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:42:&APP_SESSION.::::P42_ID:'|| SGT_RACKS.ID )||'>Dependencias</a></li>' || 
+             -- '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:465:&APP_SESSION.::::P465_EQUIPO_ID:'||ss.ID )||'>Dependencias</a></li>' || 
+             -- '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| e.ID )||'>Incidencias</a></li>' || 
+             -- '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| e.ID )||'>Auditoria</a></li>' || 
+              
+              '</ul>'
+             as ACCIONES, 
       
       
              sitios.siglas ||'.'|| salas.siglas SALA, 
@@ -60,11 +69,22 @@ regions:
              MARCA,
              MODELO,
              DIMENSIONES,
-             ALTURA_U
+             ALTURA_U,
+             NVL(C.COMENTARIO, 'Ver') as COMENTARIOS
         from SGT_RACKS
-      inner join SGT_SALAS salas
+      --Agregar comentarios
+      LEFT JOIN (
+          SELECT PK_ID, 
+                 COMENTARIO, 
+                 ROW_NUMBER() OVER (PARTITION BY PK_ID ORDER BY CREADO_EL DESC) AS rn
+          FROM SGT_COMENTARIOS
+          WHERE ENTIDAD = 3
+      ) C ON C.PK_ID = SGT_RACKS.ID AND C.rn = 1
+      --
+      
+      join SGT_SALAS salas
       on SGT_RACKS.SALA_ID = salas.ID
-      inner join SGT_SITIOS sitios
+      join SGT_SITIOS sitios
       on sitios.ID = salas.SITIO_ID
       
       ORDER BY SGT_RACKS.ID DESC
@@ -102,17 +122,7 @@ regions:
   attributes: 
     id: 200718425310079803898
     link: 
-      link-column: Link to Custom Target
-      target: 
-        url: 'f?p=&APP_ID.:12:&SESSION.::&DEBUG.:CR,12:P12_ID,P12_TITULO:\#ID#\,Editar rack'
-        page: 12 # SGT_FORM_RACKS
-        clear-cache: CR,12
-        values: 
-          p12_id: '#ID#'
-          p12_titulo: Editar rack
-
-      link-icon: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
-      authorization-scheme: Implementador Rights # 56843702980053272617
+      link-column: Exclude Link Column
 
     pagination: 
       type: Row Ranges X to Y of Z
@@ -177,35 +187,25 @@ regions:
         alias: 793735020
 
     columns: 
-    - # ====== Column: ACCIONES ====================================
-      id: 524352746364937
+    - # ====== Column: ALTURA_U ====================================
+      id: 9348471256692598
       identification: 
-        column-name: ACCIONES
-        type: Link
+        column-name: ALTURA_U
+        type: Plain Text
 
       heading: 
-        heading: Acciones
-        alignment: start
+        heading: Altura U
+        alignment: end
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 10
-        column-alignment: start
+        sequence: 100
+        column-alignment: end
 
       accessibility: 
         value-identifies-row: false
-
-      link: 
-        target: 
-          url: 'f?p=&APP_ID.:37:&SESSION.::&DEBUG.::P37_RACK_ID:#ID#'
-          page: 37 # SGT_UBICAR_EQUIPO_RACK
-          values: 
-            p37_rack_id: '#ID#'
-
-        link-text: <img src="#APEX_FILES#app_ui/img/icons/apex-edit-view.png" class="apex-edit-view" alt="">
-        link-attributes: '#ID#'
 
       source: 
         primary-key: false
@@ -214,22 +214,98 @@ regions:
         type: Default Based on Column Type
 
       enable-users-to: 
-        hide: false
-        sort: false
-        filter: false
-        highlight: false
-        control-break: false
-        aggregate: false
-        compute: false
-        chart: false
-        group-by: false
-        pivot: false
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
 
       security: 
-        escape-special-characters: false
+        escape-special-characters: true
 
-      configuration: 
-        build-option: Commented Out # 197180071872965446203
+    - # ====== Column: COMENTARIOS =================================
+      id: 8740579278907315
+      identification: 
+        column-name: COMENTARIOS
+        type: Link
+
+      heading: 
+        heading: Comentarios
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 110
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:32:&SESSION.::&DEBUG.::P32_ENTIDAD,P32_PK_ID:3,#ID#'
+          page: 32 # Comentarios
+          values: 
+            p32_entidad: 3
+            p32_pk_id: '#ID#'
+
+        link-text: '#COMENTARIOS#'
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ACCIONES ====================================
+      id: 524352746364937
+      identification: 
+        column-name: ACCIONES
+        type: Rich Text
+
+      heading: 
+        heading: Acciones
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: start
+
+      settings: 
+        format: HTML
+
+      source: 
+        primary-key: false
+
+      enable-users-to: 
+        hide: false
+        filter: false
+        highlight: false
 
     - # ====== Column: UNIDAD_ENCARGADA ============================
       id: 29962991712991667711
@@ -341,47 +417,6 @@ regions:
 
       enable-users-to: 
         hide: false
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: ALTURA_U ====================================
-      id: 42592133683631121703
-      identification: 
-        column-name: ALTURA_U
-        type: Plain Text
-
-      heading: 
-        heading: Altura U
-        alignment: center
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 70
-        column-alignment: center
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
         sort: true
         filter: true
         highlight: true

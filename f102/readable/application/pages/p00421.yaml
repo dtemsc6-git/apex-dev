@@ -1,0 +1,219 @@
+---
+# ====== Page: Mapas Servicios ===============================
+id: 421
+identification: 
+  name: Mapas Servicios
+  alias: MAPAS-SERVICIOS
+  title: Mapas Servicios
+
+appearance: 
+  page-mode: Normal
+  page-template: Left Side Column
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Button Bar ==================================
+  id: 10870302664736201
+  identification: 
+    name: Button Bar
+    type: Static Content
+
+  source: 
+    html-code: <div id="active_facets"></div>
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-ButtonRegion--noPadding
+    - t-ButtonRegion--noUI
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Map =========================================
+  id: 10869644905736198
+  identification: 
+    name: Map
+    type: Map
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: select 0 as lon, 0 as lat from dual
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes (No Grid)
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 10869212252736198
+    map: 
+      background: Default
+      height: 640
+
+    controls: 
+      navigation-bar: Zoom and Compass
+      navigation-bar-position: End
+      options: 
+      - Scale Bar
+      - Infinite Map
+      - Rectangle Zoom
+
+    initial-position-and-zoom: 
+      type: Based on Spatial Results
+
+    legend: 
+      show: true
+      position: End
+
+    attributes: 
+      messages-position: Below
+      unit-system: Metric
+
+    performance: 
+      lazy-loading: true
+
+    layers: 
+    - # ====== Layer: Mapas Servicios ==============================
+      id: 10868755962736196
+      identification: 
+        name: Mapas Servicios
+        layer-type: Points
+
+      layout: 
+        sequence: 10
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      column-mapping: 
+        geometry-column-data-type: Longitude/Latitude
+        longitude-column: LON
+        latitude-column: LAT
+
+      point-objects: 
+        style: SVG
+        shape: Default
+
+      point-clustering: 
+        enable: false
+
+      tooltip: 
+        advanced-formatting: false
+
+      info-window: 
+        advanced-formatting: false
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+buttons: 
+- # ====== Button: RESET =======================================
+  id: 10869910152736199
+  identification: 
+    button-name: RESET
+    label: Reset
+
+  layout: 
+    sequence: 10
+    region: Button Bar # 10870302664736201
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--noUI
+    - t-Button--iconLeft
+    icon: fa-undo
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:421:&APP_SESSION.::&DEBUG.:RR,421::'
+      page: 421 # Mapas Servicios
+      clear-cache: RR,421
+
+    warn-on-unsaved-changes: Do Not Check
+

@@ -47,17 +47,38 @@ regions:
     location: Local Database
     type: SQL Query
     sql-query: |
-      select SGT_SALAS.ID,
-             sgt_sitios.id as SITIO_ID,
-             SGT_SITIOS.SIGLAS ||' - '||SGT_SITIOS.NOMBRE AS SITIO,
-             SGT_SALAS.SIGLAS AS SIGLAS,
-             SGT_SALAS.NOMBRE AS NOMBRE
-        from SGT_SALAS
+      select ss.ID,
+          '<ul>' ||
+              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:5:&APP_SESSION.::::P5_ID:'|| ss.ID )||'>Editar</a></li>' || 
+              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:470:&APP_SESSION.::::P470_ENTIDAD,P470_PK_ID:2,' || ss.ID )||'>Imágenes</a></li>' || 
+              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:33:&APP_SESSION.::::P33_ID:' || ss.ID )||'>Dependencias</a></li>' || 
+             -- '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:465:&APP_SESSION.::::P465_EQUIPO_ID:'||ss.ID )||'>Dependencias</a></li>' || 
+             -- '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| e.ID )||'>Incidencias</a></li>' || 
+             -- '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| e.ID )||'>Auditoria</a></li>' || 
+              
+              '</ul>'
+             as ACCIONES, 
+         
+             s.id as SITIO_ID,
+             s.SIGLAS ||' - '|| s.NOMBRE AS SITIO,
+             ss.SIGLAS AS SIGLAS,
+             ss.NOMBRE AS NOMBRE,
+             nvl(C.COMENTARIO,'Ver') as COMENTARIOS
+        from SGT_SALAS ss
+        --Agregar comentarios
+      LEFT JOIN (
+          SELECT PK_ID, 
+                 COMENTARIO, 
+                 ROW_NUMBER() OVER (PARTITION BY PK_ID ORDER BY CREADO_EL DESC) AS rn
+          FROM SGT_COMENTARIOS
+          WHERE ENTIDAD = 2
+      ) C ON C.PK_ID = SS.ID AND C.rn = 1
+      --
       
-        LEFT join SGT_SITIOS
-        ON (SGT_SITIOS.ID = SGT_SALAS.SITIO_ID)
+        LEFT join SGT_SITIOS s
+        ON (s.ID = ss.SITIO_ID)
       
-        ORDER BY SGT_SALAS.ID DESC
+        ORDER BY ss.ID DESC
 
   layout: 
     sequence: 10
@@ -92,17 +113,7 @@ regions:
   attributes: 
     id: 202814180417777557268
     link: 
-      link-column: Link to Custom Target
-      target: 
-        url: 'f?p=&APP_ID.:5:&SESSION.::&DEBUG.:CR,5:P5_ID,P5_TITULO:#ID#,Editar sala'
-        page: 5 # SGT_FORM_SALA
-        clear-cache: CR,5
-        values: 
-          p5_id: '#ID#'
-          p5_titulo: Editar sala
-
-      link-icon: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
-      authorization-scheme: Implementador Rights # 56843702980053272617
+      link-column: Exclude Link Column
 
     pagination: 
       type: Row Ranges X to Y of Z
@@ -167,7 +178,97 @@ regions:
         name: Primary Report
         alias: 814742452
 
+    column-groups: 
+    - # ====== Column Group: ACCIONES ==============================
+      id: 9091326675979497
+      identification: 
+        name: ACCIONES
+
+      layout: 
+        sequence: 10
+
     columns: 
+    - # ====== Column: ACCIONES ====================================
+      id: 9348530598692599
+      identification: 
+        column-name: ACCIONES
+        type: Rich Text
+
+      heading: 
+        heading: Acciones
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: start
+        group: ACCIONES # 9091326675979497
+
+      settings: 
+        format: HTML
+
+      source: 
+        primary-key: false
+
+      enable-users-to: 
+        hide: false
+        filter: false
+        highlight: false
+
+    - # ====== Column: COMENTARIOS =================================
+      id: 9091453363979498
+      identification: 
+        column-name: COMENTARIOS
+        type: Link
+
+      heading: 
+        heading: Comentarios
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 60
+        column-alignment: start
+        group: ACCIONES # 9091326675979497
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:32:&SESSION.::&DEBUG.::P32_ENTIDAD,P32_PK_ID:2,#ID#'
+          page: 32 # Comentarios
+          values: 
+            p32_entidad: 2
+            p32_pk_id: '#ID#'
+
+        link-text: '#COMENTARIOS#'
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
     - # ====== Column: SIGLAS ======================================
       id: 42592132490446121691
       identification: 
@@ -182,7 +283,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 20
+        sequence: 30
         column-alignment: center
 
       accessibility: 
@@ -219,7 +320,7 @@ regions:
         heading: Sitio Id
 
       layout: 
-        sequence: 10
+        sequence: 20
 
       source: 
         primary-key: false
@@ -241,7 +342,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 30
+        sequence: 40
         column-alignment: center
 
       accessibility: 
@@ -300,7 +401,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 40
+        sequence: 50
         column-alignment: center
 
       accessibility: 

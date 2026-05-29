@@ -1,22 +1,17 @@
 ---
-# ====== Page: SGT_FORM_SALA =================================
-id: 5
+# ====== Page: Cargar Archivos ===============================
+id: 472
 identification: 
-  name: SGT_FORM_SALA
-  alias: SGT-FORM-SALA
-  title: Formulario Sala
-  page-group: Implementadores # 57024536698229459190
+  name: Cargar Archivos
+  alias: CARGAR-ARCHIVOS
+  title: Cargar Archivos
+  page-group: Archivos # 10210415774710681
 
 appearance: 
-  page-mode: Modal Dialog
-  dialog-template: Drawer
+  page-mode: Normal
+  page-template: Theme Default
   template-options: 
   - '#DEFAULT#'
-  - js-dialog-class-t-Drawer--pullOutEnd
-
-dialog: 
-  chained: false
-  resizable: false
 
 navigation-menu: 
   override-user-interface-level: false
@@ -26,7 +21,6 @@ navigation:
   warn-on-unsaved-changes: true
 
 security: 
-  authorization-scheme: Implementador Rights # 56843702980053272617
   authentication: Page Requires Authentication
   deep-linking: Application Default
   page-access-protection: Arguments Must Have Checksum
@@ -44,17 +38,17 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: SGT_FORM_SALA ===============================
-  id: 202814171380937557259
+- # ====== Region: Cargar Archivos =============================
+  id: 10231654041269440
   identification: 
-    name: SGT_FORM_SALA
+    name: Cargar Archivos
     type: Form
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: SGT_SALAS
+    table-name: SGT_ARCHIVOS
     include-rowid-column: false
 
   layout: 
@@ -68,9 +62,10 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Blank with Attributes
+    template: Standard
     template-options: 
     - '#DEFAULT#'
+    - t-Region--scrollBody
     render-components: Above Content
 
   accessibility: 
@@ -80,6 +75,9 @@ regions:
   advanced: 
     region-display-selector: false
     exclude-title-from-translation: false
+
+  header-and-footer: 
+    header-text: Cargue aquí sus esquemas, documentación u otra información que considere relevante
 
   customization: 
     customizable: Not Customizable By End Users
@@ -93,53 +91,15 @@ regions:
       - Delete Row
       lost-update-type: Row Values
 
-- # ====== Region: Buttons =====================================
-  id: 202814175462450557263
-  identification: 
-    name: Buttons
-    type: Static Content
-
-  layout: 
-    sequence: 20
-    parent-region: No Parent
-    slot: REGION_POSITION_03
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Buttons Container
-    template-options: 
-    - '#DEFAULT#'
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    settings: 
-      output-as: Text (escape special characters)
-      show-line-breaks: true
-
 page-items: 
-- # ====== Page Item: P5_CIUDAD ================================
-  id: 42592132972568121696
+- # ====== Page Item: P472_SITIOS ==============================
+  id: 10375334328207681
   identification: 
-    name: P5_CIUDAD
+    name: P472_SITIOS
     type: Popup LOV
 
   label: 
-    label: Departamento, Ciudad
+    label: Sitios
     alignment: Left
 
   settings: 
@@ -154,140 +114,12 @@ page-items:
     minimum-characters: 0
 
   multiple-values: 
-    type: No
-
-  layout: 
-    sequence: 40
-    region: SGT_FORM_SALA # 202814171380937557259
-    slot: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating
-    template-options: 
-    - '#DEFAULT#'
-    width: 30
-
-  validation: 
-    value-required: false
-
-  list-of-values: 
-    type: Shared Component
-    list-of-values: CIUDAD.NOMBRE-COMPUESTO # 2341386040577256
-    display-extra-values: false
-    display-null-value: false
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Null
-    used: Only when current value in session state is null
-
-  session-state: 
-    storage: Per Session (Persistent)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  help: 
-    inline-help-text: Seleccionar departamento, ciudad donde se encuentra ubicada la sala
-
-- # ====== Page Item: P5_DEPTO =================================
-  id: 42592133042810121697
-  identification: 
-    name: P5_DEPTO
-    type: Select List
-
-  label: 
-    label: Departamento
-    alignment: Left
-
-  settings: 
-    page-action-on-selection: None
-
-  multiple-values: 
-    type: No
-
-  layout: 
-    sequence: 30
-    region: SGT_FORM_SALA # 202814171380937557259
-    slot: BODY
-    alignment: Left
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-    label-column-span: Page Template Default
-
-  appearance: 
-    template: Optional - Floating
-    template-options: 
-    - '#DEFAULT#'
-    height: 1
-
-  validation: 
-    value-required: false
-
-  list-of-values: 
-    type: Shared Component
-    list-of-values: LOV_SGT_DPTO # 122659355781875420604
-    display-extra-values: true
-    display-null-value: true
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    type: Null
-    used: Only when current value in session state is null
-
-  session-state: 
-    storage: Per Session (Persistent)
-
-  quick-picks: 
-    show-quick-picks: false
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
-
-- # ====== Page Item: P5_SIGLAS ================================
-  id: 42592133185388121698
-  identification: 
-    name: P5_SIGLAS
-    type: Text Field
-
-  label: 
-    label: Sigla Sala
-    alignment: Left
-
-  settings: 
-    subtype: Text
-    trim-spaces: Leading and Trailing
-    text-case: NO CHANGE
-    submit-when-enter-pressed: false
-    disabled: false
+    type: Delimited List
+    separator: ':'
 
   layout: 
     sequence: 60
-    region: SGT_FORM_SALA # 202814171380937557259
+    region: Cargar Archivos # 10231654041269440
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -298,27 +130,30 @@ page-items:
     label-column-span: Page Template Default
 
   appearance: 
-    template: Required - Floating
+    template: Optional - Floating
     template-options: 
     - '#DEFAULT#'
     width: 30
 
   validation: 
-    value-required: true
-    maximum-length: 50
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: SGT_SITIOS.SIGLAS # 202814172118838557260
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: Seleccione un sitio
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: SGT_FORM_SALA # 202814171380937557259
-    column: SIGLAS
-    data-type: VARCHAR2
-    query-only: false
-    primary-key: false
+    type: Null
+    used: Always, replacing any existing value in session state
 
   session-state: 
-    storage: Per Request (Memory Only)
+    storage: Per Session (Persistent)
 
   quick-picks: 
     show-quick-picks: false
@@ -329,12 +164,12 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: 'Asignar sigla/abreviación identificatoria de la sala (nombre corto). Ejemplo: SC01'
+    inline-help-text: Puede seleccionar múltiples sitios
 
-- # ====== Page Item: P5_TITULO ================================
-  id: 117089388196113048104
+- # ====== Page Item: P472_ID ==================================
+  id: 10231244234269439
   identification: 
-    name: P5_TITULO
+    name: P472_ID
     type: Hidden
 
   settings: 
@@ -342,44 +177,14 @@ page-items:
 
   layout: 
     sequence: 10
-    region: SGT_FORM_SALA # 202814171380937557259
+    region: Cargar Archivos # 10231654041269440
     slot: BODY
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    type: Null
-    used: Only when current value in session state is null
-
-  session-state: 
-    data-type: VARCHAR2
-    storage: Per Session (Persistent)
-
-  security: 
-    session-state-protection: Unrestricted
-    store-value-encrypted-in-session-state: true
-    restricted-characters: All characters can be saved.
-
-- # ====== Page Item: P5_ID ====================================
-  id: 202814171673322557260
-  identification: 
-    name: P5_ID
-    type: Hidden
-
-  settings: 
-    value-protected: true
-
-  layout: 
-    sequence: 20
-    region: SGT_FORM_SALA # 202814171380937557259
-    slot: BODY
-
-  advanced: 
-    warn-on-unsaved-changes: Page Default
-
-  source: 
-    form-region: SGT_FORM_SALA # 202814171380937557259
+    form-region: Cargar Archivos # 10231654041269440
     column: ID
     data-type: NUMBER
     query-only: true
@@ -394,14 +199,14 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: P5_SITIO_ID ==============================
-  id: 202814172035402557260
+- # ====== Page Item: P472_ENTIDAD =============================
+  id: 10230824066269437
   identification: 
-    name: P5_SITIO_ID
+    name: P472_ENTIDAD
     type: Select List
 
   label: 
-    label: Sitio
+    label: Informe / Esquema
     alignment: Left
 
   settings: 
@@ -412,7 +217,7 @@ page-items:
 
   layout: 
     sequence: 50
-    region: SGT_FORM_SALA # 202814171380937557259
+    region: Cargar Archivos # 10231654041269440
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -432,26 +237,18 @@ page-items:
     value-required: true
 
   list-of-values: 
-    type: SQL Query
-    sql-query: |
-      select siglas ||' - '||nombre, id from sgt_sitios
-      where ciudad_id = :P5_CIudad
-    display-extra-values: false
-    display-null-value: false
-
-  cascading-list-of-values: 
-    parent-item(s): 
-    - P5_CIUDAD
-    items-to-submit: 
-    - P5_CIUDAD
-    parent-required: true
+    type: Static Values
+    static-values: 'STATIC:6. Esquemas;6,7. Informes;7'
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: Seleccione una
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: SGT_FORM_SALA # 202814171380937557259
-    column: SITIO_ID
+    form-region: Cargar Archivos # 10231654041269440
+    column: ENTIDAD
     data-type: NUMBER
     query-only: false
     primary-key: false
@@ -468,27 +265,129 @@ page-items:
     restricted-characters: All characters can be saved.
 
   help: 
-    inline-help-text: Seleccionar el sitio donde se encuentra ubicada la sala
+    inline-help-text: Selecciones si es un informe o un esquema
 
-- # ====== Page Item: P5_NOMBRE ================================
-  id: 202816056921894564101
+- # ====== Page Item: P472_PK_ID ===============================
+  id: 10230423495269436
   identification: 
-    name: P5_NOMBRE
-    type: Textarea
+    name: P472_PK_ID
+    type: Number Field
 
   label: 
-    label: Nombre
+    label: Pk Id
     alignment: Left
 
   settings: 
-    resizable: true
-    auto-height: false
-    character-counter: false
-    trim-spaces: Leading and Trailing
+    number-alignment: Start
+    virtual-keyboard: Decimal
+
+  layout: 
+    sequence: 30
+    region: Cargar Archivos # 10231654041269440
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Cargar Archivos # 10231654041269440
+    column: PK_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+- # ====== Page Item: P472_ESTADO ==============================
+  id: 10230045200269436
+  identification: 
+    name: P472_ESTADO
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 40
+    region: Cargar Archivos # 10231654041269440
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Cargar Archivos # 10231654041269440
+    column: ESTADO
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P472_FILE_BLOB ===========================
+  id: 10228432314269436
+  identification: 
+    name: P472_FILE_BLOB
+    type: File Upload
+
+  label: 
+    label: Archivo Seleccionado
+    alignment: Left
+
+  display: 
+    display-as: Inline File Browse
+    display-download-link: true
+    content-disposition: Attachment
+    capture-using: NONE
+
+  storage:: 
+    type: BLOB column specified in Item Source attribute
+    mime-type-column: FILE_MIMETYPE
+    filename-column: FILE_NAME
+    character-set-column: FILE_CHARSET
+    blob-last-updated-column: ACTUALIZADO_EL
+    file-types: .docx, .vsd, .pdf
+    maximum-file-size: 2048
 
   layout: 
     sequence: 70
-    region: SGT_FORM_SALA # 202814171380937557259
+    region: Cargar Archivos # 10231654041269440
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -502,19 +401,74 @@ page-items:
     template: Required - Floating
     template-options: 
     - '#DEFAULT#'
-    width: 30
-    height: 5
+    width: 60
 
   validation: 
     value-required: true
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Cargar Archivos # 10231654041269440
+    column: FILE_BLOB
+    data-type: BLOB
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P472_OBSERVACIONES =======================
+  id: 10227998704269435
+  identification: 
+    name: P472_OBSERVACIONES
+    type: Textarea
+
+  label: 
+    label: Observaciones
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 80
+    region: Cargar Archivos # 10231654041269440
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+    height: 4
+
+  validation: 
+    value-required: false
     maximum-length: 4000
 
   advanced: 
     warn-on-unsaved-changes: Page Default
 
   source: 
-    form-region: SGT_FORM_SALA # 202814171380937557259
-    column: NOMBRE
+    form-region: Cargar Archivos # 10231654041269440
+    column: OBSERVACIONES
     data-type: VARCHAR2
     query-only: false
     primary-key: false
@@ -531,19 +485,16 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-  help: 
-    inline-help-text: Indicar nombre o descripción identificatoria de la sala
-
 buttons: 
 - # ====== Button: CANCEL ======================================
-  id: 202814175875980557264
+  id: 10220666564269431
   identification: 
     button-name: CANCEL
-    label: Cancelar
+    label: Cancel
 
   layout: 
     sequence: 10
-    region: Buttons # 202814175462450557263
+    region: Cargar Archivos # 10231654041269440
     slot: CLOSE
     start-new-layout: false
     start-new-row: true
@@ -558,18 +509,22 @@ buttons:
     - '#DEFAULT#'
 
   behavior: 
-    action: Defined by Dynamic Action
-    execute-validations: true
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:471:&SESSION.::&DEBUG.:::'
+      page: 471 # Archivos
+
+    warn-on-unsaved-changes: Do Not Check
 
 - # ====== Button: DELETE ======================================
-  id: 202814177305458557265
+  id: 10220005887269431
   identification: 
     button-name: DELETE
-    label: Eliminar
+    label: Delete
 
   layout: 
     sequence: 20
-    region: Buttons # 202814175462450557263
+    region: Cargar Archivos # 10231654041269440
     slot: DELETE
     start-new-layout: false
     start-new-row: true
@@ -596,18 +551,18 @@ buttons:
 
   server-side-condition: 
     type: Item is NOT NULL
-    item: P5_ID
+    item: P472_ID
 
 - # ====== Button: SAVE ========================================
-  id: 202814177712949557266
+  id: 10219652266269430
   identification: 
     button-name: SAVE
-    label: '&APP_TEXT$BTN_APLICAR_CAMBIOS!RAW.'
+    label: Apply Changes
 
   layout: 
     sequence: 30
-    region: Buttons # 202814175462450557263
-    slot: NEXT
+    region: Cargar Archivos # 10231654041269440
+    slot: CHANGE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -629,18 +584,18 @@ buttons:
 
   server-side-condition: 
     type: Item is NOT NULL
-    item: P5_ID
+    item: P472_ID
 
 - # ====== Button: CREATE ======================================
-  id: 202814178048062557266
+  id: 10219221308269430
   identification: 
     button-name: CREATE
     label: '&APP_TEXT$BTN_CREAR!RAW.'
 
   layout: 
     sequence: 40
-    region: Buttons # 202814175462450557263
-    slot: NEXT
+    region: Cargar Archivos # 10231654041269440
+    slot: CREATE
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -662,72 +617,27 @@ buttons:
 
   server-side-condition: 
     type: Item is NULL
-    item: P5_ID
+    item: P472_ID
 
-dynamic-actions: 
-- # ====== Dynamic Action: Actualizar título de página =========
-  id: 117089388066924048103
+computations: 
+- # ====== Computation: P472_ENTIDAD ===========================
+  id: 10377905576207707
   identification: 
-    name: Actualizar título de página
-
-  execution: 
-    sequence: 20
-    event-scope: Static
-
-  when: 
-    event: Page Load
-
-  actions: 
-  - # ====== Action: Execute JavaScript Code =====================
-    id: 117089387959597048102
-    identification: 
-      action: Execute JavaScript Code
-
-    settings: 
-      code: |
-        $(document).ready(function() {
-        
-        apex.util.getTopApex().jQuery(".ui-dialog-content").dialog("option", "title", "&P5_TITULO.");
-        });
-
-    execution: 
-      sequence: 10
-      event: Actualizar título de página # 117089388066924048103
-      fire-when-event-result-is: True
-      fire-on-initialization: false
-
-- # ====== Dynamic Action: Cancel Dialog =======================
-  id: 202814175963374557264
-  identification: 
-    name: Cancel Dialog
+    item-name: P472_ENTIDAD
 
   execution: 
     sequence: 10
-    event-scope: Static
-    type: Immediate
+    point: Before Regions
 
-  when: 
-    event: Click
-    selection-type: Button
-    button: CANCEL # 202814175875980557264
-
-  actions: 
-  - # ====== Action: Cancel Dialog ===============================
-    id: 202814176721017557265
-    identification: 
-      action: Cancel Dialog
-
-    execution: 
-      sequence: 10
-      event: Cancel Dialog # 202814175963374557264
-      fire-when-event-result-is: True
-      fire-on-initialization: false
+  computation: 
+    type: Static Value
+    static-value: 6
 
 processes: 
-- # ====== Process: Actualizar editar ==========================
-  id: 109139832286416025016
+- # ====== Process: Procesar Sitios ============================
+  id: 10375133949207679
   identification: 
-    name: Actualizar editar
+    name: Procesar Sitios
     type: Execute Code
     execution-chain: None
 
@@ -735,43 +645,51 @@ processes:
     location: Local Database
     language: PL/SQL
     pl/sql-code: |
-      BEGIN
-          SELECT s.CIUDAD_ID, c.DEPTO_ID
-          INTO :P5_CIUDAD, :P5_DEPTO
-          FROM SGT_SITIOS s
-          JOIN SGT_CIUDAD c ON s.CIUDAD_ID = c.ID
-          WHERE s.ID = :P5_SITIO_ID;
-      EXCEPTION
-          WHEN NO_DATA_FOUND THEN
-              :P5_CIUDAD := NULL;
-              :P5_DEPTO := NULL;
-      END;
+      declare
+      v_tipo_entidad number := :P472_ENTIDAD;
+      begin
+         --iterar sobre los valores del combo P472_SITIOS
+         for rec in (SELECT column_value 
+              FROM apex_string.split_numbers(:P472_SITIOS, ':') )
+      
+          loop
+         --Insertar cada valor.
+              insert into SGT_SITIOS_ARCHIVOS (ARCHIVO_ID, SITIO_ID) values (:P472_ID, rec.column_value );
+      
+         end loop;
+      
+         end;
+      
+      
 
   execution: 
     sequence: 20
-    point: Before Header
+    point: Processing
     run-process: Once Per Page Visit (default)
 
-- # ====== Process: Initialize form SGT_FORM_SALA ==============
-  id: 202814178449552557266
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: Initialize form Cargar Archivos ============
+  id: 10218432206269429
   identification: 
-    name: Initialize form SGT_FORM_SALA
+    name: Initialize form Cargar Archivos
     type: Form - Initialization
     execution-chain: None
-    form-region: SGT_FORM_SALA # 202814171380937557259
+    form-region: Cargar Archivos # 10231654041269440
 
   execution: 
     sequence: 10
     point: Before Header
     run-process: Once Per Page Visit (default)
 
-- # ====== Process: Process form SGT_FORM_SALA =================
-  id: 202814178874182557266
+- # ====== Process: Process form Cargar Archivos ===============
+  id: 10218086056269429
   identification: 
-    name: Process form SGT_FORM_SALA
+    name: Process form Cargar Archivos
     type: Form - Automatic Row Processing (DML)
     execution-chain: None
-    form-region: SGT_FORM_SALA # 202814171380937557259
+    form-region: Cargar Archivos # 10231654041269440
 
   settings: 
     target-type: Region Source
@@ -787,25 +705,19 @@ processes:
   error: 
     display-location: Inline in Notification
 
-- # ====== Process: Close Dialog ===============================
-  id: 202814179247296557267
+branches: 
+- # ====== Branch: Go To Page 471 ==============================
+  id: 10218898921269430
   identification: 
-    name: Close Dialog
-    type: Close Dialog
-    execution-chain: None
-
-  settings: 
-    show-success-messages: true
+    name: Go To Page 471
 
   execution: 
-    sequence: 50
-    point: Processing
-    run-process: Once Per Page Visit (default)
+    sequence: 1
+    point: After Processing
 
-  error: 
-    display-location: Inline in Notification
-
-  server-side-condition: 
-    type: Request is contained in Value
-    value: CREATE,SAVE,DELETE
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:471:&APP_SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 471 # Archivos
 

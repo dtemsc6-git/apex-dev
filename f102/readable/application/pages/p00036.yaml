@@ -92,6 +92,18 @@ regions:
     type: SQL Query
     sql-query: |
       select fo.ID,
+             
+             '<ul>' ||
+              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:27:&APP_SESSION.::::P27_ID:'|| fo.ID )||'>Editar</a></li>' || 
+              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:15:&APP_SESSION.:::15:P15_ENTIDAD,P15_PK_ID:5,' || fo.ID )||'>KMZ</a></li>' || 
+              --'<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:465:&APP_SESSION.::::P465_EQUIPO_ID:'|| fo.ID )||'>Dependencias</a></li>' || 
+              --'<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| fo.ID )||'>Incidencias</a></li>' || 
+              --'<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| fo.ID )||'>Auditoria</a></li>' || 
+              
+              '</ul>'
+      
+             as ACCIONES,
+      
              fo.NOMBRE,
              fo.SITIO_ID_A,
              s_a.siglas SITIO_A,
@@ -110,7 +122,7 @@ regions:
              fo.LT,
              fo.CONECTOR,
              fo.ESTADO,
-             fo.COMENTARIOS,
+             NVL(C.COMENTARIO, 'Ver') as COMENTARIOS,
              fo."PROYECTO_DE_IMPLEMENTACIÓN",
              fo."FECHA_IMPLEMENTACIÓN",
              fo.UNIDAD_ENCARGADA_ACTUAL,
@@ -123,7 +135,15 @@ regions:
              fo.PUERTOS_LADO_A,
              fo.PUERTOS_LADO_B
         from SGT_ENLACES_FO fo
-      
+      --Agregar comentarios
+      LEFT JOIN (
+          SELECT PK_ID, 
+                 COMENTARIO, 
+                 ROW_NUMBER() OVER (PARTITION BY PK_ID ORDER BY CREADO_EL DESC) AS rn
+          FROM SGT_COMENTARIOS
+          WHERE ENTIDAD = 5
+      ) C ON C.PK_ID = fo.ID AND C.rn = 1
+      --
         LEFT JOIN sgt_equipos eq_a on fo.equipo_id_a = eq_a.id
         LEFT JOIN sgt_equipos eq_b on fo.equipo_id_b = eq_b.id
         LEFT JOIN sgt_sitios s_a on fo.sitio_id_a = s_a.id
@@ -165,14 +185,7 @@ regions:
   attributes: 
     id: 87993675430956945820
     link: 
-      link-column: Link to Custom Target
-      target: 
-        url: 'f?p=&APP_ID.:27:&SESSION.::&DEBUG.::P27_ID:#ID#'
-        page: 27 # SGT_FORM_ENLACES_FO
-        values: 
-          p27_id: '#ID#'
-
-      link-icon: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
+      link-column: Exclude Link Column
 
     pagination: 
       type: Row Ranges X to Y of Z
@@ -235,6 +248,34 @@ regions:
         alias: 879991520
 
     columns: 
+    - # ====== Column: ACCIONES ====================================
+      id: 10484378335182127
+      identification: 
+        column-name: ACCIONES
+        type: Rich Text
+
+      heading: 
+        heading: Acciones
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 20
+        column-alignment: start
+
+      settings: 
+        format: HTML
+
+      source: 
+        primary-key: false
+
+      enable-users-to: 
+        hide: false
+        filter: false
+        highlight: false
+
     - # ====== Column: PUERTOS_LADO_A ==============================
       id: 3568569444232756
       identification: 
@@ -249,7 +290,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 300
+        sequence: 310
         column-alignment: start
 
       accessibility: 
@@ -293,7 +334,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 310
+        sequence: 320
         column-alignment: start
 
       accessibility: 
@@ -337,7 +378,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 40
+        sequence: 50
         column-alignment: start
 
       accessibility: 
@@ -378,7 +419,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 60
+        sequence: 70
         column-alignment: start
 
       accessibility: 
@@ -428,7 +469,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 80
+        sequence: 90
         column-alignment: start
 
       accessibility: 
@@ -469,7 +510,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 100
+        sequence: 110
         column-alignment: start
 
       accessibility: 
@@ -537,7 +578,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 20
+        sequence: 30
         column-alignment: center
 
       accessibility: 
@@ -581,7 +622,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 30
+        sequence: 40
         column-alignment: center
 
       accessibility: 
@@ -625,7 +666,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 50
+        sequence: 60
         column-alignment: center
 
       accessibility: 
@@ -669,7 +710,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 70
+        sequence: 80
         column-alignment: center
 
       accessibility: 
@@ -710,7 +751,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 90
+        sequence: 100
         column-alignment: center
 
       accessibility: 
@@ -754,7 +795,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 110
+        sequence: 120
         column-alignment: center
 
       accessibility: 
@@ -795,7 +836,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 120
+        sequence: 130
         column-alignment: center
 
       accessibility: 
@@ -839,7 +880,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 130
+        sequence: 140
         column-alignment: center
 
       accessibility: 
@@ -883,7 +924,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 140
+        sequence: 150
         column-alignment: center
 
       accessibility: 
@@ -924,7 +965,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 150
+        sequence: 160
         column-alignment: center
 
       accessibility: 
@@ -965,7 +1006,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 160
+        sequence: 170
         column-alignment: center
 
       accessibility: 
@@ -1006,7 +1047,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 190
+        sequence: 200
         column-alignment: center
 
       accessibility: 
@@ -1047,7 +1088,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 200
+        sequence: 210
         column-alignment: center
 
       accessibility: 
@@ -1088,7 +1129,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 210
+        sequence: 220
         column-alignment: center
 
       accessibility: 
@@ -1119,7 +1160,7 @@ regions:
       id: 87993677005322945836
       identification: 
         column-name: COMENTARIOS
-        type: Plain Text
+        type: Link
 
       heading: 
         heading: Observaciones
@@ -1129,11 +1170,21 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 220
+        sequence: 230
         column-alignment: center
 
       accessibility: 
         value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:32:&SESSION.::&DEBUG.::P32_ENTIDAD,P32_PK_ID:5,#ID#'
+          page: 32 # Comentarios
+          values: 
+            p32_entidad: 5
+            p32_pk_id: '#ID#'
+
+        link-text: '#COMENTARIOS#'
 
       source: 
         primary-key: false
@@ -1170,7 +1221,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 230
+        sequence: 240
         column-alignment: center
 
       accessibility: 
@@ -1211,7 +1262,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 240
+        sequence: 250
         column-alignment: center
 
       accessibility: 
@@ -1253,7 +1304,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 250
+        sequence: 260
         column-alignment: center
 
       accessibility: 
@@ -1294,7 +1345,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 260
+        sequence: 270
         column-alignment: center
 
       accessibility: 
@@ -1335,7 +1386,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 270
+        sequence: 280
         column-alignment: center
 
       accessibility: 
@@ -1377,7 +1428,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 280
+        sequence: 290
         column-alignment: center
 
       accessibility: 
@@ -1418,7 +1469,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 290
+        sequence: 300
         column-alignment: center
 
       accessibility: 
@@ -1460,7 +1511,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 180
+        sequence: 190
         column-alignment: center
 
       accessibility: 
@@ -1501,7 +1552,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 170
+        sequence: 180
         column-alignment: center
 
       accessibility: 

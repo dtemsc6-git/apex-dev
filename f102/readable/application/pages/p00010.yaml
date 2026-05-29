@@ -79,7 +79,7 @@ regions:
     customizable: Not Customizable By End Users
 
   attributes: 
-    id: 11083154963715976
+    id: 11739963218785331
     edit: 
       enabled: true
       allowed-operations: 
@@ -119,8 +119,8 @@ regions:
       formats: 
       - CSV
       - HTML
-      - PDF
       - Excel
+      - PDF
       send-as-email: true
 
     heading: 
@@ -134,37 +134,14 @@ regions:
 
     saved-reports: 
     - # ====== Saved Report: Primary Report ========================
-      id: 11082771502715975
+      id: 11806261597413136
       identification: 
         name: Primary Report
-        alias: 207934
+        alias: 235005
 
   columns: 
-  - # ====== Column: APEX$ROW_ACTION =============================
-    id: 11307743112021398
-    identification: 
-      column-name: APEX$ROW_ACTION
-      type: Actions Menu
-
-    layout: 
-      sequence: 20
-
-  - # ====== Column: APEX$ROW_SELECTOR ===========================
-    id: 11307623065021397
-    identification: 
-      column-name: APEX$ROW_SELECTOR
-      type: Row Selector
-
-    settings: 
-      enable-multi-select: true
-      show-select-all: true
-      hide-control: false
-
-    layout: 
-      sequence: 10
-
   - # ====== Column: ID ==========================================
-    id: 11082346120715973
+    id: 11740089820785332
     identification: 
       column-name: ID
       type: Hidden
@@ -192,11 +169,10 @@ regions:
       include-in-export-/-print: false
 
     enable-users-to: 
-      sort: true
-      control-break/aggregate: true
+      sort: false
 
   - # ====== Column: NOMBRE ======================================
-    id: 11081347041715970
+    id: 11740207113785333
     identification: 
       column-name: NOMBRE
       type: Text Field
@@ -251,14 +227,18 @@ regions:
       hide: true
 
   - # ====== Column: GRUPO_RED ===================================
-    id: 11080369213715969
+    id: 11740276604785334
     identification: 
       column-name: GRUPO_RED
-      type: Select List
+      type: Display Only
 
     heading: 
       heading: Grupo Red
       alignment: start
+
+    settings: 
+      format: Plain Text
+      based-on: Item Value
 
     layout: 
       sequence: 50
@@ -268,25 +248,15 @@ regions:
     accessibility: 
       value-identifies-row: false
 
-    validation: 
-      value-required: true
-
-    list-of-values: 
-      type: Shared Component
-      list-of-values: ENLACES_WAN.GRUPO_RED # 9899227200025403
-      display-extra-values: true
-      display-null-value: true
-      null-display-value: Seleccione una
-
     source: 
       type: Database Column
       database-column: GRUPO_RED
       data-type: VARCHAR2
-      query-only: false
+      query-only: true
       primary-key: false
 
-    default: 
-      duplicate-copies-existing-value: true
+    session-state: 
+      data-type: VARCHAR2
 
     column-filter: 
       enabled: true
@@ -296,8 +266,7 @@ regions:
       - Case Insensitive
       - Regular Expression
       text-case: Mixed
-      lov-type: Use List of Values
-      exact-match: true
+      lov-type: None
 
     export-/-printing: 
       include-in-export-/-print: true
@@ -307,7 +276,7 @@ regions:
       hide: true
 
   - # ====== Column: CREADO_POR ==================================
-    id: 11079358242715969
+    id: 11740371806785335
     identification: 
       column-name: CREADO_POR
       type: Display Only
@@ -358,7 +327,7 @@ regions:
       hide: true
 
   - # ====== Column: CREADO_EL ===================================
-    id: 11078333038715968
+    id: 11740451802785336
     identification: 
       column-name: CREADO_EL
       type: Display Only
@@ -403,7 +372,7 @@ regions:
       hide: true
 
   - # ====== Column: ACTUALIZADO_POR =============================
-    id: 11077310220715968
+    id: 11740629315785337
     identification: 
       column-name: ACTUALIZADO_POR
       type: Display Only
@@ -454,7 +423,7 @@ regions:
       hide: true
 
   - # ====== Column: ACTUALIZADO_EL ==============================
-    id: 11076388960715968
+    id: 11740749777785338
     identification: 
       column-name: ACTUALIZADO_EL
       type: Display Only
@@ -498,13 +467,165 @@ regions:
       control-break/aggregate: true
       hide: true
 
+  - # ====== Column: TIPO_WAN_ID =================================
+    id: 11740812663785339
+    identification: 
+      column-name: TIPO_WAN_ID
+      type: Popup LOV
+
+    heading: 
+      heading: Tipo Wan
+      alignment: start
+
+    settings: 
+      display-as: Inline Popup
+      initial-fetch: Automatic
+      manual-entry: false
+      fetch-on-search: false
+
+    search: 
+      match-type: Contains
+      case-sensitive: false
+      minimum-characters: 0
+
+    multiple-values: 
+      type: No
+
+    layout: 
+      sequence: 100
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    validation: 
+      value-required: false
+
+    list-of-values: 
+      type: Shared Component
+      list-of-values: ENLACES_WAN.TIPO_ENLACE # 11963262357802012
+      display-extra-values: true
+      display-null-value: true
+      null-display-value: Seleccione Una
+
+    source: 
+      type: Database Column
+      database-column: TIPO_WAN_ID
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Use List of Values
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+  - # ====== Column: APEX$ROW_ACTION =============================
+    id: 11740887044785340
+    identification: 
+      column-name: APEX$ROW_ACTION
+      type: Actions Menu
+
+    layout: 
+      sequence: 20
+
+  - # ====== Column: APEX$ROW_SELECTOR ===========================
+    id: 11741043590785341
+    identification: 
+      column-name: APEX$ROW_SELECTOR
+      type: Row Selector
+
+    settings: 
+      enable-multi-select: true
+      show-select-all: true
+      hide-control: false
+
+    layout: 
+      sequence: 10
+
+  - # ====== Column: COMENTARIOS =================================
+    id: 11741504513785346
+    identification: 
+      column-name: COMENTARIOS
+      type: Display Only
+
+    heading: 
+      alignment: start
+
+    settings: 
+      format: Plain Text
+      based-on: Item Value
+
+    layout: 
+      sequence: 110
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:32:&SESSION.::&DEBUG.::P32_ENTIDAD,P32_PK_ID:8,&ID.'
+        page: 32 # Comentarios
+        values: 
+          p32_entidad: 8
+          p32_pk_id: '&ID.'
+
+      link-text: '&COMENTARIOS.'
+
+    source: 
+      type: SQL Expression
+      sql-expression: "'Ver'"
+      data-type: VARCHAR2
+
+    session-state: 
+      data-type: VARCHAR2
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
   printing: 
     page: 
-      size: Letter
+      size: A4
       orientation: Landscape
-      units: Inches
-      width: 11
-      height: 8.5
+      units: Millimeters
+      width: 297
+      height: 210
       border-width: 0.5
       border-color: '#666666'
 
@@ -514,7 +635,6 @@ regions:
       font-size: 12
       font-color: '#000000'
       alignment: center
-      page-header-text: Grilla enlaces WAN
 
     column-headings: 
       font: Helvetica
@@ -537,9 +657,105 @@ regions:
       font-color: '#000000'
       alignment: center
 
+buttons: 
+- # ====== Button: BTN_TIPO_ENLACE_WAN =========================
+  id: 2415575235170214
+  identification: 
+    button-name: BTN_TIPO_ENLACE_WAN
+    label: Ir a Tipos de Enlace Wan
+
+  layout: 
+    sequence: 20
+    region: Grilla enlaces WAN # 11083637674715977
+    slot: ORDER_BY_ITEM
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:43:&SESSION.::&DEBUG.:::'
+      page: 43 # Tipo de Wan
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: BTN_GRILLA ==================================
+  id: 11741235890785343
+  identification: 
+    button-name: BTN_GRILLA
+    label: Ir a Conexiones de Enlaces WAN
+
+  layout: 
+    sequence: 10
+    region: Grilla enlaces WAN # 11083637674715977
+    slot: ORDER_BY_ITEM
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:407:&SESSION.::&DEBUG.:::'
+      page: 407 # Enlaces WAN
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: REFRESCAR_GRILLA ====================
+  id: 8739491276907304
+  identification: 
+    name: REFRESCAR_GRILLA
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Dialog Closed
+    selection-type: Region
+    region: Grilla enlaces WAN # 11083637674715977
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 8739360048907303
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Grilla enlaces WAN # 11083637674715977
+
+    execution: 
+      sequence: 10
+      event: REFRESCAR_GRILLA # 8739491276907304
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 processes: 
 - # ====== Process: Grilla enlaces WAN - Save Interactive Grid D
-  id: 11307537889021396
+  id: 11741110789785342
   identification: 
     name: Grilla enlaces WAN - Save Interactive Grid Data
     type: Interactive Grid - Automatic Row Processing (DML)

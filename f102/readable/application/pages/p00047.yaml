@@ -483,49 +483,6 @@ regions:
       store-value-encrypted-in-session-state: true
       escape-special-characters: true
 
-- # ====== Region: Breadcrumb ==================================
-  id: 2244565372776949
-  identification: 
-    name: Breadcrumb
-    type: Breadcrumb
-
-  source: 
-    breadcrumb: Breadcrumb # 197180072443235446203
-
-  layout: 
-    sequence: 10
-    parent-region: No Parent
-    slot: REGION_POSITION_01
-    start-new-layout: false
-    start-new-row: true
-    column: Automatic
-    new-column: true
-    column-span: Automatic
-
-  appearance: 
-    template: Title Bar
-    template-options: 
-    - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
-    render-components: Above Content
-
-  accessibility: 
-    use-landmark: true
-    landmark-type: Template Default
-
-  advanced: 
-    region-display-selector: false
-    exclude-title-from-translation: false
-
-  customization: 
-    customizable: Not Customizable By End Users
-
-  attributes: 
-    appearance: 
-      breadcrumb-template: Breadcrumb
-      template-options: 
-      - '#DEFAULT#'
-
 - # ====== Region: MAPA_SITIOS =================================
   id: 2245319778776955
   identification: 
@@ -542,7 +499,7 @@ regions:
     - P47_ZONAS
 
   layout: 
-    sequence: 30
+    sequence: 50
     parent-region: No Parent
     slot: BODY
     start-new-layout: false
@@ -865,7 +822,7 @@ page-items:
     type: No
 
   layout: 
-    sequence: 20
+    sequence: 40
     region: No Parent
     slot: BODY
     alignment: Left
@@ -911,6 +868,71 @@ page-items:
 
   configuration: 
     build-option: Commented Out # 197180071872965446203
+
+buttons: 
+- # ====== Button: MAPA_ENLACES_FO =============================
+  id: 9203248261677992
+  identification: 
+    button-name: MAPA_ENLACES_FO
+    label: Mapa Enlaces Fo
+
+  layout: 
+    sequence: 10
+    region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text with Icon
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-line-map
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:65:&SESSION.::&DEBUG.:::'
+      page: 65 # Mapa Tendido Fibra
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: Mapa_enlaces_wan ============================
+  id: 9203090590677990
+  identification: 
+    button-name: Mapa_enlaces_wan
+    label: Mapa Enlaces Wan
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:420:&SESSION.::&DEBUG.:::'
+      page: 420 # TEST_MAP_WAN
+
+    warn-on-unsaved-changes: Do Not Check
 
 dynamic-actions: 
 - # ====== Dynamic Action: New =================================

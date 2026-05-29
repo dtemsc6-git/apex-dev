@@ -78,6 +78,7 @@ regions:
              CREADO_EL,
              ACTUALIZADO_POR,
              ACTUALIZADO_EL,
+             'Ver' as COMENTARIOS,
              (SELECT COUNT (I.ID) FROM SGT_INTERFACES I where i.EQUIPO_ID = E.ID)  "TOTAL_INTERFACES", 
              (SELECT COUNT(FO.ID) FROM SGT_ENLACES_FO FO WHERE FO.equipo_id_A = E.ID or FO.equipo_id_b = E.ID) "ENLACE_FO"
         from SGT_EQUIPOS E
@@ -173,6 +174,66 @@ regions:
         alias: 880295913
 
   columns: 
+  - # ====== Column: COMENTARIOS =================================
+    id: 9091606669979500
+    identification: 
+      column-name: COMENTARIOS
+      type: Link
+
+    heading: 
+      heading: Comentarios
+      alignment: start
+
+    layout: 
+      sequence: 350
+      column-alignment: start
+      stretch: Use Report Setting
+
+    accessibility: 
+      value-identifies-row: false
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:32:&SESSION.::&DEBUG.::P32_ENTIDAD,P32_PK_ID:4,&ID.'
+        page: 32 # Comentarios
+        values: 
+          p32_entidad: 4
+          p32_pk_id: '&ID.'
+
+      link-text: '&COMENTARIOS.'
+
+    source: 
+      type: Database Column
+      database-column: COMENTARIOS
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
+
+    security: 
+      escape-special-characters: true
+
   - # ====== Column: SUB_TIPO ====================================
     id: 2415479049170213
     identification: 

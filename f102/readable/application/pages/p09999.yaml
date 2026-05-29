@@ -38,10 +38,10 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: sgt-demo ====================================
+- # ====== Region: adri-demo ===================================
   id: 197180568812785446401
   identification: 
-    name: sgt-demo
+    name: adri-demo
     type: Static Content
 
   layout: 
@@ -99,7 +99,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: sgt-demo # 197180568812785446401
+    region: adri-demo # 197180568812785446401
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -156,7 +156,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: sgt-demo # 197180568812785446401
+    region: adri-demo # 197180568812785446401
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -210,7 +210,7 @@ page-items:
 
   layout: 
     sequence: 30
-    region: sgt-demo # 197180568812785446401
+    region: adri-demo # 197180568812785446401
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -257,7 +257,7 @@ buttons:
 
   layout: 
     sequence: 40
-    region: sgt-demo # 197180568812785446401
+    region: adri-demo # 197180568812785446401
     slot: NEXT
     start-new-layout: false
     start-new-row: true

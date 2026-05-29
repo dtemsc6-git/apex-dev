@@ -74,6 +74,9 @@ regions:
   customization: 
     customizable: Not Customizable By End Users
 
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
   attributes: 
     appearance: 
       breadcrumb-template: Breadcrumb
@@ -122,6 +125,9 @@ regions:
   advanced: 
     region-display-selector: false
     exclude-title-from-translation: false
+
+  header-and-footer: 
+    footer-text: 'Datos obtenidos en: #TIMING# seg'
 
   server-cache: 
     caching: Disabled
@@ -216,8 +222,8 @@ regions:
       type: Plain Text
 
     heading: 
-      heading: Z Nombre
-      alignment: start
+      heading: Zona
+      alignment: center
 
     layout: 
       sequence: 2
@@ -286,10 +292,10 @@ regions:
 
     heading: 
       heading: Sitio Nombre
-      alignment: start
+      alignment: center
 
     layout: 
-      sequence: 4
+      sequence: 23
       column-alignment: start
 
     accessibility: 
@@ -319,11 +325,11 @@ regions:
       type: Link
 
     heading: 
-      heading: Sitio Siglas
-      alignment: start
+      heading: Sigla Sitio
+      alignment: center
 
     layout: 
-      sequence: 5
+      sequence: 13
       column-alignment: start
 
     accessibility: 
@@ -331,10 +337,10 @@ regions:
 
     link: 
       target: 
-        url: 'f?p=&APP_ID.:66:&SESSION.::&DEBUG.::P66_SITIO_ID:#SITIO_ID#'
-        page: 66 # Vista Sitio
+        url: 'f?p=&APP_ID.:9:&SESSION.::&DEBUG.::P9_ID:#SITIO_ID#'
+        page: 9 # Dependencias Sitio
         values: 
-          p66_sitio_id: '#SITIO_ID#'
+          p9_id: '#SITIO_ID#'
 
       link-text: '#SITIO_SIGLAS#'
 
@@ -366,7 +372,7 @@ regions:
       alignment: end
 
     layout: 
-      sequence: 6
+      sequence: 43
       column-alignment: end
 
     accessibility: 
@@ -398,10 +404,10 @@ regions:
 
     heading: 
       heading: Sala Nombre
-      alignment: start
+      alignment: center
 
     layout: 
-      sequence: 7
+      sequence: 63
       column-alignment: start
 
     accessibility: 
@@ -431,11 +437,11 @@ regions:
       type: Link
 
     heading: 
-      heading: Sala Siglas
-      alignment: start
+      heading: Sigla Sala
+      alignment: center
 
     layout: 
-      sequence: 8
+      sequence: 53
       column-alignment: start
 
     accessibility: 
@@ -443,10 +449,10 @@ regions:
 
     link: 
       target: 
-        url: 'f?p=&APP_ID.:64:&SESSION.::&DEBUG.::P64_SALA_ID:#SALA_ID#'
-        page: 64 # Vista Sala
+        url: 'f?p=&APP_ID.:33:&SESSION.::&DEBUG.::P33_ID:#SALA_ID#'
+        page: 33 # Dependencias Salas
         values: 
-          p64_sala_id: '#SALA_ID#'
+          p33_id: '#SALA_ID#'
 
       link-text: '#SALA_SIGLAS#'
 
@@ -478,7 +484,7 @@ regions:
       alignment: end
 
     layout: 
-      sequence: 9
+      sequence: 73
       column-alignment: end
 
     accessibility: 
@@ -509,11 +515,11 @@ regions:
       type: Link
 
     heading: 
-      heading: Rack Nombre
-      alignment: start
+      heading: Rack
+      alignment: center
 
     layout: 
-      sequence: 10
+      sequence: 83
       column-alignment: start
 
     accessibility: 
@@ -552,7 +558,7 @@ regions:
       type: Hidden
 
     layout: 
-      sequence: 11
+      sequence: 93
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -567,11 +573,11 @@ regions:
       type: Link
 
     heading: 
-      heading: Equipo Nombre
-      alignment: start
+      heading: Equipo
+      alignment: center
 
     layout: 
-      sequence: 12
+      sequence: 103
       column-alignment: start
 
     accessibility: 
@@ -579,10 +585,10 @@ regions:
 
     link: 
       target: 
-        url: 'f?p=&APP_ID.:29:&SESSION.::&DEBUG.::P29_EQUIPO:#EQUIPO_ID#'
-        page: 29 # equipos_interface_dl
+        url: 'f?p=&APP_ID.:465:&SESSION.::&DEBUG.::P465_EQUIPO_ID:#EQUIPO_ID#'
+        page: 465 # Interfaces
         values: 
-          p29_equipo: '#EQUIPO_ID#'
+          p465_equipo_id: '#EQUIPO_ID#'
 
       link-text: '#EQUIPO_NOMBRE#'
 
@@ -610,7 +616,7 @@ regions:
       type: Hidden
 
     layout: 
-      sequence: 13
+      sequence: 113
 
     ui-defaults-reference: 
       table-owner: Parsing Schema
@@ -625,11 +631,11 @@ regions:
       type: Plain Text
 
     heading: 
-      heading: Tipo Equipo Nombre
-      alignment: start
+      heading: Tipo de Equipo
+      alignment: center
 
     layout: 
-      sequence: 14
+      sequence: 123
       column-alignment: start
 
     accessibility: 
@@ -732,7 +738,7 @@ regions:
       type: Checkbox Group
 
     label: 
-      label: Z Nombre
+      label: Zona
       show-label-for-current-facet: true
 
     layout: 
@@ -781,7 +787,7 @@ regions:
       type: Checkbox Group
 
     label: 
-      label: Sitio Siglas
+      label: Sitio
       show-label-for-current-facet: true
 
     layout: 
@@ -830,7 +836,7 @@ regions:
       type: Checkbox Group
 
     label: 
-      label: Sala Siglas
+      label: Sala
       show-label-for-current-facet: true
 
     layout: 
@@ -879,7 +885,7 @@ regions:
       type: Checkbox Group
 
     label: 
-      label: Tipo Equipo Nombre
+      label: Tipo de Equipo
       show-label-for-current-facet: true
 
     layout: 
@@ -951,7 +957,7 @@ regions:
       type: Checkbox Group
 
     label: 
-      label: Z Nombre
+      label: Zona
 
     layout: 
       sequence: 20
@@ -990,7 +996,7 @@ regions:
       type: Checkbox Group
 
     label: 
-      label: Sitio Siglas
+      label: Sitio
 
     layout: 
       sequence: 30
@@ -1029,7 +1035,7 @@ regions:
       type: Checkbox Group
 
     label: 
-      label: Sala Siglas
+      label: Sala
 
     layout: 
       sequence: 40
@@ -1068,7 +1074,7 @@ regions:
       type: Checkbox Group
 
     label: 
-      label: Tipo Equipo Nombre
+      label: Tipo de Equipo
 
     layout: 
       sequence: 50
@@ -1130,6 +1136,48 @@ regions:
   accessibility: 
     use-landmark: true
     landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: sgt-demo ====================================
+  id: 197204036135793038779
+  identification: 
+    name: sgt-demo
+    title: ADRI - Administrador de Redes Integradas de la ANDE
+    type: Static Content
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    slot: REGION_POSITION_01
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Hero
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  image: 
+    file-url: '#APP_FILES#icons/app-icon-512.png'
 
   advanced: 
     region-display-selector: false

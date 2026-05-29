@@ -50,6 +50,55 @@ server-cache:
   caching: Disabled
 
 regions: 
+- # ====== Region: Aviso de no asignacion ======================
+  id: 11738787424785319
+  identification: 
+    name: Aviso de no asignacion
+    title: 'Equipos ubicados en el rack sin información de ubicación:'
+    type: Static Content
+
+  source: 
+    html-code: '&P37_SIN_ASIGNAR.'
+
+  layout: 
+    sequence: 20
+    parent-region: New # 64554407489940252532
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Alert
+    template-options: 
+    - '#DEFAULT#'
+    - t-Alert--horizontal
+    - t-Alert--defaultIcons
+    - t-Alert--warning
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P37_SIN_ASIGNAR
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
 - # ====== Region: Contenido ===================================
   id: 51494083692716384844
   identification: 
@@ -265,7 +314,7 @@ regions:
     type: None
 
   layout: 
-    sequence: 20
+    sequence: 40
     parent-region: New # 64554407489940252532
     slot: SUB_REGIONS
     start-new-layout: false
@@ -440,7 +489,7 @@ regions:
     type: None
 
   layout: 
-    sequence: 30
+    sequence: 50
     parent-region: New # 64554407489940252532
     slot: SUB_REGIONS
     start-new-layout: false
@@ -569,6 +618,71 @@ regions:
       table-owner: Parsing Schema
 
 page-items: 
+- # ====== Page Item: P37_SIN_ASIGNAR ==========================
+  id: 9203641173677996
+  identification: 
+    name: P37_SIN_ASIGNAR
+    type: Textarea
+
+  label: 
+    label: 'Equipos con asignación pendiente en el rack:'
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 20
+    region: New # 64554407489940252532
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+    height: 5
+    value-placeholder: Ingrese datos
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P37_SIN_ASIGNAR
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
 - # ====== Page Item: P37_RACK_ID ==============================
   id: 51494084043959384848
   identification: 
@@ -598,9 +712,6 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
-
-  configuration: 
-    build-option: Commented Out # 197180071872965446203
 
 - # ====== Page Item: P37_ALTURA_U =============================
   id: 64554404386239252501
@@ -1049,4 +1160,25 @@ dynamic-actions:
 
     comments: 
       comments: Al presionar cierra el dialogo y devuelve la u y posicion como valores de salida
+
+computations: 
+- # ====== Computation: P37_SIN_ASIGNAR ========================
+  id: 9203577889677995
+  identification: 
+    item-name: P37_SIN_ASIGNAR
+
+  execution: 
+    sequence: 10
+    point: Before Regions
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |2
+          SELECT LISTAGG(NOMBRE, ', ') AS mostrar
+      FROM SGT_EQUIPOS
+      WHERE RACK_ID = :P37_RACK_ID
+        AND U IS NULL;
+
+  error: 
+    error-message: sE PRODUJO UN ERROR
 

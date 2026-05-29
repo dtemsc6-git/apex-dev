@@ -837,8 +837,8 @@ LEFT JOIN sgt_enlaces_fo fo
 
 ORDER BY serv.id, et.id, conexionesServ.seq;
 
-  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SERVICIOS" ("SERVICIO", "NIVEL_DE_PRIORIDAD", "SITIOS", "WAN", "EQUIPO", "INTERFACE", "FO", "SEQ", "WAN_SEQ") AS 
-  Select ss.nombre servicio, ss.nivel_de_prioridad , s.siglas, null as wan , equipos.nombre Equipo, iface.nombre Interface, null as fo, es.seq, null as wan_seq 
+  CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_SERVICIOS" ("ID_SRV", "SERVICIO", "NIVEL_DE_PRIORIDAD", "SITIOS", "WAN", "EQUIPO", "INTERFACE", "FO", "SEQ", "WAN_SEQ") AS 
+  Select ss.id, ss.nombre servicio, ss.nivel_de_prioridad , s.siglas, null as wan , equipos.nombre Equipo, iface.nombre Interface, fo.nombre as fo, es.seq, null as wan_seq 
 
 from
 
@@ -849,21 +849,23 @@ join sgt_equipos equipos on equipos.id = es.equipo_a_id
 left join sgt_interfaces iface on iface.id = es.interfaz_a_id
 left join sgt_sitios s on s.id = equipos.sitio_id
 left join sgt_servicios ss on ss.id = es.servicio_id
+left join sgt_enlaces_fo fo on fo.id = es.fo_id
 
 union 
 
-select ss.nombre Servicio, ss.nivel_de_prioridad , s.siglas, wan.nombre , equipos.nombre equipo, iface.nombre Interface, null as fo, es.seq, ew.seq 
+select ss.id, ss.nombre Servicio, ss.nivel_de_prioridad , s.siglas, wan.nombre , equipos.nombre equipo, iface.nombre Interface, fo.nombre as fo, es.seq, ew.seq 
 
 from
 
 sgt_equipos_wan ew
 
 join sgt_enlaces_wan wan on wan.id = ew.wan_id
-join sgt_equipos_servicio es on es.wan_id = ew.wan_id
+left join sgt_equipos_servicio es on es.wan_id = ew.wan_id
 join sgt_equipos equipos on equipos.id = ew.equipo_a_id
 left join sgt_interfaces iface on iface.id = ew.interfaz_a_id
 left join sgt_sitios s on s.id = equipos.sitio_id
 left join sgt_servicios ss on ss.id = es.servicio_id
+left join sgt_enlaces_fo fo on fo.id = ew.fo_id
 
 order by Servicio, seq, wan_seq;
 

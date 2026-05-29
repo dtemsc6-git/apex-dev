@@ -1,4 +1,14 @@
 ---
+- # ====== Page Group: Archivos ================================
+  id: 10210415774710681
+  identification: 
+    name: Archivos
+
+  description: 
+    description: |
+      Agrupar por funcionalidad
+      
+
 - # ====== Page Group: WZRD_WAN ================================
   id: 10124169972715358
   identification: 

@@ -1,0 +1,1773 @@
+---
+# ====== Page: Subir KMZ =====================================
+id: 15
+identification: 
+  name: Subir KMZ
+  alias: SUBIR-KMZ
+  title: Subir KMZ
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+javascript: 
+  file-urls: 
+  - 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'
+  - 'https://unpkg.com/@tmcw/togeojson@5.8.1/dist/togeojson.umd.js'
+  function-and-global-variable-declaration: |
+    // Función para cargar KMZ desde la base de datos APEX
+    async function loadKMZFromDatabase(pKmzBlob) {
+        // Si es KMZ (archivo comprimido)
+        console.log("loadKMZFromDatabase");
+        if (pKmzBlob.type === 'application/vnd.google-earth.kmz') {
+            console.log("dentro de: application/vnd.google-earth.kmz");
+            const zip = await JSZip.loadAsync(pKmzBlob);
+            const kmlFile = zip.file(/\.kml$/i)[0];
+            const kmlText = await kmlFile.async('text');
+            return toGeoJSON.kml(new DOMParser().parseFromString(kmlText, 'text/xml'));
+        }
+        // Si es KML directo
+        else {
+            return toGeoJSON.kml(new DOMParser().parseFromString(pKmzBlob, 'text/xml'));
+        }
+    }
+    //Funcion para interoperatibilidad
+    function b64toBlob(b64Data, contentType = '') {
+        const byteCharacters = atob(b64Data);
+        const byteArrays = [];
+        for (let i = 0; i < byteCharacters.length; i += 512) {
+            byteArrays.push(new Uint8Array(
+                byteCharacters.slice(i, i + 512).split('').map(c => c.charCodeAt(0))
+            ));
+        }
+        return new Blob(byteArrays, { type: contentType });
+    }
+    
+    //Cargar datos a un mapa
+    function cargarDatos(json) {
+        console.log("Cargar datos!!!...");
+        console.log(json);
+        if (json) {
+            var mapRegion = apex.region("Mapa");
+            var map = mapRegion.getMapObject();
+    
+            //Si la capa existe la remuevo
+            if (map.getLayer('capa_puntos')) {
+                map.removeLayer('capa_puntos');
+                map.removeSource('Puntos');
+            }
+    
+            if (map.getLayer('capa_lineas')) {
+                map.removeLayer('capa_lineas');
+                map.removeSource('Lineas');
+            }
+            //Remover marcadores
+            var puntos = {
+                type: "FeatureCollection",
+                features: []
+            };
+    
+            var lineas = {
+                type: "FeatureCollection",
+                features: []
+            };
+    
+            var popup = new maplibregl.Popup({
+                offset: 25,
+                closeButton: false,
+                closeOnClick: false
+            });
+    
+            //Agregar datos a las lineas
+            var bounds = new maplibregl.LngLatBounds();
+            json.features.forEach(function (feature) {
+                var coords = feature.geometry.coordinates;
+                bounds.extend([coords[0], coords[1]]);
+                if (feature.geometry.type === "Point") {
+                    puntos.features.push(feature);
+                }
+                else if (feature.geometry.type === "LineString") {
+                    lineas.features.push(feature);
+                }
+            }
+            )
+    
+            if (map.getSource('Puntos')) {
+                map.getSource('Puntos').setData(puntos);
+            }
+            else {
+                map.addSource('Puntos', {
+                    type: 'geojson',
+                    data: puntos
+                });
+                map.addLayer({
+                    id: 'capa_puntos',
+                    type: 'circle',
+                    source: 'Puntos',
+                    paint: {
+                        'circle-radius': 10,
+                        'circle-color': '#B42222',
+                        'circle-stroke-width': 2,
+                        'circle-stroke-color': '#FFFFFF'
+                    }
+                });
+    
+            }
+    
+            if (map.getSource('Lineas')) {
+                map.getSource('Lineas').setData(lineas);
+            }
+            else {
+                map.addSource('Lineas', {
+                    type: 'geojson',
+                    data: lineas
+                });
+                map.addLayer({
+                    id: 'capa_lineas',
+                    type: 'line',
+                    source: 'Lineas',
+                    paint: {
+                        'line-color': '#0000FF',
+                        'line-width': 3
+                    }
+                });
+    
+            }
+            agregarTooltips(map, 'capa_puntos', 'name');
+            agregarTooltips(map, 'capa_lineas', 'name');
+            map.fitBounds(bounds, { padding: 50 });
+        }
+    }
+    
+    function getKmz() {
+        apex.server.process(
+            'GET_KMZ', { pageItems: ['P15_PK_ID', 'P15_KMZ'] },
+            {
+                success: async function (apiData) {
+    
+                    console.log("KMZ del enlace:");
+                  
+                    //Para evitar la doble conversion
+                    const miBlob = b64toBlob(apiData.kmz_data, apiData.mimetype);
+                    const json = await loadKMZFromDatabase(miBlob);
+                    cargarDatos(json);  
+    
+                },
+                error: function (error) {
+                    console.log("Se produjo un error:");
+                    console.log(error);
+                }
+            }
+        );
+    
+    }
+    
+    function agregarTooltips(mapa, layerId, propiedad) {
+        const popup = new maplibregl.Popup({ offset: 25 });
+    
+         mapa.on('mouseenter', layerId, (e) => {
+            mapa.getCanvas().style.cursor = 'pointer';
+            const propiedades = e.features[0].properties;
+            const contenido = propiedades[propiedad] || JSON.stringify(propiedades);
+            
+            popup.setLngLat(e.lngLat)
+                 .setHTML(`<strong>Nombre:</strong><br>${contenido}`)
+                 .addTo(mapa);
+        });
+        
+        mapa.on('mouseleave', layerId, () => {
+            mapa.getCanvas().style.cursor = '';
+            popup.remove();
+        });
+    }
+  execute-when-page-loads: |
+    $(document).on("apexafterrefresh", "#Mapa", function () {
+    
+            getKmz();
+        
+    });
+    
+    if ($("#Mapa").length) {
+        console.log("La región map existe");
+        apex.region("Mapa").refresh();
+    } else {
+        console.log("La región map NO existe");
+    }
+    
+
+css: 
+  inline: |
+    .nuevo {
+        border-left: 4px solid #2ecc71;
+    }
+    
+    .obsoleto {
+        border-left: 4px solid #f39c12;
+    }
+    .borrado {
+        border-left: 4px solid red;
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Subir KMZ ===================================
+  id: 10738412995116823
+  identification: 
+    name: Subir KMZ
+    type: Form
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_ARCHIVOS
+    include-rowid-column: false
+
+  layout: 
+    sequence: 10
+    parent-region: Tabs # 10378682094207714
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P15_CONTEO < 3'
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Add Row
+      - Update Row
+      - Delete Row
+      lost-update-type: Row Values
+
+- # ====== Region: Mapa ========================================
+  id: 10484244864182126
+  identification: 
+    name: Mapa
+    type: Map
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: select -25.2876535 lat , -57.6131447 lon, '' json from dual;
+
+  layout: 
+    sequence: 20
+    parent-region: Tabs # 10378682094207714
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    - margin-top-sm
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: Mapa
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P15_CONTEO > 0'
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 10483974528182123
+    map: 
+      background: Default
+      height: 640
+
+    controls: 
+      navigation-bar: Zoom and Compass
+      navigation-bar-position: End
+      options: 
+      - Scale Bar
+      - Infinite Map
+      - Rectangle Zoom
+
+    initial-position-and-zoom: 
+      type: Based on Spatial Results
+
+    legend: 
+      show: true
+      position: End
+
+    attributes: 
+      messages-position: Below
+      unit-system: Metric
+
+    performance: 
+      lazy-loading: true
+
+    layers: 
+    - # ====== Layer: Puntos =======================================
+      id: 10483870582182122
+      identification: 
+        name: Puntos
+        layer-type: Points
+
+      layout: 
+        sequence: 10
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      column-mapping: 
+        geometry-column-data-type: GeoJSON
+        geojson-column: JSON
+
+      point-objects: 
+        style: SVG
+        shape: Default
+
+      point-clustering: 
+        enable: false
+
+      tooltip: 
+        advanced-formatting: false
+
+      info-window: 
+        advanced-formatting: false
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+    - # ====== Layer: Lineas =======================================
+      id: 10483540372182119
+      identification: 
+        name: Lineas
+        layer-type: Lines
+
+      layout: 
+        sequence: 20
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      row-assignment: 
+        column: JSON
+        value-for-this-layer: Lineas
+
+      column-mapping: 
+        geometry-column-data-type: GeoJSON
+        geojson-column: JSON
+
+      appearance: 
+        stroke-style: Solid
+        stroke-color: '#101010'
+
+      tooltip: 
+        advanced-formatting: false
+
+      info-window: 
+        advanced-formatting: false
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+- # ====== Region: Tabs ========================================
+  id: 10378682094207714
+  identification: 
+    name: Tabs
+    type: Region Display Selector
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      mode: View Single Region
+      display-region-icons: false
+      include-'show-all': false
+      remember-selection: By User
+
+- # ====== Region: Archivos ====================================
+  id: 10377874781207706
+  identification: 
+    name: Archivos
+    title: Archivos
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_ARCHIVOS
+    include-rowid-column: false
+    where-clause: '(entidad = 5 AND pk_id = :P15_PK_ID)'
+    page-items-to-submit: 
+    - ':P15_PK_ID'
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 10
+    parent-region: Mapa # 10484244864182126
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    css-classes: 
+    - btn-imagenes
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 10377748278207705
+    appearance: 
+      layout: Grid
+      grid-columns: Auto
+
+    card: 
+      css-classes: 
+      - '&INTERNAL_ATTR.'
+      primary-key-column-1: ID
+
+    title: 
+      advanced-formatting: false
+      column: FILE_NAME
+
+    subtitle: 
+      advanced-formatting: false
+
+    body: 
+      advanced-formatting: false
+      column: OBSERVACIONES
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: No Icon
+      badge-column: INTERNAL_ATTR
+
+    media: 
+      advanced-formatting: false
+      source: No Media
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+    actions: 
+    - # ====== Action: Ver =========================================
+      id: 10377612549207704
+      identification: 
+        type: Button
+        label: Ver
+
+      layout: 
+        position: Primary
+        sequence: 10
+
+      link: 
+        type: Redirect to URL
+        target: 'javascript:void(0);'
+        link-attributes: data-id="&ID."
+
+      appearance: 
+        display-type: Text
+        hot: false
+        css-classes: 
+        - btn-ver
+
+    - # ====== Action: Descargar ===================================
+      id: 10377564381207703
+      identification: 
+        type: Button
+        label: Descargar
+
+      layout: 
+        position: Primary
+        sequence: 20
+
+      link: 
+        type: Redirect to URL
+        target: 'javascript:void(0);'
+        link-attributes: data-id="&ID."
+
+      appearance: 
+        display-type: Text
+        hot: false
+        css-classes: 
+        - btn-descargar
+
+    - # ====== Action: Obsoleto ====================================
+      id: 10377462072207702
+      identification: 
+        type: Button
+        label: Obsoleto
+
+      layout: 
+        position: Primary
+        sequence: 30
+
+      link: 
+        type: Redirect to URL
+        target: 'javascript:void(0);'
+        link-attributes: data-id="&ID."
+
+      appearance: 
+        display-type: Text
+        hot: false
+        css-classes: 
+        - btn-obsoleto
+
+    - # ====== Action: Eliminar ====================================
+      id: 10377338341207701
+      identification: 
+        type: Button
+        label: Eliminar
+
+      layout: 
+        position: Primary
+        sequence: 40
+
+      link: 
+        type: Redirect to URL
+        target: 'javascript:void(0);'
+        link-attributes: data-id="&ID."
+
+      appearance: 
+        display-type: Text with Icon
+        icon: fa-warning
+        hot: true
+        css-classes: 
+        - btn-eliminar
+
+page-items: 
+- # ====== Page Item: P15_ID ===================================
+  id: 10738126975116821
+  identification: 
+    name: P15_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Subir KMZ # 10738412995116823
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Subir KMZ # 10738412995116823
+    column: ID
+    data-type: NUMBER
+    query-only: true
+    primary-key: true
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P15_ENTIDAD ==============================
+  id: 10737764667116818
+  identification: 
+    name: P15_ENTIDAD
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Subir KMZ # 10738412995116823
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Subir KMZ # 10738412995116823
+    column: ENTIDAD
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P15_PK_ID ================================
+  id: 10737366935116816
+  identification: 
+    name: P15_PK_ID
+    type: Popup LOV
+
+  label: 
+    label: Enlace FO
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 50
+    region: Subir KMZ # 10738412995116823
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 32
+
+  validation: 
+    value-required: true
+    maximum-length: 255
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ENLACES_FO.NOMBRE # 43769668587515608859
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Subir KMZ # 10738412995116823
+    column: PK_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P15_ESTADO ===============================
+  id: 10736962650116816
+  identification: 
+    name: P15_ESTADO
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 40
+    region: Subir KMZ # 10738412995116823
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Subir KMZ # 10738412995116823
+    column: ESTADO
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P15_FILE_BLOB ============================
+  id: 10735295421116815
+  identification: 
+    name: P15_FILE_BLOB
+    type: File Upload
+
+  label: 
+    label: File Blob
+    alignment: Left
+
+  display: 
+    display-as: Inline File Browse
+    dropzone-title: Subir KMZ
+    display-download-link: true
+    content-disposition: Attachment
+    capture-using: NONE
+
+  storage:: 
+    type: BLOB column specified in Item Source attribute
+    mime-type-column: FILE_MIMETYPE
+    filename-column: FILE_NAME
+    character-set-column: FILE_CHARSET
+    blob-last-updated-column: ACTUALIZADO_EL
+    file-types: .kmz
+    maximum-file-size: 2048
+
+  layout: 
+    sequence: 60
+    region: Subir KMZ # 10738412995116823
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+
+  validation: 
+    value-required: false
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Subir KMZ # 10738412995116823
+    column: FILE_BLOB
+    data-type: BLOB
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P15_OBSERVACIONES ========================
+  id: 10734993133116815
+  identification: 
+    name: P15_OBSERVACIONES
+    type: Textarea
+
+  label: 
+    label: Observaciones
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 70
+    region: Subir KMZ # 10738412995116823
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+    height: 4
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Subir KMZ # 10738412995116823
+    column: OBSERVACIONES
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P15_CONTEO ===============================
+  id: 10378540910207713
+  identification: 
+    name: P15_CONTEO
+    type: Display Only
+
+  label: 
+    label: Archivos KMZ Asociados
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Item Value
+    show-line-breaks: true
+    send-on-page-submit: true
+
+  layout: 
+    sequence: 10
+    region: Subir KMZ # 10738412995116823
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Muestra el total de Archivos kmz asociados al enlace fo
+
+- # ====== Page Item: P15_KMZ ==================================
+  id: 10378276887207710
+  identification: 
+    name: P15_KMZ
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Mapa # 10484244864182126
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Seleccione un archivo de la lista de archivos kmz
+
+- # ====== Page Item: P15_FILE_ID ==============================
+  id: 10376610880207694
+  identification: 
+    name: P15_FILE_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Mapa # 10484244864182126
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 10728267356116811
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Subir KMZ # 10738412995116823
+    slot: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:36:&APP_SESSION.::&DEBUG.:::'
+      page: 36 # SGT_LST_ENLACES_FO_2
+
+    warn-on-unsaved-changes: Do Not Check
+
+- # ====== Button: DELETE ======================================
+  id: 10727641573116811
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 20
+    region: Subir KMZ # 10738412995116823
+    slot: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  confirmation: 
+    message: '&APP_TEXT$DELETE_MSG!RAW.'
+    style: Danger
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P15_ID
+
+- # ====== Button: SAVE ========================================
+  id: 10727274214116811
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 30
+    region: Subir KMZ # 10738412995116823
+    slot: CHANGE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P15_ID
+
+- # ====== Button: CREATE ======================================
+  id: 10726893784116811
+  identification: 
+    button-name: CREATE
+    label: '&APP_TEXT$BTN_CREAR!RAW.'
+
+  layout: 
+    sequence: 40
+    region: Subir KMZ # 10738412995116823
+    slot: CREATE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Item is NULL
+    item: P15_ID
+
+dynamic-actions: 
+- # ====== Dynamic Action: CARGAR_MAPA =========================
+  id: 10379150674207719
+  identification: 
+    name: CARGAR_MAPA
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P15_FILE_BLOB
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 10379089838207718
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        console.log("Leer el archivo");
+        var fileInput = document.querySelector('#P15_FILE_BLOB input[type="file"]');
+        var file = fileInput.files[0];
+        console.log(file);
+        if (file) {
+            console.log("Descomprimir KMZ");
+            loadKMZFromDatabase(file)
+                .then(function (result) {
+                    console.log("KMZ procesado", result);
+                    if (result.features.length > 1000) {
+                        alert("La cantidad de puntos: " +result.features.length+", sobrepasa la capacidad de procesamiento del software, El archivo no se procesará");
+                    }
+                    else {cargarDatos(result); } 
+                    
+                    
+                })
+                .catch(function (error) {
+                    console.error("Error procesando KMZ", error);
+                });
+        
+        }
+        else {
+             console.log("Limpiar Mapa");
+             var mapRegion = apex.region("Mapa");
+             var map = mapRegion.getMapObject();
+        
+                //Si la capa existe la remuevo
+                if (map.getLayer('capas_lineas')) {
+                     map.removeLayer('capas_lineas');
+                     map.removeSource('Lineas');
+                }
+                if (map.getLayer('capas_puntos')) {
+                     map.removeLayer('capas_puntos');
+                     map.removeSource('Puntos');
+                }
+        
+                //Remover marcadores
+        }
+        
+        
+        
+        
+
+    execution: 
+      sequence: 10
+      event: CARGAR_MAPA # 10379150674207719
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: CargarKMZ ===========================
+  id: 10378965925207717
+  identification: 
+    name: CargarKMZ
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P15_PK_ID
+    - P15_KMZ
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 10378797138207716
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        console.log("Cargar info del enlace FO");
+        getKmz();
+
+    execution: 
+      sequence: 10
+      event: CargarKMZ # 10378965925207717
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Ver =================================
+  id: 10377204807207700
+  identification: 
+    name: Ver
+
+  execution: 
+    sequence: 30
+    event-scope: Dynamic
+    static-container-(jquery-selector): .btn-imagenes
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: jQuery Selector
+    jquery-selector: .btn-ver
+
+  actions: 
+  - # ====== Action: Set Value ===================================
+    id: 10377151155207699
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: JavaScript Expression
+      javascript-expression: this.triggeringElement.dataset.id
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P15_KMZ
+
+    execution: 
+      sequence: 20
+      event: Ver # 10377204807207700
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 10376513196207693
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: console.log("Evento Mostrar");
+
+    execution: 
+      sequence: 10
+      event: Ver # 10377204807207700
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: OBSOLETO ============================
+  id: 10377005809207698
+  identification: 
+    name: OBSOLETO
+
+  execution: 
+    sequence: 40
+    event-scope: Dynamic
+    static-container-(jquery-selector): .btn-imagenes
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: jQuery Selector
+    jquery-selector: .btn-obsoleto
+
+  actions: 
+  - # ====== Action: SETEAR_OBSOLETO =============================
+    id: 10376987225207697
+    identification: 
+      name: SETEAR_OBSOLETO
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        UPDATE sgt_archivos
+        SET ESTADO = 2
+        WHERE ID = :P15_FILE_ID;
+      items-to-submit: 
+      - P15_FILE_ID
+
+    execution: 
+      sequence: 50
+      event: OBSOLETO # 10377005809207698
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: SET_FILE_ID =================================
+    id: 10376698255207695
+    identification: 
+      name: SET_FILE_ID
+      action: Set Value
+
+    settings: 
+      set-type: JavaScript Expression
+      javascript-expression: this.triggeringElement.dataset.id
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P15_FILE_ID
+
+    execution: 
+      sequence: 40
+      event: OBSOLETO # 10377005809207698
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 10376475455207692
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: console.log("Evento Obsoleto");
+
+    execution: 
+      sequence: 10
+      event: OBSOLETO # 10377005809207698
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Confirm =====================================
+    id: 10375512063207683
+    identification: 
+      action: Confirm
+
+    settings: 
+      title: Atención
+      message: Marcar como obsoleto el elemento?
+      style: Warning
+
+    execution: 
+      sequence: 20
+      event: OBSOLETO # 10377005809207698
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: ELIMINAR ============================
+  id: 10376253945207690
+  identification: 
+    name: ELIMINAR
+
+  execution: 
+    sequence: 50
+    event-scope: Dynamic
+    static-container-(jquery-selector): .btn-imagenes
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: jQuery Selector
+    jquery-selector: .btn-eliminar
+
+  actions: 
+  - # ====== Action: Set Value ===================================
+    id: 10376153940207689
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: JavaScript Expression
+      javascript-expression: this.triggeringElement.dataset.id
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P15_FILE_ID
+
+    execution: 
+      sequence: 30
+      event: ELIMINAR # 10376253945207690
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Execute Server-side Code ====================
+    id: 10376086894207688
+    identification: 
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        delete from sgt_archivos
+        
+        WHERE ID = :P15_FILE_ID;
+      items-to-submit: 
+      - P15_FILE_ID
+
+    execution: 
+      sequence: 40
+      event: ELIMINAR # 10376253945207690
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Confirm =====================================
+    id: 10375678237207684
+    identification: 
+      action: Confirm
+
+    settings: 
+      title: Atención
+      message: Borrar el elmento?
+      style: Danger
+
+    execution: 
+      sequence: 10
+      event: ELIMINAR # 10376253945207690
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: DESCARGAR ===========================
+  id: 10375990811207687
+  identification: 
+    name: DESCARGAR
+
+  execution: 
+    sequence: 60
+    event-scope: Dynamic
+    static-container-(jquery-selector): .btn-imagenes
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: jQuery Selector
+    jquery-selector: .btn-descargar
+
+  actions: 
+  - # ====== Action: DESCARGAR ===================================
+    id: 10375890740207686
+    identification: 
+      name: DESCARGAR
+      action: Download
+
+    settings: 
+      multiple-files: false
+      view-file-as: Attachment
+
+    source: 
+      sql-query: |
+        select file_blob, file_name , file_mimetype from sgt_archivos
+        where id = :P15_FILE_ID
+      items-to-submit: 
+      - P15_FILE_ID
+
+    execution: 
+      sequence: 20
+      event: DESCARGAR # 10375990811207687
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Set Value ===================================
+    id: 10375714459207685
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: JavaScript Expression
+      javascript-expression: this.triggeringElement.dataset.id
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P15_FILE_ID
+
+    execution: 
+      sequence: 10
+      event: DESCARGAR # 10375990811207687
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+computations: 
+- # ====== Computation: P15_CONTEO =============================
+  id: 10378338402207711
+  identification: 
+    item-name: P15_CONTEO
+
+  execution: 
+    sequence: 20
+    point: Before Regions
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select count(*) from sgt_archivos
+      where entidad = 5 and pk_id =:P15_pk_id
+
+processes: 
+- # ====== Process: Initialize form Subir KMZ ==================
+  id: 10726071766116810
+  identification: 
+    name: Initialize form Subir KMZ
+    type: Form - Initialization
+    execution-chain: None
+    form-region: Subir KMZ # 10738412995116823
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Process form Subir KMZ =====================
+  id: 10725666423116810
+  identification: 
+    name: Process form Subir KMZ
+    type: Form - Automatic Row Processing (DML)
+    execution-chain: None
+    form-region: Subir KMZ # 10738412995116823
+
+  settings: 
+    target-type: Region Source
+    prevent-lost-updates: true
+    lock-row: Yes
+    return-primary-key(s)-after-insert: true
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: GET_KMZ ====================================
+  id: 10483678775182120
+  identification: 
+    name: GET_KMZ
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      DECLARE
+          l_blob          BLOB;
+          l_filename      varchar2(4000);
+          l_file_mimetype varchar2(4000);
+          l_base64        CLOB;
+      BEGIN
+          -- Obtener el KMZ de tu tabla
+          SELECT file_blob, file_name, file_mimetype INTO l_blob , l_filename, l_file_mimetype
+          FROM  SGT_ARCHIVOS 
+          WHERE entidad = 5 and (:P15_PK_ID IS NULL OR PK_ID =:P15_PK_ID ) AND (:P15_KMZ IS NULL OR ID = :P15_KMZ) ;
+          
+      
+          -- Convertir a Base64
+          
+          l_base64 := APEX_WEB_SERVICE.BLOB2CLOBBASE64(
+              p_blob => l_blob,
+              p_newlines => 'N',
+              p_padding => 'Y'
+          );
+          
+          -- Retornar JSON
+          apex_json.open_object;
+          apex_json.write('success', true);
+          apex_json.write('fileName', l_filename);
+          apex_json.write('mimetype', l_file_mimetype);
+          apex_json.write('kmz_data', l_base64);
+          apex_json.close_object;
+          
+      EXCEPTION
+          WHEN NO_DATA_FOUND THEN
+              apex_json.open_object;
+              apex_json.write('kmz_data');
+              apex_json.close_object;
+      END;
+
+  execution: 
+    sequence: 10
+    point: Ajax Callback
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: MARCAR_OBSOLETOS ===========================
+  id: 10378696138207715
+  identification: 
+    name: MARCAR_OBSOLETOS
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      DECLARE
+      ENLACE_FO NUMBER :=5;
+      v_count_activos NUMBER;
+      v_id_archivo_anterior NUMBER;
+      CURSOR c_archivos_kmz is SELECT ID FROM  SGT_ARCHIVOS
+         WHERE ENTIDAD = ENLACE_FO and PK_ID = :P15_PK_ID AND ESTADO != 2;
+      
+      /*
+      autor: dmf
+      objetivo: Permitir solo 3 kmz
+      dejar el ultimo como activo, y los anteriores como obsoletos, si
+      ya hay 3 archivos no guardar hasta que se elimine al menos uno.
+      */
+      
+      BEGIN
+         
+      OPEN   c_archivos_kmz;
+      LOOP 
+      fetch  c_archivos_kmz INTO v_id_archivo_anterior;
+      
+         EXIT WHEN c_archivos_kmz%NOTFOUND;
+          DBMS_OUTPUT.PUT_LINE('kmz: ' || v_id_archivo_anterior);
+      
+              UPDATE SGT_ARCHIVOS
+              SET estado = 2
+              WHERE ID = v_id_archivo_anterior;
+          
+      END LOOP;
+      CLOSE c_archivos_kmz;
+      END;
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+branches: 
+- # ====== Branch: Go To Page 36 ===============================
+  id: 10726515941116810
+  identification: 
+    name: Go To Page 36
+
+  execution: 
+    sequence: 1
+    point: After Processing
+
+  behavior: 
+    type: Page or URL (Redirect)
+    target: 
+      url: 'f?p=&APP_ID.:36:&APP_SESSION.::&DEBUG.:::&success_msg=#SUCCESS_MSG#'
+      page: 36 # SGT_LST_ENLACES_FO_2
+

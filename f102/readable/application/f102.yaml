@@ -1,9 +1,9 @@
 ---
-# ====== Application: sgt-dev ================================
+# ====== Application: adri-dev ===============================
 id: 24839
 identification: 
-  name: sgt-dev
-  alias: SGT-DEV-MODE
+  name: adri-dev
+  alias: ADRI-DEV-MODE
   version: DEV MOD 1.0
 
 row-search: 
@@ -73,7 +73,7 @@ character-value-comparison:
 
 logo: 
   type: Text
-  text: sgt-demo
+  text: adri-demo
 
 progressive-web-app: 
   enable: true
@@ -100,7 +100,7 @@ navigation-menu:
   - js-navCollapsed--hidden
   - t-TreeNav--styleA
   list-position: Side
-  list: Navigation Menu # 197180072959121446204
+  list: Menu 2.0 # 9161867933320345
 
 navigation-bar: 
   implementation: List
@@ -120,7 +120,7 @@ attributes:
   auto-dismiss-success-messages: false
 
 subscription: 
-  version-number: 39027451119110
+  version-number: 39029032347771
 
 substitutions: 
 - # ====== Substitution: APP_NAME ==============================
@@ -129,7 +129,7 @@ substitutions:
     name: APP_NAME
 
   value: 
-    static-value: sgt-dev-mode
+    static-value: adri-dev-mode
 
 component-settings: 
 - # ====== Component Setting: NATIVE_BOSS ======================

@@ -19,6 +19,10 @@ navigation:
   cursor-focus: Do not focus cursor
   warn-on-unsaved-changes: false
 
+css: 
+  file-urls: 
+  - 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
+
 security: 
   authentication: Page Requires Authentication
   deep-linking: Application Default
@@ -478,12 +482,11 @@ regions:
       info-window: 
         advanced-formatting: true
         html-expression: |
-          Podría mostrar mucha info del enlace:<br/>
           Enlace: &NOMBRE. <br/>
           Tipo Cable: &TIPO_CABLE. <br/>
           Cantidad FO: &CANTIDAD_DE_PELOS. <br/>
-          Distancia: &DISTANCIA_KM. Km <br/>
-          Certificación: &CERT. Km </br>
+          Certificación FO: &CERT. Km </br>
+          Distancia lineal (Calculada): &DISTANCIA_KM. Km <br/>
 
       legend: 
         show: true
@@ -522,12 +525,11 @@ regions:
       info-window: 
         advanced-formatting: true
         html-expression: |
-          Podría mostrar mucha info del enlace:<br/>
           Enlace: &NOMBRE. <br/>
           Tipo Cable: &TIPO_CABLE. <br/>
           Cantidad FO: &CANTIDAD_DE_PELOS. <br/>
-          Distancia: &DISTANCIA_KM. Km <br/>
-          Certificación: &CERT. Km </br>
+          Certificación FO: &CERT. Km </br>
+          Distancia lineal (Calculada): &DISTANCIA_KM. Km <br/>
 
       legend: 
         show: true
@@ -568,12 +570,11 @@ regions:
       info-window: 
         advanced-formatting: true
         html-expression: |
-          Podría mostrar mucha info del enlace:<br/>
           Enlace: &NOMBRE. <br/>
           Tipo Cable: &TIPO_CABLE. <br/>
           Cantidad FO: &CANTIDAD_DE_PELOS. <br/>
-          Distancia: &DISTANCIA_KM. Km <br/>
-          Certificación: &CERT. Km </br>
+          Certificación FO: &CERT. Km </br>
+          Distancia lineal (Calculada): &DISTANCIA_KM. Km <br/>
 
       legend: 
         show: true
@@ -611,12 +612,11 @@ regions:
       info-window: 
         advanced-formatting: true
         html-expression: |
-          Podría mostrar mucha info del enlace:<br/>
           Enlace: &NOMBRE. <br/>
           Tipo Cable: &TIPO_CABLE. <br/>
           Cantidad FO: &CANTIDAD_DE_PELOS. <br/>
-          Distancia: &DISTANCIA_KM. Km <br/>
-          Certificación: &CERT. Km </br>
+          Certificación FO: &CERT. Km </br>
+          Distancia lineal (Calculada): &DISTANCIA_KM. Km <br/>
 
       legend: 
         show: true

@@ -1,0 +1,575 @@
+---
+# ====== Page: Mapa KMZ ======================================
+id: 460
+identification: 
+  name: Mapa KMZ
+  alias: MAPA-KMZ
+  title: Mapa KMZ
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+javascript: 
+  file-urls: 
+  - '--https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'
+  - 'https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js'
+  - 'https://unpkg.com/@tmcw/togeojson@5.8.1/dist/togeojson.umd.js'
+  - '--https://cdn.jsdelivr.net/npm/leaflet-kmz@1.0.9'
+  function-and-global-variable-declaration: |
+    //Cargar datos desde 
+    // Función para cargar KMZ desde la base de datos APEX
+    async function loadKMZFromDatabase(pKmzBlob) {
+        // Si es KMZ (archivo comprimido)
+        console.log("loadKMZFromDatabase");
+        if (pKmzBlob.type === 'application/vnd.google-earth.kmz') {
+            console.log("dentro de: application/vnd.google-earth.kmz");
+            const zip = await JSZip.loadAsync(pKmzBlob);
+            const kmlFile = zip.file(/\.kml$/i)[0];
+            const kmlText = await kmlFile.async('text');
+            return toGeoJSON.kml(new DOMParser().parseFromString(kmlText, 'text/xml'));
+        }
+        // Si es KML directo
+        else {
+            return toGeoJSON.kml(new DOMParser().parseFromString(pKmzBlob, 'text/xml'));
+        }
+    }
+    
+    function b64toBlob(b64Data, contentType = '') {
+        const byteCharacters = atob(b64Data);
+        const byteArrays = [];
+        for (let i = 0; i < byteCharacters.length; i += 512) {
+            byteArrays.push(new Uint8Array(
+                byteCharacters.slice(i, i + 512).split('').map(c => c.charCodeAt(0))
+            ));
+        }
+        return new Blob(byteArrays, { type: contentType });
+    }
+    
+    
+    getKmz = function () {
+        apex.server.process(
+            'GET_KMZ', { pageItems: ['P460_ENLACE_FO'] },
+            {
+                success: async function (apiData) {
+    
+                    console.log("Leyendo el dato");
+    
+                    var popup = new maplibregl.Popup({
+                        offset: 25,
+                        closeButton: false,
+                        closeOnClick: false
+                    });
+    
+                    //Para evitar la doble conversion
+                    const miBlob = b64toBlob(apiData.kmz_data, apiData.mimetype);
+                    const geojson = await loadKMZFromDatabase(miBlob);
+                    
+    
+                    console.log("Info del KMZ");
+                    console.log(geojson);
+    
+                    var mapRegion = apex.region("Mapa");
+                    var map = mapRegion.call("getMapObject");
+    
+                    console.log(mapRegion);
+                    console.log(map);
+    
+                    var puntos = {
+                        type: "FeatureCollection",
+                        features: []
+                    }, lineas = {
+                        type: "FeatureCollection",
+                        features: []
+                    };
+    
+    
+                    geojson.features.forEach(function (feature) {
+                        if (feature.geometry.type === "Point") {
+                            
+                            var marker = new maplibregl.Marker()
+                                .setLngLat(
+                                    feature.geometry.coordinates
+                                )
+                                .addTo(map);
+    
+                            // Agregar tooltip
+                            marker.getElement().addEventListener('mouseenter', () => {
+                                popup.setLngLat(feature.geometry.coordinates)
+                                    .setHTML(`<div class="maplibre-tooltip">
+                                 <b>${feature.properties.name || 'Ubicación'}</b>
+                               </div>`)
+                                    .addTo(map);
+                            });
+    
+                            marker.getElement().addEventListener('mouseleave', () => {
+                                popup.remove();
+                            });
+    
+                        }
+                        else if (feature.geometry.type === "LineString") {
+                            lineas.features.push(feature);
+                            mapRegion.addFeature(mapRegion.getLayerIdByName("Lineas"),
+                                feature);
+    
+                        }
+                    }
+                    )
+    
+    
+    
+    
+                    /*
+                    if (map.getSource('Puntos')) {
+                        map.getSource('Puntos').setData(puntos);
+                    }
+                    else {
+                        map.addSource('Puntos', {
+                            type: 'geojson',
+                            data: puntos
+                        });
+                        map.addLayer({
+                            id: 'capas_puntos',
+                            type: 'circle',
+                            source: 'Puntos',
+                            paint: {
+                                'circle-radius': 8,
+                                'circle-color': '#B42222',
+                                'circle-stroke-width': 2,
+                                'circle-stroke-color': '#FFFFFF'
+                            }
+                        });
+    
+                    }
+                    */
+                    if (map.getSource('Lineas')) {
+                        map.getSource('Lineas').setData(lineas);
+                    }
+                    else {
+                        map.addSource('Lineas', {
+                            type: 'geojson',
+                            data: lineas
+                        });
+                        map.addLayer({
+                            id: 'capas_lineas',
+                            type: 'line',
+                            source: 'Lineas',
+                            paint: {
+                                'line-color': '#0000FF',
+                                'line-width': 3
+                            }
+                        });
+    
+                    }
+    
+                    var bounds = new maplibregl.LngLatBounds();
+                    geojson.features.forEach(function (feature) {
+                        var coords = feature.geometry.coordinates;
+                        bounds.extend([coords[0], coords[1]]);
+                    });
+                    map.fitBounds(bounds, { padding: 50 });
+    
+    
+    
+    
+                },
+                error: function (error) {
+                     console.log("Se produjo un error:");
+                    console.log(error);
+                }
+            }
+        );
+    
+    }
+
+css: 
+  file-urls: 
+  - '--https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Mapa ========================================
+  id: 11306581153021386
+  identification: 
+    name: Mapa
+    title: Mapa KMZ
+    type: Map
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: select -25.2876535 lat , -57.6131447 lon, '' json from dual;
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    static-id: Mapa
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 11306436274021385
+    map: 
+      background: Default
+      height: 640
+
+    controls: 
+      navigation-bar: Zoom and Compass
+      navigation-bar-position: End
+      options: 
+      - Scale Bar
+      - Infinite Map
+      - Rectangle Zoom
+
+    initial-position-and-zoom: 
+      type: Based on Spatial Results
+
+    legend: 
+      show: true
+      position: End
+
+    attributes: 
+      messages-position: Below
+      unit-system: Metric
+
+    performance: 
+      lazy-loading: true
+
+    layers: 
+    - # ====== Layer: Puntos =======================================
+      id: 11306359885021384
+      identification: 
+        name: Puntos
+        layer-type: Points
+
+      layout: 
+        sequence: 10
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      row-assignment: 
+        column: JSON
+        value-for-this-layer: Point
+
+      column-mapping: 
+        geometry-column-data-type: GeoJSON
+        geojson-column: JSON
+
+      point-objects: 
+        style: SVG
+        shape: Default
+
+      point-clustering: 
+        enable: false
+
+      tooltip: 
+        advanced-formatting: false
+
+      info-window: 
+        advanced-formatting: false
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+      messages: 
+        when-no-data-found: No hay datos
+
+    - # ====== Layer: Lineas =======================================
+      id: 11305903245021380
+      identification: 
+        name: Lineas
+        layer-type: Lines
+
+      layout: 
+        sequence: 20
+
+      source: 
+        location: Region Source
+        use-spatial-index: false
+
+      column-mapping: 
+        geometry-column-data-type: GeoJSON
+        geojson-column: JSON
+
+      appearance: 
+        stroke-style: Solid
+        stroke-color: '#101010'
+
+      tooltip: 
+        advanced-formatting: false
+
+      info-window: 
+        advanced-formatting: false
+
+      legend: 
+        show: true
+        enable-to-hide: true
+
+      messages: 
+        when-no-data-found: No hay datos
+
+page-items: 
+- # ====== Page Item: P460_ENLACE_FO ===========================
+  id: 11306629588021387
+  identification: 
+    name: P460_ENLACE_FO
+    type: Popup LOV
+
+  label: 
+    label: Enlace Fo
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 10
+    region: No Parent
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: ENLACES_FO.NOMBRE # 43769668587515608859
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P460_CAPAS_LISTA =========================
+  id: 11305875066021379
+  identification: 
+    name: P460_CAPAS_LISTA
+    type: Text Field
+
+  label: 
+    label: Capas Lista
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+dynamic-actions: 
+- # ====== Dynamic Action: GET_KMZ =============================
+  id: 11306196367021383
+  identification: 
+    name: GET_KMZ
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P460_ENLACE_FO
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 11306170702021382
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: |
+        console.log("Obtener datos kmz:");
+        getKmz();
+
+    execution: 
+      sequence: 10
+      event: GET_KMZ # 11306196367021383
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+processes: 
+- # ====== Process: GET_KMZ ====================================
+  id: 11305997311021381
+  identification: 
+    name: GET_KMZ
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      DECLARE
+          l_blob          BLOB;
+          l_filename      varchar2(4000);
+          l_file_mimetype varchar2(4000);
+          l_base64        CLOB;
+      BEGIN
+          -- Obtener el KMZ de tu tabla
+          SELECT file_blob, file_name, file_mimetype INTO l_blob , l_filename, l_file_mimetype
+          FROM TEST_ARCHIVOS 
+          WHERE entidad = 5 and PK_ID =:P460_ENLACE_FO;
+          
+      
+          -- Convertir a Base64
+          
+          l_base64 := APEX_WEB_SERVICE.BLOB2CLOBBASE64(
+              p_blob => l_blob,
+              p_newlines => 'N',
+              p_padding => 'Y'
+          );
+          
+          -- Retornar JSON
+          apex_json.open_object;
+          apex_json.write('success', true);
+          apex_json.write('fileName', l_filename);
+          apex_json.write('mimetype', l_file_mimetype);
+          apex_json.write('kmz_data', l_base64);
+          apex_json.close_object;
+          
+      EXCEPTION
+          WHEN NO_DATA_FOUND THEN
+              apex_json.open_object;
+              apex_json.write('kmz_data');
+              apex_json.close_object;
+      END;
+
+  execution: 
+    sequence: 10
+    point: Ajax Callback
+    run-process: Once Per Page Visit (default)
+

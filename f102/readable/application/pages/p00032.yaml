@@ -1,16 +1,20 @@
 ---
-# ====== Page: SGT_CABLES ====================================
+# ====== Page: Comentarios ===================================
 id: 32
 identification: 
-  name: SGT_CABLES
-  alias: SGT-CABLES
-  title: SGT_CABLES
+  name: Comentarios
+  alias: COMENTARIOS
+  title: Comentarios
 
 appearance: 
-  page-mode: Normal
-  page-template: Theme Default
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
   template-options: 
   - '#DEFAULT#'
+
+dialog: 
+  chained: true
+  resizable: true
 
 navigation-menu: 
   override-user-interface-level: false
@@ -37,19 +41,49 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: Breadcrumb ==================================
-  id: 41049502505223235046
+- # ====== Region: Comentarios =================================
+  id: 9099001625138628
   identification: 
-    name: Breadcrumb
-    type: Breadcrumb
+    name: Comentarios
+    type: Comments
 
   source: 
-    breadcrumb: Breadcrumb # 197180072443235446203
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select ID,
+             ENTIDAD,
+             PK_ID,
+             COMENTARIO,
+             CREADO_POR,
+             SUBSTR(CREADO_POR, 1, 2) iniciales,
+             CREADO_EL,
+             actualizado_POR,
+             actualizado_EL
+        from SGT_COMENTARIOS
+       where entidad =:P32_ENTIDAD and pk_id = :P32_PK_ID
+    page-items-to-submit: 
+    - P32_ENTIDAD
+    - P32_PK_ID
+
+  order-by: 
+    type: Item
+    item: 
+      item-name: P32_ORDER_BY
+      order-bys: 
+      - key: CREADO_EL
+        clause: 1 desc
+
+      - key: Comentarios
+        clause: 2 asc
+
+      - key: CREADO_POR
+        clause: 3 asc
 
   layout: 
     sequence: 10
     parent-region: No Parent
-    slot: REGION_POSITION_01
+    slot: BODY
     start-new-layout: false
     start-new-row: true
     column: Automatic
@@ -57,15 +91,14 @@ regions:
     column-span: Automatic
 
   appearance: 
-    template: Title Bar
+    template: Blank with Attributes
     template-options: 
     - '#DEFAULT#'
-    - t-BreadcrumbRegion--useBreadcrumbTitle
     render-components: Above Content
 
   accessibility: 
     use-landmark: true
-    landmark-type: Template Default
+    landmark-type: Region
 
   advanced: 
     region-display-selector: false
@@ -76,28 +109,231 @@ regions:
 
   attributes: 
     appearance: 
-      breadcrumb-template: Breadcrumb
-      template-options: 
-      - '#DEFAULT#'
+      display: Multiple (Report)
 
-- # ====== Region: SGT_CABLES ==================================
-  id: 41049503275683235047
+    settings: 
+      comment-text: COMENTARIO
+      user-name: CREADO_POR
+      date: ACTUALIZADO_EL
+      display-avatar: true
+      style: Chat (Speech Bubbles)
+      apply-theme-colors: true
+
+    avatar: 
+      type: Initials
+      initials: INICIALES
+      shape: Rounded
+
+    row-selection: 
+      type: None
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Page
+      entities-per-page: 15
+      show-total-count: false
+
+  columns: 
+  - # ====== Column: ENTIDAD =====================================
+    id: 9202341930677983
+    identification: 
+      name: ENTIDAD
+
+    layout: 
+      sequence: 20
+
+    source: 
+      type: Database Column
+      database-column: ENTIDAD
+      data-type: NUMBER
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: PK_ID =======================================
+    id: 9202213648677982
+    identification: 
+      name: PK_ID
+
+    layout: 
+      sequence: 30
+
+    source: 
+      type: Database Column
+      database-column: PK_ID
+      data-type: NUMBER
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: COMENTARIO ==================================
+    id: 9202193332677981
+    identification: 
+      name: COMENTARIO
+
+    layout: 
+      sequence: 40
+
+    source: 
+      type: Database Column
+      database-column: COMENTARIO
+      data-type: VARCHAR2
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: CREADO_POR ==================================
+    id: 9202031796677980
+    identification: 
+      name: CREADO_POR
+
+    layout: 
+      sequence: 50
+
+    source: 
+      type: Database Column
+      database-column: CREADO_POR
+      data-type: VARCHAR2
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: CREADO_EL ===================================
+    id: 9201918040677979
+    identification: 
+      name: CREADO_EL
+
+    layout: 
+      sequence: 60
+
+    source: 
+      type: Database Column
+      database-column: CREADO_EL
+      data-type: TIMESTAMP
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: ID ==========================================
+    id: 9098690834138625
+    identification: 
+      name: ID
+
+    layout: 
+      sequence: 10
+
+    source: 
+      type: Database Column
+      database-column: ID
+      data-type: NUMBER
+      primary-key: true
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: INICIALES ===================================
+    id: 9091953583979503
+    identification: 
+      name: INICIALES
+
+    layout: 
+      sequence: 90
+
+    source: 
+      type: Database Column
+      database-column: INICIALES
+      data-type: VARCHAR2
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: ACTUALIZADO_POR =============================
+    id: 8740349041907313
+    identification: 
+      name: ACTUALIZADO_POR
+
+    layout: 
+      sequence: 100
+
+    source: 
+      type: Database Column
+      database-column: ACTUALIZADO_POR
+      data-type: VARCHAR2
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+  - # ====== Column: ACTUALIZADO_EL ==============================
+    id: 8740210126907312
+    identification: 
+      name: ACTUALIZADO_EL
+
+    layout: 
+      sequence: 110
+
+    source: 
+      type: Database Column
+      database-column: ACTUALIZADO_EL
+      data-type: TIMESTAMP
+      primary-key: false
+
+    accessibility: 
+      value-identifies-row: false
+
+    appearance: 
+      group: false
+
+- # ====== Region: Agregar =====================================
+  id: 9094126644979525
   identification: 
-    name: SGT_CABLES
-    type: Classic Report
+    name: Agregar
+    type: Form
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
-    table-name: SGT_CABLES
+    table-name: SGT_COMENTARIOS
     include-rowid-column: false
-
-  order-by: 
-    type: None
+    page-items-to-submit: 
+    - P32_ENTIDAD
+    - P32_PK_ID
 
   layout: 
-    sequence: 10
+    sequence: 20
     parent-region: No Parent
     slot: BODY
     start-new-layout: false
@@ -111,7 +347,8 @@ regions:
     template-options: 
     - '#DEFAULT#'
     - t-Region--noPadding
-    - t-Region--hideHeader js-addHiddenHeadingRoleDesc
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
     - t-Region--scrollBody
     render-components: Above Content
 
@@ -123,473 +360,330 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
-  server-cache: 
-    caching: Disabled
-
   customization: 
     customizable: Not Customizable By End Users
 
   attributes: 
-    layout: 
-      number-of-rows-type: Static Value
-      number-of-rows: 50
-
-    appearance: 
-      template-type: Theme
-      template: Standard
-      template-options: 
-      - '#DEFAULT#'
-      - t-Report--stretch
-      - t-Report--staticRowColors
-      - t-Report--rowHighlight
-      - t-Report--inline
-      - t-Report--hideNoPagination
-
-    pagination: 
-      type: Row Ranges X to Y (with next and previous links)
-      display-position: Bottom - Right
-      partial-page-refresh: true
-
-    performance: 
-      lazy-loading: false
-      maximum-rows-to-process: 500
-
-    messages: 
-      when-no-data-found: no data found
-
-    break-formatting: 
-      break-columns: No Break
-
-    advanced: 
-      strip-html: false
-      sort-nulls: Last
-
-    heading: 
-      type: Custom Headings
-
-    download: 
-      csv-export-enabled: false
-
-    printing: 
+    edit: 
       enabled: false
 
-  columns: 
-  - # ====== Column: ID ==========================================
-    id: 41049505214031235211
-    identification: 
-      column-name: ID
-      type: Hidden
-
-    layout: 
-      sequence: 0
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: SGT_TIPO_CABLE_ID ===========================
-    id: 41049505657123235212
-    identification: 
-      column-name: SGT_TIPO_CABLE_ID
-      type: Plain Text (based on List of Values)
-
-    heading: 
-      heading: Sgt Tipo Cable
-      alignment: start
-
-    layout: 
-      sequence: 2
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    list-of-values: 
-      type: Shared Component
-      list-of-values: SGT_TIPO_CABLE.NOMBRE # 41049504750268235210
-
-    sorting: 
-      default-sequence: 1
-      direction: Ascending
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: UNIDAD_ENCARGADA ============================
-    id: 41049506020394235212
-    identification: 
-      column-name: UNIDAD_ENCARGADA
-      type: Plain Text
-
-    heading: 
-      heading: Unidad Encargada
-      alignment: start
-
-    layout: 
-      sequence: 3
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      default-sequence: 1
-      direction: Ascending
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: NOMBRE ======================================
-    id: 41049506418486235212
-    identification: 
-      column-name: NOMBRE
-      type: Plain Text
-
-    heading: 
-      heading: Nombre
-      alignment: start
-
-    layout: 
-      sequence: 4
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      default-sequence: 1
-      direction: Ascending
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: ETIQUETA ====================================
-    id: 41049506893161235212
-    identification: 
-      column-name: ETIQUETA
-      type: Plain Text
-
-    heading: 
-      heading: Etiqueta
-      alignment: start
-
-    layout: 
-      sequence: 5
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      default-sequence: 1
-      direction: Ascending
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: DESCRIPCION =================================
-    id: 41049507287428235213
-    identification: 
-      column-name: DESCRIPCION
-      type: Plain Text
-
-    heading: 
-      heading: Descripcion
-      alignment: start
-
-    layout: 
-      sequence: 6
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      default-sequence: 1
-      direction: Ascending
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: COMENTARIOS =================================
-    id: 41049507626083235213
-    identification: 
-      column-name: COMENTARIOS
-      type: Plain Text
-
-    heading: 
-      heading: Comentarios
-      alignment: start
-
-    layout: 
-      sequence: 7
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      default-sequence: 1
-      direction: Ascending
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: ESTADO_CONEXION =============================
-    id: 41049508023851235213
-    identification: 
-      column-name: ESTADO_CONEXION
-      type: Plain Text
-
-    heading: 
-      heading: Estado Conexion
-      alignment: start
-
-    layout: 
-      sequence: 8
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      default-sequence: 1
-      direction: Ascending
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: LONGITUD ====================================
-    id: 41049508447133235213
-    identification: 
-      column-name: LONGITUD
-      type: Plain Text
-
-    heading: 
-      heading: Longitud
-      alignment: end
-
-    layout: 
-      sequence: 9
-      column-alignment: end
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: UNIDAD_MEDIDA ===============================
-    id: 41049508837368235214
-    identification: 
-      column-name: UNIDAD_MEDIDA
-      type: Plain Text
-
-    heading: 
-      heading: Unidad Medida
-      alignment: start
-
-    layout: 
-      sequence: 10
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      default-sequence: 1
-      direction: Ascending
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: ABS_LONGITUD ================================
-    id: 41049509298642235214
-    identification: 
-      column-name: ABS_LONGITUD
-      type: Plain Text
-
-    heading: 
-      heading: Abs Longitud
-      alignment: end
-
-    layout: 
-      sequence: 11
-      column-alignment: end
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: CREADO_EL ===================================
-    id: 41049509684475235214
-    identification: 
-      column-name: CREADO_EL
-      type: Plain Text
-
-    heading: 
-      heading: Creado El
-      alignment: start
-
-    layout: 
-      sequence: 12
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-  - # ====== Column: ACTUALIZADO_EL ==============================
-    id: 41049510093507235214
-    identification: 
-      column-name: ACTUALIZADO_EL
-      type: Plain Text
-
-    heading: 
-      heading: Actualizado El
-      alignment: start
-
-    layout: 
-      sequence: 13
-      column-alignment: start
-
-    accessibility: 
-      value-identifies-row: false
-
-    sorting: 
-      sortable: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
+page-items: 
+- # ====== Page Item: P32_ORDER_BY =============================
+  id: 9096181236138622
+  identification: 
+    name: P32_ORDER_BY
+    type: Select List
+
+  label: 
+    label: Order By
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 10
+    region: Comentarios # 9099001625138628
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: Static Values
+    static-values: 'STATIC2:Fecha;CREADO_EL,Comentarios;Comentarios,Usuario;CREADO_POR'
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Ignore
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Static
+    static-value: CREADO_EL
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P32_ID ===================================
+  id: 9093984156979523
+  identification: 
+    name: P32_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Agregar # 9094126644979525
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Agregar # 9094126644979525
+    column: ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: true
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P32_ENTIDAD ==============================
+  id: 9093867457979522
+  identification: 
+    name: P32_ENTIDAD
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: Agregar # 9094126644979525
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Agregar # 9094126644979525
+    column: ENTIDAD
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P32_PK_ID ================================
+  id: 9093767046979521
+  identification: 
+    name: P32_PK_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: Agregar # 9094126644979525
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Agregar # 9094126644979525
+    column: PK_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P32_COMENTARIO ===========================
+  id: 9093617546979520
+  identification: 
+    name: P32_COMENTARIO
+    type: Textarea
+
+  label: 
+    label: Comentario
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 40
+    region: Agregar # 9094126644979525
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+    height: 5
+
+  validation: 
+    value-required: true
+    maximum-length: 512
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Agregar # 9094126644979525
+    column: COMENTARIO
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: AGREGAR =====================================
+  id: 9092234008979506
+  identification: 
+    button-name: AGREGAR
+    label: Agregar
+
+  layout: 
+    sequence: 90
+    region: Agregar # 9094126644979525
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    alignment: Left center
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+processes: 
+- # ====== Process: Initialize form Comemtarios ================
+  id: 9094091506979524
+  identification: 
+    name: Initialize form Comemtarios
+    type: Form - Initialization
+    execution-chain: None
+    form-region: Agregar # 9094126644979525
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: PROCESAR-FORM ==============================
+  id: 9092160282979505
+  identification: 
+    name: PROCESAR-FORM
+    type: Form - Automatic Row Processing (DML)
+    execution-chain: None
+    form-region: Agregar # 9094126644979525
+
+  settings: 
+    target-type: Table / View
+    table-owner: PARSING SCHEMA
+    table-name: SGT_COMENTARIOS
+    prevent-lost-updates: true
+    lock-row: Yes
+    return-primary-key(s)-after-insert: true
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  success-message: 
+    success-message: Agregado
+
+  error: 
+    error-message: No se pudo agregar
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    when-button-pressed: AGREGAR # 9092234008979506
+
+- # ====== Process: Close Dialog ===============================
+  id: 9091823615979502
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+    execution-chain: None
+
+  settings: 
+    show-success-messages: true
+
+  execution: 
+    sequence: 20
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
 

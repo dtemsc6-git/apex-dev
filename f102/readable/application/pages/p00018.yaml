@@ -478,18 +478,21 @@ regions:
         SELECT NOMBRE, ID
         FROM SGT_ENLACES_FO
         WHERE
-        SGT_ENLACES_FO.EQUIPO_ID_A = :EQUIPO_ID
+        SGT_ENLACES_FO.EQUIPO_ID_A = :EQUIPO_A_ID
         OR
-        SGT_ENLACES_FO.EQUIPO_ID_b = :EQUIPO_ID
+        SGT_ENLACES_FO.EQUIPO_ID_b = :EQUIPO_A_ID
+        
+        and
+        lower(estado) = 'activo'
       display-extra-values: true
       display-null-value: true
       null-display-value: Seleccione Una
 
     cascading-list-of-values: 
       parent-column(s): 
-      - EQUIPO_ID
+      - EQUIPO_A_ID
       items-to-submit: 
-      - EQUIPO_ID
+      - EQUIPO_A_ID
       parent-required: true
 
     source: 
@@ -591,11 +594,8 @@ regions:
       value-required: false
 
     list-of-values: 
-      type: SQL Query
-      sql-query: |
-        select e.nombre, e.id from sgt_equipos e 
-        left join v_sitios_equipos vse on e.id = vse.equipo_id
-        where vse.sitio_id = :SITIO_ID
+      type: Shared Component
+      list-of-values: EQUIPOS.NOMBRE-FILTRADO # 11840174158864200
       display-extra-values: true
       display-null-value: true
       null-display-value: Seleccione Una
@@ -665,6 +665,7 @@ regions:
         from
         sgt_interfaces i
         where i.equipo_id = :EQUIPO_A_ID
+        order by i.nombre
       display-extra-values: true
       display-null-value: true
       null-display-value: Seleccione una
@@ -730,6 +731,73 @@ regions:
       font-size: 12
       font-color: '#000000'
       alignment: center
+
+buttons: 
+- # ====== Button: BTN_SERVICIOS ===============================
+  id: 11741423274785345
+  identification: 
+    button-name: BTN_SERVICIOS
+    label: Ir a Lista de Servicios
+
+  layout: 
+    sequence: 10
+    region: Servicios # 11421119665489712
+    slot: ORDER_BY_ITEM
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:16:&SESSION.::&DEBUG.:::'
+      page: 16 # Grilla Servicios
+
+    warn-on-unsaved-changes: Do Not Check
+
+dynamic-actions: 
+- # ====== Dynamic Action: CLEAR_EQUIPO ========================
+  id: 8738612812907296
+  identification: 
+    name: CLEAR_EQUIPO
+
+  execution: 
+    sequence: 10
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Column(s)
+    interactive-grid: Servicios # 11421119665489712
+    column(s): 
+    - WAN_ID
+
+  actions: 
+  - # ====== Action: CLEAR_EQUIPO ================================
+    id: 8738568241907295
+    identification: 
+      name: CLEAR_EQUIPO
+      action: Clear
+
+    affected-elements: 
+      selection-type: Column(s)
+      column(s): 
+      - EQUIPO_A_ID
+
+    execution: 
+      sequence: 10
+      event: CLEAR_EQUIPO # 8738612812907296
+      fire-when-event-result-is: True
+      fire-on-initialization: false
 
 processes: 
 - # ====== Process: Servicios - Save Interactive Grid Data =====

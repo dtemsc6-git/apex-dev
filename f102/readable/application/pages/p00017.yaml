@@ -1,10 +1,10 @@
 ---
-# ====== Page: Visor de Servicios 2 ==========================
+# ====== Page: Visor de Servicios ============================
 id: 17
 identification: 
-  name: Visor de Servicios 2
-  alias: VISOR-DE-SERVICIOS-2
-  title: Visor de Servicios 2
+  name: Visor de Servicios
+  alias: VISOR-DE-SERVICIOS
+  title: Visor de Servicios
 
 appearance: 
   page-mode: Normal
@@ -80,6 +80,9 @@ regions:
   advanced: 
     region-display-selector: false
     exclude-title-from-translation: false
+
+  header-and-footer: 
+    footer-text: 'Datos obtenidos en: #TIMING# seg'
 
   server-cache: 
     caching: Disabled
@@ -231,6 +234,9 @@ regions:
 
     security: 
       escape-special-characters: true
+
+    configuration: 
+      build-option: Commented Out # 197180071872965446203
 
   - # ====== Column: WAN =========================================
     id: 11382726534940830
@@ -441,7 +447,7 @@ regions:
     start-new-row: true
     column: Automatic
     new-column: true
-    column-span: 4
+    column-span: Automatic
 
   appearance: 
     template: Standard
@@ -486,7 +492,7 @@ regions:
       show-label-for-current-facet: true
 
     layout: 
-      sequence: 30
+      sequence: 50
 
     appearance: 
       display: Inline
@@ -655,7 +661,7 @@ regions:
       show-label-for-current-facet: true
 
     layout: 
-      sequence: 50
+      sequence: 70
 
     appearance: 
       display: Inline
@@ -704,7 +710,7 @@ regions:
       show-label-for-current-facet: true
 
     layout: 
-      sequence: 60
+      sequence: 80
 
     appearance: 
       display: Inline
@@ -753,7 +759,7 @@ regions:
       show-label-for-current-facet: true
 
     layout: 
-      sequence: 70
+      sequence: 30
 
     appearance: 
       display: Inline
@@ -802,7 +808,7 @@ regions:
       label: Sitios
 
     layout: 
-      sequence: 30
+      sequence: 50
 
     list-of-values: 
       type: Distinct Values
@@ -941,7 +947,7 @@ regions:
       label: Equipo
 
     layout: 
-      sequence: 50
+      sequence: 70
 
     list-of-values: 
       type: Distinct Values
@@ -980,7 +986,7 @@ regions:
       label: Interface
 
     layout: 
-      sequence: 60
+      sequence: 80
 
     list-of-values: 
       type: Distinct Values
@@ -1019,7 +1025,7 @@ regions:
       label: Fo
 
     layout: 
-      sequence: 70
+      sequence: 30
 
     list-of-values: 
       type: Distinct Values
@@ -1121,7 +1127,7 @@ buttons:
     action: Redirect to Page in this Application
     target: 
       url: 'f?p=&APP_ID.:17:&APP_SESSION.::&DEBUG.:RR,17::'
-      page: 17 # Visor de Servicios 2
+      page: 17 # Visor de Servicios
       clear-cache: RR,17
 
     warn-on-unsaved-changes: Do Not Check

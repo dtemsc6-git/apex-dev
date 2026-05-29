@@ -44,7 +44,7 @@ regions:
     type: Static Content
 
   layout: 
-    sequence: 30
+    sequence: 40
     parent-region: tabs # 32677700937439831907
     slot: SUB_REGIONS
     start-new-layout: false
@@ -83,7 +83,7 @@ regions:
   id: 29962993440143667728
   identification: 
     name: Total_locales
-    title: Total Locales
+    title: Total locales por zona
     type: Chart
 
   source: 
@@ -94,10 +94,10 @@ regions:
     parent-region: Totales # 29962993124463667725
     slot: SUB_REGIONS
     start-new-layout: false
-    start-new-row: true
-    column: 1
+    start-new-row: false
+    column: Automatic
     new-column: true
-    column-span: 6
+    column-span: Automatic
 
   appearance: 
     template: Standard
@@ -253,12 +253,12 @@ regions:
     location: None
 
   layout: 
-    sequence: 50
+    sequence: 30
     parent-region: Totales # 29962993124463667725
     slot: SUB_REGIONS
     start-new-layout: false
-    start-new-row: false
-    column: 7
+    start-new-row: true
+    column: 1
     new-column: true
     column-span: 6
 
@@ -647,7 +647,7 @@ regions:
       order by SITIO
 
   layout: 
-    sequence: 20
+    sequence: 30
     parent-region: tabs # 32677700937439831907
     slot: SUB_REGIONS
     start-new-layout: false
@@ -1026,7 +1026,7 @@ regions:
           'Servicios de Comunicaciones' as CARD_SUBTITLE,
           'fa fa-sitemap-horizontal' as CARD_ICON,
           'is-success' as CARD_COLOR,
-          APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':410:' || :APP_SESSION ) as HREF
+          APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':17:' || :APP_SESSION ) as HREF
       FROM sgt_servicios srv
       
       union
@@ -1050,7 +1050,7 @@ regions:
           'Enlaces WAN' as CARD_SUBTITLE,
           'fa fa-sitemap-horizontal' as CARD_ICON,
           'is-success' as CARD_COLOR,
-          APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':34:' || :APP_SESSION ) as HREF
+          APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':10:' || :APP_SESSION ) as HREF
       FROM sgt_enlaces_wan wan
       
       
@@ -1060,7 +1060,7 @@ regions:
     type: None
 
   layout: 
-    sequence: 10
+    sequence: 20
     parent-region: tabs # 32677700937439831907
     slot: SUB_REGIONS
     start-new-layout: false
@@ -1294,7 +1294,7 @@ regions:
   id: 197180575790845446407
   identification: 
     name: sgt-demo
-    title: Sistema de Gestión ANDE/DTE/SC
+    title: ADRI - Administrador de Redes Integradas de la ANDE
     type: Static Content
 
   layout: 
@@ -1478,7 +1478,7 @@ page-items:
     type: Popup LOV
 
   label: 
-    label: Filtro Te Sala
+    label: Filtro Sala
     alignment: Left
 
   settings: 

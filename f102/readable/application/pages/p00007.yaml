@@ -1,0 +1,385 @@
+---
+# ====== Page: Historial Equipo ==============================
+id: 7
+identification: 
+  name: Historial Equipo
+  alias: HISTORIAL-EQUIPO
+  title: Historial Equipo
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Historial Equipo ============================
+  id: 9347704261692591
+  identification: 
+    name: Historial Equipo
+    title: Historial
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      SELECT
+          AUDIT_ID,
+          FECHA_HORA,
+          USUARIO,
+          TIPO_COMPONENTE                                       AS COMPONENTE,
+          TIPO_OPERACION                                        AS ACCION,
+          DETALLE_OLD_VALUE                                     AS OLD_VALUE,
+          DETALLE_NEW_VALUE                                     AS NEW_VALUE
+      FROM V_AUDIT_EQUIPOS
+      WHERE EQUIPO_ID = TO_CHAR(:P7_ID)
+          AND TIPO_OPERACION IN ('UPDATE', 'DELETE', 'Actualización', 'Eliminación')
+      ORDER BY FECHA_HORA_FILTRO DESC;
+    page-items-to-submit: 
+    - P7_ID
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--removeHeader js-removeLandmark
+    - t-Region--noBorder
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    messages: 
+      when-no-data-found: No se encontraron registros
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: AUDIT_ID ====================================
+    id: 9347693902692590
+    identification: 
+      column-name: AUDIT_ID
+      type: Hidden
+
+    layout: 
+      sequence: 10
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FECHA_HORA ==================================
+    id: 9347517743692589
+    identification: 
+      column-name: FECHA_HORA
+      type: Plain Text
+
+    heading: 
+      heading: Fecha Hora
+      alignment: start
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: USUARIO =====================================
+    id: 9347422536692588
+    identification: 
+      column-name: USUARIO
+      type: Plain Text
+
+    heading: 
+      heading: Usuario
+      alignment: start
+
+    layout: 
+      sequence: 30
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COMPONENTE ==================================
+    id: 9347374979692587
+    identification: 
+      column-name: COMPONENTE
+      type: Plain Text
+
+    heading: 
+      heading: Componente
+      alignment: start
+
+    layout: 
+      sequence: 40
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ACCION ======================================
+    id: 9347246894692586
+    identification: 
+      column-name: ACCION
+      type: Plain Text
+
+    heading: 
+      heading: Accion
+      alignment: start
+
+    layout: 
+      sequence: 50
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: OLD_VALUE ===================================
+    id: 9347187900692585
+    identification: 
+      column-name: OLD_VALUE
+      type: Plain Text
+
+    heading: 
+      heading: Old Value
+      alignment: start
+
+    layout: 
+      sequence: 60
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: NEW_VALUE ===================================
+    id: 9347027627692584
+    identification: 
+      column-name: NEW_VALUE
+      type: Plain Text
+
+    heading: 
+      heading: New Value
+      alignment: start
+
+    layout: 
+      sequence: 70
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: false
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+page-items: 
+- # ====== Page Item: P7_ID ====================================
+  id: 9346939039692583
+  identification: 
+    name: P7_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+

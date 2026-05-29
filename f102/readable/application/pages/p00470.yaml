@@ -1,0 +1,1167 @@
+---
+# ====== Page: Subir Fotos ===================================
+id: 470
+identification: 
+  name: Subir Fotos
+  alias: SUBIR-FOTOS
+  title: Subir Fotos
+
+appearance: 
+  page-mode: Modal Dialog
+  dialog-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+dialog: 
+  chained: true
+  resizable: true
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: true
+
+css: 
+  inline: |
+    .nuevo {
+        border-left: 4px solid #2ecc71;
+    }
+    
+    .obsoleto {
+        border-left: 4px solid #f39c12;
+    }
+    .eliminado {
+        border-left: 4px solid red;
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: IMAGENES ====================================
+  id: 10563507003364184
+  identification: 
+    name: IMAGENES
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_ARCHIVOS
+    include-rowid-column: false
+    where-clause: 'pk_id = :P470_pk_id'
+    page-items-to-submit: 
+    - P470_PK_ID
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 70
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    css-classes: 
+    - btn-imagenes
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: 'select id from SGT_ARCHIVOS where pk_id = :P470_PK_ID'
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 10563462025364183
+    appearance: 
+      layout: Grid
+      grid-columns: Auto
+
+    card: 
+      css-classes: 
+      - '&INTERNAL_ATTR.'
+      primary-key-column-1: ID
+
+    title: 
+      advanced-formatting: false
+      column: FILE_NAME
+
+    subtitle: 
+      advanced-formatting: false
+      column: FILE_MIMETYPE
+
+    body: 
+      advanced-formatting: false
+      column: OBSERVACIONES
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: No Icon
+      badge-column: INTERNAL_ATTR
+
+    media: 
+      advanced-formatting: false
+      source: BLOB Column
+      blob-column: FILE_BLOB
+      position: Body
+      appearance: Auto
+      sizing: Fit
+
+    blob-attributes: 
+      mime-type-column: FILE_MIMETYPE
+      last-updated-column: ACTUALIZADO_EL
+
+    performance: 
+      lazy-loading: false
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+    actions: 
+    - # ====== Action: Eliminar ====================================
+      id: 10563391616364182
+      identification: 
+        type: Button
+        label: Eliminar
+
+      layout: 
+        position: Primary
+        sequence: 40
+
+      link: 
+        type: Redirect to URL
+        target: 'javascript:void(0);'
+        link-attributes: data-id="&ID." data-estado="3"
+
+      appearance: 
+        display-type: Text with Icon
+        icon: fa-warning
+        hot: true
+        css-classes: 
+        - btn-eliminar
+
+    - # ====== Action: Obsoleto ====================================
+      id: 10563270105364181
+      identification: 
+        type: Button
+        label: Obsoleto
+
+      layout: 
+        position: Primary
+        sequence: 30
+
+      link: 
+        type: Redirect to URL
+        target: 'javascript:void(0);'
+        link-attributes: data-id="&ID."
+
+      appearance: 
+        display-type: Text
+        hot: false
+        css-classes: 
+        - btn-obsoleto
+
+    - # ====== Action: Descargar ===================================
+      id: 10479628640182080
+      identification: 
+        type: Button
+        label: Descargar
+
+      layout: 
+        position: Primary
+        sequence: 10
+
+      link: 
+        type: Redirect to URL
+        target: 'javascript:void(0);'
+        link-attributes: data-id="&ID."
+
+      appearance: 
+        display-type: Text
+        hot: false
+        css-classes: 
+        - btn-descargar
+
+- # ====== Region: Subir Fotos =================================
+  id: 10535911673679970
+  identification: 
+    name: Subir Fotos
+    type: Form
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_ARCHIVOS
+    include-rowid-column: false
+
+  layout: 
+    sequence: 80
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Blank with Attributes
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P470_CONTEO < 3'
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Add Row
+      - Update Row
+      - Delete Row
+      lost-update-type: Row Values
+
+- # ====== Region: Buttons =====================================
+  id: 10525623780679955
+  identification: 
+    name: Buttons
+    type: Static Content
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: REGION_POSITION_03
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Buttons Container
+    template-options: 
+    - '#DEFAULT#'
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: Text (escape special characters)
+      show-line-breaks: true
+
+page-items: 
+- # ====== Page Item: P470_ID ==================================
+  id: 10535560457679966
+  identification: 
+    name: P470_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 10
+    region: Subir Fotos # 10535911673679970
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Subir Fotos # 10535911673679970
+    column: ID
+    data-type: NUMBER
+    query-only: true
+    primary-key: true
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Checksum Required - Session Level
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P470_ENTIDAD =============================
+  id: 10535125005679962
+  identification: 
+    name: P470_ENTIDAD
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 50
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Subir Fotos # 10535911673679970
+    column: ENTIDAD
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P470_PK_ID ===============================
+  id: 10534743388679961
+  identification: 
+    name: P470_PK_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 40
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Subir Fotos # 10535911673679970
+    column: PK_ID
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P470_ESTADO ==============================
+  id: 10534318698679961
+  identification: 
+    name: P470_ESTADO
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Subir Fotos # 10535911673679970
+    column: ESTADO
+    data-type: NUMBER
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P470_FILE_BLOB ===========================
+  id: 10532793944679960
+  identification: 
+    name: P470_FILE_BLOB
+    type: Image Upload
+
+  label: 
+    label: Imagen a subir
+    alignment: Left
+
+  display: 
+    display-as: Icon Dropzone
+    preview-size: Medium
+    display-download-link: true
+    download-link-text: Descargar
+    capture-using: NONE
+
+  storage:: 
+    type: BLOB column specified in Item Source attribute
+    mime-type-column: FILE_MIMETYPE
+    filename-column: FILE_NAME
+    blob-last-updated-column: ACTUALIZADO_EL
+
+  cropping: 
+    allow-cropping: true
+    aspect-ratio: Original
+
+  resize-to: 
+    maximum-file-size: 1024
+
+  layout: 
+    sequence: 70
+    region: Subir Fotos # 10535911673679970
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+
+  validation: 
+    value-required: true
+    maximum-length: 255
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Subir Fotos # 10535911673679970
+    column: FILE_BLOB
+    data-type: BLOB
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    storage: Per Request (Memory Only)
+
+  security: 
+    session-state-protection: Unrestricted
+    restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Seleccione un archivo la cual se asociará al activo seleccionado.
+
+- # ====== Page Item: P470_OBSERVACIONES =======================
+  id: 10532391940679960
+  identification: 
+    name: P470_OBSERVACIONES
+    type: Textarea
+
+  label: 
+    label: Observaciones
+    alignment: Left
+
+  settings: 
+    resizable: true
+    auto-height: false
+    character-counter: false
+    trim-spaces: Leading and Trailing
+
+  layout: 
+    sequence: 80
+    region: Subir Fotos # 10535911673679970
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 60
+    height: 4
+
+  validation: 
+    value-required: false
+    maximum-length: 4000
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: Subir Fotos # 10535911673679970
+    column: OBSERVACIONES
+    data-type: VARCHAR2
+    query-only: false
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P470_FILE_ID =============================
+  id: 10482915936182113
+  identification: 
+    name: P470_FILE_ID
+    type: Hidden
+
+  settings: 
+    value-protected: false
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P470_CONTEO ==============================
+  id: 10480601257182090
+  identification: 
+    name: P470_CONTEO
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 60
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+buttons: 
+- # ====== Button: CANCEL ======================================
+  id: 10525237925679955
+  identification: 
+    button-name: CANCEL
+    label: Cancel
+
+  layout: 
+    sequence: 10
+    region: Buttons # 10525623780679955
+    slot: CLOSE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Defined by Dynamic Action
+    execute-validations: true
+
+- # ====== Button: DELETE ======================================
+  id: 10523879971679951
+  identification: 
+    button-name: DELETE
+    label: Delete
+
+  layout: 
+    sequence: 20
+    region: Buttons # 10525623780679955
+    slot: DELETE
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: false
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: false
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL DELETE action
+
+  confirmation: 
+    message: '&APP_TEXT$DELETE_MSG!RAW.'
+    style: Danger
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P470_ID
+
+- # ====== Button: SAVE ========================================
+  id: 10523449585679951
+  identification: 
+    button-name: SAVE
+    label: Apply Changes
+
+  layout: 
+    sequence: 30
+    region: Buttons # 10525623780679955
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL UPDATE action
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P470_ID
+
+- # ====== Button: CREATE ======================================
+  id: 10523083549679951
+  identification: 
+    button-name: CREATE
+    label: '&APP_TEXT$BTN_CREAR!RAW.'
+
+  layout: 
+    sequence: 40
+    region: Buttons # 10525623780679955
+    slot: NEXT
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+
+  behavior: 
+    action: Submit Page
+    execute-validations: true
+    show-processing: false
+    warn-on-unsaved-changes: Do Not Check
+    database-action: SQL INSERT action
+
+  server-side-condition: 
+    type: Expression
+    language: PL/SQL
+    pl/sql-expression: ':P470_ID is null and :P470_CONTEO < 3'
+
+dynamic-actions: 
+- # ====== Dynamic Action: Cancel Dialog =======================
+  id: 10525179300679955
+  identification: 
+    name: Cancel Dialog
+
+  execution: 
+    sequence: 40
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: Button
+    button: CANCEL # 10525237925679955
+
+  actions: 
+  - # ====== Action: Cancel Dialog ===============================
+    id: 10524322436679952
+    identification: 
+      action: Cancel Dialog
+
+    execution: 
+      sequence: 10
+      event: Cancel Dialog # 10525179300679955
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: ELIMINAR ============================
+  id: 10483277653182116
+  identification: 
+    name: ELIMINAR
+
+  execution: 
+    sequence: 20
+    event-scope: Dynamic
+    static-container-(jquery-selector): .btn-imagenes
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: jQuery Selector
+    jquery-selector: .btn-eliminar
+
+  actions: 
+  - # ====== Action: Execute Server-side Code ====================
+    id: 10483103814182115
+    identification: 
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        delete from SGT_archivos
+        
+        WHERE ID = :P470_FILE_ID;
+      items-to-submit: 
+      - P470_FILE_ID
+      - P470_ESTADO
+
+    execution: 
+      sequence: 30
+      event: ELIMINAR # 10483277653182116
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: SET_FILE_ID =================================
+    id: 10483015603182114
+    identification: 
+      name: SET_FILE_ID
+      action: Set Value
+
+    settings: 
+      set-type: JavaScript Expression
+      javascript-expression: this.triggeringElement.dataset.id
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P470_FILE_ID
+
+    execution: 
+      sequence: 20
+      event: ELIMINAR # 10483277653182116
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Refresh =====================================
+    id: 10482818262182112
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: IMAGENES # 10563507003364184
+
+    execution: 
+      sequence: 40
+      event: ELIMINAR # 10483277653182116
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Refresh =====================================
+    id: 10479423590182078
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P470_CONTEO
+
+    execution: 
+      sequence: 50
+      event: ELIMINAR # 10483277653182116
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Refresh =====================================
+    id: 10379941162207727
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Subir Fotos # 10535911673679970
+
+    execution: 
+      sequence: 60
+      event: ELIMINAR # 10483277653182116
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Confirm =====================================
+    id: 10375421532207682
+    identification: 
+      action: Confirm
+
+    settings: 
+      title: Antención
+      message: Borrar el elemento?
+      style: Danger
+
+    execution: 
+      sequence: 10
+      event: ELIMINAR # 10483277653182116
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Obsoleto ============================
+  id: 10482734795182111
+  identification: 
+    name: Obsoleto
+
+  execution: 
+    sequence: 30
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: jQuery Selector
+    jquery-selector: .btn-obsoleto
+
+  actions: 
+  - # ====== Action: SET_VALUE ===================================
+    id: 10482643991182110
+    identification: 
+      name: SET_VALUE
+      action: Set Value
+
+    settings: 
+      set-type: JavaScript Expression
+      javascript-expression: this.triggeringElement.dataset.id
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P470_FILE_ID
+
+    execution: 
+      sequence: 20
+      event: Obsoleto # 10482734795182111
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Execute Server-side Code ====================
+    id: 10482594458182109
+    identification: 
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        UPDATE SGT_ARCHIVOS
+        SET ESTADO = 2
+        WHERE ID = :P470_FILE_ID;
+      items-to-submit: 
+      - P470_FILE_ID
+
+    execution: 
+      sequence: 30
+      event: Obsoleto # 10482734795182111
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Refresh =====================================
+    id: 10482465579182108
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: IMAGENES # 10563507003364184
+
+    execution: 
+      sequence: 40
+      event: Obsoleto # 10482734795182111
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Confirm =====================================
+    id: 11741627945785347
+    identification: 
+      action: Confirm
+
+    settings: 
+      title: Atención
+      message: Marcar como obsoleto el elemento?
+      style: Warning
+
+    execution: 
+      sequence: 10
+      event: Obsoleto # 10482734795182111
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: Descargar ===========================
+  id: 10479839570182082
+  identification: 
+    name: Descargar
+
+  execution: 
+    sequence: 25
+    event-scope: Dynamic
+    static-container-(jquery-selector): .btn-imagenes
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: jQuery Selector
+    jquery-selector: .btn-descargar
+
+  actions: 
+  - # ====== Action: Download ====================================
+    id: 10479782956182081
+    identification: 
+      action: Download
+
+    settings: 
+      multiple-files: false
+      view-file-as: Attachment
+
+    source: 
+      sql-query: |
+        select file_blob, file_name , file_mimetype from SGT_archivos
+        where id = :P470_FILE_ID
+      items-to-submit: 
+      - P470_FILE_ID
+
+    execution: 
+      sequence: 20
+      event: Descargar # 10479839570182082
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Set Value ===================================
+    id: 10479514546182079
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: JavaScript Expression
+      javascript-expression: this.triggeringElement.dataset.id
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P470_FILE_ID
+
+    execution: 
+      sequence: 10
+      event: Descargar # 10479839570182082
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+computations: 
+- # ====== Computation: P470_CONTEO ============================
+  id: 10480531381182089
+  identification: 
+    item-name: P470_CONTEO
+
+  execution: 
+    sequence: 10
+    point: Before Regions
+
+  computation: 
+    type: SQL Query (return single value)
+    sql-query: |
+      select count(*) from sgt_archivos
+      where entidad = 4 and pk_id =:P470_PK_ID
+
+processes: 
+- # ====== Process: Initialize form Subir Fotos ================
+  id: 10522689555679951
+  identification: 
+    name: Initialize form Subir Fotos
+    type: Form - Initialization
+    execution-chain: None
+    form-region: Subir Fotos # 10535911673679970
+
+  execution: 
+    sequence: 10
+    point: Before Header
+    run-process: Once Per Page Visit (default)
+
+- # ====== Process: Process form Subir Fotos ===================
+  id: 10522232815679950
+  identification: 
+    name: Process form Subir Fotos
+    type: Form - Automatic Row Processing (DML)
+    execution-chain: None
+    form-region: Subir Fotos # 10535911673679970
+
+  settings: 
+    target-type: Region Source
+    prevent-lost-updates: true
+    lock-row: Yes
+    return-primary-key(s)-after-insert: true
+
+  execution: 
+    sequence: 10
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+- # ====== Process: Close Dialog ===============================
+  id: 10521797750679950
+  identification: 
+    name: Close Dialog
+    type: Close Dialog
+    execution-chain: None
+
+  settings: 
+    show-success-messages: true
+
+  execution: 
+    sequence: 50
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    type: Request is contained in Value
+    value: CREATE,SAVE,DELETE
+

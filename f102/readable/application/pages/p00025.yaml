@@ -91,6 +91,16 @@ regions:
     type: SQL Query
     sql-query: |
       SELECT S.ID,
+             '<ul>' ||
+              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:26:&APP_SESSION.::::P26_ID:'|| s.ID )||'>Editar</a></li>' || 
+              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:470:&APP_SESSION.::::P470_ENTIDAD,P470_PK_ID:1,' || s.ID )||'>Imágenes</a></li>' || 
+              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:9:&APP_SESSION.::::P9_ID:' || s.ID )||'>Dependencias</a></li>' || 
+             -- '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:465:&APP_SESSION.::::P465_EQUIPO_ID:'|| e.ID )||'>Dependencias</a></li>' || 
+             -- '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| e.ID )||'>Incidencias</a></li>' || 
+             -- '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| e.ID )||'>Auditoria</a></li>' || 
+              
+              '</ul>'
+             as ACCIONES,   
              SIGLAS,
              S.NOMBRE,
              TIPO_DE_SITIO,
@@ -110,11 +120,23 @@ regions:
                      TO_CHAR(LONGITUD, 'FM9999990D000000', 'NLS_NUMERIC_CHARACTERS=.,')
                  ELSE 
                      NULL
-             END AS GMAPS
+             END AS GMAPS,
+             NVL(C.COMENTARIO,'Ver') COMENTARIOS
       FROM SGT_SITIOS S
+      
+      --Agregar comentarios
+      LEFT JOIN (
+          SELECT PK_ID, 
+                 COMENTARIO, 
+                 ROW_NUMBER() OVER (PARTITION BY PK_ID ORDER BY CREADO_EL DESC) AS rn
+          FROM SGT_COMENTARIOS
+          WHERE ENTIDAD = 1
+      ) C ON C.PK_ID = S.ID AND C.rn = 1
+      --
+      
+      
       left join sgt_ciudad ciudad on S.ciudad_id = ciudad.id
       LEFT JOIN SGT_DEPTO depto on ciudad.depto_id = depto.id
-      
       ORDER BY S.ID DESC
       
 
@@ -151,17 +173,7 @@ regions:
   attributes: 
     id: 117115189613560411774
     link: 
-      link-column: Link to Custom Target
-      target: 
-        url: 'f?p=&APP_ID.:26:&SESSION.::&DEBUG.:26:P26_ID,P26_TITULO:\#ID#\,Editar sitio'
-        page: 26 # SGT_FORM_SITIOS
-        clear-cache: 26
-        values: 
-          p26_id: '#ID#'
-          p26_titulo: Editar sitio
-
-      link-icon: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
-      authorization-scheme: Implementador Rights # 56843702980053272617
+      link-column: Exclude Link Column
 
     pagination: 
       type: Row Ranges X to Y of Z
@@ -241,7 +253,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 81
+        sequence: 120
         column-alignment: end
 
       accessibility: 
@@ -282,11 +294,90 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 71
+        sequence: 110
         column-alignment: end
 
       accessibility: 
         value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: ACCIONES ====================================
+      id: 9348638902692600
+      identification: 
+        column-name: ACCIONES
+        type: Rich Text
+
+      heading: 
+        heading: Acciones
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 10
+        column-alignment: start
+
+      settings: 
+        format: HTML
+
+      source: 
+        primary-key: false
+
+      enable-users-to: 
+        hide: false
+        filter: false
+        highlight: false
+
+    - # ====== Column: COMENTARIOS =================================
+      id: 9091522951979499
+      identification: 
+        column-name: COMENTARIOS
+        type: Link
+
+      heading: 
+        heading: Comentarios
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 140
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:32:&SESSION.::&DEBUG.::P32_ENTIDAD,P32_PK_ID:1,#ID#'
+          page: 32 # Comentarios
+          values: 
+            p32_entidad: 1
+            p32_pk_id: '#ID#'
+
+        link-text: '#COMENTARIOS#'
 
       source: 
         primary-key: false
@@ -323,7 +414,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 61
+        sequence: 100
         column-alignment: start
 
       accessibility: 
@@ -364,7 +455,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 91
+        sequence: 130
         column-alignment: start
 
       accessibility: 
@@ -413,7 +504,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 41
+        sequence: 90
         column-alignment: center
 
       accessibility: 
@@ -454,7 +545,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 31
+        sequence: 80
         column-alignment: center
 
       accessibility: 
@@ -492,7 +583,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 11
+        sequence: 70
         column-alignment: center
 
       accessibility: 
@@ -529,7 +620,7 @@ regions:
         heading: Ubicación
 
       layout: 
-        sequence: 10
+        sequence: 60
 
       source: 
         primary-key: false
@@ -551,7 +642,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 5
+        sequence: 50
         column-alignment: center
 
       accessibility: 
@@ -593,7 +684,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 4
+        sequence: 40
         column-alignment: center
 
       accessibility: 
@@ -634,7 +725,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 3
+        sequence: 30
         column-alignment: center
 
       accessibility: 
@@ -675,7 +766,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 2
+        sequence: 20
         column-alignment: center
 
       accessibility: 

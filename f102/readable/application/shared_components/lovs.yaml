@@ -227,6 +227,53 @@
       display: BACK
       return: BACK
 
+- # ====== List of Values: EQUIPOS.NOMBRE-FILTRADO =============
+  id: 11840174158864200
+  identification: 
+    name: EQUIPOS.NOMBRE-FILTRADO
+
+  subscription: 
+    version-number: 39029012372475
+
+  source: 
+    location: Local Database
+    type: Function Body returning SQL Query
+    language: PL/SQL
+    pl/sql-function-body-returning-sql-query: |
+      
+      RETURN 'select e.nombre, e.id from sgt_equipos e 
+      join sgt_tipo_equipos te on e.tipo_equipo_id = te.id
+      join v_sitios_equipos vse on e.id = vse.equipo_id
+      where vse.sitio_id = :SITIO_ID and lower(e.estado) = ''utilizado'' 
+      and (te.id=11 or lower(te.grupo_equipo) = ''activo'')
+      order by e.nombre';
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: ENLACES_WAN.TIPO_ENLACE =============
+  id: 11963262357802012
+  identification: 
+    name: ENLACES_WAN.TIPO_ENLACE
+
+  subscription: 
+    version-number: 39029032328082
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_TIPO_WAN
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
 - # ====== List of Values: TIPO_CABLE ==========================
   id: 16824711784220248610
   identification: 
@@ -280,32 +327,6 @@
       sequence: 5
       display: DROP
       return: DROP
-
-- # ====== List of Values: MODO_FO =============================
-  id: 16824834299877558860
-  identification: 
-    name: MODO_FO
-
-  subscription: 
-    version-number: 15652208688775
-
-  source: 
-    location: Static Values
-
-  entries: 
-  - # ====== Entry: SM ===========================================
-    id: 16824834569477558861
-    entry: 
-      sequence: 1
-      display: SM
-      return: SM
-
-  - # ====== Entry: MM ===========================================
-    id: 16824834990728558862
-    entry: 
-      sequence: 2
-      display: MM
-      return: MM
 
 - # ====== List of Values: LOV_SGT_ZONAS =======================
   id: 16829957726745633025
@@ -816,107 +837,6 @@
       display: NA
       return: NA
 
-- # ====== List of Values: INTERFACES.MODO =====================
-  id: 43201033517964343837
-  identification: 
-    name: INTERFACES.MODO
-
-  subscription: 
-    version-number: 39024137909517
-
-  source: 
-    location: Static Values
-
-  entries: 
-  - # ====== Entry: NA ===========================================
-    id: 126447253555157
-    entry: 
-      sequence: 7
-      display: NA
-      return: NA
-
-  - # ====== Entry: ACCESS =======================================
-    id: 43201033858993343838
-    entry: 
-      sequence: 1
-      display: ACCESS
-      return: ACCESS
-
-  - # ====== Entry: TRUNK ========================================
-    id: 43201034239216343839
-    entry: 
-      sequence: 2
-      display: TRUNK
-      return: TRUNK
-
-  - # ====== Entry: TAGGED =======================================
-    id: 43201034684445343839
-    entry: 
-      sequence: 3
-      display: TAGGED
-      return: TAGGED
-
-  - # ====== Entry: TAGGED-ALL ===================================
-    id: 43201655520954634051
-    entry: 
-      sequence: 4
-      display: TAGGED-ALL
-      return: TAGGED-ALL
-
-  - # ====== Entry: HYBRID =======================================
-    id: 43201655917813634051
-    entry: 
-      sequence: 5
-      display: HYBRID
-      return: HYBRID
-
-  - # ====== Entry: Q-IN-Q =======================================
-    id: 43201656394159634052
-    entry: 
-      sequence: 6
-      display: Q-IN-Q
-      return: Q-IN-Q
-
-- # ====== List of Values: INTERFACES.DUPLEX ===================
-  id: 43201969178408363692
-  identification: 
-    name: INTERFACES.DUPLEX
-
-  subscription: 
-    version-number: 39024137903037
-
-  source: 
-    location: Static Values
-
-  entries: 
-  - # ====== Entry: NA ===========================================
-    id: 124188738540058
-    entry: 
-      sequence: 4
-      display: NA
-      return: NA
-
-  - # ====== Entry: AUTO =========================================
-    id: 43201969509925363694
-    entry: 
-      sequence: 1
-      display: AUTO
-      return: AUTO
-
-  - # ====== Entry: FULL =========================================
-    id: 43201969936959363695
-    entry: 
-      sequence: 2
-      display: FULL
-      return: FULL
-
-  - # ====== Entry: HALF =========================================
-    id: 43201970324847363695
-    entry: 
-      sequence: 3
-      display: HALF
-      return: HALF
-
 - # ====== List of Values: ENLACES_FO.NOMBRE ===================
   id: 43769668587515608859
   identification: 
@@ -970,26 +890,6 @@
     type: Table / View
     table-owner: Parsing Schema
     table-name: SGT_SERVICIOS
-
-  column-mapping: 
-    return: ID
-    display: NOMBRE
-    default-sort: NOMBRE
-    sort-direction: Ascending (Nulls Last)
-
-- # ====== List of Values: ENLACES_LOGICOS.NOMBRE ==============
-  id: 47255876122802445010
-  identification: 
-    name: ENLACES_LOGICOS.NOMBRE
-
-  subscription: 
-    version-number: 15662646226349
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: SGT_ENLACES_LOGICOS
 
   column-mapping: 
     return: ID
@@ -1216,27 +1116,6 @@
     default-sort: VALOR
     sort-direction: Descending (Nulls Last)
 
-- # ====== List of Values: LOV_SGT_SALAS =======================
-  id: 117050275762244460766
-  identification: 
-    name: LOV_SGT_SALAS
-
-  subscription: 
-    version-number: 15610008812074
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: SGT_SALAS
-    where-clause: 'SITIO_ID = :SITIO_ID'
-
-  column-mapping: 
-    return: ID
-    display: SIGLAS
-    default-sort: SIGLAS
-    sort-direction: Ascending (Nulls Last)
-
 - # ====== List of Values: CIUDAD.NOMBRE =======================
   id: 117115199952560411783
   identification: 
@@ -1250,48 +1129,6 @@
     type: Table / View
     table-owner: Parsing Schema
     table-name: SGT_CIUDAD
-
-  column-mapping: 
-    return: ID
-    display: NOMBRE
-    default-sort: NOMBRE
-    sort-direction: Ascending (Nulls Last)
-
-- # ====== List of Values: LOV_SGT_SITIOS ======================
-  id: 122658656065915391705
-  identification: 
-    name: LOV_SGT_SITIOS
-
-  subscription: 
-    version-number: 15610018144639
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: SGT_SITIOS
-    where-clause: 'CIUDAD_ID = :CIUDAD_ID'
-
-  column-mapping: 
-    return: ID
-    display: NOMBRE
-    default-sort: NOMBRE
-    sort-direction: Ascending (Nulls Last)
-
-- # ====== List of Values: LOV_SGT_CIUDAD ======================
-  id: 122659340527202417666
-  identification: 
-    name: LOV_SGT_CIUDAD
-
-  subscription: 
-    version-number: 15610021364893
-
-  source: 
-    location: Local Database
-    type: Table / View
-    table-owner: Parsing Schema
-    table-name: SGT_CIUDAD
-    where-clause: DEPTO_ID = V('DEPTO_ID')
 
   column-mapping: 
     return: ID

@@ -19,6 +19,20 @@
         url: 'f?p=&APP_ID.:63:&SESSION.::&DEBUG.:::'
         page: 63 # VISTA_ZONA_GLOBAL
 
+  - # ====== Entry: Dependencias Salas ===========================
+    id: 9240964183254681
+    identification: 
+      name: Dependencias Salas
+      page-number: 33
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:33:&APP_SESSION.::&DEBUG.:::'
+        page: 33 # Dependencias Salas
+
   - # ====== Entry: Interfaces L2 ================================
     id: 479823010375745
     identification: 
@@ -141,7 +155,7 @@
     link: 
       target: 
         url: 'f?p=&APP_ID.:32:&APP_SESSION.::&DEBUG.:::'
-        page: 32 # SGT_CABLES
+        page: 32 # Comentarios
 
   - # ====== Entry: Enlaces Wan ==================================
     id: 43769697891503608887

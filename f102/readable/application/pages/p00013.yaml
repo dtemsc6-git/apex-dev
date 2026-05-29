@@ -48,18 +48,15 @@ regions:
     type: SQL Query
     sql-query: |
       select e.ID,
-      
-      '<div class="t-ButtonGroup">' ||
-              '<a href="APEX_UTIL.PREPARE_URL(f?p=&APP_ID.:14:&APP_SESSION.:::14:P14_ID:' || e.ID || ')" class="t-Button t-Button--small t-Button--success" title="Ver">' ||
-                  '<span class="fa fa-eye"></span>' ||
-              '</a>' ||
-              '<a href="APEX_UTIL.PREPARE_URL(f?p=&APP_ID.:14:&APP_SESSION.:::14:P14_ID:' || e.ID || ')" class="t-Button t-Button--small t-Button--warning" title="Editar">' ||
-                  '<span class="fa fa-edit"></span>' ||
-              '</a>' ||
-              '<a href="javascript:void(0);" onclick="eliminarRegistro(' || e.ID || ')" class="t-Button t-Button--small t-Button--danger" title="Eliminar">' ||
-                  '<span class="fa fa-trash"></span>' ||
-              '</a>' ||
-          '</div>' as ACCIONES,
+             e.ID AS EQUIPO_ID,  
+             '<ul>' ||
+              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| e.ID )||'>Editar</a></li>' || 
+              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:470:&APP_SESSION.::::P470_ENTIDAD,P470_PK_ID:4,' || e.ID )||'>Imágenes</a></li>' || 
+              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:465:&APP_SESSION.::::P465_EQUIPO_ID:'|| e.ID )||'>Dependencias</a></li>' || 
+              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:7:&APP_SESSION.::::P7_ID:'|| e.ID )||'>Historial Audit.</a></li>' || 
+             -- '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| e.ID )||'>Auditoria</a></li>' ||   
+             '</ul>'
+             as ACCIONES,
              UNIDAD_ENCARGADA,
              RACK_ID,
              U,
@@ -86,11 +83,22 @@ regions:
              ALTURA_U,
              POSICION,
              SITIO_ID,
+             nvl(C.COMENTARIO,'Ver') AS COMENTARIOS,
              e.CREADO_POR,
              e.CREADO_EL,
              e.ACTUALIZADO_POR,
              e.ACTUALIZADO_EL
         from SGT_EQUIPOS e
+      --Agregar comentarios
+      LEFT JOIN (
+          SELECT PK_ID, 
+                 COMENTARIO, 
+                 ROW_NUMBER() OVER (PARTITION BY PK_ID ORDER BY CREADO_EL DESC) AS rn
+          FROM SGT_COMENTARIOS
+          WHERE ENTIDAD = 4
+      ) C ON C.PK_ID = E.ID AND C.rn = 1
+      --
+      
         inner join sgt_tipo_equipos te on te.id = e.tipo_equipo_id 
         order by e.actualizado_el DESC
 
@@ -118,6 +126,9 @@ regions:
     region-display-selector: false
     exclude-title-from-translation: false
 
+  header-and-footer: 
+    footer-text: 'Datos obtenidos en: #TIMING# seg'
+
   server-cache: 
     caching: Disabled
 
@@ -127,15 +138,7 @@ regions:
   attributes: 
     id: 87976622166233604112
     link: 
-      link-column: Link to Custom Target
-      target: 
-        url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.::P14_ID:#ID#'
-        page: 14 # SGT_FORM_EQUIPO
-        values: 
-          p14_id: '#ID#'
-
-      link-icon: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
-      authorization-scheme: Implementador Rights # 56843702980053272617
+      link-column: Exclude Link Column
 
     pagination: 
       type: Row Ranges X to Y of Z
@@ -143,7 +146,6 @@ regions:
 
     performance: 
       lazy-loading: false
-      maximum-rows-to-process: 1000000
 
     search-bar: 
       include-search-bar: true
@@ -185,7 +187,12 @@ regions:
       fixed-to: Page
 
     icon-view: 
-      show: false
+      show: true
+      custom: false
+      columns-per-row: 6
+      link-column: ID
+      image-source-column: EQUIPO_ID
+      label-column: NOMBRE
 
     detail-view: 
       show: false
@@ -196,18 +203,6 @@ regions:
       identification: 
         name: Primary Report
         alias: 879894393
-
-    column-groups: 
-    - # ====== Column Group: New ===================================
-      id: 2361631548276199
-      identification: 
-        name: New
-
-      layout: 
-        sequence: 10
-
-      description: 
-        description: Prueba
 
     columns: 
     - # ====== Column: SUB_TIPO ====================================
@@ -229,6 +224,75 @@ regions:
 
       accessibility: 
         value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: EQUIPO_ID ===================================
+      id: 9348360967692597
+      identification: 
+        column-name: EQUIPO_ID
+        type: Hidden
+
+      heading: 
+        heading: Equipo Id
+
+      layout: 
+        sequence: 20
+
+      source: 
+        primary-key: false
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: COMENTARIOS =================================
+      id: 9202429231677984
+      identification: 
+        column-name: COMENTARIOS
+        type: Link
+
+      heading: 
+        heading: Comentarios
+        alignment: start
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 330
+        column-alignment: start
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:32:&SESSION.::&DEBUG.::P32_ENTIDAD,P32_PK_ID:4,#ID#'
+          page: 32 # Comentarios
+          values: 
+            p32_entidad: 4
+            p32_pk_id: '#ID#'
+
+        link-text: '#COMENTARIOS#'
 
       source: 
         primary-key: false
@@ -300,7 +364,7 @@ regions:
 
       heading: 
         heading: Acciones
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
@@ -365,7 +429,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 20
+        sequence: 30
         column-alignment: center
 
       accessibility: 
@@ -409,7 +473,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 30
+        sequence: 40
         column-alignment: center
 
       accessibility: 
@@ -447,7 +511,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 40
+        sequence: 50
         column-alignment: center
 
       accessibility: 
@@ -491,7 +555,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 50
+        sequence: 60
         column-alignment: center
 
       accessibility: 
@@ -519,7 +583,7 @@ regions:
       id: 87976622734897604118
       identification: 
         column-name: NOMBRE
-        type: Link
+        type: Plain Text
 
       heading: 
         heading: Nombre
@@ -529,20 +593,11 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 60
+        sequence: 70
         column-alignment: center
 
       accessibility: 
         value-identifies-row: false
-
-      link: 
-        target: 
-          url: 'f?p=&APP_ID.:29:&SESSION.::&DEBUG.::P29_EQUIPO:#ID#'
-          page: 29 # equipos_interface_dl
-          values: 
-            p29_equipo: '#ID#'
-
-        link-text: '#NOMBRE#'
 
       source: 
         primary-key: false
@@ -582,7 +637,7 @@ regions:
         use-column-heading: true
 
       layout: 
-        sequence: 70
+        sequence: 80
         column-alignment: center
 
       accessibility: 

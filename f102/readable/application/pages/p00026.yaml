@@ -123,6 +123,9 @@ regions:
   customization: 
     customizable: Not Customizable By End Users
 
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
   attributes: 
     settings: 
       output-as: HTML

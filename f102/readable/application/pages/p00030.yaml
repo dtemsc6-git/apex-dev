@@ -183,10 +183,10 @@ regions:
             SELECT 1 INTO v_existe
             FROM dual
             WHERE EXISTS (
-               SELECT 1 FROM sgt_enlaces_logicos
+               SELECT 1 FROM sgt_equipos_wan
                WHERE interfaz_a_id = v_id_interfaz OR interfaz_b_id = v_id_interfaz
             ) OR EXISTS (
-               SELECT 1 FROM sgt_enlaces_tramos
+               SELECT 1 FROM sgt_equipos_servicio
                WHERE interfaz_a_id = v_id_interfaz OR interfaz_b_id = v_id_interfaz
             );
             
@@ -471,6 +471,7 @@ page-items:
     list-of-values: INTERFACES.ESTADO # 43199625631148317953
     display-extra-values: true
     display-null-value: true
+    null-display-value: Seleccione una
 
   advanced: 
     warn-on-unsaved-changes: Page Default

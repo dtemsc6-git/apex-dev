@@ -104,6 +104,9 @@ regions:
   customization: 
     customizable: Not Customizable By End Users
 
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
   attributes: 
     layout: 
       number-of-rows-type: Static Value
@@ -1349,14 +1352,22 @@ page-items:
   id: 47902964597795091008
   identification: 
     name: P14_TIPO_EQUIPO_ID
-    type: Select List
+    type: Popup LOV
 
   label: 
     label: Tipo de Equipo
     alignment: Left
 
   settings: 
-    page-action-on-selection: None
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
 
   multiple-values: 
     type: No
@@ -1377,7 +1388,7 @@ page-items:
     template: Required - Floating
     template-options: 
     - '#DEFAULT#'
-    height: 1
+    width: 30
 
   validation: 
     value-required: true
@@ -2195,7 +2206,8 @@ page-items:
     type: Shared Component
     list-of-values: EQUIPO.ESTADO # 203663371051164540142
     display-extra-values: true
-    display-null-value: false
+    display-null-value: true
+    null-display-value: Seleccione una
 
   advanced: 
     warn-on-unsaved-changes: Page Default

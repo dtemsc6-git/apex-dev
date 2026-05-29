@@ -1,0 +1,1147 @@
+---
+# ====== Page: Archivos ======================================
+id: 471
+identification: 
+  name: Archivos
+  alias: ARCHIVOS
+  title: Archivos
+  page-group: Archivos # 10210415774710681
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: Do not focus cursor
+  warn-on-unsaved-changes: false
+
+css: 
+  inline: |
+    .nuevo {
+        border-left: 4px solid #2ecc71;
+    }
+    
+    .obsoleto {
+        border-left: 4px solid #f39c12;
+    }
+    .borrado {
+        border-left: 4px solid red;
+    }
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+regions: 
+- # ====== Region: Archivos ====================================
+  id: 10421015447424783
+  identification: 
+    name: Archivos
+    type: Cards
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_ARCHIVOS
+    include-rowid-column: false
+    where-clause: |
+      (:P471_tipo_entidad is null or entidad = :P471_tipo_entidad) 
+      AND 
+      (:P471_F_PK_ID is null  or pk_id = :P471_F_PK_ID)
+      and 
+      (:P471_SITIO is null or id in 
+          (SELECT ARCHIVO_ID FROM SGT_SITIOS_ARCHIVOS WHERE SITIO_ID IN
+             ( SELECT column_value FROM apex_string.split_numbers(:P471_SITIO, ':') )
+          )
+      )
+      AND
+      (:P471_F_NOMBRE IS NULL OR lower(FILE_NAME) LIKE lower(:P471_F_NOMBRE))
+    page-items-to-submit: 
+    - P471_TIPO_ENTIDAD
+    - P471_F_PK_ID
+    - P471_SITIO
+    - P471_F_NOMBRE
+
+  order-by: 
+    type: Item
+    item: 
+      item-name: P471_ORDER_BY
+      order-bys: 
+      - key: FILE_NAME
+        clause: '"FILE_NAME" asc'
+
+      - key: OBSERVACIONES
+        clause: '"OBSERVACIONES" asc'
+
+  layout: 
+    sequence: 10
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Cards Container
+    template-options: 
+    - '#DEFAULT#'
+    - t-CardsRegion--hideHeader js-addHiddenHeadingRoleDesc
+    css-classes: 
+    - btn-acciones
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    id: 10420523855424780
+    appearance: 
+      layout: Float
+
+    card: 
+      css-classes: 
+      - '&INTERNAL_ATTR.'
+      primary-key-column-1: ID
+
+    title: 
+      advanced-formatting: false
+      column: FILE_NAME
+
+    subtitle: 
+      advanced-formatting: false
+
+    body: 
+      advanced-formatting: false
+      column: OBSERVACIONES
+
+    secondary-body: 
+      advanced-formatting: false
+
+    icon-and-badge: 
+      icon-source: No Icon
+      badge-column: INTERNAL_ATTR
+
+    media: 
+      advanced-formatting: false
+      source: BLOB Column
+      blob-column: FILE_BLOB
+      position: Body
+      appearance: Auto
+      sizing: Fit
+
+    blob-attributes: 
+      mime-type-column: FILE_MIMETYPE
+      last-updated-column: ACTUALIZADO_EL
+
+    performance: 
+      lazy-loading: true
+
+    pagination: 
+      type: Scroll
+      show-total-count: false
+
+    actions: 
+    - # ====== Action: Eliminar ====================================
+      id: 10482008537182104
+      identification: 
+        type: Button
+        label: Eliminar
+
+      layout: 
+        position: Primary
+        sequence: 30
+
+      link: 
+        type: Redirect to URL
+        target: 'javascript:void(0);'
+        link-attributes: data-id="&ID."
+
+      appearance: 
+        display-type: Text
+        hot: false
+        css-classes: 
+        - btn-borrar
+
+    - # ====== Action: Descargar ===================================
+      id: 10481364833182097
+      identification: 
+        type: Button
+        label: Descargar
+
+      layout: 
+        position: Primary
+        sequence: 10
+
+      link: 
+        type: Redirect to URL
+        target: 'javascript:void(0);'
+        link-attributes: data-id="&ID."
+
+      appearance: 
+        display-type: Text
+        hot: false
+        css-classes: 
+        - btn-descargar
+
+    - # ====== Action: Obsoleto ====================================
+      id: 9091782692979501
+      identification: 
+        type: Button
+        label: Obsoleto
+
+      layout: 
+        position: Primary
+        sequence: 20
+
+      link: 
+        type: Redirect to URL
+        target: 'javascript:void(0);'
+        link-attributes: data-id="&ID."
+
+      appearance: 
+        display-type: Text
+        hot: false
+        css-classes: 
+        - btn-obsoleto
+
+page-items: 
+- # ====== Page Item: P471_TIPO_ENTIDAD ========================
+  id: 10481268243182096
+  identification: 
+    name: P471_TIPO_ENTIDAD
+    type: Select List
+
+  label: 
+    label: Tipo Entidad
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 50
+    region: Archivos # 10421015447424783
+    slot: ORDER_BY_ITEM
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Static Values
+    static-values: 'STATIC2:1. Sitios;1,2. Salas;2,3. Racks;3,4. Equipos;4,5. Fibra;5,6. Esquemas;6,7. Informes;7'
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: Seleccione Una
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P471_F_PK_ID =============================
+  id: 10481126038182095
+  identification: 
+    name: P471_F_PK_ID
+    type: Popup LOV
+
+  label: 
+    label: Entidad
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 60
+    region: Archivos # 10421015447424783
+    slot: ORDER_BY_ITEM
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Function Body returning SQL Query
+    language: PL/SQL
+    pl/sql-function-body-returning-sql-query: |
+      DECLARE
+          v_sql VARCHAR2(4000);
+      BEGIN
+          -- Validar que se haya seleccionado un tipo
+          IF :P471_TIPO_ENTIDAD IS NULL THEN
+              v_sql := 'SELECT NULL as nombre, NULL as id FROM dual WHERE 1=0';
+          
+          ELSIF :P471_TIPO_ENTIDAD = 1 THEN
+              v_sql := 'SELECT nombre, id FROM sgt_sitios where id in (select pk_id from SGT_archivos where entidad = 1) ORDER BY nombre';
+          
+          ELSIF :P471_TIPO_ENTIDAD = 2 THEN
+              v_sql := 'SELECT SGT_SITIOS.SIGLAS ||''.''|| SGT_SALAS.SIGLAS AS MOSTRAR , SGT_SALAS.ID AS CLAVE
+                        FROM SGT_SALAS INNER JOIN
+                        SGT_SITIOS ON SGT_SALAS.SITIO_ID = SGT_SITIOS.ID 
+                        where SGT_SALAS.ID in (select pk_id from SGT_archivos where entidad = 2) ORDER BY MOSTRAR';
+          
+          ELSIF :P471_TIPO_ENTIDAD = 3 THEN
+              v_sql := '
+              SELECT
+               SS.SIGLAS||''.''||S.SIGLAS||''.''||R.NOMBRE MOSTRAR,
+              R.ID VALOR        
+              FROM SGT_RACKS R
+              LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID
+              LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID
+               where R.ID in (select pk_id from SGT_archivos where entidad = 3) ORDER BY MOSTRAR';
+          
+          ELSIF :P471_TIPO_ENTIDAD = 4 THEN
+              v_sql := 'SELECT nombre, id FROM sgt_equipos where id in (select pk_id from SGT_archivos where entidad = 4) ORDER BY nombre';
+         
+          ELSIF :P471_TIPO_ENTIDAD = 5 THEN
+              v_sql := 'SELECT nombre, id FROM sgt_enlaces_fo where id in (select pk_id from SGT_archivos where entidad = 5) ORDER BY nombre';
+          
+          ELSIF :P471_TIPO_ENTIDAD = 5 THEN
+              v_sql := 'SELECT nombre, id FROM sgt_enlaces_fo where id in (select pk_id from SGT_archivos where entidad = 5) ORDER BY nombre';
+          
+          ELSE
+              -- Caso por defecto o error
+              v_sql := 'SELECT NULL as nombre, NULL as id FROM dual WHERE 1=0';
+          END IF;
+          
+          RETURN v_sql;
+      end;
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: Seleccione Una
+
+  cascading-list-of-values: 
+    parent-item(s): 
+    - P471_TIPO_ENTIDAD
+    items-to-submit: 
+    - P471_TIPO_ENTIDAD
+    parent-required: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P471_ENTIDAD =============================
+  id: 10480229496182086
+  identification: 
+    name: P471_ENTIDAD
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 20
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P471_ARCH_ID =============================
+  id: 10480121728182085
+  identification: 
+    name: P471_ARCH_ID
+    type: Hidden
+
+  settings: 
+    value-protected: true
+
+  layout: 
+    sequence: 30
+    region: No Parent
+    slot: BODY
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P471_ORDER_BY ============================
+  id: 10420014209424777
+  identification: 
+    name: P471_ORDER_BY
+    type: Select List
+
+  label: 
+    label: Order By
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 10
+    region: Archivos # 10421015447424783
+    slot: ORDER_BY_ITEM
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: true
+
+  list-of-values: 
+    type: Static Values
+    static-values: 'STATIC2:File Name;FILE_NAME,Observaciones;OBSERVACIONES'
+    display-extra-values: false
+    display-null-value: false
+
+  advanced: 
+    warn-on-unsaved-changes: Ignore
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Static
+    static-value: FILE_NAME
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+- # ====== Page Item: P471_SITIO ===============================
+  id: 10375088835207678
+  identification: 
+    name: P471_SITIO
+    type: Popup LOV
+
+  label: 
+    label: Sitio
+    alignment: Left
+
+  settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
+    fetch-on-search: false
+
+  search: 
+    match-type: Contains
+    case-sensitive: false
+    minimum-characters: 0
+
+  multiple-values: 
+    type: Delimited List
+    separator: ':'
+
+  layout: 
+    sequence: 70
+    region: Archivos # 10421015447424783
+    slot: ORDER_BY_ITEM
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: SQL Query
+    sql-query: |
+      select siglas, id from
+      sgt_sitios
+      where
+      id in (select SITIO_ID from sgt_sitios_archivos)
+    display-extra-values: true
+    display-null-value: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P471_SALA ================================
+  id: 9351372007692627
+  identification: 
+    name: P471_SALA
+    type: Text Field
+
+  label: 
+    label: Sala
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 30
+    region: Archivos # 10421015447424783
+    slot: ORDER_BY_ITEM
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
+- # ====== Page Item: P471_F_NOMBRE ============================
+  id: 9351221341692626
+  identification: 
+    name: P471_F_NOMBRE
+    type: Text Field
+
+  label: 
+    label: Nombre
+    alignment: Left
+
+  settings: 
+    subtype: Text
+    trim-spaces: Leading and Trailing
+    text-case: NO CHANGE
+    submit-when-enter-pressed: false
+    disabled: false
+
+  layout: 
+    sequence: 80
+    region: Archivos # 10421015447424783
+    slot: ORDER_BY_ITEM
+    alignment: Left
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    width: 30
+
+  validation: 
+    value-required: false
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+dynamic-actions: 
+- # ====== Dynamic Action: DOWNLOAD ============================
+  id: 10480449978182088
+  identification: 
+    name: DOWNLOAD
+
+  execution: 
+    sequence: 30
+    event-scope: Dynamic
+    static-container-(jquery-selector): .btn-acciones
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: jQuery Selector
+    jquery-selector: .btn-descargar
+
+  actions: 
+  - # ====== Action: Descargar ===================================
+    id: 10480357525182087
+    identification: 
+      name: Descargar
+      action: Download
+
+    settings: 
+      multiple-files: false
+      view-file-as: Attachment
+
+    source: 
+      sql-query: |
+        select file_blob    AS file_blob, 
+              file_name,          
+            file_mimetype from SGT_archivos
+        where 
+        id = :P471_ARCH_ID
+        
+      items-to-submit: 
+      - P471_ARCH_ID
+
+    execution: 
+      sequence: 30
+      event: DOWNLOAD # 10480449978182088
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Set Value ===================================
+    id: 10480084641182084
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: JavaScript Expression
+      javascript-expression: this.triggeringElement.dataset.id
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P471_ARCH_ID
+
+    execution: 
+      sequence: 20
+      event: DOWNLOAD # 10480449978182088
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+- # ====== Dynamic Action: DELETE ==============================
+  id: 10379826513207726
+  identification: 
+    name: DELETE
+
+  execution: 
+    sequence: 40
+    event-scope: Dynamic
+    static-container-(jquery-selector): .btn-acciones
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: jQuery Selector
+    jquery-selector: .btn-borrar
+
+  actions: 
+  - # ====== Action: Set Value ===================================
+    id: 10379741672207725
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: JavaScript Expression
+      javascript-expression: this.triggeringElement.dataset.id
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P471_ARCH_ID
+
+    execution: 
+      sequence: 30
+      event: DELETE # 10379826513207726
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Execute Server-side Code ====================
+    id: 10379613887207724
+    identification: 
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        DELETE FROM SGT_ARCHIVOS
+        WHERE ID = :p471_ARCH_ID
+      items-to-submit: 
+      - P471_ARCH_ID
+
+    execution: 
+      sequence: 40
+      event: DELETE # 10379826513207726
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Confirm =====================================
+    id: 10379526288207723
+    identification: 
+      action: Confirm
+
+    settings: 
+      title: Atención
+      message: Borrar el elemento?
+      style: Danger
+
+    execution: 
+      sequence: 10
+      event: DELETE # 10379826513207726
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Refresh =====================================
+    id: 10379410385207722
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Archivos # 10421015447424783
+
+    execution: 
+      sequence: 50
+      event: DELETE # 10379826513207726
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: FILTRAR =============================
+  id: 10379347001207721
+  identification: 
+    name: FILTRAR
+
+  execution: 
+    sequence: 50
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P471_TIPO_ENTIDAD
+    - P471_F_PK_ID
+    - P471_SITIO
+    - P471_F_NOMBRE
+
+  actions: 
+  - # ====== Action: Refresh =====================================
+    id: 10379242015207720
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Archivos # 10421015447424783
+
+    execution: 
+      sequence: 10
+      event: FILTRAR # 10379347001207721
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: OBSOLETO ============================
+  id: 9089454441979478
+  identification: 
+    name: OBSOLETO
+
+  execution: 
+    sequence: 60
+    event-scope: Dynamic
+    static-container-(jquery-selector): .btn-acciones
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: jQuery Selector
+    jquery-selector: .btn-obsoleto
+
+  actions: 
+  - # ====== Action: Execute Server-side Code ====================
+    id: 8741746329907327
+    identification: 
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        UPDATE SGT_ARCHIVOS
+        SET ESTADO = 2
+        WHERE ID = :P471_ARCH_ID;
+      items-to-submit: 
+      - P471_ARCH_ID
+
+    execution: 
+      sequence: 30
+      event: OBSOLETO # 9089454441979478
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Set Value ===================================
+    id: 8741617646907326
+    identification: 
+      action: Set Value
+
+    settings: 
+      set-type: JavaScript Expression
+      javascript-expression: this.triggeringElement.dataset.id
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P471_ARCH_ID
+
+    execution: 
+      sequence: 20
+      event: OBSOLETO # 9089454441979478
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Refresh =====================================
+    id: 8741508504907325
+    identification: 
+      action: Refresh
+
+    settings: 
+      maintain-pagination: false
+
+    affected-elements: 
+      selection-type: Region
+      region: Archivos # 10421015447424783
+
+    execution: 
+      sequence: 50
+      event: OBSOLETO # 9089454441979478
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+  - # ====== Action: Confirm =====================================
+    id: 8741465855907324
+    identification: 
+      action: Confirm
+
+    settings: 
+      title: Atención
+      message: Marcar como obsoleto el elemento?
+      style: Warning
+
+    execution: 
+      sequence: 10
+      event: OBSOLETO # 9089454441979478
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
+- # ====== Dynamic Action: TOGGLE_SITIO ========================
+  id: 8741359019907323
+  identification: 
+    name: TOGGLE_SITIO
+
+  execution: 
+    sequence: 70
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P471_TIPO_ENTIDAD
+
+  client-side-condition: 
+    type: Item is in list
+    item: P471_TIPO_ENTIDAD
+    list: 
+    - 6
+    - 7
+
+  actions: 
+  - # ====== Action: Show ========================================
+    id: 8741281254907322
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P471_SITIO
+
+    execution: 
+      sequence: 10
+      event: TOGGLE_SITIO # 8741359019907323
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: Hide ========================================
+    id: 8741137627907321
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P471_SITIO
+
+    execution: 
+      sequence: 10
+      event: TOGGLE_SITIO # 8741359019907323
+      fire-when-event-result-is: False
+      fire-on-initialization: true
+
+- # ====== Dynamic Action: TOGGLE_ENTIDAD ======================
+  id: 8741064708907320
+  identification: 
+    name: TOGGLE_ENTIDAD
+
+  execution: 
+    sequence: 80
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Change
+    selection-type: Item(s)
+    item(s): 
+    - P471_TIPO_ENTIDAD
+
+  client-side-condition: 
+    type: Item is in list
+    item: P471_TIPO_ENTIDAD
+    list: 
+    - 1
+    - 2
+    - 3
+    - 4
+    - 5
+
+  actions: 
+  - # ====== Action: Show ========================================
+    id: 8740965335907319
+    identification: 
+      action: Show
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P471_F_PK_ID
+
+    execution: 
+      sequence: 10
+      event: TOGGLE_ENTIDAD # 8741064708907320
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+
+  - # ====== Action: Hide ========================================
+    id: 8740846106907318
+    identification: 
+      action: Hide
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P471_F_PK_ID
+
+    execution: 
+      sequence: 10
+      event: TOGGLE_ENTIDAD # 8741064708907320
+      fire-when-event-result-is: False
+      fire-on-initialization: true
+
