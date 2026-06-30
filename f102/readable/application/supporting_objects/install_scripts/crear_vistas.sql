@@ -1,3 +1,4 @@
+
   CREATE OR REPLACE FORCE EDITIONABLE VIEW "V_AUDIT_CONSOLIDADO" ("AUDIT_ID", "USUARIO", "USUARIO_BD", "TIPO_OPERACION", "FECHA_HORA", "FECHA", "HORA", "APP_ID", "PAGE_ID", "IP_ADDRESS", "TABLA", "CAMPOS_MODIFICADOS", "CAMPOS_LISTA", "DETALLE_OLD_VALUE", "DETALLE_NEW_VALUE", "MODULO", "TIPO_CAMBIO", "NIVEL_CRITICIDAD", "TURNO", "PERIODO", "INDICADOR_VISUAL", "FECHA_HORA_FILTRO") AS 
   SELECT  
     -- Información base de AUDIT_MASTER 
@@ -161,7 +162,8 @@ ORDER BY am.TIMESTAMP DESC;
     END as NIVEL_RIESGO,  
       
     -- Estado de cumplimiento  
-    CASE          WHEN SUM(CASE WHEN ACCION = 'DELETE' THEN 1 ELSE 0 END) > 0   
+    CASE   
+        WHEN SUM(CASE WHEN ACCION = 'DELETE' THEN 1 ELSE 0 END) > 0   
              AND TABLA IN ('SGT_SITIOS', 'SGT_EQUIPOS', 'SGT_SERVICIOS', 'SGT_ENLACES_FO', 'SGT_ENLACES_LOGICOS', 'SGT_INTERFACES', 'SGT_ENLACES_TRAMOS')  
              AND SUM(CASE WHEN TO_NUMBER(TO_CHAR(FECHA_HORA, 'HH24')) BETWEEN 0 AND 7 THEN 1 ELSE 0 END) > 0  
         THEN 'VIOLACION_POLITICA'  
@@ -853,16 +855,29 @@ left join sgt_enlaces_fo fo on fo.id = es.fo_id
 
 union 
 
-select ss.id, ss.nombre Servicio, ss.nivel_de_prioridad , s.siglas, wan.nombre , equipos.nombre equipo, iface.nombre Interface, fo.nombre as fo, es.seq, ew.seq 
+select ss.id, ss.nombre Servicio, ss.nivel_de_prioridad , s.siglas, wan.nombre ,
+ equipos.nombre equipo, iface.nombre Interface, fo.nombre as fo, es.seq, 
+--2026-06-04: DMF: Agregada condicion para ordenar correctamente la secuencia 
+
+CASE WHEN ew.parent_wan_id IS NULL THEN ew.seq 
+ELSE ew.seq + parent_wan.seq/10
+END AS
+wan_seq
+  
 
 from
 
 sgt_equipos_wan ew
+--2026-06-04: Se Agregar consulta para ver los enlaces wan anidados.
+left join sgt_equipos_wan parent_wan on ew.parent_wan_id = parent_wan.wan_id
 
+--2026-05-29: Se hace un join para mostrar todos los enlaces independiente que tengan servicio o no
 join sgt_enlaces_wan wan on wan.id = ew.wan_id
 left join sgt_equipos_servicio es on es.wan_id = ew.wan_id
-join sgt_equipos equipos on equipos.id = ew.equipo_a_id
-left join sgt_interfaces iface on iface.id = ew.interfaz_a_id
+--2026-06-04: Se modifica la condicion del join
+join sgt_equipos equipos on equipos.id = COALESCE(ew.equipo_a_id, parent_wan.equipo_a_id)
+left join sgt_interfaces iface on iface.id = COALESCE(ew.interfaz_a_id, parent_wan.interfaz_a_id)
+--Fin de las modificaciones.
 left join sgt_sitios s on s.id = equipos.sitio_id
 left join sgt_servicios ss on ss.id = es.servicio_id
 left join sgt_enlaces_fo fo on fo.id = ew.fo_id
@@ -933,4 +948,4 @@ FROM
   INNER JOIN SGT_RACKS ra on sa.id = ra.sala_id
   INNER JOIN SGT_EQUIPOS e on ra.id = e.rack_id
   inner join sgt_tipo_equipos te on te.id = e.tipo_equipo_id
-  WHERE z.parent_id is not null; 
+  WHERE z.parent_id is not null;

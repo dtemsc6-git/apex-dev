@@ -94,12 +94,12 @@ regions:
       select fo.ID,
              
              '<ul>' ||
-              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:27:&APP_SESSION.::::P27_ID:'|| fo.ID )||'>Editar</a></li>' || 
-              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:15:&APP_SESSION.:::15:P15_ENTIDAD,P15_PK_ID:5,' || fo.ID )||'>KMZ</a></li>' || 
-              --'<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:465:&APP_SESSION.::::P465_EQUIPO_ID:'|| fo.ID )||'>Dependencias</a></li>' || 
-              --'<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| fo.ID )||'>Incidencias</a></li>' || 
-              --'<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| fo.ID )||'>Auditoria</a></li>' || 
-              
+              '<li><a href='||APEX_PAGE.GET_URL(p_page => 27, p_items => 'P27_ID', p_values => fo.ID )||'>Editar</a></li>' || 
+              '<li><a href='||APEX_PAGE.GET_URL(p_page => 15, p_items => 'P15_ENTIDAD,P15_PK_ID', p_values =>  '5,' || fo.ID )||'>KMZ</a></li>' || 
+              '<li><a href='||APEX_PAGE.GET_URL(p_page => 64, p_items => 'P64_ID', p_values =>  fo.ID )||'>Dependencias</a></li>' || 
+              --'<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:27:&APP_SESSION.::::P27_ID:'|| fo.ID )||'>Editar</a></li>' || 
+              --'<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:15:&APP_SESSION.:::15:P15_ENTIDAD,P15_PK_ID:5,' || fo.ID )||'>KMZ</a></li>' || 
+            
               '</ul>'
       
              as ACCIONES,
@@ -123,6 +123,7 @@ regions:
              fo.CONECTOR,
              fo.ESTADO,
              NVL(C.COMENTARIO, 'Ver') as COMENTARIOS,
+             --fo.COMENTARIOS AS OBSERVACIONES,
              fo."PROYECTO_DE_IMPLEMENTACIÓN",
              fo."FECHA_IMPLEMENTACIÓN",
              fo.UNIDAD_ENCARGADA_ACTUAL,
@@ -256,7 +257,7 @@ regions:
 
       heading: 
         heading: Acciones
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
@@ -427,10 +428,10 @@ regions:
 
       link: 
         target: 
-          url: 'f?p=&APP_ID.:29:&SESSION.::&DEBUG.::P29_EQUIPO:#EQUIPO_ID_A#'
-          page: 29 # equipos_interface_dl
+          url: 'f?p=&APP_ID.:465:&SESSION.::&DEBUG.::P465_EQUIPO_ID:#EQUIPO_ID_A#'
+          page: 465 # Dependencias equipos
           values: 
-            p29_equipo: '#EQUIPO_ID_A#'
+            p465_equipo_id: '#EQUIPO_ID_A#'
 
         link-text: '#EQUIPO_A#'
 
@@ -518,10 +519,10 @@ regions:
 
       link: 
         target: 
-          url: 'f?p=&APP_ID.:29:&SESSION.::&DEBUG.::P29_EQUIPO:#EQUIPO_ID_B#'
-          page: 29 # equipos_interface_dl
+          url: 'f?p=&APP_ID.:465:&SESSION.::&DEBUG.::P465_EQUIPO_ID:#EQUIPO_ID_B#'
+          page: 465 # Dependencias equipos
           values: 
-            p29_equipo: '#EQUIPO_ID_B#'
+            p465_equipo_id: '#EQUIPO_ID_B#'
 
         link-text: '#EQUIPO_B#'
 
@@ -653,45 +654,19 @@ regions:
       id: 87993675854786945824
       identification: 
         column-name: EQUIPO_ID_A
-        type: Plain Text (based on List of Values)
-
-      list-of-values: 
-        list-of-values: EQUIPOS.NOMBRE # 16838483136411509974
+        type: Hidden
 
       heading: 
         heading: Equipo A
-        alignment: center
-
-      single-row-view: 
-        use-column-heading: true
 
       layout: 
         sequence: 60
-        column-alignment: center
-
-      accessibility: 
-        value-identifies-row: false
 
       source: 
         primary-key: false
 
-      column-filter: 
-        type: Use Named List of Values to Filter Exact Match
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      configuration: 
-        build-option: Commented Out # 197180071872965446203
+      security: 
+        escape-special-characters: true
 
     - # ====== Column: SITIO_ID_B ==================================
       id: 87993675999009945825
@@ -741,45 +716,19 @@ regions:
       id: 87993676079097945826
       identification: 
         column-name: EQUIPO_ID_B
-        type: Plain Text
+        type: Hidden
 
       heading: 
         heading: Equipo B
-        alignment: center
-
-      single-row-view: 
-        use-column-heading: true
 
       layout: 
         sequence: 100
-        column-alignment: center
-
-      accessibility: 
-        value-identifies-row: false
 
       source: 
         primary-key: false
 
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
       security: 
         escape-special-characters: true
-
-      configuration: 
-        build-option: Commented Out # 197180071872965446203
 
     - # ====== Column: CERTIFICACIÓN ===============================
       id: 87993676160269945827
@@ -1163,7 +1112,7 @@ regions:
         type: Link
 
       heading: 
-        heading: Observaciones
+        heading: Comentarios
         alignment: center
 
       single-row-view: 
@@ -1630,7 +1579,7 @@ buttons:
     label: '&APP_TEXT$BTN_GRILLA_EDITABLE!RAW.'
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: SGT_ENLACES_FO_2 # 43997219426089517996
     slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false
@@ -1653,6 +1602,38 @@ buttons:
 
     warn-on-unsaved-changes: Do Not Check
 
+- # ====== Button: BTN_MAPA_FO =================================
+  id: 13430497854982044
+  identification: 
+    button-name: BTN_MAPA_FO
+    label: Mapa enlaces FO
+
+  layout: 
+    sequence: 10
+    region: SGT_ENLACES_FO_2 # 43997219426089517996
+    slot: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-map-marker
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:65:&SESSION.::&DEBUG.:::'
+      page: 65 # Mapa Tendido Fibra
+
+    warn-on-unsaved-changes: Do Not Check
+
 - # ====== Button: CREATE ======================================
   id: 51494080773735384815
   identification: 
@@ -1660,7 +1641,7 @@ buttons:
     label: '&APP_TEXT$BTN_CREAR!RAW.'
 
   layout: 
-    sequence: 20
+    sequence: 30
     region: SGT_ENLACES_FO_2 # 43997219426089517996
     slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false

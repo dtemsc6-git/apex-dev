@@ -174,7 +174,7 @@ regions:
 
     heading: 
       heading: Servicio
-      alignment: start
+      alignment: center
 
     settings: 
       display-as: Inline Popup
@@ -299,7 +299,7 @@ regions:
 
     heading: 
       heading: Sitio
-      alignment: start
+      alignment: center
 
     settings: 
       display-as: Inline Popup
@@ -331,16 +331,14 @@ regions:
       list-of-values: SGT_SITIOS.SIGLAS # 202814172118838557260
       display-extra-values: true
       display-null-value: true
+      null-display-value: Seleccione Una
 
     source: 
       type: Database Column
       database-column: SITIO_ID
       data-type: NUMBER
-      query-only: false
+      query-only: true
       primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
 
     column-filter: 
       enabled: true
@@ -369,7 +367,7 @@ regions:
 
     heading: 
       heading: Wan
-      alignment: start
+      alignment: center
 
     settings: 
       display-as: Inline Popup
@@ -445,7 +443,7 @@ regions:
 
     heading: 
       heading: FO
-      alignment: start
+      alignment: center
 
     settings: 
       display-as: Inline Popup
@@ -519,7 +517,7 @@ regions:
 
     heading: 
       heading: Seq
-      alignment: end
+      alignment: center
 
     settings: 
       number-alignment: Start
@@ -566,7 +564,7 @@ regions:
 
     heading: 
       heading: Equipo
-      alignment: start
+      alignment: center
 
     settings: 
       display-as: Inline Popup
@@ -631,7 +629,7 @@ regions:
 
     heading: 
       heading: Interfaz
-      alignment: start
+      alignment: center
 
     settings: 
       display-as: Inline Popup

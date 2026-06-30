@@ -45,6 +45,57 @@ help:
     <p>Access to this page should be limited to Administrators only.</p>
 
 regions: 
+- # ====== Region: Activity Reports ============================
+  id: 11249415357139982
+  identification: 
+    name: Activity Reports
+    type: List
+
+  source: 
+    list: Activity Reports # 11252115388139985
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: 'Feature: Activity Reporting' # 11334614181140470
+
+  attributes: 
+    appearance: 
+      list-template: Media List
+      template-options: 
+      - '#DEFAULT#'
+      - u-colors
+
 - # ====== Region: Breadcrumb ==================================
   id: 56800692362897124528
   identification: 

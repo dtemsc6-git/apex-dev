@@ -48,47 +48,79 @@ regions:
     type: SQL Query
     sql-query: |
       select e.ID,
-             e.ID AS EQUIPO_ID,  
-             '<ul>' ||
-              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| e.ID )||'>Editar</a></li>' || 
-              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:470:&APP_SESSION.::::P470_ENTIDAD,P470_PK_ID:4,' || e.ID )||'>Imágenes</a></li>' || 
-              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:465:&APP_SESSION.::::P465_EQUIPO_ID:'|| e.ID )||'>Dependencias</a></li>' || 
-              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:7:&APP_SESSION.::::P7_ID:'|| e.ID )||'>Historial Audit.</a></li>' || 
-             -- '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| e.ID )||'>Auditoria</a></li>' ||   
+      
+             --2026-06-11: dmf: agregar campos faltantes para el IR
+             /*
+             --E.SITIO_ID,
+             z.id ZONA_ID, 
+             s.id SITIO_ID, 
+             s.nombre SITIO, 
+             s.siglas SITIOS_SIGLAS,
+             sa.id SALA_ID, 
+             sa.nombre SALA, 
+             sa.siglas SALA_SIGLAS,
+             ra.nombre RACK,
+             E.OBSERVACIONES,
+              --'<li><a class="btn-acciones" href="#" data-items="P470_ENTIDAD,P470_PK_ID" data-values="4,' || e.ID ||'">Imágenes</a></li>' || 
+              --'<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:465:&APP_SESSION.::::P465_EQUIPO_ID:'|| e.ID )||'>Dependencias</a></li>' || 
+              --'<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:7:&APP_SESSION.::::P7_ID:'|| e.ID )||'>Historial Audit.</a></li>' || 
+              -- '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| e.ID )||'>Auditoria</a></li>' ||   
+      
+             */ 
+      
+             z.nombre ZONA, 
+             DEPTO.NOMBRE DEPARTAMENTO,
+             ciudad.nombre CIUDAD,
+      
+             '<ul class="ul-acciones">' ||
+              '<li><a href='||APEX_PAGE.GET_URL( p_page => 66, p_items => 'P66_ID', p_values => e.ID )||'>Editar</a></li>' || 
+              '<li><a href='||APEX_PAGE.GET_URL(p_page => 470, p_items => 'P470_ENTIDAD,P470_PK_ID', p_values => '4,' || e.ID ) ||'>Imágenes</a></li>' || 
+              '<li><a href='||APEX_PAGE.GET_URL(p_page => 465, p_items => 'P465_EQUIPO_ID' ,p_values => e.ID )||'>Dependencias</a></li>' || 
+              '<li><a href='||APEX_PAGE.GET_URL(p_page => 7, p_items => 'P7_ID' ,p_values => e.ID )||'>Historial Audit.</a></li>' || 
              '</ul>'
              as ACCIONES,
-             UNIDAD_ENCARGADA,
-             RACK_ID,
-             U,
-             TIPO_RED,
-             e.NOMBRE,
-             e.ID as FULL_NAME,
-             TIPO_EQUIPO_ID,
+             E.UNIDAD_ENCARGADA,
+             E.RACK_ID RACK_NOMBRE,
+             E.RACK_ID,
+             E.U,
+             E.TIPO_RED,
+             E.NOMBRE,
+             E.ID as FULL_NAME,
+             E.TIPO_EQUIPO_ID,
              te.grupo_equipo as SUB_TIPO, 
-             
-             MARCA,
-             MODELO,
-             ESTADO,
-             OBSERVACIONES,
-             NI_ANDE,
-             SERIAL_NUMBER,
-             VERSION_HARDWARE,
-             VERSION_SOFTWARE,
-             VERSION_PATCH,
-             IP_GESTION,
-             ALIMENTACION1_ID,
-             ALIMENTACION2_ID,
-             PROYECTO_ID,
-             FECHA_IMPLE,
-             ALTURA_U,
-             POSICION,
-             SITIO_ID,
+             E.MARCA,
+             E.MODELO,
+             E.ESTADO,
+             E.NI_ANDE,
+             E.SERIAL_NUMBER,
+             E.VERSION_HARDWARE,
+             E.VERSION_SOFTWARE,
+             E.VERSION_PATCH,
+             E.IP_GESTION,
+             E.ALIMENTACION1_ID,
+             E.ALIMENTACION2_ID,
+             E.PROYECTO_ID,
+             E.FECHA_IMPLE,
+             E.ALTURA_U,
+             E.POSICION,
              nvl(C.COMENTARIO,'Ver') AS COMENTARIOS,
-             e.CREADO_POR,
-             e.CREADO_EL,
-             e.ACTUALIZADO_POR,
-             e.ACTUALIZADO_EL
+             E.CREADO_POR,
+             E.CREADO_EL,
+             E.ACTUALIZADO_POR,
+             E.ACTUALIZADO_EL
         from SGT_EQUIPOS e
+        
+        left JOIN sgt_racks  ra     on ra.id = e.rack_id
+        left JOIN SGT_SALAS  sa     on sa.id = ra.sala_id
+        left join sgt_sitios s      on s.id = sa.sitio_id
+        left join sgt_zonas  z      on z.id = s.zona_id
+      
+        left join sgt_ciudad ciudad on ciudad.id = s.ciudad_id
+        left join SGT_DEPTO  depto  on depto.id = ciudad.depto_id  
+        
+        JOIN SGT_TIPO_EQUIPOS te on te.id = e.tipo_equipo_id
+      
+      
       --Agregar comentarios
       LEFT JOIN (
           SELECT PK_ID, 
@@ -97,10 +129,16 @@ regions:
           FROM SGT_COMENTARIOS
           WHERE ENTIDAD = 4
       ) C ON C.PK_ID = E.ID AND C.rn = 1
-      --
       
-        inner join sgt_tipo_equipos te on te.id = e.tipo_equipo_id 
-        order by e.actualizado_el DESC
+      /*OUTER APPLY (
+          SELECT COMENTARIO
+          FROM SGT_COMENTARIOS C
+          WHERE C.ENTIDAD = 4
+            AND C.PK_ID = E.ID
+          ORDER BY C.CREADO_EL DESC
+          FETCH FIRST 1 ROW ONLY
+      ) C*/  
+       -- order by e.actualizado_el DESC
 
   layout: 
     sequence: 10
@@ -138,7 +176,14 @@ regions:
   attributes: 
     id: 87976622166233604112
     link: 
-      link-column: Exclude Link Column
+      link-column: Link to Custom Target
+      target: 
+        url: 'f?p=&APP_ID.:66:&SESSION.::&DEBUG.::P66_ID:#ID#'
+        page: 66 # Detalles Equipos
+        values: 
+          p66_id: '#ID#'
+
+      link-icon: <span role="img" aria-label="Edit" class="fa fa-edit" title="Edit"></span>
 
     pagination: 
       type: Row Ranges X to Y of Z
@@ -146,6 +191,7 @@ regions:
 
     performance: 
       lazy-loading: false
+      maximum-rows-to-process: 1000000
 
     search-bar: 
       include-search-bar: true
@@ -187,12 +233,7 @@ regions:
       fixed-to: Page
 
     icon-view: 
-      show: true
-      custom: false
-      columns-per-row: 6
-      link-column: ID
-      image-source-column: EQUIPO_ID
-      label-column: NOMBRE
+      show: false
 
     detail-view: 
       show: false
@@ -205,22 +246,22 @@ regions:
         alias: 879894393
 
     columns: 
-    - # ====== Column: SUB_TIPO ====================================
-      id: 10514487125507995
+    - # ====== Column: ZONA ========================================
+      id: 10838933915359752
       identification: 
-        column-name: SUB_TIPO
+        column-name: ZONA
         type: Plain Text
 
       heading: 
-        heading: Sub Tipo
-        alignment: start
+        heading: Zona
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
-        sequence: 320
-        column-alignment: start
+        sequence: 350
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -246,20 +287,177 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: EQUIPO_ID ===================================
-      id: 9348360967692597
+    - # ====== Column: DEPARTAMENTO ================================
+      id: 10838224066359745
       identification: 
-        column-name: EQUIPO_ID
-        type: Hidden
+        column-name: DEPARTAMENTO
+        type: Plain Text
 
       heading: 
-        heading: Equipo Id
+        heading: Departamento
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
 
       layout: 
-        sequence: 20
+        sequence: 420
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
 
       source: 
         primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: CIUDAD ======================================
+      id: 10838079365359744
+      identification: 
+        column-name: CIUDAD
+        type: Plain Text
+
+      heading: 
+        heading: Ciudad
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 430
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+      security: 
+        escape-special-characters: true
+
+    - # ====== Column: RACK_NOMBRE =================================
+      id: 10838039226359743
+      identification: 
+        column-name: RACK_NOMBRE
+        type: Plain Text (based on List of Values)
+
+      list-of-values: 
+        list-of-values: RACKS.NOMBRE-COMPUESTO # 48295171823567292693
+
+      heading: 
+        heading: Rack
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 440
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      link: 
+        target: 
+          url: 'f?p=&APP_ID.:37:&SESSION.::&DEBUG.:37:P37_RACK_ID,P37_RACK_NOMBRE:#RACK_ID#,#RACK_NOMBRE#'
+          page: 37 # SGT_UBICAR_EQUIPO_RACK
+          clear-cache: 37
+          values: 
+            p37_rack_id: '#RACK_ID#'
+            p37_rack_nombre: '#RACK_NOMBRE#'
+
+        link-text: '#RACK_NOMBRE#'
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Use Named List of Values to Filter Exact Match
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
+
+    - # ====== Column: SUB_TIPO ====================================
+      id: 10514487125507995
+      identification: 
+        column-name: SUB_TIPO
+        type: Plain Text
+
+      heading: 
+        heading: Sub Tipo
+        alignment: center
+
+      single-row-view: 
+        use-column-heading: true
+
+      layout: 
+        sequence: 320
+        column-alignment: center
+
+      accessibility: 
+        value-identifies-row: false
+
+      source: 
+        primary-key: false
+
+      column-filter: 
+        type: Default Based on Column Type
+
+      enable-users-to: 
+        hide: true
+        sort: true
+        filter: true
+        highlight: true
+        control-break: true
+        aggregate: true
+        compute: true
+        chart: true
+        group-by: true
+        pivot: true
 
       security: 
         escape-special-characters: true
@@ -272,14 +470,14 @@ regions:
 
       heading: 
         heading: Comentarios
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 330
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -397,6 +595,9 @@ regions:
       security: 
         escape-special-characters: false
 
+      configuration: 
+        build-option: Commented Out # 197180071872965446203
+
     - # ====== Column: ID ==========================================
       id: 87976622230756604113
       identification: 
@@ -460,42 +661,19 @@ regions:
       id: 87976622415369604115
       identification: 
         column-name: RACK_ID
-        type: Plain Text (based on List of Values)
-
-      list-of-values: 
-        list-of-values: RACKS.NOMBRES # 18965791847251143770
+        type: Hidden
 
       heading: 
         heading: Rack
-        alignment: center
-
-      single-row-view: 
-        use-column-heading: true
 
       layout: 
         sequence: 40
-        column-alignment: center
-
-      accessibility: 
-        value-identifies-row: false
 
       source: 
         primary-key: false
 
-      column-filter: 
-        type: Use Named List of Values to Filter Exact Match
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
+      security: 
+        escape-special-characters: true
 
     - # ====== Column: U ===========================================
       id: 87976622528987604116
@@ -758,47 +936,6 @@ regions:
 
       layout: 
         sequence: 110
-        column-alignment: center
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
-    - # ====== Column: OBSERVACIONES ===============================
-      id: 87976623340414604124
-      identification: 
-        column-name: OBSERVACIONES
-        type: Plain Text
-
-      heading: 
-        heading: Observaciones
-        alignment: center
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 120
         column-alignment: center
 
       accessibility: 
@@ -1318,47 +1455,6 @@ regions:
       security: 
         escape-special-characters: true
 
-    - # ====== Column: SITIO_ID ====================================
-      id: 87976624620487604137
-      identification: 
-        column-name: SITIO_ID
-        type: Plain Text
-
-      heading: 
-        heading: Sitio
-        alignment: center
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 250
-        column-alignment: center
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
-
     - # ====== Column: CREADO_POR ==================================
       id: 87976624733825604138
       identification: 
@@ -1746,6 +1842,118 @@ buttons:
     authorization-scheme: Implementador Rights # 56843702980053272617
 
 dynamic-actions: 
+- # ====== Dynamic Action: CLICK_ACCIONES ======================
+  id: 11741791036785349
+  identification: 
+    name: CLICK_ACCIONES
+
+  execution: 
+    sequence: 20
+    event-scope: Dynamic
+    static-container-(jquery-selector): .a-IRR-table
+    type: Immediate
+
+  when: 
+    event: Click
+    selection-type: jQuery Selector
+    jquery-selector: .btn-acciones
+
+  actions: 
+  - # ====== Action: GET_URL =====================================
+    id: 11741931454785350
+    identification: 
+      name: GET_URL
+      action: Execute Server-side Code
+
+    settings: 
+      language: PE.PROPERTY.SOURCE_SNIPPET_LANG.LOV.PLSQL.D
+      pl/sql-code: |
+        DECLARE
+        
+        R_URL varchar2(4000);
+        BEGIN
+        
+        SELECT APEX_PAGE.GET_URL (
+                    p_page   => 1,
+                    p_items  => :P13_ITEMS,
+                    p_values => :P13_VALUES ) into R_URL         
+             FROM DUAL;
+            
+         :P13_RESULT := R_URL;
+        
+        
+        END;
+
+    execution: 
+      sequence: 40
+      event: CLICK_ACCIONES # 11741791036785349
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: SET_ITEMS ===================================
+    id: 11742004531785351
+    identification: 
+      name: SET_ITEMS
+      action: Set Value
+
+    settings: 
+      set-type: JavaScript Expression
+      javascript-expression: this.triggeringElement.dataset.items
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P13_ITEMS
+
+    execution: 
+      sequence: 20
+      event: CLICK_ACCIONES # 11741791036785349
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: SET_VALUES ==================================
+    id: 11742390485785355
+    identification: 
+      name: SET_VALUES
+      action: Set Value
+
+    settings: 
+      set-type: JavaScript Expression
+      javascript-expression: this.triggeringElement.dataset.values
+      suppress-change-event: false
+
+    affected-elements: 
+      selection-type: Item(s)
+      item(s): 
+      - P13_VALUES
+
+    execution: 
+      sequence: 30
+      event: CLICK_ACCIONES # 11741791036785349
+      fire-when-event-result-is: True
+      fire-on-initialization: true
+      stop-execution-on-error: true
+      wait-for-result: true
+
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 11742456411785356
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: console.log(this.triggeringElement.dataset)
+
+    execution: 
+      sequence: 10
+      event: CLICK_ACCIONES # 11741791036785349
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 - # ====== Dynamic Action: Edit Report - Dialog Closed =========
   id: 200805780281165280030
   identification: 
@@ -1779,4 +1987,35 @@ dynamic-actions:
       event: Edit Report - Dialog Closed # 200805780281165280030
       fire-when-event-result-is: True
       fire-on-initialization: false
+
+processes: 
+- # ====== Process: New ========================================
+  id: 11742610200785357
+  identification: 
+    name: New
+    type: Execute Code
+    execution-chain: None
+
+  source: 
+    location: Local Database
+    language: PL/SQL
+    pl/sql-code: |
+      DECLARE
+      
+      R_URL varchar2(4000);
+      BEGIN
+      
+      SELECT APEX_PAGE.GET_URL (
+                  p_page   => 1,
+                  p_items  => :P13_ITEMS,
+                  p_values => :P13_VALUES ) into R_URL         
+           FROM DUAL;
+          
+      
+      END;
+
+  execution: 
+    sequence: 10
+    point: Ajax Callback
+    run-process: Once Per Page Visit (default)
 

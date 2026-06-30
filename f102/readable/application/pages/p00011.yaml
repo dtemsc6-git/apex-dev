@@ -195,14 +195,14 @@ regions:
 
       heading: 
         heading: Altura U
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 100
-        column-alignment: end
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -236,14 +236,14 @@ regions:
 
       heading: 
         heading: Comentarios
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 110
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false

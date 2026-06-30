@@ -304,6 +304,55 @@ regions:
       store-value-encrypted-in-session-state: true
       escape-special-characters: true
 
+  - # ====== Facet: P47_SIGLAS ===================================
+    id: 13430125555982040
+    identification: 
+      name: P47_SIGLAS
+      type: Checkbox Group
+
+    label: 
+      label: Siglas Sitio
+      show-label-for-current-facet: true
+
+    layout: 
+      sequence: 80
+
+    appearance: 
+      display: Inline
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      maximum-displayed-entries: 7
+      display-filter-initially: false
+
+    actions-menu: 
+      filter: true
+      chart: true
+
+    advanced: 
+      show-chart-initially: false
+      collapsible: false
+
+    source: 
+      database-column: SIGLAS
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
   filters: 
   - # ====== Filter: P47_SEARCH ==================================
     id: 523302737364926
@@ -483,6 +532,45 @@ regions:
       store-value-encrypted-in-session-state: true
       escape-special-characters: true
 
+  - # ====== Filter: P47_SIGLAS ==================================
+    id: 13430125555982040
+    identification: 
+      name: P47_SIGLAS
+      type: Checkbox Group
+
+    label: 
+      label: Siglas Sitio
+
+    layout: 
+      sequence: 80
+
+    list-of-values: 
+      type: Distinct Values
+      sort-direction: Ascending
+      include-null-option: false
+
+    list-entries: 
+      compute-counts: true
+      show-counts: true
+      zero-count-entries: Hide
+      sort-by-top-counts: true
+      show-selected-first: false
+      client-side-filtering: false
+
+    suggestions: 
+      type: None
+
+    source: 
+      database-column: SIGLAS
+      data-type: VARCHAR2
+
+    multiple-values: 
+      type: No
+
+    security: 
+      store-value-encrypted-in-session-state: true
+      escape-special-characters: true
+
 - # ====== Region: MAPA_SITIOS =================================
   id: 2245319778776955
   identification: 
@@ -593,10 +681,10 @@ regions:
       link: 
         type: Redirect to Page in this Application
         target: 
-          url: 'f?p=&APP_ID.:26:&SESSION.::&DEBUG.::P26_ID:&ID.'
-          page: 26 # SGT_FORM_SITIOS
+          url: 'f?p=&APP_ID.:9:&SESSION.::&DEBUG.::P9_ID:&ID.'
+          page: 9 # Dependencias Sitio
           values: 
-            p26_id: '&ID.'
+            p9_id: '&ID.'
 
       legend: 
         show: true
@@ -874,7 +962,7 @@ buttons:
   id: 9203248261677992
   identification: 
     button-name: MAPA_ENLACES_FO
-    label: Mapa Enlaces Fo
+    label: Ir a Mapa Enlaces Fo
 
   layout: 
     sequence: 10
@@ -907,7 +995,7 @@ buttons:
   id: 9203090590677990
   identification: 
     button-name: Mapa_enlaces_wan
-    label: Mapa Enlaces Wan
+    label: Ir a Mapa Enlaces Wan
 
   layout: 
     sequence: 20

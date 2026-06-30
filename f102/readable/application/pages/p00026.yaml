@@ -460,6 +460,9 @@ page-items:
   help: 
     inline-help-text: Indicar si posee alguna observación acerca del sitio
 
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
 - # ====== Page Item: P26_UBICACIÓN ============================
   id: 117115198596718411781
   identification: 
@@ -693,6 +696,7 @@ page-items:
     list-of-values: CIUDAD.NOMBRE-COMPUESTO # 2341386040577256
     display-extra-values: true
     display-null-value: true
+    null-display-value: Seleccione Una
 
   cascading-list-of-values: 
     parent-item(s): 
@@ -767,6 +771,7 @@ page-items:
     list-of-values: LOV_SGT_ZONAS # 16829957726745633025
     display-extra-values: true
     display-null-value: true
+    null-display-value: Seleccione Una
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -834,6 +839,7 @@ page-items:
     list-of-values: SITIOS.PROPIETARIOS # 3735573462899488
     display-extra-values: true
     display-null-value: true
+    null-display-value: Seleccione Una
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -901,6 +907,7 @@ page-items:
     list-of-values: TIPO_SITIO # 200544013714325726183
     display-extra-values: true
     display-null-value: true
+    null-display-value: Seleccione Una
 
   advanced: 
     warn-on-unsaved-changes: Page Default

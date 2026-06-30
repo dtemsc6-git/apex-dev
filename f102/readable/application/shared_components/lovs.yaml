@@ -1,4 +1,104 @@
 ---
+- # ====== List of Values: ENLACES_WAN.FILTRADO_SITIOS =========
+  id: 11670601012082642
+  identification: 
+    name: ENLACES_WAN.FILTRADO_SITIOS
+
+  subscription: 
+    version-number: 39029233310245
+
+  source: 
+    location: Local Database
+    type: Function Body returning SQL Query
+    language: PL/SQL
+    pl/sql-function-body-returning-sql-query: |
+      RETURN 'SELECT distinct w.nombre, W.id
+      FROM sgt_enlaces_wan w
+      JOIN sgt_equipos_wan ew   ON w.id = ew.wan_id
+      JOIN v_sitios_equipos vse ON vse.equipo_id = ew.equipo_a_id
+      WHERE (:SITIO_ID IS NULL OR vse.sitio_id = :SITIO_ID)
+      ORDER BY W.NOMBRE
+      '
+
+  column-mapping: 
+    return: ID
+    display: NOMBRE
+    default-sort: NOMBRE
+    sort-direction: Ascending (Nulls Last)
+
+- # ====== List of Values: TIMEFRAME (4 WEEKS) =================
+  id: 11317386151140064
+  identification: 
+    name: TIMEFRAME (4 WEEKS)
+
+  subscription: 
+    version-number: 39030056992173
+
+  source: 
+    location: Local Database
+    type: SQL Query
+    sql-query: |
+      select disp,
+             val as seconds
+        from table( apex_util.get_timeframe_lov_data )
+       order by insert_order
+
+  column-mapping: 
+    return: SECONDS
+    display: DISP
+    default-sort: Use Order By from Query
+
+- # ====== List of Values: VIEW_AS_REPORT_CHART ================
+  id: 11269664179140006
+  identification: 
+    name: VIEW_AS_REPORT_CHART
+
+  subscription: 
+    version-number: 39030056992315
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: Add Report Page ==============================
+    id: 11269374498140006
+    entry: 
+      sequence: 1
+      display: Add Report Page
+      return: REPORT
+
+    globalization: 
+      template: <span class="fa fa-table" aria-hidden="true"></span><span class="u-VisuallyHidden">#DISPLAY_VALUE#</span>
+
+  - # ====== Entry: Add Chart Page ===============================
+    id: 11269021944140005
+    entry: 
+      sequence: 2
+      display: Add Chart Page
+      return: CHART
+
+    globalization: 
+      template: <span class="fa fa-pie-chart" aria-hidden="true"></span><span class="u-VisuallyHidden">#DISPLAY_VALUE#</span>
+
+- # ====== List of Values: ACCIONES EQUIPOS ====================
+  id: 11213342669129519
+  identification: 
+    name: ACCIONES EQUIPOS
+
+  subscription: 
+    version-number: 39030090160997
+
+  source: 
+    location: Static Values
+
+  entries: 
+  - # ====== Entry: HOLA =========================================
+    id: 11213096929129519
+    entry: 
+      sequence: 1
+      display: HOLA
+      return: HOLA
+
 - # ====== List of Values: ENLACES_WAN.FILTRADO_EN_USO =========
   id: 11153295181398791
   identification: 
@@ -334,13 +434,14 @@
     name: LOV_SGT_ZONAS
 
   subscription: 
-    version-number: 15599647248550
+    version-number: 39029068346104
 
   source: 
     location: Local Database
     type: Table / View
     table-owner: Parsing Schema
     table-name: SGT_ZONAS
+    where-clause: parent_id is not null
 
   column-mapping: 
     return: ID

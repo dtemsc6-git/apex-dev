@@ -226,55 +226,6 @@ regions:
       control-break/aggregate: true
       hide: true
 
-  - # ====== Column: GRUPO_RED ===================================
-    id: 11740276604785334
-    identification: 
-      column-name: GRUPO_RED
-      type: Display Only
-
-    heading: 
-      heading: Grupo Red
-      alignment: start
-
-    settings: 
-      format: Plain Text
-      based-on: Item Value
-
-    layout: 
-      sequence: 50
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    source: 
-      type: Database Column
-      database-column: GRUPO_RED
-      data-type: VARCHAR2
-      query-only: true
-      primary-key: false
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: false
-      hide: true
-
   - # ====== Column: CREADO_POR ==================================
     id: 11740371806785335
     identification: 
@@ -290,7 +241,7 @@ regions:
       based-on: Item Value
 
     layout: 
-      sequence: 60
+      sequence: 70
       column-alignment: start
       stretch: Use Report Setting
 
@@ -341,7 +292,7 @@ regions:
       based-on: Item Value
 
     layout: 
-      sequence: 70
+      sequence: 80
       column-alignment: start
       stretch: Use Report Setting
 
@@ -386,7 +337,7 @@ regions:
       based-on: Item Value
 
     layout: 
-      sequence: 80
+      sequence: 90
       column-alignment: start
       stretch: Use Report Setting
 
@@ -437,7 +388,7 @@ regions:
       based-on: Item Value
 
     layout: 
-      sequence: 90
+      sequence: 100
       column-alignment: start
       stretch: Use Report Setting
 
@@ -492,7 +443,7 @@ regions:
       type: No
 
     layout: 
-      sequence: 100
+      sequence: 110
       column-alignment: start
       stretch: Use Report Setting
 
@@ -500,7 +451,7 @@ regions:
       value-identifies-row: false
 
     validation: 
-      value-required: false
+      value-required: true
 
     list-of-values: 
       type: Shared Component
@@ -568,6 +519,7 @@ regions:
       type: Display Only
 
     heading: 
+      heading: Comentarios
       alignment: start
 
     settings: 
@@ -575,7 +527,7 @@ regions:
       based-on: Item Value
 
     layout: 
-      sequence: 110
+      sequence: 60
       column-alignment: start
       stretch: Use Report Setting
 

@@ -92,9 +92,12 @@ regions:
     sql-query: |
       SELECT S.ID,
              '<ul>' ||
-              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:26:&APP_SESSION.::::P26_ID:'|| s.ID )||'>Editar</a></li>' || 
-              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:470:&APP_SESSION.::::P470_ENTIDAD,P470_PK_ID:1,' || s.ID )||'>Imágenes</a></li>' || 
-              '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:9:&APP_SESSION.::::P9_ID:' || s.ID )||'>Dependencias</a></li>' || 
+              
+              '<li><a href='||APEX_PAGE.GET_URL(p_page => 26, p_items => 'P26_ID', p_values => s.ID )||'>Editar</a></li>' || 
+              '<li><a href='||APEX_PAGE.GET_URL(p_page => 470, p_items => 'P470_ENTIDAD,P470_PK_ID', p_values=> '1,' || s.ID )||'>Imágenes</a></li>' || 
+              '<li><a href='||APEX_PAGE.GET_URL(p_page => 9, p_items => 'P9_ID', p_values=>  s.ID )||'>Dependencias</a></li>' || 
+              --'<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:470:&APP_SESSION.::::P470_ENTIDAD,P470_PK_ID:1,' || s.ID )||'>Imágenes</a></li>' || 
+              --'<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:9:&APP_SESSION.::::P9_ID:' || s.ID )||'>Dependencias</a></li>' || 
              -- '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:465:&APP_SESSION.::::P465_EQUIPO_ID:'|| e.ID )||'>Dependencias</a></li>' || 
              -- '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| e.ID )||'>Incidencias</a></li>' || 
              -- '<li><a href='||APEX_UTIL.PREPARE_URL('f?p=&APP_ID.:14:&APP_SESSION.::::P14_ID:'|| e.ID )||'>Auditoria</a></li>' || 
@@ -111,7 +114,7 @@ regions:
              LATITUD,
              LONGITUD,
              "UBICACIÓN",
-             OBSERVACION,
+             --OBSERVACION,
              CASE 
                  WHEN LATITUD IS NOT NULL 
                   AND LONGITUD IS NOT NULL THEN 
@@ -247,7 +250,7 @@ regions:
 
       heading: 
         heading: Longitud
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
@@ -288,7 +291,7 @@ regions:
 
       heading: 
         heading: Latitud
-        alignment: end
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
@@ -357,14 +360,14 @@ regions:
 
       heading: 
         heading: Comentarios
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 140
-        column-alignment: start
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false
@@ -408,7 +411,7 @@ regions:
 
       heading: 
         heading: Departamento
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
@@ -568,47 +571,6 @@ regions:
         chart: true
         group-by: true
         pivot: true
-
-    - # ====== Column: OBSERVACION =================================
-      id: 117115184886436411769
-      identification: 
-        column-name: OBSERVACION
-        type: Plain Text
-
-      heading: 
-        heading: Observación
-        alignment: center
-
-      single-row-view: 
-        use-column-heading: true
-
-      layout: 
-        sequence: 70
-        column-alignment: center
-
-      accessibility: 
-        value-identifies-row: false
-
-      source: 
-        primary-key: false
-
-      column-filter: 
-        type: Default Based on Column Type
-
-      enable-users-to: 
-        hide: true
-        sort: true
-        filter: true
-        highlight: true
-        control-break: true
-        aggregate: true
-        compute: true
-        chart: true
-        group-by: true
-        pivot: true
-
-      security: 
-        escape-special-characters: true
 
     - # ====== Column: UBICACIÓN ===================================
       id: 117115185285238411770
@@ -855,6 +817,38 @@ regions:
         alignment: center
 
 buttons: 
+- # ====== Button: BTN_MAPA_SITIOS =============================
+  id: 13430585970982045
+  identification: 
+    button-name: BTN_MAPA_SITIOS
+    label: Mapa Sitios
+
+  layout: 
+    sequence: 10
+    region: SGT_SITIOS # 117115189733631411774
+    slot: RIGHT_OF_IR_SEARCH_BAR
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    button-template: Text with Icon
+    hot: true
+    template-options: 
+    - '#DEFAULT#'
+    - t-Button--iconLeft
+    icon: fa-map-marker
+
+  behavior: 
+    action: Redirect to Page in this Application
+    target: 
+      url: 'f?p=&APP_ID.:47:&SESSION.::&DEBUG.:::'
+      page: 47 # MAPA_SITIOS
+
+    warn-on-unsaved-changes: Do Not Check
+
 - # ====== Button: CREATE ======================================
   id: 117115184376791411769
   identification: 
@@ -862,7 +856,7 @@ buttons:
     label: '&APP_TEXT$BTN_CREAR!RAW.'
 
   layout: 
-    sequence: 10
+    sequence: 20
     region: SGT_SITIOS # 117115189733631411774
     slot: RIGHT_OF_IR_SEARCH_BAR
     start-new-layout: false

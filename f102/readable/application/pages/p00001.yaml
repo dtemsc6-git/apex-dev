@@ -200,6 +200,7 @@ regions:
       identification: 
         name: x
         show-axis: true
+        title: Tipo de local
 
       value: 
         format-scaling: Automatic
@@ -222,6 +223,7 @@ regions:
       identification: 
         name: y
         show-axis: true
+        title: Cantidad
 
       value: 
         format: Decimal
@@ -363,6 +365,7 @@ regions:
       identification: 
         name: x
         show-axis: true
+        title: Tipo de equipo
 
       value: 
         format-scaling: Automatic
@@ -385,6 +388,7 @@ regions:
       identification: 
         name: y
         show-axis: true
+        title: Cantidad
 
       value: 
         format: Decimal
@@ -500,13 +504,14 @@ regions:
           select te.nombre nombres, count(e.tipo_equipo_id) valores from
           sgt_equipos e left join sgt_tipo_equipos te on e.tipo_equipo_id = te.id
           left join sgt_racks r on e.rack_id = r.id
+          LEFT JOIN sgt_salas sa ON r.sala_id = sa.id
           
-          where r.sala_id = :FILTRO_TE_SALA
+          where sa.sitio_id = :FILTRO_TE_SITIO
           
           group by (e.tipo_equipo_id,te.nombre)
           order by valores desc
         page-items-to-submit: 
-        - FILTRO_TE_SALA
+        - FILTRO_TE_SITIO
 
       order-by: 
         type: None
@@ -527,7 +532,7 @@ regions:
       identification: 
         name: x
         show-axis: true
-        title: Equipos por Sala
+        title: Tipo de equipo
 
       value: 
         format-scaling: Automatic
@@ -550,6 +555,7 @@ regions:
       identification: 
         name: y
         show-axis: true
+        title: Cantidad
 
       value: 
         format: Decimal
@@ -682,6 +688,9 @@ regions:
 
   customization: 
     customizable: Not Customizable By End Users
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
 
   attributes: 
     id: 45026643190979173741
@@ -966,9 +975,10 @@ regions:
     type: SQL Query
     sql-query: |
       SELECT 
+          1 as ORDEN,
           'Total Sitios' as CARD_TITLE,
           COUNT(s.id) || ' Sitios'as CARD_VALUE,
-          'locales ANDE' as CARD_SUBTITLE,
+          'Locales de ANDE' as CARD_SUBTITLE,
           'fa fa-university' as CARD_ICON,
           'is-success' as CARD_COLOR,
           APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':25:' || :APP_SESSION ) as HREF
@@ -977,9 +987,10 @@ regions:
       UNION ALL
       
       SELECT 
+          2 as ORDEN,
           'Total Salas' as CARD_TITLE,
           COUNT(ss.id) || ' Salas' as CARD_VALUE,
-          'Salas comunicación ANDE' as CARD_SUBTITLE,
+          'Salas de comunicación ANDE' as CARD_SUBTITLE,
           'fa fa-map-marker' as CARD_ICON,
           'is-success' as CARD_COLOR,
            APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':4:' || :APP_SESSION)  as HREF
@@ -987,6 +998,7 @@ regions:
       UNION ALL
       
       SELECT 
+          3 as ORDEN,
           'Total Racks' as CARD_TITLE,
           COUNT(r.id) || ' Racks' as CARD_VALUE,
           'Racks de ANDE' as CARD_SUBTITLE,
@@ -998,6 +1010,7 @@ regions:
       UNION ALL
       
       SELECT 
+          4 as ORDEN,
           'Total Equipos' as CARD_TITLE,
           COUNT(e.id) ||' Equipos' as CARD_VALUE,
           'Activos / Pasivos / Otros' as CARD_SUBTITLE,
@@ -1009,10 +1022,11 @@ regions:
       UNION ALL
       
       SELECT 
+          5 as ORDEN,
           'Total Interfaces' as CARD_TITLE,
           COUNT(i.id) ||' Interfaces' as CARD_VALUE,
           'Interfaces / Puertos' as CARD_SUBTITLE,
-          'fa fa-' as CARD_ICON,
+          'fa fa-plug' as CARD_ICON,
           'is-success' as CARD_COLOR,
           APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':8:' || :APP_SESSION)  as HREF
       FROM sgt_interfaces i
@@ -1021,6 +1035,7 @@ regions:
       
       
       SELECT 
+          6 as ORDEN,
           'Total Servicios' as CARD_TITLE,
           COUNT(srv.id) || ' Servicios' as CARD_VALUE,
           'Servicios de Comunicaciones' as CARD_SUBTITLE,
@@ -1032,7 +1047,8 @@ regions:
       union
       
       SELECT 
-          'Total Enlaces FO' as CARD_TITLE,
+          7 as ORDEN,
+          'Total Enlaces de Fibra Óptica' as CARD_TITLE,
           COUNT(fo.id) ||' Enlaces FO' as CARD_VALUE,
            
           'Enlaces FO: ' || TO_CHAR(SUM (fo.abs_longitud)/1000,
@@ -1045,6 +1061,7 @@ regions:
       union 
       
       SELECT 
+          8 as ORDEN,
           'Total Enlaces WAN' as CARD_TITLE,
           COUNT(wan.id) || ' Enlaces WAN' as CARD_VALUE,
           'Enlaces WAN' as CARD_SUBTITLE,
@@ -1053,6 +1070,7 @@ regions:
           APEX_UTIL.PREPARE_URL('f?p='|| :APP_ID || ':10:' || :APP_SESSION ) as HREF
       FROM sgt_enlaces_wan wan
       
+      ORDER BY ORDEN ASC
       
       ;
 
@@ -1131,7 +1149,7 @@ regions:
   id: 78443842563303367105
   identification: 
     name: Total equipos por red
-    title: Total equipos por red
+    title: Total equipos por tipo de red
     type: Chart
 
   source: 
@@ -1219,7 +1237,7 @@ regions:
         location: Local Database
         type: SQL Query
         sql-query: |
-          SELECT 'Total por tipo de red' titulo,te.nombre, COUNT(e.id) as valores 
+          SELECT te.nombre, COUNT(e.id) as valores 
           FROM sgt_equipos e 
           LEFT JOIN sgt_tipo_equipos te ON e.tipo_equipo_id = te.id
           where e.tipo_red = :TIPO_RED
@@ -1231,7 +1249,6 @@ regions:
         type: None
 
       column-mapping: 
-        series-name: TITULO
         label: NOMBRE
         value: VALORES
 
@@ -1247,7 +1264,7 @@ regions:
       identification: 
         name: x
         show-axis: true
-        title: Equipos por tipo de red
+        title: Tipo de equipo
 
       value: 
         format-scaling: Automatic
@@ -1270,6 +1287,7 @@ regions:
       identification: 
         name: y
         show-axis: true
+        title: Cantidad
 
       value: 
         format: Decimal
@@ -1471,14 +1489,14 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
-- # ====== Page Item: FILTRO_TE_SALA ===========================
+- # ====== Page Item: FILTRO_TE_SITIO ==========================
   id: 29962995514513667749
   identification: 
-    name: FILTRO_TE_SALA
+    name: FILTRO_TE_SITIO
     type: Popup LOV
 
   label: 
-    label: Filtro Sala
+    label: Filtro Sitio
     alignment: Left
 
   settings: 
@@ -1518,7 +1536,7 @@ page-items:
 
   list-of-values: 
     type: Shared Component
-    list-of-values: SALAS.NOMBRE # 18963831332535051533
+    list-of-values: SGT_SITIOS.SIGLAS # 202814172118838557260
     display-extra-values: true
     display-null-value: true
 
@@ -1544,19 +1562,25 @@ page-items:
   id: 78443843015764367110
   identification: 
     name: TIPO_RED
-    type: Select One
+    type: Popup LOV
 
   label: 
     label: Tipo de Red
     alignment: Left
 
   settings: 
+    display-as: Inline Popup
+    initial-fetch: Automatic
+    manual-entry: false
     fetch-on-search: false
 
   search: 
     match-type: Contains
     case-sensitive: false
     minimum-characters: 0
+
+  multiple-values: 
+    type: No
 
   layout: 
     sequence: 10
@@ -1582,6 +1606,8 @@ page-items:
   list-of-values: 
     type: Shared Component
     list-of-values: TIPO_RED # 17291432086166556461
+    display-extra-values: true
+    display-null-value: true
 
   advanced: 
     warn-on-unsaved-changes: Page Default
@@ -1591,8 +1617,10 @@ page-items:
     used: Only when current value in session state is null
 
   session-state: 
-    data-type: VARCHAR2
     storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
 
   security: 
     session-state-protection: Unrestricted
@@ -1684,7 +1712,7 @@ dynamic-actions:
     event: Change
     selection-type: Item(s)
     item(s): 
-    - FILTRO_TE_SALA
+    - FILTRO_TE_SITIO
 
   actions: 
   - # ====== Action: Refresh =====================================

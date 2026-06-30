@@ -254,15 +254,15 @@ regions:
     id: 8696549799841007
     identification: 
       column-name: CREADO_POR
-      type: Text Field
+      type: Display Only
 
     heading: 
       heading: Creado Por
       alignment: start
 
     settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
+      format: Plain Text
+      based-on: Item Value
 
     layout: 
       sequence: 50
@@ -271,10 +271,6 @@ regions:
 
     accessibility: 
       value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 255
 
     source: 
       type: Database Column
@@ -285,6 +281,9 @@ regions:
 
     default: 
       duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
 
     column-filter: 
       enabled: true
@@ -309,19 +308,15 @@ regions:
     id: 8695553615841007
     identification: 
       column-name: CREADO_EL
-      type: Date Picker
+      type: Display Only
 
     heading: 
       heading: Creado El
       alignment: start
 
     settings: 
-      show-time: false
-      display-as: Popup
-      minimum-date: None
-      maximum-date: None
-      multiple-months: No
-      use-defaults: true
+      format: Plain Text
+      based-on: Item Value
 
     layout: 
       sequence: 60
@@ -330,9 +325,6 @@ regions:
 
     accessibility: 
       value-identifies-row: false
-
-    validation: 
-      value-required: false
 
     source: 
       type: Database Column
@@ -343,6 +335,9 @@ regions:
 
     default: 
       duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
 
     column-filter: 
       enabled: true
@@ -361,15 +356,15 @@ regions:
     id: 8694570289841006
     identification: 
       column-name: ACTUALIZADO_POR
-      type: Text Field
+      type: Display Only
 
     heading: 
       heading: Actualizado Por
       alignment: start
 
     settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
+      format: Plain Text
+      based-on: Item Value
 
     layout: 
       sequence: 70
@@ -378,10 +373,6 @@ regions:
 
     accessibility: 
       value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 255
 
     source: 
       type: Database Column
@@ -392,6 +383,9 @@ regions:
 
     default: 
       duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
 
     column-filter: 
       enabled: true
@@ -416,19 +410,15 @@ regions:
     id: 8693521862841006
     identification: 
       column-name: ACTUALIZADO_EL
-      type: Date Picker
+      type: Display Only
 
     heading: 
       heading: Actualizado El
       alignment: start
 
     settings: 
-      show-time: false
-      display-as: Popup
-      minimum-date: None
-      maximum-date: None
-      multiple-months: No
-      use-defaults: true
+      format: Plain Text
+      based-on: Item Value
 
     layout: 
       sequence: 80
@@ -437,9 +427,6 @@ regions:
 
     accessibility: 
       value-identifies-row: false
-
-    validation: 
-      value-required: false
 
     source: 
       type: Database Column
@@ -450,6 +437,9 @@ regions:
 
     default: 
       duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
 
     column-filter: 
       enabled: true

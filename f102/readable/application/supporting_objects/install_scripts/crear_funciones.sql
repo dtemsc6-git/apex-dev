@@ -1,3 +1,105 @@
+create or replace FUNCTION F_GET_LOVS (  
+    p_id_lov NUMBER,   
+    p_mostrar VARCHAR2  
+) RETURN NUMBER  
+AS  
+    L_ID_RETURN NUMBER := NULL;  
+BEGIN  
+  
+  
+    --Buscar EQUIPOS por nombres concatenados.  
+    IF p_id_lov = 1 THEN  
+        SELECT E.ID   
+        INTO L_ID_RETURN  
+        FROM SGT_EQUIPOS E  
+        LEFT JOIN SGT_RACKS R ON E.RACK_ID = R.ID  
+        LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID  
+        LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID  
+        WHERE UPPER(SS.SIGLAS ||'.'|| S.SIGLAS ||'.'|| R.NOMBRE || '.'|| E.NOMBRE) = UPPER(p_mostrar);  
+        RETURN L_ID_RETURN;  
+      
+    --Buscar Tipo de Interfaces for nombres      
+    elsif p_id_lov = 2 then  
+        select TI.id into L_ID_return  
+        from sgt_tipo_interfaz TI  
+        where UPPER(TI.NOMBRE) = UPPER(p_mostrar);  
+        return L_ID_RETURN;  
+       
+    --Buscar Rack ID por nombre de rack concatenado      
+      
+    elsIF P_ID_LOV = 3 THEN  
+       SELECT   
+       R.ID into L_ID_return          
+       from SGT_RACKS R  
+	   LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID  
+	   LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID  
+       WHERE UPPER(SS.SIGLAS ||'.'|| S.SIGLAS ||'.'|| R.NOMBRE ) = UPPER(p_mostrar);  
+       return L_ID_RETURN;    
+ 
+    --Buscar Sitio por nombre de rack 
+    elsif P_ID_LOV = 4 THEN 
+       SELECT   
+       SS.ID into L_ID_return          
+       from SGT_RACKS R  
+	   LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID  
+	   LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID  
+       WHERE UPPER(SS.SIGLAS ||'.'|| S.SIGLAS ||'.'|| R.NOMBRE ) = UPPER(p_mostrar);  
+       return L_ID_RETURN;   
+ 
+    --Retornar el id del tipo de equipo 
+    elsif p_id_lov = 5 then  
+        select TE.id into L_ID_return  
+        from sgt_tipo_equipos TE  
+        where UPPER(TE.NOMBRE) = UPPER(p_mostrar);  
+        return L_ID_RETURN;     
+    
+    --retorna el id en base al concatenado de sitio.sala.rack.equipo.interfaz
+    elsif p_id_lov = 6 then 
+         SELECT I.ID   
+        INTO L_ID_RETURN
+        FROM SGT_INTERFACES I
+        left join SGT_EQUIPOS E  ON I.EQUIPO_ID = E.ID
+        LEFT JOIN SGT_RACKS R ON E.RACK_ID = R.ID  
+        LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID  
+        LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID  
+        WHERE UPPER(SS.SIGLAS ||'.'|| S.SIGLAS ||'.'|| R.NOMBRE || '.'|| E.NOMBRE||'.'||I.NOMBRE) = UPPER(p_mostrar);  
+        RETURN L_ID_RETURN;  
+
+    end if ;  
+    RETURN NULL;  
+      
+      
+EXCEPTION  
+    WHEN NO_DATA_FOUND THEN  
+        RETURN NULL;  
+    WHEN TOO_MANY_ROWS THEN  
+        -- Manejar múltiples resultados según tu lógica de negocio  
+        RETURN NULL;  
+    WHEN OTHERS THEN  
+        RAISE;  
+END F_GET_LOVS;
+/
+create or replace FUNCTION parse_flexible_date(p_date IN VARCHAR2) 
+RETURN DATE 
+IS 
+    v_date DATE; 
+BEGIN 
+    BEGIN 
+        v_date := TO_DATE(p_date, 'YYYY-MM-DD'); 
+    EXCEPTION WHEN OTHERS THEN 
+        BEGIN 
+            v_date := TO_DATE(p_date, 'DD-MM-YYYY'); 
+        EXCEPTION WHEN OTHERS THEN 
+            BEGIN 
+                v_date := TO_DATE(p_date, 'YY-MM-DD'); 
+            EXCEPTION WHEN OTHERS THEN 
+                v_date := NULL; 
+            END; 
+        END; 
+    END; 
+    RETURN v_date; 
+END;
+/
 create or replace function "CREAR_RUTA_SRV" (P_SERVICIO_ID IN INTEGER)
 RETURN SDO_GEOMETRY
 AS
@@ -83,87 +185,6 @@ ORDER BY SEQ
     ); 
  
 end "CREAR_RUTA_WAN";
-/
-create or replace FUNCTION F_GET_LOVS (  
-    p_id_lov NUMBER,   
-    p_mostrar VARCHAR2  
-) RETURN NUMBER  
-AS  
-    L_ID_RETURN NUMBER := NULL;  
-BEGIN  
-  
-  
-    --Buscar EQUIPOS por nombres concatenados.  
-    IF p_id_lov = 1 THEN  
-        SELECT E.ID   
-        INTO L_ID_RETURN  
-        FROM SGT_EQUIPOS E  
-        LEFT JOIN SGT_RACKS R ON E.RACK_ID = R.ID  
-        LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID  
-        LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID  
-        WHERE UPPER(SS.SIGLAS ||'.'|| S.SIGLAS ||'.'|| R.NOMBRE || '.'|| E.NOMBRE) = UPPER(p_mostrar);  
-        RETURN L_ID_RETURN;  
-      
-    --Buscar Tipo de Interfaces for nombres      
-    elsif p_id_lov = 2 then  
-        select TI.id into L_ID_return  
-        from sgt_tipo_interfaz TI  
-        where UPPER(TI.NOMBRE) = UPPER(p_mostrar);  
-        return L_ID_RETURN;  
-       
-    --Buscar Rack ID por nombre de rack concatenado      
-      
-    elsIF P_ID_LOV = 3 THEN  
-       SELECT   
-       R.ID into L_ID_return          
-       from SGT_RACKS R  
-	   LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID  
-	   LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID  
-       WHERE UPPER(SS.SIGLAS ||'.'|| S.SIGLAS ||'.'|| R.NOMBRE ) = UPPER(p_mostrar);  
-       return L_ID_RETURN;    
- 
-    --Buscar Sitio por nombre de rack 
-    elsif P_ID_LOV = 4 THEN 
-       SELECT   
-       SS.ID into L_ID_return          
-       from SGT_RACKS R  
-	   LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID  
-	   LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID  
-       WHERE UPPER(SS.SIGLAS ||'.'|| S.SIGLAS ||'.'|| R.NOMBRE ) = UPPER(p_mostrar);  
-       return L_ID_RETURN;   
- 
-    --Retornar el id del tipo de equipo 
-    elsif p_id_lov = 5 then  
-        select TE.id into L_ID_return  
-        from sgt_tipo_equipos TE  
-        where UPPER(TE.NOMBRE) = UPPER(p_mostrar);  
-        return L_ID_RETURN;     
-    
-    --retorna el id en base al concatenado de sitio.sala.rack.equipo.interfaz
-    elsif p_id_lov = 6 then 
-         SELECT I.ID   
-        INTO L_ID_RETURN
-        FROM SGT_INTERFACES I
-        left join SGT_EQUIPOS E  ON I.EQUIPO_ID = E.ID
-        LEFT JOIN SGT_RACKS R ON E.RACK_ID = R.ID  
-        LEFT JOIN SGT_SALAS S ON R.SALA_ID = S.ID  
-        LEFT JOIN SGT_SITIOS SS ON S.SITIO_ID = SS.ID  
-        WHERE UPPER(SS.SIGLAS ||'.'|| S.SIGLAS ||'.'|| R.NOMBRE || '.'|| E.NOMBRE||'.'||I.NOMBRE) = UPPER(p_mostrar);  
-        RETURN L_ID_RETURN;  
-
-    end if ;  
-    RETURN NULL;  
-      
-      
-EXCEPTION  
-    WHEN NO_DATA_FOUND THEN  
-        RETURN NULL;  
-    WHEN TOO_MANY_ROWS THEN  
-        -- Manejar múltiples resultados según tu lógica de negocio  
-        RETURN NULL;  
-    WHEN OTHERS THEN  
-        RAISE;  
-END F_GET_LOVS;
 /
 create or replace function "GET_EDGES_EQUIPOS" (P_SERVICIO_ID IN NUMBER) 
 /*
@@ -377,6 +398,62 @@ begin
     return l_nodes; 
 end "GET_NODOS_SITIOS";
 /
+create or replace function "SEXAGESIMAL_TO_DECIMAL" (p_coord IN VARCHAR2) 
+return number 
+as 
+ 
+l_grados   NUMBER; 
+    l_minutos  NUMBER := 0; 
+    l_segundos NUMBER := 0; 
+    l_signo    NUMBER := 1; 
+    l_decimal  NUMBER; 
+BEGIN 
+    -- Signo según hemisferio 
+    IF p_coord LIKE '%S%' OR p_coord LIKE '%O%' THEN 
+        l_signo := -1; 
+    END IF; 
+ 
+    -- Extraer grados, minutos y segundos usando REGEXP 
+    BEGIN 
+        SELECT TO_NUMBER(REGEXP_SUBSTR(p_coord, '(\d+)', 1, 1)) INTO l_grados FROM dual; 
+        SELECT NVL(TO_NUMBER(REGEXP_SUBSTR(p_coord, '(\d+)', 1, 2)), 0) INTO l_minutos FROM dual; 
+        SELECT NVL(TO_NUMBER(REGEXP_SUBSTR(p_coord, '(\d+)', 1, 3)), 0) INTO l_segundos FROM dual; 
+    EXCEPTION 
+        WHEN NO_DATA_FOUND THEN 
+            RETURN NULL; 
+    END; 
+ 
+    -- Conversión a decimal 
+    l_decimal := l_signo * (l_grados + (l_minutos/60) + (l_segundos/3600)); 
+ 
+    RETURN ROUND(l_decimal,7); 
+END;
+/
+create or replace function "URL_TO_LAT" (p_coord IN VARCHAR2) 
+return coord_obj 
+as 
+ l_match    VARCHAR2(4000); 
+ l_lat number; 
+ l_long number; 
+begin 
+    -- Caso 1: URL de Google Maps con formato decimal 
+    IF p_coord LIKE 'http%' THEN 
+        -- Buscar patrón de coordenadas decimales (-##.####, -##.####) 
+        l_match := REGEXP_SUBSTR(p_coord, '[-]?\d+(\.\d+)?[, ]+[-]?\d+(\.\d+)?'); 
+ 
+        IF l_match IS NOT NULL THEN 
+            -- Si queremos la primera parte (latitud): 
+            l_lat := TO_NUMBER(REGEXP_SUBSTR(l_match, '[-]?\d+(\.\d+)?', 1, 1)); 
+            l_long := TO_NUMBER(REGEXP_SUBSTR(l_match, '[-]?\d+(\.\d+)?', 1, 2)); 
+            RETURN coord_obj(l_lat, l_long); 
+        ELSE 
+            RETURN coord_obj(NULL, NULL); 
+        END IF; 
+    ELSE 
+        RETURN coord_obj(NULL, NULL); 
+    END IF; 
+end "URL_TO_LAT";
+/
 create or replace function "GET_WAN_EDGES_IFACE" (P_WAN_ID IN NUMBER) 
 return CLOB 
 as 
@@ -456,83 +533,6 @@ begin
 
 
 end "GET_WAN_NODOS_IFACE";
-/
-create or replace FUNCTION parse_flexible_date(p_date IN VARCHAR2) 
-RETURN DATE 
-IS 
-    v_date DATE; 
-BEGIN 
-    BEGIN 
-        v_date := TO_DATE(p_date, 'YYYY-MM-DD'); 
-    EXCEPTION WHEN OTHERS THEN 
-        BEGIN 
-            v_date := TO_DATE(p_date, 'DD-MM-YYYY'); 
-        EXCEPTION WHEN OTHERS THEN 
-            BEGIN 
-                v_date := TO_DATE(p_date, 'YY-MM-DD'); 
-            EXCEPTION WHEN OTHERS THEN 
-                v_date := NULL; 
-            END; 
-        END; 
-    END; 
-    RETURN v_date; 
-END;
-/
-create or replace function "SEXAGESIMAL_TO_DECIMAL" (p_coord IN VARCHAR2) 
-return number 
-as 
- 
-l_grados   NUMBER; 
-    l_minutos  NUMBER := 0; 
-    l_segundos NUMBER := 0; 
-    l_signo    NUMBER := 1; 
-    l_decimal  NUMBER; 
-BEGIN 
-    -- Signo según hemisferio 
-    IF p_coord LIKE '%S%' OR p_coord LIKE '%O%' THEN 
-        l_signo := -1; 
-    END IF; 
- 
-    -- Extraer grados, minutos y segundos usando REGEXP 
-    BEGIN 
-        SELECT TO_NUMBER(REGEXP_SUBSTR(p_coord, '(\d+)', 1, 1)) INTO l_grados FROM dual; 
-        SELECT NVL(TO_NUMBER(REGEXP_SUBSTR(p_coord, '(\d+)', 1, 2)), 0) INTO l_minutos FROM dual; 
-        SELECT NVL(TO_NUMBER(REGEXP_SUBSTR(p_coord, '(\d+)', 1, 3)), 0) INTO l_segundos FROM dual; 
-    EXCEPTION 
-        WHEN NO_DATA_FOUND THEN 
-            RETURN NULL; 
-    END; 
- 
-    -- Conversión a decimal 
-    l_decimal := l_signo * (l_grados + (l_minutos/60) + (l_segundos/3600)); 
- 
-    RETURN ROUND(l_decimal,7); 
-END;
-/
-create or replace function "URL_TO_LAT" (p_coord IN VARCHAR2) 
-return coord_obj 
-as 
- l_match    VARCHAR2(4000); 
- l_lat number; 
- l_long number; 
-begin 
-    -- Caso 1: URL de Google Maps con formato decimal 
-    IF p_coord LIKE 'http%' THEN 
-        -- Buscar patrón de coordenadas decimales (-##.####, -##.####) 
-        l_match := REGEXP_SUBSTR(p_coord, '[-]?\d+(\.\d+)?[, ]+[-]?\d+(\.\d+)?'); 
- 
-        IF l_match IS NOT NULL THEN 
-            -- Si queremos la primera parte (latitud): 
-            l_lat := TO_NUMBER(REGEXP_SUBSTR(l_match, '[-]?\d+(\.\d+)?', 1, 1)); 
-            l_long := TO_NUMBER(REGEXP_SUBSTR(l_match, '[-]?\d+(\.\d+)?', 1, 2)); 
-            RETURN coord_obj(l_lat, l_long); 
-        ELSE 
-            RETURN coord_obj(NULL, NULL); 
-        END IF; 
-    ELSE 
-        RETURN coord_obj(NULL, NULL); 
-    END IF; 
-end "URL_TO_LAT";
 /
 create or replace FUNCTION VERIFICAR_DISPONIBILIDAD_U (
     p_equipo_id in NUMBER,
@@ -615,4 +615,4 @@ EXCEPTION
         apex_debug.log_long_message('Error en la consulta: '|| SQLERRM);
         RETURN 'NA';
 END VERIFICAR_DISPONIBILIDAD_U;
-/ 
+/

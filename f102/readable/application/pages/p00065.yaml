@@ -349,8 +349,7 @@ regions:
           CASE 
               WHEN ef.tipo_cable NOT IN ('ADSS', 'ARMORED', 'OPGW') THEN 'COMBINADOS'
               ELSE ef.tipo_cable 
-          END  FILTRO_CABLE
-          ,
+          END  FILTRO_CABLE,
           ef.tipo_cable, 
           ef."CERTIFICACIÓN" CERT,
           case when (sa.latitud is null or sa.longitud is null or sb.latitud is null or sb.longitud is null ) then NULL
@@ -371,11 +370,38 @@ regions:
               SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(sa.longitud ,sa.latitud , NULL), NULL, NULL),
               SDO_GEOMETRY(2001, 4326, SDO_POINT_TYPE(sb.longitud ,sb.latitud, NULL), NULL, NULL),
               0.005
-          ) / 1000, 2) end AS DISTANCIA_KM
+          ) / 1000, 2) end AS DISTANCIA_KM,
+          --dmf: 2026-06-23: Agregado para ver los servicios y enlaces wan
+          srv.servicios AS SERVICIOS,
+          WAN.ENLACES_WAN AS ENLACES_WAN
+      
+         
       
       FROM sgt_enlaces_fo ef
-      inner join sgt_sitios sa on ef.sitio_id_a = sa.id
-      inner join sgt_sitios sb on ef.sitio_id_b = sb.id
+      join sgt_sitios sa on ef.sitio_id_a = sa.id
+      join sgt_sitios sb on ef.sitio_id_b = sb.id
+      --dmf 2026-06-23: agregado para ver los servicios y enlaces wan
+      --dmf 2026-06-23: agregado para ver los servicios y enlaces wan
+      LEFT JOIN (
+          SELECT es.fo_id,
+                 LISTAGG(DISTINCT s.nombre, ', ')
+                   WITHIN GROUP (ORDER BY s.nombre) servicios
+          FROM sgt_equipos_servicio es
+          JOIN sgt_servicios s
+            ON s.id = es.servicio_id
+          GROUP BY es.fo_id
+      ) srv ON srv.fo_id = ef.id
+      
+      --VER TODOS LOS ENLACES WAN QUE DEPENDE DE LA FIBRA
+      LEFT JOIN (
+          SELECT ew.fo_id,
+                 LISTAGG(DISTINCT w.nombre, ', ')
+                   WITHIN GROUP (ORDER BY w.nombre) enlaces_wan
+          FROM sgt_equipos_wan ew
+          JOIN sgt_enlaces_wan w
+            ON w.id = ew.wan_id
+          GROUP BY ew.fo_id
+      ) wan ON wan.fo_id = ef.id
       
       where  
       ( :P65_ZONAS is null
@@ -385,6 +411,11 @@ regions:
       ef.sitio_id_b IN (select ID from sgt_sitios s where s.zona_id = :P65_ZONAS)
       )
       and (:P65_ENLACES_FO is null or ef.id = :P65_ENLACES_FO)
+      
+      --dmf 2026-06-23: agregado para ver los servicios y enlaces wan
+      --Filtrar solo los troncales
+      and (ef.tipo = 'Troncal')
+      
     page-items-to-submit: 
     - P65_ENLACES_FO
     - P65_ZONAS
@@ -484,9 +515,12 @@ regions:
         html-expression: |
           Enlace: &NOMBRE. <br/>
           Tipo Cable: &TIPO_CABLE. <br/>
+          Tipo de FO: &TIPO_DE_FO. <br/>
           Cantidad FO: &CANTIDAD_DE_PELOS. <br/>
           Certificación FO: &CERT. Km </br>
           Distancia lineal (Calculada): &DISTANCIA_KM. Km <br/>
+          Enlaces Wan: &ENLACES_WAN. </br>
+          Servicios: &SERVICIOS. </br>
 
       legend: 
         show: true
@@ -527,9 +561,12 @@ regions:
         html-expression: |
           Enlace: &NOMBRE. <br/>
           Tipo Cable: &TIPO_CABLE. <br/>
+          Tipo de FO: &TIPO_DE_FO. <br/>
           Cantidad FO: &CANTIDAD_DE_PELOS. <br/>
           Certificación FO: &CERT. Km </br>
           Distancia lineal (Calculada): &DISTANCIA_KM. Km <br/>
+          Enlaces Wan: &ENLACES_WAN. </br>
+          Servicios: &SERVICIOS. </br>
 
       legend: 
         show: true
@@ -572,9 +609,12 @@ regions:
         html-expression: |
           Enlace: &NOMBRE. <br/>
           Tipo Cable: &TIPO_CABLE. <br/>
+          Tipo de FO: &TIPO_DE_FO. <br/>
           Cantidad FO: &CANTIDAD_DE_PELOS. <br/>
           Certificación FO: &CERT. Km </br>
           Distancia lineal (Calculada): &DISTANCIA_KM. Km <br/>
+          Enlaces Wan: &ENLACES_WAN. </br>
+          Servicios: &SERVICIOS. </br>
 
       legend: 
         show: true
@@ -614,9 +654,12 @@ regions:
         html-expression: |
           Enlace: &NOMBRE. <br/>
           Tipo Cable: &TIPO_CABLE. <br/>
+          Tipo de FO: &TIPO_DE_FO. <br/>
           Cantidad FO: &CANTIDAD_DE_PELOS. <br/>
           Certificación FO: &CERT. Km </br>
           Distancia lineal (Calculada): &DISTANCIA_KM. Km <br/>
+          Enlaces Wan: &ENLACES_WAN. </br>
+          Servicios: &SERVICIOS. </br>
 
       legend: 
         show: true
@@ -729,7 +772,7 @@ page-items:
     slot: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -769,6 +812,71 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+- # ====== Page Item: P65_TIPO_ENLACE ==========================
+  id: 13430234668982041
+  identification: 
+    name: P65_TIPO_ENLACE
+    type: Select List
+
+  label: 
+    label: Tipo de Enlace
+    alignment: Left
+
+  settings: 
+    page-action-on-selection: None
+
+  multiple-values: 
+    type: No
+
+  layout: 
+    sequence: 30
+    region: No Parent
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+    height: 1
+
+  validation: 
+    value-required: false
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: TIPO_ENLACE # 43126193997789167292
+    display-extra-values: true
+    display-null-value: true
+    null-display-value: Seleccione Una
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  quick-picks: 
+    show-quick-picks: false
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
 - # ====== Page Item: P65_ENLACES_FO ===========================
   id: 88053709146799055537
   identification: 
@@ -794,7 +902,7 @@ page-items:
     type: No
 
   layout: 
-    sequence: 30
+    sequence: 40
     region: No Parent
     slot: BODY
     alignment: Left
@@ -819,13 +927,15 @@ page-items:
     sql-query: |
       select ef.nombre, ef.id from sgt_enlaces_fo ef
       where
-      1=1 and (
+      (
       :P65_ZONAS is null 
       or    
       ef.sitio_id_a in (select id from sgt_sitios s where s.zona_id = :P65_ZONAS)
       or
       ef.sitio_id_b in (select id from sgt_sitios s where s.zona_id = :P65_ZONAS)
       )
+      and 
+      (ef.tipo = 'Troncal')
     display-extra-values: true
     display-null-value: true
     null-display-value: Seleccione Una
@@ -833,8 +943,10 @@ page-items:
   cascading-list-of-values: 
     parent-item(s): 
     - P65_ZONAS
+    - P65_TIPO_ENLACE
     items-to-submit: 
     - P65_ZONAS
+    - P65_TIPO_ENLACE
     parent-required: true
 
   advanced: 
@@ -978,6 +1090,7 @@ dynamic-actions:
     item(s): 
     - P65_ENLACES_FO
     - P65_ZONAS
+    - P65_TIPO_ENLACE
 
   actions: 
   - # ====== Action: Refresh =====================================

@@ -1,10 +1,10 @@
 ---
-# ====== Page: Interfaces ====================================
+# ====== Page: Dependencias equipos ==========================
 id: 465
 identification: 
-  name: Interfaces
-  alias: INTERFACES
-  title: Interfaces
+  name: Dependencias equipos
+  alias: DEPENDENCIAS
+  title: Dependencias equipos
 
 appearance: 
   page-mode: Modal Dialog
@@ -26,7 +26,7 @@ navigation:
 security: 
   authentication: Page Requires Authentication
   deep-linking: Application Default
-  page-access-protection: Arguments Must Have Checksum
+  page-access-protection: Unrestricted
   form-auto-complete: Off
   browser-cache: Application Default
 
@@ -177,25 +177,15 @@ regions:
     id: 10567141675364220
     identification: 
       column-name: WAN_ID
-      type: Popup LOV
+      type: Display Only
 
     heading: 
       heading: Wan
       alignment: start
 
     settings: 
-      display-as: Inline Popup
-      initial-fetch: Automatic
-      manual-entry: false
-      fetch-on-search: false
-
-    search: 
-      match-type: Contains
-      case-sensitive: false
-      minimum-characters: 0
-
-    multiple-values: 
-      type: No
+      format: Plain Text
+      based-on: Display Value of List of Values
 
     layout: 
       sequence: 50
@@ -205,14 +195,10 @@ regions:
     accessibility: 
       value-identifies-row: false
 
-    validation: 
-      value-required: false
-
     list-of-values: 
       type: Shared Component
       list-of-values: ENLACES_WAN # 84737308969826577554
       display-extra-values: true
-      display-null-value: true
 
     source: 
       type: Database Column
@@ -220,6 +206,9 @@ regions:
       data-type: NUMBER
       query-only: true
       primary-key: false
+
+    session-state: 
+      data-type: VARCHAR2
 
     column-filter: 
       enabled: true
@@ -470,25 +459,15 @@ regions:
     id: 10565509693364204
     identification: 
       column-name: SERVICIO_ID
-      type: Popup LOV
+      type: Display Only
 
     heading: 
       heading: Servicio
       alignment: start
 
     settings: 
-      display-as: Inline Popup
-      initial-fetch: Automatic
-      manual-entry: false
-      fetch-on-search: false
-
-    search: 
-      match-type: Contains
-      case-sensitive: false
-      minimum-characters: 0
-
-    multiple-values: 
-      type: No
+      format: Plain Text
+      based-on: Display Value of List of Values
 
     layout: 
       sequence: 40
@@ -498,14 +477,10 @@ regions:
     accessibility: 
       value-identifies-row: false
 
-    validation: 
-      value-required: false
-
     list-of-values: 
       type: Shared Component
       list-of-values: SERVICIOS.NOMBRE # 44132876898299381933
       display-extra-values: true
-      display-null-value: true
 
     source: 
       type: Database Column
@@ -513,6 +488,9 @@ regions:
       data-type: NUMBER
       query-only: true
       primary-key: false
+
+    session-state: 
+      data-type: VARCHAR2
 
     column-filter: 
       enabled: true
@@ -573,6 +551,7 @@ regions:
       sql-query: "SELECT NOMBRE ||' : '|| ETIQUETA, ID FROM SGT_INTERFACES WHERE EQUIPO_ID = :P465_EQUIPO_ID"
       display-extra-values: true
       display-null-value: true
+      null-display-value: Seleccione Una
 
     source: 
       type: Database Column
@@ -631,13 +610,13 @@ regions:
   identification: 
     name: INTERFACES
     title: Interfaces
-    type: Classic Report
+    type: Interactive Grid
 
   source: 
     location: Local Database
     type: SQL Query
     sql-query: |
-      select 
+      select id,
              NOMBRE,
              ETIQUETA,
              ESTADO,
@@ -649,14 +628,11 @@ regions:
         from SGT_INTERFACES
       
        where EQUIPO_ID=:P465_EQUIPO_ID 
-       and id not in (select interfaz_a_id from sgt_equipos_wan where equipo_a_id =:P465_EQUIPO_ID and interfaz_a_id is not null)
-       and id not in (select interfaz_a_id from sgt_equipos_servicio where equipo_a_id =:P465_EQUIPO_ID and interfaz_a_id is not null)
-       order by nombre
+      -- 2026-06-11: dmf: Para poder editar los niveles se deben mostrar todas las interfaces del equipo
+      -- and id not in (select interfaz_a_id from sgt_equipos_wan where equipo_a_id =:P465_EQUIPO_ID and interfaz_a_id is not null)
+      -- and id not in (select interfaz_a_id from sgt_equipos_servicio where equipo_a_id =:P465_EQUIPO_ID and interfaz_a_id is not null)
     page-items-to-submit: 
     - P465_EQUIPO_ID
-
-  order-by: 
-    type: None
 
   layout: 
     sequence: 30
@@ -683,279 +659,488 @@ regions:
     region-display-selector: true
     exclude-title-from-translation: false
 
-  server-cache: 
-    caching: Disabled
-
   customization: 
     customizable: Not Customizable By End Users
 
   attributes: 
-    layout: 
-      number-of-rows-type: Static Value
-      number-of-rows: 20
+    id: 10840677959359770
+    edit: 
+      enabled: true
+      allowed-operations: 
+      - Update Row
+      lost-update-type: Row Values
 
-    appearance: 
-      template-type: Theme
-      template: Standard
-      template-options: 
-      - '#DEFAULT#'
-      - t-Report--altRowsDefault
-      - t-Report--rowHighlight
-
-    pagination: 
-      type: Row Ranges X to Y (with next and previous links)
-      display-position: Top - Right
-      partial-page-refresh: true
+    edit-authorization: 
+      update: Implementador Rights # 56843702980053272617
 
     performance: 
       lazy-loading: false
 
+    appearance: 
+      select-first-row: false
+      fixed-row-height: false
+
+    pagination: 
+      type: Scroll
+      show-total-count: true
+
     messages: 
-      when-no-data-found: No hay datos para mostrar
+      when-no-data-found: No hay datos que mostrar.
 
-    break-formatting: 
-      break-columns: No Break
+    toolbar: 
+      show: true
+      controls: 
+      - Save Button
 
-    advanced: 
-      strip-html: false
-      sort-nulls: Last
+    enable-users-to: 
+      save-public-report: false
+      flashback: false
+      define-chart-view: false
+      download: false
 
     heading: 
-      type: Custom Headings
+      fixed-to: Page
 
-    download: 
-      csv-export-enabled: false
+    icon-view: 
+      show: false
 
-    printing: 
-      enabled: false
+    detail-view: 
+      show: false
+
+    saved-reports: 
+    - # ====== Saved Report: Primary Report ========================
+      id: 10812921970106470
+      identification: 
+        name: Primary Report
+        alias: 248559
 
   columns: 
   - # ====== Column: NOMBRE ======================================
-    id: 9349400786692608
+    id: 10840596709359769
     identification: 
       column-name: NOMBRE
-      type: Plain Text
+      type: Text Field
 
     heading: 
       heading: Nombre
       alignment: start
 
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
+
     layout: 
-      sequence: 10
+      sequence: 40
       column-alignment: start
+      stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
-    sorting: 
-      sortable: false
+    validation: 
+      value-required: true
+      maximum-length: 1020
+
+    source: 
+      type: Database Column
+      database-column: NOMBRE
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: None
 
     export-/-printing: 
       include-in-export-/-print: true
 
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
+    enable-users-to: 
+      sort: false
+      hide: true
 
   - # ====== Column: ETIQUETA ====================================
-    id: 9349356995692607
+    id: 10840527239359768
     identification: 
       column-name: ETIQUETA
-      type: Plain Text
+      type: Text Field
 
     heading: 
       heading: Etiqueta
       alignment: start
 
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
+
     layout: 
-      sequence: 20
+      sequence: 50
       column-alignment: start
+      stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
-    sorting: 
-      sortable: false
+    validation: 
+      value-required: false
+      maximum-length: 1020
+
+    source: 
+      type: Database Column
+      database-column: ETIQUETA
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: None
 
     export-/-printing: 
       include-in-export-/-print: true
 
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
+    enable-users-to: 
+      sort: false
+      hide: true
 
   - # ====== Column: ESTADO ======================================
-    id: 9349265224692606
+    id: 10840391500359767
     identification: 
       column-name: ESTADO
-      type: Plain Text
+      type: Select List
 
     heading: 
       heading: Estado
       alignment: start
 
     layout: 
-      sequence: 30
+      sequence: 60
       column-alignment: start
+      stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
-    sorting: 
-      sortable: false
+    validation: 
+      value-required: true
+
+    list-of-values: 
+      type: Shared Component
+      list-of-values: INTERFACES.ESTADO # 43199625631148317953
+      display-extra-values: true
+      display-null-value: true
+
+    source: 
+      type: Database Column
+      database-column: ESTADO
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Use List of Values
+      exact-match: true
 
     export-/-printing: 
       include-in-export-/-print: true
 
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
-
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
+    enable-users-to: 
+      sort: false
+      hide: true
 
   - # ====== Column: TX_EN_DBM ===================================
-    id: 9349164708692605
+    id: 10840278397359766
     identification: 
       column-name: TX_EN_DBM
-      type: Plain Text
+      type: Text Field
 
     heading: 
       heading: Tx En Dbm
       alignment: start
 
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
+
     layout: 
-      sequence: 40
+      sequence: 70
       column-alignment: start
+      stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
-    sorting: 
-      sortable: false
+    validation: 
+      value-required: false
+      maximum-length: 40
+
+    source: 
+      type: Database Column
+      database-column: TX_EN_DBM
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
 
     export-/-printing: 
       include-in-export-/-print: true
 
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
 
   - # ====== Column: RX_EN_DBM ===================================
-    id: 9349059602692604
+    id: 10840192299359765
     identification: 
       column-name: RX_EN_DBM
-      type: Plain Text
+      type: Text Field
 
     heading: 
       heading: Rx En Dbm
       alignment: start
 
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
+
     layout: 
-      sequence: 50
+      sequence: 80
       column-alignment: start
+      stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
-    sorting: 
-      sortable: false
+    validation: 
+      value-required: false
+      maximum-length: 40
+
+    source: 
+      type: Database Column
+      database-column: RX_EN_DBM
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
 
     export-/-printing: 
       include-in-export-/-print: true
 
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
 
   - # ====== Column: MAC_ADDRESS =================================
-    id: 9348981067692603
+    id: 10840139074359764
     identification: 
       column-name: MAC_ADDRESS
-      type: Plain Text
+      type: Text Field
 
     heading: 
       heading: Mac Address
       alignment: start
 
+    settings: 
+      trim-spaces: Leading and Trailing
+      text-case: NO CHANGE
+
     layout: 
-      sequence: 60
+      sequence: 90
       column-alignment: start
+      stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
-    sorting: 
-      sortable: false
+    validation: 
+      value-required: false
+      maximum-length: 100
+
+    source: 
+      type: Database Column
+      database-column: MAC_ADDRESS
+      data-type: VARCHAR2
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      performance-impacting-operators: 
+      - Contains
+      - Starts With
+      - Case Insensitive
+      - Regular Expression
+      text-case: Mixed
+      lov-type: Distinct Column
+      exact-match: true
 
     export-/-printing: 
       include-in-export-/-print: true
 
-    advanced: 
-      compute-sum: false
-
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
-
-    security: 
-      escape-special-characters: true
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
 
   - # ====== Column: VELOCIDAD_MBPS ==============================
-    id: 9348814995692602
+    id: 10840011357359763
     identification: 
       column-name: VELOCIDAD_MBPS
-      type: Plain Text
+      type: Number Field
 
     heading: 
       heading: Velocidad Mbps
       alignment: end
 
+    settings: 
+      number-alignment: Start
+      virtual-keyboard: Decimal
+
     layout: 
-      sequence: 70
+      sequence: 100
       column-alignment: end
+      stretch: Use Report Setting
 
     accessibility: 
       value-identifies-row: false
 
-    sorting: 
-      sortable: false
+    validation: 
+      value-required: false
+
+    source: 
+      type: Database Column
+      database-column: VELOCIDAD_MBPS
+      data-type: NUMBER
+      query-only: false
+      primary-key: false
+
+    default: 
+      duplicate-copies-existing-value: true
+
+    column-filter: 
+      enabled: true
+      lov-type: None
 
     export-/-printing: 
       include-in-export-/-print: true
 
-    advanced: 
-      compute-sum: false
+    enable-users-to: 
+      sort: true
+      control-break/aggregate: true
+      hide: true
 
-    ui-defaults-reference: 
-      table-owner: Parsing Schema
+  - # ====== Column: ID ==========================================
+    id: 10839889724359762
+    identification: 
+      column-name: ID
+      type: Hidden
 
-    security: 
-      escape-special-characters: true
+    settings: 
+      value-protected: true
+
+    layout: 
+      sequence: 30
+
+    accessibility: 
+      value-identifies-row: false
+
+    source: 
+      type: Database Column
+      database-column: ID
+      data-type: NUMBER
+      query-only: true
+      primary-key: true
+
+    session-state: 
+      data-type: VARCHAR2
+
+    export-/-printing: 
+      include-in-export-/-print: false
+
+    enable-users-to: 
+      sort: false
+
+  - # ====== Column: APEX$ROW_ACTION =============================
+    id: 10839796397359761
+    identification: 
+      column-name: APEX$ROW_ACTION
+      type: Actions Menu
+
+    layout: 
+      sequence: 20
+
+  - # ====== Column: APEX$ROW_SELECTOR ===========================
+    id: 10839745171359760
+    identification: 
+      column-name: APEX$ROW_SELECTOR
+      type: Row Selector
+
+    settings: 
+      enable-multi-select: true
+      show-select-all: true
+      hide-control: false
+
+    layout: 
+      sequence: 10
 
 - # ====== Region: Selector ====================================
   id: 9348733014692601
@@ -964,7 +1149,7 @@ regions:
     type: Region Display Selector
 
   layout: 
-    sequence: 20
+    sequence: 30
     parent-region: No Parent
     slot: BODY
     start-new-layout: false
@@ -999,6 +1184,624 @@ regions:
       include-'show-all': false
       remember-selection: By User
 
+- # ====== Region: Enlaces FO ==================================
+  id: 1831648556863330
+  identification: 
+    name: Enlaces FO
+    type: Classic Report
+
+  source: 
+    location: Local Database
+    type: Table / View
+    table-owner: Parsing Schema
+    table-name: SGT_ENLACES_FO
+    include-rowid-column: false
+    where-clause: 'equipo_id_a = :P465_EQUIPO_ID or equipo_id_b = :P465_EQUIPO_ID'
+
+  order-by: 
+    type: None
+
+  layout: 
+    sequence: 60
+    parent-region: Selector # 9348733014692601
+    slot: SUB_REGIONS
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Standard
+    template-options: 
+    - '#DEFAULT#'
+    - t-Region--hideHeader js-addHiddenHeadingRoleDesc
+    - t-Region--scrollBody
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: true
+    exclude-title-from-translation: false
+
+  server-side-condition: 
+    type: Rows returned
+    sql-query: |
+      Select id from sgt_enlaces_fo
+      where
+      equipo_id_a = :P465_EQUIPO_ID or equipo_id_b = :P465_EQUIPO_ID
+
+  server-cache: 
+    caching: Disabled
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    layout: 
+      number-of-rows-type: Static Value
+      number-of-rows: 15
+
+    appearance: 
+      template-type: Theme
+      template: Standard
+      template-options: 
+      - '#DEFAULT#'
+      - t-Report--altRowsDefault
+      - t-Report--rowHighlight
+
+    pagination: 
+      type: Row Ranges X to Y (with next and previous links)
+      display-position: Bottom - Right
+      partial-page-refresh: true
+
+    performance: 
+      lazy-loading: false
+
+    break-formatting: 
+      break-columns: No Break
+
+    advanced: 
+      strip-html: false
+      sort-nulls: Last
+
+    heading: 
+      type: Custom Headings
+
+    download: 
+      csv-export-enabled: false
+
+    printing: 
+      enabled: false
+
+  columns: 
+  - # ====== Column: TIPO_CABLE ==================================
+    id: 10841140632359774
+    identification: 
+      column-name: TIPO_CABLE
+      type: Plain Text
+
+    heading: 
+      heading: Tipo Cable
+      alignment: center
+
+    layout: 
+      sequence: 130
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TIPO_TENDIDO ================================
+    id: 10841022988359773
+    identification: 
+      column-name: TIPO_TENDIDO
+      type: Hidden
+
+    layout: 
+      sequence: 260
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PUERTOS_LADO_A ==============================
+    id: 10840935918359772
+    identification: 
+      column-name: PUERTOS_LADO_A
+      type: Hidden
+
+    layout: 
+      sequence: 270
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PUERTOS_LADO_B ==============================
+    id: 10840772001359771
+    identification: 
+      column-name: PUERTOS_LADO_B
+      type: Hidden
+
+    layout: 
+      sequence: 280
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ACTUALIZADO_EL ==============================
+    id: 1834000644863353
+    identification: 
+      column-name: ACTUALIZADO_EL
+      type: Hidden
+
+    layout: 
+      sequence: 240
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ACTUALIZADO_POR =============================
+    id: 1833876512863352
+    identification: 
+      column-name: ACTUALIZADO_POR
+      type: Hidden
+
+    layout: 
+      sequence: 230
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CREADO_EL ===================================
+    id: 1833766286863351
+    identification: 
+      column-name: CREADO_EL
+      type: Hidden
+
+    layout: 
+      sequence: 220
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CREADO_POR ==================================
+    id: 1833656851863350
+    identification: 
+      column-name: CREADO_POR
+      type: Hidden
+
+    layout: 
+      sequence: 210
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UNIDAD_ENCARGADA_ACTUAL =====================
+    id: 1833627611863349
+    identification: 
+      column-name: UNIDAD_ENCARGADA_ACTUAL
+      type: Hidden
+
+    layout: 
+      sequence: 200
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: FECHA_IMPLEMENTACIÓN ========================
+    id: 1833526088863348
+    identification: 
+      column-name: FECHA_IMPLEMENTACIÓN
+      type: Hidden
+
+    layout: 
+      sequence: 190
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: PROYECTO_DE_IMPLEMENTACIÓN ==================
+    id: 1833425479863347
+    identification: 
+      column-name: PROYECTO_DE_IMPLEMENTACIÓN
+      type: Hidden
+
+    layout: 
+      sequence: 180
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: COMENTARIOS =================================
+    id: 1833243425863346
+    identification: 
+      column-name: COMENTARIOS
+      type: Hidden
+
+    layout: 
+      sequence: 170
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ESTADO ======================================
+    id: 1833202030863345
+    identification: 
+      column-name: ESTADO
+      type: Plain Text
+
+    heading: 
+      heading: Estado
+      alignment: center
+
+    layout: 
+      sequence: 160
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CONECTOR ====================================
+    id: 1833092729863344
+    identification: 
+      column-name: CONECTOR
+      type: Hidden
+
+    layout: 
+      sequence: 150
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: LT ==========================================
+    id: 1833016739863343
+    identification: 
+      column-name: LT
+      type: Plain Text
+
+    heading: 
+      heading: LT
+      alignment: center
+
+    layout: 
+      sequence: 140
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TIPO ========================================
+    id: 1832884675863342
+    identification: 
+      column-name: TIPO
+      type: Plain Text
+
+    heading: 
+      heading: Tipo
+      alignment: center
+
+    layout: 
+      sequence: 120
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: TIPO_DE_FO ==================================
+    id: 1832810570863341
+    identification: 
+      column-name: TIPO_DE_FO
+      type: Hidden
+
+    layout: 
+      sequence: 110
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CANTIDAD_DE_PELOS ===========================
+    id: 1832706347863340
+    identification: 
+      column-name: CANTIDAD_DE_PELOS
+      type: Plain Text
+
+    heading: 
+      heading: Cantidad de Pelos
+      alignment: center
+
+    layout: 
+      sequence: 100
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ABS_LONGITUD ================================
+    id: 1832622916863339
+    identification: 
+      column-name: ABS_LONGITUD
+      type: Hidden
+
+    layout: 
+      sequence: 90
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: UNIDAD_MEDIDA ===============================
+    id: 1832505757863338
+    identification: 
+      column-name: UNIDAD_MEDIDA
+      type: Hidden
+
+    layout: 
+      sequence: 80
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: CERTIFICACIÓN ===============================
+    id: 1832415695863337
+    identification: 
+      column-name: CERTIFICACIÓN
+      type: Plain Text
+
+    heading: 
+      heading: Certificación
+      alignment: center
+
+    layout: 
+      sequence: 70
+      column-alignment: end
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EQUIPO_ID_B =================================
+    id: 1832324524863336
+    identification: 
+      column-name: EQUIPO_ID_B
+      type: Hidden
+
+    layout: 
+      sequence: 60
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: SITIO_ID_B ==================================
+    id: 1832162969863335
+    identification: 
+      column-name: SITIO_ID_B
+      type: Hidden
+
+    layout: 
+      sequence: 50
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: EQUIPO_ID_A =================================
+    id: 1832102975863334
+    identification: 
+      column-name: EQUIPO_ID_A
+      type: Hidden
+
+    layout: 
+      sequence: 40
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: SITIO_ID_A ==================================
+    id: 1832002293863333
+    identification: 
+      column-name: SITIO_ID_A
+      type: Hidden
+
+    layout: 
+      sequence: 30
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: NOMBRE ======================================
+    id: 1831853448863332
+    identification: 
+      column-name: NOMBRE
+      type: Plain Text
+
+    heading: 
+      heading: Nombre
+      alignment: center
+
+    layout: 
+      sequence: 20
+      column-alignment: start
+
+    accessibility: 
+      value-identifies-row: false
+
+    sorting: 
+      sortable: true
+
+    export-/-printing: 
+      include-in-export-/-print: true
+
+    advanced: 
+      compute-sum: false
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
+  - # ====== Column: ID ==========================================
+    id: 1831752350863331
+    identification: 
+      column-name: ID
+      type: Hidden
+
+    layout: 
+      sequence: 10
+
+    ui-defaults-reference: 
+      table-owner: Parsing Schema
+
+    security: 
+      escape-special-characters: true
+
 page-items: 
 - # ====== Page Item: P465_EQUIPO_ID ===========================
   id: 10567513139364224
@@ -1007,7 +1810,7 @@ page-items:
     type: Display Only
 
   label: 
-    label: Equipo
+    label: 'Equipo (Full name):'
     alignment: Left
 
   settings: 
@@ -1055,6 +1858,31 @@ page-items:
     restricted-characters: All characters can be saved.
 
 processes: 
+- # ====== Process: INTERFACES - Save Interactive Grid Data ====
+  id: 10839628116359759
+  identification: 
+    name: INTERFACES - Save Interactive Grid Data
+    type: Interactive Grid - Automatic Row Processing (DML)
+    execution-chain: None
+    editable-region: INTERFACES # 9351123647692625
+
+  settings: 
+    target-type: Region Source
+    prevent-lost-updates: true
+    lock-row: Yes
+    return-primary-key(s)-after-insert: true
+
+  execution: 
+    sequence: 30
+    point: Processing
+    run-process: Once Per Page Visit (default)
+
+  error: 
+    display-location: Inline in Notification
+
+  server-side-condition: 
+    execution-scope: For Created and Modified Rows
+
 - # ====== Process: Enlaces WAN - Save Interactive Grid Data ===
   id: 10565813972364207
   identification: 

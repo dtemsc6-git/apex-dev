@@ -1,4 +1,36 @@
 ---
+- # ====== Build Option: Feature: Activity Reporting ===========
+  id: 11334614181140470
+  identification: 
+    name: 'Feature: Activity Reporting'
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: false
+
+  comments: 
+    comments: Include numerous reports and charts on end user activity.
+
+  subscription: 
+    version-number: 39030056990274
+
+- # ====== Build Option: Feature: About Page ===================
+  id: 10526148172876099
+  identification: 
+    name: 'Feature: About Page'
+
+  status: 
+    status: Include
+    default-on-export: Same as Current Status
+    on-upgrade-keep-status: false
+
+  comments: 
+    comments: About this application page.
+
+  subscription: 
+    version-number: 39029637688457
+
 - # ====== Build Option: Feature: Access Control ===============
   id: 56800655087424124095
   identification: 

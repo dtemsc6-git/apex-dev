@@ -284,6 +284,7 @@ regions:
     template: Standard
     template-options: 
     - '#DEFAULT#'
+    - t-Region--removeHeader js-removeLandmark
     - t-Region--scrollBody
     render-components: Above Content
 

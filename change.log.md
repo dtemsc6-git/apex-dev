@@ -1,4 +1,35 @@
 #Control de cambios de la App antes del commit
+###: 2026-05-31:
+Check estas paginas:
+1
+4
+7
+9
+10
+11
+13
+15
+16
+17
+18
+25
+26
+32
+33
+36
+37
+43
+47
+63
+65
+68
+407
+465
+470
+471
+472
+9999
+
 ###: 2026-05-29:
 
 Cambios Frontend

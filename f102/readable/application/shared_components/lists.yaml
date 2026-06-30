@@ -1,11 +1,291 @@
 ---
+- # ====== List: Activity Reports ==============================
+  id: 11252115388139985
+  identification: 
+    name: Activity Reports
+
+  subscription: 
+    version-number: 39030056992448
+
+  source: 
+    type: Static Values
+
+  configuration: 
+    build-option: 'Feature: Activity Reporting' # 11334614181140470
+
+  entries: 
+  - # ====== Entry: Dashboard ====================================
+    id: 11251714876139984
+    label: 
+      label: Dashboard
+
+    icon: 
+      image/icon-css-classes: fa-area-chart
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10030:&APP_SESSION.::&DEBUG.:10030::'
+        page: 10030 # Activity Dashboard
+        clear-cache: 10030
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: View application activity metrics
+
+  - # ====== Entry: Top Users ====================================
+    id: 11251329324139983
+    label: 
+      label: Top Users
+
+    icon: 
+      image/icon-css-classes: fa-user-chart
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10031:&APP_SESSION.::&DEBUG.:10031::'
+        page: 10031 # Top Users
+        clear-cache: 10031
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Report of page views aggregated by user
+
+  - # ====== Entry: Application Error Log ========================
+    id: 11250891735139983
+    label: 
+      label: Application Error Log
+
+    icon: 
+      image/icon-css-classes: fa-exclamation
+
+    layout: 
+      sequence: 30
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10032:&APP_SESSION.::&DEBUG.:10032::'
+        page: 10032 # Application Error Log
+        clear-cache: 10032
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Report of errors logged by this application
+
+  - # ====== Entry: Page Performance =============================
+    id: 11250456950139983
+    label: 
+      label: Page Performance
+
+    icon: 
+      image/icon-css-classes: fa-file-chart
+
+    layout: 
+      sequence: 40
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10033:&APP_SESSION.::&DEBUG.:10033::'
+        page: 10033 # Page Performance
+        clear-cache: 10033
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Report of activity and performance by application page
+
+  - # ====== Entry: Page Views ===================================
+    id: 11250130284139983
+    label: 
+      label: Page Views
+
+    icon: 
+      image/icon-css-classes: fa-file-search
+
+    layout: 
+      sequence: 50
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10034:&APP_SESSION.::&DEBUG.:RR,10034::'
+        page: 10034 # Page Views
+        clear-cache: RR,10034
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Report of each page view by user including date of access and elapsed time
+
+  - # ====== Entry: Automations Log ==============================
+    id: 11249672298139983
+    label: 
+      label: Automations Log
+
+    icon: 
+      image/icon-css-classes: fa-gears
+
+    layout: 
+      sequence: 60
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10035:&APP_SESSION.::&DEBUG.:RR,10035::'
+        page: 10035 # Automations Log
+        clear-cache: RR,10035
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      1.: Report of automation executions and messages logged by this application
+
+    server-side-condition: 
+      type: Rows returned
+      sql-query: |
+        select 1
+        from apex_appl_automations a, apex_automation_log l
+        where a.automation_id = l.automation_id
+        and l.application_id = :APP_ID
+
+- # ====== List: ACCIONES EQUIPOS ==============================
+  id: 11212450412118766
+  identification: 
+    name: ACCIONES EQUIPOS
+
+  subscription: 
+    version-number: 39030139745170
+
+  source: 
+    type: Static Values
+
+  entries: 
+  - # ====== Entry: Editar =======================================
+    id: 11212323799118766
+    label: 
+      label: Editar
+
+    icon: 
+      image/icon-css-classes: fa-edit
+
+    layout: 
+      sequence: 10
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:14:&SESSION.::&DEBUG.::P14_ID:&P66_ID.:'
+        page: 14 # SGT_FORM_EQUIPO
+        values: 
+          p14_id: '&P66_ID.'
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Comentarios ==================================
+    id: 11211890591118765
+    label: 
+      label: Comentarios
+
+    icon: 
+      image/icon-css-classes: fa-clipboard-edit
+
+    layout: 
+      sequence: 20
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:32:&SESSION.::&DEBUG.::P32_PK_ID,P32_ENTIDAD:&P66_ID.,4:'
+        page: 32 # Comentarios
+        values: 
+          p32_pk_id: '&P66_ID.'
+          p32_entidad: 4
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Imágenes =====================================
+    id: 11092772247351440
+    label: 
+      label: Imágenes
+
+    icon: 
+      image/icon-css-classes: fa-file-image-o
+
+    layout: 
+      sequence: 30
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:470:&SESSION.::&DEBUG.::P470_PK_ID,P470_ENTIDAD:&P66_ID.,4:'
+        page: 470 # Subir Fotos
+        values: 
+          p470_pk_id: '&P66_ID.'
+          p470_entidad: 4
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
 - # ====== List: Menu 2.0 ======================================
   id: 9161867933320345
   identification: 
     name: Menu 2.0
 
   subscription: 
-    version-number: 39029006332647
+    version-number: 39030180289975
 
   source: 
     type: Static Values
@@ -248,33 +528,6 @@
       target: 
         url: 'f?p=&APP_ID.:17:&SESSION.::&DEBUG.::::'
         page: 17 # Visor de Servicios
-
-    click-counting: 
-      count-clicks: false
-
-    user-defined-attributes: 
-      translatable: false
-
-  - # ====== Entry: Visor Global de Equipos ======================
-    id: 9158005946320342
-    label: 
-      label: Visor Global de Equipos
-
-    icon: 
-      image/icon-css-classes: fa-table-search
-
-    layout: 
-      sequence: 20
-
-    is-current: 
-      type: Pages
-      pages: 
-      - 63
-
-    link: 
-      target: 
-        url: 'f?p=&APP_ID.:63:&SESSION.::&DEBUG.::::'
-        page: 63 # VISTA_ZONA_GLOBAL
 
     click-counting: 
       count-clicks: false
@@ -800,17 +1053,16 @@
     user-defined-attributes: 
       translatable: false
 
-  - # ====== Entry: Estructura App ===============================
+  - # ====== Entry: Vista Árbol ==================================
     id: 9148468705320338
     label: 
-      label: Estructura App
+      label: Vista Árbol
 
     icon: 
       image/icon-css-classes: fa-tree-org
 
     layout: 
-      sequence: 80
-      parent-entry: Experimental # 9148860867320338
+      sequence: 29
 
     is-current: 
       type: Pages
@@ -820,7 +1072,7 @@
     link: 
       target: 
         url: 'f?p=&APP_ID.:20:&SESSION.::&DEBUG.::::'
-        page: 20 # PRUEBATREE
+        page: 20 # Arbol App
 
     click-counting: 
       count-clicks: false
@@ -1041,6 +1293,33 @@
       target: 
         url: 'f?p=&APP_ID.:68:&APP_SESSION.::&DEBUG.:::'
         page: 68 # Tipo Equipo
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Vista Global Comentarios =====================
+    id: 14727374079941064
+    label: 
+      label: Vista Global Comentarios
+
+    icon: 
+      image/icon-css-classes: fa-table-search
+
+    layout: 
+      sequence: 35
+
+    is-current: 
+      type: Pages
+      pages: 
+      - 67
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:67:&SESSION.::&DEBUG.::::'
+        page: 67 # Vista Global Comentarios
 
     click-counting: 
       count-clicks: false
@@ -2576,7 +2855,7 @@
     link: 
       target: 
         url: 'f?p=&APP_ID.:20:&SESSION.::&DEBUG.::::'
-        page: 20 # PRUEBATREE
+        page: 20 # Arbol App
 
     click-counting: 
       count-clicks: false
@@ -2647,12 +2926,250 @@
     name: Navigation Bar
 
   subscription: 
-    version-number: 15588698676432
+    version-number: 39029911926975
 
   source: 
     type: Static Values
 
   entries: 
+  - # ====== Entry: Sitios =======================================
+    id: 11472140849731025
+    label: 
+      label: Sitios
+
+    icon: 
+      image/icon-css-classes: fa-map-marker
+
+    layout: 
+      sequence: 40
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:25:&SESSION.::&DEBUG.::::'
+        page: 25 # SGT_LST_SITIOS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Salas ========================================
+    id: 11471450746673552
+    label: 
+      label: Salas
+
+    icon: 
+      image/icon-css-classes: fa-city
+
+    layout: 
+      sequence: 45
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:4:&SESSION.::&DEBUG.::::'
+        page: 4 # SGT_LST_SALAS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Racks ========================================
+    id: 11471073903667359
+    label: 
+      label: Racks
+
+    icon: 
+      image/icon-css-classes: fa-badge-list
+
+    layout: 
+      sequence: 50
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:11:&SESSION.::&DEBUG.::::'
+        page: 11 # SGT_LST_RACKS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Equipos ======================================
+    id: 11028209203137756
+    label: 
+      label: Equipos
+
+    icon: 
+      image/icon-css-classes: fa-hardware
+
+    layout: 
+      sequence: 110
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:13:&SESSION.::&DEBUG.::::'
+        page: 13 # SGT_LST_EQUIPOS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Interfaces ===================================
+    id: 11027526238125885
+    label: 
+      label: Interfaces
+
+    icon: 
+      image/icon-css-classes: fa-plug
+
+    layout: 
+      sequence: 110
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:8:&SESSION.::&DEBUG.::::'
+        page: 8 # SGT_LST_INTERFACES
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+    server-side-condition: 
+      type: Expression
+      language: PL/SQL
+      pl/sql-expression: null
+
+  - # ====== Entry: Enlaces FO ===================================
+    id: 11027122462120900
+    label: 
+      label: Enlaces FO
+
+    icon: 
+      image/icon-css-classes: fa-accessor-one
+
+    layout: 
+      sequence: 120
+      parent-entry: '&APP_USER.' # 197180576417873446408
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:36:&SESSION.::&DEBUG.::::'
+        page: 36 # SGT_LST_ENLACES_FO_2
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Mapas ========================================
+    id: 11026813915112968
+    label: 
+      label: Mapas
+
+    icon: 
+      image/icon-css-classes: fa-map-marker
+
+    layout: 
+      sequence: 130
+      parent-entry: '&APP_USER.' # 197180576417873446408
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:47:&SESSION.::&DEBUG.::::'
+        page: 47 # MAPA_SITIOS
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Archivos =====================================
+    id: 11026488726106237
+    label: 
+      label: Archivos
+
+    icon: 
+      image/icon-css-classes: fa-folder
+
+    layout: 
+      sequence: 150
+      parent-entry: '&APP_USER.' # 197180576417873446408
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:471:&SESSION.::&DEBUG.::::'
+        page: 471 # Archivos
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+
+  - # ====== Entry: Acerca de esta App ===========================
+    id: 10524876572876087
+    label: 
+      label: Acerca de esta App
+
+    icon: 
+      image/icon-css-classes: fa-info-circle-o
+
+    layout: 
+      sequence: 1009
+
+    is-current: 
+      type: Target Page
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:10020:&APP_SESSION.::&DEBUG.:10020::'
+        page: 10020 # Acerca de esta App
+        clear-cache: 10020
+
+    click-counting: 
+      count-clicks: false
+
+    user-defined-attributes: 
+      translatable: false
+      2.: icon-only
+
+    configuration: 
+      build-option: 'Feature: About Page' # 10526148172876099
+
   - # ====== Entry: &APP_USER. ===================================
     id: 197180576417873446408
     label: 
@@ -2662,7 +3179,7 @@
       image/icon-css-classes: fa-user
 
     layout: 
-      sequence: 10
+      sequence: 999
 
     is-current: 
       type: Target Page
@@ -2710,7 +3227,7 @@
       image/icon-css-classes: fa-sign-out
 
     layout: 
-      sequence: 30
+      sequence: 300
       parent-entry: '&APP_USER.' # 197180576417873446408
 
     is-current: 

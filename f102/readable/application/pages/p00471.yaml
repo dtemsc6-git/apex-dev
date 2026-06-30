@@ -144,7 +144,10 @@ regions:
       column: OBSERVACIONES
 
     secondary-body: 
-      advanced-formatting: false
+      advanced-formatting: true
+      html-expression: |
+        Creado por: &CREADO_POR. <br/>
+        Creado el: &CREADO_EL.
 
     icon-and-badge: 
       icon-source: No Icon
@@ -732,6 +735,53 @@ page-items:
     session-state-protection: Unrestricted
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
+
+- # ====== Page Item: P471_ESPACIO_EN_USO ======================
+  id: 2415824001170216
+  identification: 
+    name: P471_ESPACIO_EN_USO
+    type: Percent Graph
+
+  label: 
+    label: Espacio En Uso
+    alignment: Left
+
+  settings: 
+    show-value: true
+
+  layout: 
+    sequence: 90
+    region: Archivos # 10421015447424783
+    slot: ORDER_BY_ITEM
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: SQL Query (return single value)
+    sql-query: SELECT ROUND(sum(sys.dbms_lob.getlength(FILE_BLOB)) / (2*1024*1024*1024) , 2) GB_USED from SGT_archivos
+    used: Only when current value in session state is null
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    restricted-characters: All characters can be saved.
+
+  help: 
+    inline-help-text: Muestra el % de uso, con respecto a un espacio de 2GB.
 
 dynamic-actions: 
 - # ====== Dynamic Action: DOWNLOAD ============================

@@ -178,15 +178,6 @@ regions:
         name: Primary Report
         alias: 814742452
 
-    column-groups: 
-    - # ====== Column Group: ACCIONES ==============================
-      id: 9091326675979497
-      identification: 
-        name: ACCIONES
-
-      layout: 
-        sequence: 10
-
     columns: 
     - # ====== Column: ACCIONES ====================================
       id: 9348530598692599
@@ -204,7 +195,6 @@ regions:
       layout: 
         sequence: 10
         column-alignment: start
-        group: ACCIONES # 9091326675979497
 
       settings: 
         format: HTML
@@ -225,15 +215,14 @@ regions:
 
       heading: 
         heading: Comentarios
-        alignment: start
+        alignment: center
 
       single-row-view: 
         use-column-heading: true
 
       layout: 
         sequence: 60
-        column-alignment: start
-        group: ACCIONES # 9091326675979497
+        column-alignment: center
 
       accessibility: 
         value-identifies-row: false

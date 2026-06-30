@@ -1,4 +1,22 @@
 ---
+- # ====== Static Application File: dev_team.jpeg ==============
+  id: 13678768766541357
+  identification: 
+    file-name: dev_team.jpeg
+
+  attributes: 
+    mime-type: image/jpeg
+    file-character-set: Unicode UTF-8
+
+- # ====== Static Application File: dev_team2.jpeg =============
+  id: 14044976685068010
+  identification: 
+    file-name: dev_team2.jpeg
+
+  attributes: 
+    mime-type: image/jpeg
+    file-character-set: Unicode UTF-8
+
 - # ====== Static Application File: racks.css ==================
   id: 66691406793328088419
   identification: 

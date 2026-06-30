@@ -1,0 +1,230 @@
+---
+# ====== Page: Acerca de esta App ============================
+id: 10020
+identification: 
+  name: Acerca de esta App
+  alias: ACERCA-DE-ESTA-APP
+  title: Acerca de esta App
+
+appearance: 
+  page-mode: Normal
+  page-template: Theme Default
+  template-options: 
+  - '#DEFAULT#'
+
+navigation-menu: 
+  override-user-interface-level: false
+
+navigation: 
+  cursor-focus: First item on page
+  warn-on-unsaved-changes: false
+
+security: 
+  authentication: Page Requires Authentication
+  deep-linking: Application Default
+  page-access-protection: Arguments Must Have Checksum
+  form-auto-complete: Off
+  browser-cache: Application Default
+
+session-management: 
+  rejoin-sessions: Application Default
+
+advanced: 
+  enable-duplicate-page-submissions: Yes - Enable page to be re-posted
+  reload-on-submit: Only for Success
+
+server-cache: 
+  caching: Disabled
+
+help: 
+  help-text: All application help text can be accessed from this page. The links in the "Documentation" region give a much more in-depth explanation of the application's features and functionality.
+
+configuration: 
+  build-option: 'Feature: About Page' # 10526148172876099
+
+regions: 
+- # ====== Region: DEV_TEAM ====================================
+  id: 10545946714920660
+  identification: 
+    name: DEV_TEAM
+    title: Dev Team
+    type: Static Content
+
+  source: 
+    html-code: |
+      </br>
+      DTE/DIC: Ing. Cecilia Vega. <br/>
+      DTE/MCO: Ing. Pablo A. Núñez.<br/>
+      DTE/MSC: Ing. Donald Marcelo Flores.<br/>
+      Hecho con ❤️ en APEX -> para ANDE <br/>
+      Todos los derechos reservados © 2026<br/>
+
+  layout: 
+    sequence: 30
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: 4
+
+  appearance: 
+    template: Hero
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-american-sign-language-interpreting
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: Acerca de ===================================
+  id: 10525398316876092
+  identification: 
+    name: Acerca de
+    type: Static Content
+
+  source: 
+    html-code: |
+      </br>
+      ADRI - Administrador de Redes Integradas de la ANDE:<br/> 
+      Surge de la necesidad de contar con información centralizada de los activos de comunicación gestionados por la DTE.<br/>
+      Innovando la gestión de la infraestructura de comunicaciones de la ANDE <br/>
+      
+
+  layout: 
+    sequence: 20
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: true
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Hero
+    template-options: 
+    - '#DEFAULT#'
+    icon: fa-laptop
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+- # ====== Region: IMAGEN ======================================
+  id: 13429192069982031
+  identification: 
+    name: IMAGEN
+    type: Static Content
+
+  layout: 
+    sequence: 40
+    parent-region: No Parent
+    slot: BODY
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+
+  appearance: 
+    template: Content Block
+    template-options: 
+    - '#DEFAULT#'
+    - t-ContentBlock--h1
+    - t-Region--removeHeader js-removeLandmark
+    render-components: Above Content
+
+  accessibility: 
+    use-landmark: true
+    landmark-type: Template Default
+
+  advanced: 
+    region-display-selector: false
+    exclude-title-from-translation: false
+
+  customization: 
+    customizable: Not Customizable By End Users
+
+  attributes: 
+    settings: 
+      output-as: HTML
+      expand-shortcuts: false
+
+page-items: 
+- # ====== Page Item: P10020_NEW ===============================
+  id: 13429329545982032
+  identification: 
+    name: P10020_NEW
+    type: Display Image
+
+  label: 
+    alignment: Left
+
+  settings: 
+    based-on: Image URL stored in Page Item Value
+    alternative-text: Equipo
+
+  layout: 
+    sequence: 10
+    region: IMAGEN # 13429192069982031
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: 6
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    type: Null
+    used: Only when current value in session state is null
+
+  default: 
+    type: Static
+    static-value: '#APP_FILES#dev_team2.jpeg'
+
+  session-state: 
+    storage: Per Session (Persistent)
+
+  security: 
+    session-state-protection: Unrestricted
+    restricted-characters: All characters can be saved.
+

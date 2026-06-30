@@ -50,37 +50,37 @@ regions:
     type: SQL Query
     sql-query: |
       select e.ID,
-             UNIDAD_ENCARGADA,
+             --UNIDAD_ENCARGADA,
              RACK_ID,
              U,
              TIPO_RED,
              e.NOMBRE,
              te.grupo_equipo SUB_TIPO,
              TIPO_EQUIPO_ID,
-             MARCA,
-             MODELO,
+             --MARCA,
+             --MODELO,
              ESTADO,
-             OBSERVACIONES,
-             NI_ANDE,
-             SERIAL_NUMBER,
-             VERSION_HARDWARE,
-             VERSION_SOFTWARE,
-             VERSION_PATCH,
-             IP_GESTION,
-             ALIMENTACION1_ID,
-             ALIMENTACION2_ID,
-             PROYECTO_ID,
-             FECHA_IMPLE,
+            -- OBSERVACIONES,
+             --NI_ANDE,
+             --SERIAL_NUMBER,
+             --VERSION_HARDWARE,
+             --VERSION_SOFTWARE,
+             --VERSION_PATCH,
+             --IP_GESTION,
+             --ALIMENTACION1_ID,
+             --ALIMENTACION2_ID,
+             --PROYECTO_ID,
+             --FECHA_IMPLE,
              ALTURA_U,
              POSICION,
              SITIO_ID,
              CREADO_POR,
              CREADO_EL,
              ACTUALIZADO_POR,
-             ACTUALIZADO_EL,
-             'Ver' as COMENTARIOS,
-             (SELECT COUNT (I.ID) FROM SGT_INTERFACES I where i.EQUIPO_ID = E.ID)  "TOTAL_INTERFACES", 
-             (SELECT COUNT(FO.ID) FROM SGT_ENLACES_FO FO WHERE FO.equipo_id_A = E.ID or FO.equipo_id_b = E.ID) "ENLACE_FO"
+             ACTUALIZADO_EL
+             --'Ver' as COMENTARIOS,
+             --(SELECT COUNT (I.ID) FROM SGT_INTERFACES I where i.EQUIPO_ID = E.ID)  "TOTAL_INTERFACES", 
+             --(SELECT COUNT(FO.ID) FROM SGT_ENLACES_FO FO WHERE FO.equipo_id_A = E.ID or FO.equipo_id_b = E.ID) "ENLACE_FO"
         from SGT_EQUIPOS E
       
         inner join sgt_tipo_equipos te on te.id = e.tipo_equipo_id 
@@ -174,66 +174,6 @@ regions:
         alias: 880295913
 
   columns: 
-  - # ====== Column: COMENTARIOS =================================
-    id: 9091606669979500
-    identification: 
-      column-name: COMENTARIOS
-      type: Link
-
-    heading: 
-      heading: Comentarios
-      alignment: start
-
-    layout: 
-      sequence: 350
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    link: 
-      target: 
-        url: 'f?p=&APP_ID.:32:&SESSION.::&DEBUG.::P32_ENTIDAD,P32_PK_ID:4,&ID.'
-        page: 32 # Comentarios
-        values: 
-          p32_entidad: 4
-          p32_pk_id: '&ID.'
-
-      link-text: '&COMENTARIOS.'
-
-    source: 
-      type: Database Column
-      database-column: COMENTARIOS
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-    security: 
-      escape-special-characters: true
-
   - # ====== Column: SUB_TIPO ====================================
     id: 2415479049170213
     identification: 
@@ -242,7 +182,7 @@ regions:
 
     heading: 
       heading: Sub Tipo
-      alignment: start
+      alignment: center
 
     settings: 
       format: Plain Text
@@ -315,78 +255,6 @@ regions:
 
     enable-users-to: 
       sort: false
-
-  - # ====== Column: UNIDAD_ENCARGADA ============================
-    id: 87993678349407945849
-    identification: 
-      column-name: UNIDAD_ENCARGADA
-      type: Popup LOV
-
-    heading: 
-      heading: Unidad Encargada
-      alignment: center
-
-    settings: 
-      display-as: Inline Popup
-      initial-fetch: Automatic
-      manual-entry: false
-      fetch-on-search: false
-
-    search: 
-      match-type: Contains
-      case-sensitive: false
-      minimum-characters: 0
-
-    multiple-values: 
-      type: Delimited List
-      separator: ':'
-
-    layout: 
-      sequence: 40
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 50
-
-    list-of-values: 
-      type: Shared Component
-      list-of-values: UNI_ENCAR # 200719442741094818409
-      display-extra-values: true
-      display-null-value: true
-
-    source: 
-      type: Database Column
-      database-column: UNIDAD_ENCARGADA
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Use List of Values
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
 
   - # ====== Column: RACK_ID =====================================
     id: 87993678418853945850
@@ -630,7 +498,7 @@ regions:
 
     heading: 
       heading: Tipo de Equipo
-      alignment: start
+      alignment: center
 
     settings: 
       display-as: Inline Popup
@@ -667,116 +535,6 @@ regions:
       type: Database Column
       database-column: TIPO_EQUIPO_ID
       data-type: NUMBER
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: MARCA =======================================
-    id: 88029832745447630906
-    identification: 
-      column-name: MARCA
-      type: Text Field
-
-    heading: 
-      heading: Marca
-      alignment: center
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 150
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 50
-
-    source: 
-      type: Database Column
-      database-column: MARCA
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: MODELO ======================================
-    id: 88029832817908630907
-    identification: 
-      column-name: MODELO
-      type: Text Field
-
-    heading: 
-      heading: Modelo
-      alignment: center
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 160
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 255
-
-    source: 
-      type: Database Column
-      database-column: MODELO
-      data-type: VARCHAR2
       query-only: false
       primary-key: false
 
@@ -857,620 +615,6 @@ regions:
       sort: true
       control-break/aggregate: true
       hide: true
-
-  - # ====== Column: OBSERVACIONES ===============================
-    id: 88029833017136630909
-    identification: 
-      column-name: OBSERVACIONES
-      type: Textarea
-
-    heading: 
-      heading: Observaciones
-      alignment: center
-
-    settings: 
-      resizable: true
-      auto-height: false
-      character-counter: false
-      trim-spaces: Leading and Trailing
-
-    layout: 
-      sequence: 180
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 4000
-
-    source: 
-      type: Database Column
-      database-column: OBSERVACIONES
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    session-state: 
-      data-type: VARCHAR2
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: false
-      hide: true
-
-  - # ====== Column: NI_ANDE =====================================
-    id: 88029833128935630910
-    identification: 
-      column-name: NI_ANDE
-      type: Text Field
-
-    heading: 
-      heading: NI ANDE
-      alignment: center
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 190
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 50
-
-    source: 
-      type: Database Column
-      database-column: NI_ANDE
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: SERIAL_NUMBER ===============================
-    id: 88029833287472630911
-    identification: 
-      column-name: SERIAL_NUMBER
-      type: Text Field
-
-    heading: 
-      heading: Serial Number
-      alignment: center
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 200
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 50
-
-    source: 
-      type: Database Column
-      database-column: SERIAL_NUMBER
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: VERSION_HARDWARE ============================
-    id: 88029833381942630912
-    identification: 
-      column-name: VERSION_HARDWARE
-      type: Text Field
-
-    heading: 
-      heading: Hardware Version
-      alignment: center
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 210
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 50
-
-    source: 
-      type: Database Column
-      database-column: VERSION_HARDWARE
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: VERSION_SOFTWARE ============================
-    id: 88029833492879630913
-    identification: 
-      column-name: VERSION_SOFTWARE
-      type: Text Field
-
-    heading: 
-      heading: Software Version
-      alignment: center
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 220
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 50
-
-    source: 
-      type: Database Column
-      database-column: VERSION_SOFTWARE
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: VERSION_PATCH ===============================
-    id: 88029833552131630914
-    identification: 
-      column-name: VERSION_PATCH
-      type: Text Field
-
-    heading: 
-      heading: Patch Version
-      alignment: center
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 230
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 50
-
-    source: 
-      type: Database Column
-      database-column: VERSION_PATCH
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: IP_GESTION ==================================
-    id: 88029833636371630915
-    identification: 
-      column-name: IP_GESTION
-      type: Text Field
-
-    heading: 
-      heading: IP Gestión
-      alignment: center
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 170
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 50
-
-    source: 
-      type: Database Column
-      database-column: IP_GESTION
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: ALIMENTACION1_ID ============================
-    id: 88029833764385630916
-    identification: 
-      column-name: ALIMENTACION1_ID
-      type: Text Field
-
-    heading: 
-      heading: Alimentacion1 Id
-      alignment: start
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 250
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 50
-
-    source: 
-      type: Database Column
-      database-column: ALIMENTACION1_ID
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
-  - # ====== Column: ALIMENTACION2_ID ============================
-    id: 88029833835897630917
-    identification: 
-      column-name: ALIMENTACION2_ID
-      type: Text Field
-
-    heading: 
-      heading: Alimentacion2 Id
-      alignment: start
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 260
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 255
-
-    source: 
-      type: Database Column
-      database-column: ALIMENTACION2_ID
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
-  - # ====== Column: PROYECTO_ID =================================
-    id: 88029833903798630918
-    identification: 
-      column-name: PROYECTO_ID
-      type: Text Field
-
-    heading: 
-      heading: Proyecto de Implementación
-      alignment: center
-
-    settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
-
-    layout: 
-      sequence: 270
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 50
-
-    source: 
-      type: Database Column
-      database-column: PROYECTO_ID
-      data-type: VARCHAR2
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      performance-impacting-operators: 
-      - Contains
-      - Starts With
-      - Case Insensitive
-      - Regular Expression
-      text-case: Mixed
-      lov-type: Distinct Column
-      exact-match: true
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: FECHA_IMPLE =================================
-    id: 88029834029330630919
-    identification: 
-      column-name: FECHA_IMPLE
-      type: Date Picker
-
-    heading: 
-      heading: Fecha Imple
-      alignment: start
-
-    settings: 
-      show-time: false
-      display-as: Popup
-      minimum-date: None
-      maximum-date: None
-      multiple-months: No
-      use-defaults: true
-
-    layout: 
-      sequence: 280
-      column-alignment: start
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-
-    source: 
-      type: Database Column
-      database-column: FECHA_IMPLE
-      data-type: DATE
-      query-only: false
-      primary-key: false
-
-    default: 
-      duplicate-copies-existing-value: true
-
-    column-filter: 
-      enabled: true
-      lov-type: Distinct Column
-      date-ranges: All
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
 
   - # ====== Column: ALTURA_U ====================================
     id: 88029834125411630920
@@ -1655,7 +799,7 @@ regions:
 
     heading: 
       heading: Creado Por
-      alignment: start
+      alignment: center
 
     settings: 
       trim-spaces: Leading and Trailing
@@ -1713,7 +857,7 @@ regions:
 
     heading: 
       heading: Creado El
-      alignment: start
+      alignment: center
 
     settings: 
       show-time: false
@@ -1764,15 +908,15 @@ regions:
     id: 88029834608358630925
     identification: 
       column-name: ACTUALIZADO_POR
-      type: Text Field
+      type: Display Only
 
     heading: 
-      heading: Actualizado Por
-      alignment: start
+      heading: Actualizado por
+      alignment: center
 
     settings: 
-      trim-spaces: Leading and Trailing
-      text-case: NO CHANGE
+      format: Plain Text
+      based-on: Item Value
 
     layout: 
       sequence: 310
@@ -1781,10 +925,6 @@ regions:
 
     accessibility: 
       value-identifies-row: false
-
-    validation: 
-      value-required: false
-      maximum-length: 255
 
     source: 
       type: Database Column
@@ -1795,6 +935,9 @@ regions:
 
     default: 
       duplicate-copies-existing-value: true
+
+    session-state: 
+      data-type: VARCHAR2
 
     column-filter: 
       enabled: true
@@ -1815,9 +958,6 @@ regions:
       control-break/aggregate: true
       hide: true
 
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
-
   - # ====== Column: ACTUALIZADO_EL ==============================
     id: 88029834732876630926
     identification: 
@@ -1825,8 +965,8 @@ regions:
       type: Display Only
 
     heading: 
-      heading: Actualizado El
-      alignment: start
+      heading: Actualizado el
+      alignment: center
 
     settings: 
       format: Plain Text
@@ -1885,97 +1025,6 @@ regions:
 
     layout: 
       sequence: 10
-
-  - # ====== Column: TOTAL_INTERFACES ============================
-    id: 88034738092447770423
-    identification: 
-      column-name: TOTAL_INTERFACES
-      type: Number Field
-
-    heading: 
-      heading: Total Interfaces
-      alignment: center
-
-    settings: 
-      number-alignment: Start
-      virtual-keyboard: Decimal
-
-    layout: 
-      sequence: 330
-      column-alignment: center
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-
-    source: 
-      type: Database Column
-      database-column: TOTAL_INTERFACES
-      data-type: NUMBER
-      query-only: true
-      primary-key: false
-
-    column-filter: 
-      enabled: true
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-  - # ====== Column: ENLACE_FO ===================================
-    id: 88034738174289770424
-    identification: 
-      column-name: ENLACE_FO
-      type: Number Field
-
-    heading: 
-      heading: Enlace Fo
-      alignment: end
-
-    settings: 
-      number-alignment: Start
-      virtual-keyboard: Decimal
-
-    layout: 
-      sequence: 340
-      column-alignment: end
-      stretch: Use Report Setting
-
-    accessibility: 
-      value-identifies-row: false
-
-    validation: 
-      value-required: false
-
-    source: 
-      type: Database Column
-      database-column: ENLACE_FO
-      data-type: NUMBER
-      query-only: true
-      primary-key: false
-
-    column-filter: 
-      enabled: true
-      lov-type: None
-
-    export-/-printing: 
-      include-in-export-/-print: true
-
-    enable-users-to: 
-      sort: true
-      control-break/aggregate: true
-      hide: true
-
-    configuration: 
-      build-option: Commented Out # 197180071872965446203
 
   printing: 
     page: 

@@ -19,6 +19,23 @@
         url: 'f?p=&APP_ID.:63:&SESSION.::&DEBUG.:::'
         page: 63 # VISTA_ZONA_GLOBAL
 
+  - # ====== Entry: Detalles Equipos =============================
+    id: 11217994543190102
+    identification: 
+      name: Detalles Equipos
+      page-number: 66
+
+    execution: 
+      sequence: 10
+
+    appearance: 
+      parent-entry: Equipos # 200805781466576280031
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:66:&APP_SESSION.::&DEBUG.:::'
+        page: 66 # Detalles Equipos
+
   - # ====== Entry: Dependencias Salas ===========================
     id: 9240964183254681
     identification: 
@@ -125,6 +142,20 @@
       target: 
         url: 'f?p=&APP_ID.:449:&APP_SESSION.::&DEBUG.:::'
         page: 449 # Topología WAN
+
+  - # ====== Entry: Vista Global Comentarios =====================
+    id: 14728349431941066
+    identification: 
+      name: Vista Global Comentarios
+      page-number: 67
+
+    execution: 
+      sequence: 10
+
+    link: 
+      target: 
+        url: 'f?p=&APP_ID.:67:&APP_SESSION.::&DEBUG.:::'
+        page: 67 # Vista Global Comentarios
 
   - # ====== Entry: Interfaces ===================================
     id: 37204295089123013533

@@ -52,11 +52,11 @@ regions:
 
   source: 
     html-code: |
-      Creado por: &P27_CREADO_POR. el: &P27_CREADO_EL. 
-      Actualizado por: &P27_ACTUALIZADO_POR. el: &P27_ACTUALIZADO_EL. 
+      Creado por &P27_CREADO_POR. el &P27_CREADO_EL.. 
+      Actualizado por &P27_ACTUALIZADO_POR. el &P27_ACTUALIZADO_EL. 
 
   layout: 
-    sequence: 260
+    sequence: 270
     parent-region: SGT_FORM_ENLACES_FO # 42627026800682534082
     slot: BODY
     start-new-layout: false
@@ -230,7 +230,7 @@ regions:
   id: 51494080541081384813
   identification: 
     name: DATOS_ENLACES
-    title: Datos Enlace
+    title: Datos Principales
     type: Static Content
 
   layout: 
@@ -247,6 +247,9 @@ regions:
     template: Standard
     template-options: 
     - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--hideHeader js-addHiddenHeadingRoleDesc
+    - t-Region--noBorder
     - t-Region--scrollBody
     render-components: Above Content
 
@@ -270,7 +273,7 @@ regions:
   id: 51494080630010384814
   identification: 
     name: DATOS_CABLE
-    title: Datos Cable
+    title: Datos Adicionales
     type: Static Content
 
   layout: 
@@ -287,6 +290,9 @@ regions:
     template: Standard
     template-options: 
     - '#DEFAULT#'
+    - t-Region--noPadding
+    - t-Region--hideHeader js-addHiddenHeadingRoleDesc
+    - t-Region--noBorder
     - t-Region--scrollBody
     render-components: Above Content
 
@@ -417,7 +423,7 @@ page-items:
     display-as: Inline Popup
     initial-fetch: Automatic
     manual-entry: false
-    fetch-on-search: false
+    fetch-on-search: true
 
   search: 
     match-type: Contains
@@ -428,7 +434,7 @@ page-items:
     type: No
 
   layout: 
-    sequence: 30
+    sequence: 40
     region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
@@ -436,7 +442,7 @@ page-items:
     start-new-row: true
     column: Automatic
     new-column: true
-    column-span: Automatic
+    column-span: 4
     label-column-span: Page Template Default
 
   appearance: 
@@ -493,7 +499,7 @@ page-items:
     display-as: Inline Popup
     initial-fetch: Automatic
     manual-entry: false
-    fetch-on-search: false
+    fetch-on-search: true
 
   search: 
     match-type: Contains
@@ -509,7 +515,7 @@ page-items:
     slot: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -582,7 +588,7 @@ page-items:
     display-as: Inline Popup
     initial-fetch: Automatic
     manual-entry: false
-    fetch-on-search: false
+    fetch-on-search: true
 
   search: 
     match-type: Contains
@@ -593,7 +599,7 @@ page-items:
     type: No
 
   layout: 
-    sequence: 50
+    sequence: 60
     region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
@@ -601,7 +607,7 @@ page-items:
     start-new-row: true
     column: Automatic
     new-column: true
-    column-span: Automatic
+    column-span: 4
     label-column-span: Page Template Default
 
   appearance: 
@@ -658,7 +664,7 @@ page-items:
     display-as: Inline Popup
     initial-fetch: Automatic
     manual-entry: false
-    fetch-on-search: false
+    fetch-on-search: true
 
   search: 
     match-type: Contains
@@ -674,7 +680,7 @@ page-items:
     slot: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -748,8 +754,8 @@ page-items:
     virtual-keyboard: Decimal
 
   layout: 
-    sequence: 50
-    region: DATOS_CABLE # 51494080630010384814
+    sequence: 120
+    region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -810,7 +816,7 @@ page-items:
     type: No
 
   layout: 
-    sequence: 60
+    sequence: 50
     region: DATOS_CABLE # 51494080630010384814
     slot: BODY
     alignment: Left
@@ -878,7 +884,7 @@ page-items:
     virtual-keyboard: Decimal
 
   layout: 
-    sequence: 80
+    sequence: 60
     region: DATOS_CABLE # 51494080630010384814
     slot: BODY
     alignment: Left
@@ -940,12 +946,12 @@ page-items:
     virtual-keyboard: Numeric
 
   layout: 
-    sequence: 70
-    region: DATOS_CABLE # 51494080630010384814
+    sequence: 130
+    region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -1069,8 +1075,8 @@ page-items:
     type: No
 
   layout: 
-    sequence: 10
-    region: DATOS_CABLE # 51494080630010384814
+    sequence: 90
+    region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -1150,12 +1156,12 @@ page-items:
     type: No
 
   layout: 
-    sequence: 80
+    sequence: 100
     region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -1217,7 +1223,7 @@ page-items:
     type: No
 
   layout: 
-    sequence: 100
+    sequence: 70
     region: DATOS_CABLE # 51494080630010384814
     slot: BODY
     alignment: Left
@@ -1284,7 +1290,7 @@ page-items:
     type: No
 
   layout: 
-    sequence: 70
+    sequence: 80
     region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
@@ -1349,7 +1355,7 @@ page-items:
     syntax-highlighting: true
 
   layout: 
-    sequence: 90
+    sequence: 160
     region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
@@ -1390,6 +1396,9 @@ page-items:
   help: 
     inline-help-text: Insertar observaciones o comentarios si los hubiere
 
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
 - # ====== Page Item: P27_PROYECTO_DE_IMPLEMENTACIÓN ===========
   id: 42627033597283534089
   identification: 
@@ -1408,8 +1417,8 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 120
-    region: DATOS_ENLACES # 51494080541081384813
+    sequence: 90
+    region: DATOS_CABLE # 51494080630010384814
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -1472,8 +1481,8 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 130
-    region: DATOS_ENLACES # 51494080541081384813
+    sequence: 100
+    region: DATOS_CABLE # 51494080630010384814
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -1541,8 +1550,8 @@ page-items:
     separator: ':'
 
   layout: 
-    sequence: 110
-    region: DATOS_ENLACES # 51494080541081384813
+    sequence: 80
+    region: DATOS_CABLE # 51494080630010384814
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -1743,8 +1752,8 @@ page-items:
     separator: ':'
 
   layout: 
-    sequence: 20
-    region: DATOS_CABLE # 51494080630010384814
+    sequence: 140
+    region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -1805,12 +1814,12 @@ page-items:
     type: No
 
   layout: 
-    sequence: 30
-    region: DATOS_CABLE # 51494080630010384814
+    sequence: 150
+    region: DATOS_ENLACES # 51494080541081384813
     slot: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -1827,7 +1836,7 @@ page-items:
 
   list-of-values: 
     type: Static Values
-    static-values: 'STATIC2:Aéreo;Aéreo,Subterráneo;Subterráneo,Mix;Mix'
+    static-values: 'STATIC2:Aéreo;Aéreo,Subterráneo;Subterráneo,Mix;Mix,NA;NA'
     display-extra-values: true
     display-null-value: true
 

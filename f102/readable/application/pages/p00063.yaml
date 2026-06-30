@@ -586,7 +586,7 @@ regions:
     link: 
       target: 
         url: 'f?p=&APP_ID.:465:&SESSION.::&DEBUG.::P465_EQUIPO_ID:#EQUIPO_ID#'
-        page: 465 # Interfaces
+        page: 465 # Dependencias equipos
         values: 
           p465_equipo_id: '#EQUIPO_ID#'
 

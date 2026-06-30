@@ -368,11 +368,11 @@ regions:
     security: 
       escape-special-characters: true
 
-- # ====== Region: OBLIGATORIOS ================================
+- # ====== Region: Datos Principales ===========================
   id: 51494081943826384827
   identification: 
-    name: OBLIGATORIOS
-    title: Obligatorios
+    name: Datos Principales
+    title: Datos Principales
     type: Static Content
 
   layout: 
@@ -389,6 +389,7 @@ regions:
     template: Standard
     template-options: 
     - '#DEFAULT#'
+    - t-Region--hideHeader js-addHiddenHeadingRoleDesc
     - t-Region--noBorder
     - t-Region--scrollBody
     render-components: Above Content
@@ -417,8 +418,8 @@ regions:
 
   source: 
     html-code: |
-      Creado por: &P14_CREADO_POR. el: &P14_CREADO_EL. 
-      Actualizado por: &P14_ACTUALIZADO_POR. el: &P14_ACTUALIZADO_EL. 
+      Creado por &P14_CREADO_POR. el &P14_CREADO_EL..
+      Actualizado por &P14_ACTUALIZADO_POR. el &P14_ACTUALIZADO_EL. 
 
   layout: 
     sequence: 10
@@ -466,7 +467,7 @@ regions:
     type: Region Display Selector
 
   layout: 
-    sequence: 50
+    sequence: 60
     parent-region: SGT_FORM_EQUIPO # 200805748090942280007
     slot: BODY
     start-new-layout: false
@@ -503,11 +504,11 @@ regions:
       include-'show-all': false
       remember-selection: By User
 
-- # ====== Region: DATOS_OPCIONALES ============================
+- # ====== Region: Datos Adicionales ===========================
   id: 200746701216699948331
   identification: 
-    name: DATOS_OPCIONALES
-    title: Datos opcionales
+    name: Datos Adicionales
+    title: Datos Adicionales
     type: Static Content
 
   layout: 
@@ -524,6 +525,7 @@ regions:
     template: Standard
     template-options: 
     - '#DEFAULT#'
+    - t-Region--hideHeader js-addHiddenHeadingRoleDesc
     - t-Region--noBorder
     - t-Region--scrollBody
     render-components: Above Content
@@ -633,6 +635,70 @@ regions:
       show-line-breaks: true
 
 page-items: 
+- # ====== Page Item: P14_FULL_NAME ============================
+  id: 10839355675359756
+  identification: 
+    name: P14_FULL_NAME
+    type: Display Only
+
+  label: 
+    label: 'Equipo (Full name):'
+    alignment: Left
+
+  settings: 
+    format: Plain Text
+    based-on: Display Value of List of Values
+    show-line-breaks: true
+    send-on-page-submit: false
+
+  layout: 
+    sequence: 50
+    region: SGT_FORM_EQUIPO # 200805748090942280007
+    slot: BODY
+    alignment: Left
+    start-new-layout: false
+    start-new-row: false
+    column: Automatic
+    new-column: true
+    column-span: Automatic
+    label-column-span: Page Template Default
+
+  appearance: 
+    template: Optional - Floating
+    template-options: 
+    - '#DEFAULT#'
+
+  list-of-values: 
+    type: Shared Component
+    list-of-values: EQUIPOS.NOMBRE-COMPUESTO # 99183333741246371784
+    display-extra-values: true
+
+  advanced: 
+    warn-on-unsaved-changes: Page Default
+
+  source: 
+    form-region: SGT_FORM_EQUIPO # 200805748090942280007
+    column: ID
+    data-type: NUMBER
+    query-only: true
+    primary-key: false
+
+  session-state: 
+    data-type: VARCHAR2
+    storage: Per Request (Memory Only)
+
+  server-side-condition: 
+    type: Item is NOT NULL
+    item: P14_ID
+
+  security: 
+    session-state-protection: Unrestricted
+    store-value-encrypted-in-session-state: true
+    restricted-characters: All characters can be saved.
+
+  comments: 
+    comments: Agregado comentarios para probar
+
 - # ====== Page Item: P14_SUB_TIPO =============================
   id: 9766188787498158
   identification: 
@@ -687,8 +753,8 @@ page-items:
     separator: ':'
 
   layout: 
-    sequence: 10
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 160
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -747,7 +813,7 @@ page-items:
 
   layout: 
     sequence: 50
-    region: OBLIGATORIOS # 51494081943826384827
+    region: Datos Principales # 51494081943826384827
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -826,8 +892,8 @@ page-items:
     trim-spaces: Leading and Trailing
 
   layout: 
-    sequence: 130
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 50
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -870,6 +936,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
+
 - # ====== Page Item: P14_NI_ANDE ==============================
   id: 16831387847633382027
   identification: 
@@ -888,8 +957,8 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 210
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 60
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -951,8 +1020,8 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 200
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 70
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -993,6 +1062,9 @@ page-items:
     store-value-encrypted-in-session-state: true
     restricted-characters: All characters can be saved.
 
+  help: 
+    inline-help-text: Ingresar el número de serie del equipo
+
 - # ====== Page Item: P14_VERSION_HARDWARE =====================
   id: 16831388022474382029
   identification: 
@@ -1011,8 +1083,8 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 170
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 110
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -1071,8 +1143,8 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 180
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 120
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -1131,8 +1203,8 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 190
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 130
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -1192,8 +1264,8 @@ page-items:
     use-defaults: true
 
   layout: 
-    sequence: 110
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 180
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -1292,7 +1364,7 @@ page-items:
 
   layout: 
     sequence: 20
-    region: OBLIGATORIOS # 51494081943826384827
+    region: Datos Principales # 51494081943826384827
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -1374,7 +1446,7 @@ page-items:
 
   layout: 
     sequence: 30
-    region: OBLIGATORIOS # 51494081943826384827
+    region: Datos Principales # 51494081943826384827
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -1441,8 +1513,8 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 220
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 140
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -1504,14 +1576,14 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 230
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 150
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
-    new-column: true
+    new-column: false
     column-span: Automatic
     label-column-span: Page Template Default
 
@@ -1567,8 +1639,8 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 100
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 170
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -1626,8 +1698,8 @@ page-items:
     virtual-keyboard: Decimal
 
   layout: 
-    sequence: 70
-    region: OBLIGATORIOS # 51494081943826384827
+    sequence: 90
+    region: Datos Principales # 51494081943826384827
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -1680,8 +1752,8 @@ page-items:
     value-protected: false
 
   layout: 
-    sequence: 150
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 100
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
 
   advanced: 
@@ -1729,7 +1801,7 @@ page-items:
 
   layout: 
     sequence: 10
-    region: OBLIGATORIOS # 51494081943826384827
+    region: Datos Principales # 51494081943826384827
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -1788,7 +1860,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 60
+    sequence: 70
     region: SGT_FORM_EQUIPO # 200805748090942280007
     slot: BODY
 
@@ -1821,7 +1893,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 70
+    sequence: 80
     region: SGT_FORM_EQUIPO # 200805748090942280007
     slot: BODY
 
@@ -1854,7 +1926,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 80
+    sequence: 90
     region: SGT_FORM_EQUIPO # 200805748090942280007
     slot: BODY
 
@@ -1887,7 +1959,7 @@ page-items:
     value-protected: true
 
   layout: 
-    sequence: 90
+    sequence: 100
     region: SGT_FORM_EQUIPO # 200805748090942280007
     slot: BODY
 
@@ -1917,7 +1989,7 @@ page-items:
     type: Text Field
 
   label: 
-    label: IP Gestión
+    label: IP de Gestión
     alignment: Left
 
   settings: 
@@ -1928,15 +2000,15 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 90
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 30
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
     alignment: Left
     start-new-layout: false
     start-new-row: true
     column: Automatic
     new-column: true
-    column-span: 6
+    column-span: Automatic
     label-column-span: Page Template Default
 
   appearance: 
@@ -1945,7 +2017,6 @@ page-items:
     - '#DEFAULT#'
     format-mask: 000.000.000.000
     width: 30
-    value-placeholder: Ingrese una IP
 
   validation: 
     value-required: false
@@ -2019,8 +2090,8 @@ page-items:
     value-protected: false
 
   layout: 
-    sequence: 140
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 90
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
 
   advanced: 
@@ -2063,8 +2134,8 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 70
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 10
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -2123,8 +2194,8 @@ page-items:
     disabled: false
 
   layout: 
-    sequence: 80
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 20
+    region: Datos Adicionales # 200746701216699948331
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -2182,15 +2253,15 @@ page-items:
     type: No
 
   layout: 
-    sequence: 80
-    region: OBLIGATORIOS # 51494081943826384827
+    sequence: 70
+    region: Datos Principales # 51494081943826384827
     slot: BODY
     alignment: Left
     start-new-layout: false
-    start-new-row: false
+    start-new-row: true
     column: Automatic
     new-column: true
-    column-span: 4
+    column-span: Automatic
     label-column-span: Page Template Default
 
   appearance: 
@@ -2262,7 +2333,7 @@ page-items:
 
   layout: 
     sequence: 60
-    region: OBLIGATORIOS # 51494081943826384827
+    region: Datos Principales # 51494081943826384827
     slot: BODY
     alignment: Left
     start-new-layout: false
@@ -2328,11 +2399,11 @@ buttons:
     label: Seleccionar U
 
   layout: 
-    sequence: 120
-    region: DATOS_OPCIONALES # 200746701216699948331
+    sequence: 100
+    region: Datos Principales # 51494081943826384827
     slot: BODY
     start-new-layout: false
-    start-new-row: true
+    start-new-row: false
     column: Automatic
     new-column: true
     column-span: Automatic
@@ -2499,7 +2570,10 @@ dynamic-actions:
   client-side-condition: 
     type: Item = Value
     item: P14_SUB_TIPO
-    value: Activo
+    value: Activo, Energía
+
+  configuration: 
+    build-option: Commented Out # 197180071872965446203
 
   actions: 
   - # ====== Action: Hide ========================================

@@ -1,10 +1,10 @@
 ---
-# ====== Page: PRUEBATREE ====================================
+# ====== Page: Arbol App =====================================
 id: 20
 identification: 
-  name: PRUEBATREE
-  alias: PRUEBATREE
-  title: PRUEBATREE
+  name: Arbol App
+  alias: ARBOL-APP
+  title: Árbol App
 
 appearance: 
   page-mode: Normal
@@ -18,6 +18,73 @@ navigation-menu:
 navigation: 
   cursor-focus: Do not focus cursor
   warn-on-unsaved-changes: true
+
+javascript: 
+  function-and-global-variable-declaration: |
+    (function ($) {
+    
+        var currentNode 
+        const menuItems = [
+            {
+                type: "action",
+                label: "Nuevo",
+                action: function () {
+                    apex.message.showPageSuccess("Nuevo");
+                }
+            },
+            {
+                type: "action",
+                label: "Mudar",
+                icon: "fa fa-maps-marker",
+                action: function () {
+                    apex.message.showPageSuccess("Mudar");
+                }
+            },
+            {
+                type: "action",
+                label: "Editar",
+                action: function () {
+    
+                   
+                    console.log(currentNode);
+                    apex.event.trigger(
+                        document,
+                        "tree-edit",
+                        {
+                            nodeId: 12
+                        }
+                    );
+                    apex.message.showPageSuccess("Editar");
+                }
+            },
+            {
+                type: "action",
+                label: "Eliminar",
+                action: function () {
+                    apex.message.confirm("¿Eliminar nodo?");
+                }
+            }
+        ];
+    
+        $("#ARBOL_APP")
+            .on("contextmenu", ".a-TreeView-content", function (e) {
+                
+    
+                const node$ = $(this).closest("li");
+                console.log("jQuery Arbol:", $("#ARBOL_APP"))
+                console.log("Widget Arbol:",$("#ARBOL_APP").treeView("instance"))
+                //currentNode =  $("#ARBOL_APP").treeView("instance").getNode(node$)
+                
+                e.preventDefault();
+    
+                $("#treeMenu").menu({
+                    items: menuItems
+                }).menu("open", e.pageX, e.pageY);
+    
+    
+            });
+    
+    })(apex.jQuery);
 
 security: 
   authentication: Page Requires Authentication
@@ -37,10 +104,10 @@ server-cache:
   caching: Disabled
 
 regions: 
-- # ====== Region: PRUEBATREE ==================================
+- # ====== Region: Vista árbol =================================
   id: 201656199244269324771
   identification: 
-    name: PRUEBATREE
+    name: Vista árbol
     type: Tree
 
   source: 
@@ -57,15 +124,15 @@ regions:
       union all
       select ('R') as link_type,to_char(zona_id)||'-'||to_char(sitio_id)||'-'||to_char(sala_id) as PARENT_ID, to_char(zona_id) || '-' || to_char(sitio_id) || '-'||to_char(sala_id)||'-'||to_char(d.id) as ID, d.nombre as name, d.id as sub_id from sgt_racks d  
       */
-      select 'Z' as link_type, to_char(parent_id) as PARENT_ID, to_char(sgt_zonas.id) as ID , NOMBRE AS name, null as sub_id from sgt_zonas 
+      select 'Z' as link_type, to_char(parent_id) as PARENT_ID, to_char(sgt_zonas.id) as ID , NOMBRE AS name, id as sub_id , null AS icon from sgt_zonas 
       union all
-      select 'S' as link_type, to_char(zona_id) as PARENT_ID, 'S-'||to_char(b.id) as ID,  nombre as name, b.id as sub_id from sgt_sitios b
+      select 'S' as link_type, to_char(zona_id) as PARENT_ID, 'S-'||to_char(b.id) as ID,  nombre as name, b.id as sub_id , 'fa fa-map-marker' AS icon from sgt_sitios b
       union all
-      select ('SC') as link_type, 'S-'||to_char(sitio_id) as PARENT_ID, 'SC-'||to_char(c.id) as ID, c.siglas as name, c.id as sub_id from sgt_salas c
+      select ('SC') as link_type, 'S-'||to_char(sitio_id) as PARENT_ID, 'SC-'||to_char(c.id) as ID, c.siglas as name, c.id as sub_id, 'fa fa-city' AS icon from sgt_salas c
       union all
-      select ('R') as link_type,'SC-'||to_char(sala_id) as PARENT_ID, 'R-'||to_char(d.id) as ID, d.nombre as name, d.id as sub_id from sgt_racks d  
+      select ('R') as link_type,'SC-'||to_char(sala_id) as PARENT_ID, 'R-'||to_char(d.id) as ID, d.nombre as name, d.id as sub_id , 'fa fa fa-badge-list' AS icon from sgt_racks d  
       union all 
-      select ('E') as link_type,  'R-'||to_char(rack_id) as parent_id , 'E-'||to_char(e.id) as ID, e.nombre as name, e.id as sub_id from sgt_equipos e
+      select ('E') as link_type,  'R-'||to_char(rack_id) as parent_id , 'E-'||to_char(e.id) as ID, e.nombre as name, e.id as sub_id, 'fa fa-hardware' AS icon from sgt_equipos e
       /*
       union all
       select ('E') as link_type,
@@ -82,17 +149,28 @@ regions:
              end as status, 
              level,
              name as title, 
-             null as icon, 
+             icon, 
              "ID" as value, 
              null as tooltip, 
-             null as link 
+             case link_type
+                when 'Z' then
+                APEX_PAGE.GET_URL( p_page => 3, p_items => 'P3_ID', p_values => sub_id )
+                when 'S' then 
+                APEX_PAGE.GET_URL( p_page => 26, p_items => 'P26_ID', p_values => sub_id )  
+                when 'SC' then   
+                APEX_PAGE.GET_URL( p_page => 5, p_items => 'P5_ID', p_values => sub_id )
+                when 'R'  then  
+                APEX_PAGE.GET_URL( p_page => 12, p_items => 'P12_ID', p_values => sub_id )
+                when 'E' then   
+                APEX_PAGE.GET_URL( p_page => 66, p_items => 'P66_ID', p_values => sub_id )
+             end  as link 
       from data
       start with "PARENT_ID" is null
       connect by prior "ID" = "PARENT_ID"
       order siblings by name
 
   layout: 
-    sequence: 10
+    sequence: 20
     parent-region: No Parent
     slot: BODY
     start-new-layout: false
@@ -113,8 +191,12 @@ regions:
     landmark-type: Template Default
 
   advanced: 
+    static-id: ARBOL_APP
     region-display-selector: false
     exclude-title-from-translation: false
+
+  header-and-footer: 
+    footer-text: <div id="treeMenu"></div>
 
   server-cache: 
     caching: Disabled
@@ -130,7 +212,7 @@ regions:
       node-status-column: STATUS
       hierarchy-level-column: LEVEL
       tooltip: None
-      activate-node-link-with: Single Click
+      activate-node-link-with: Double Click
       link-column: LINK
       icon-css-class-column: ICON
       default-icon-css-class: icon-tree-folder
@@ -148,7 +230,7 @@ buttons:
 
   layout: 
     sequence: 10
-    region: PRUEBATREE # 201656199244269324771
+    region: Vista árbol # 201656199244269324771
     slot: CREATE
     start-new-layout: false
     start-new-row: true
@@ -174,7 +256,7 @@ buttons:
 
   layout: 
     sequence: 10
-    region: PRUEBATREE # 201656199244269324771
+    region: Vista árbol # 201656199244269324771
     slot: CREATE
     start-new-layout: false
     start-new-row: true
@@ -193,6 +275,37 @@ buttons:
     execute-validations: true
 
 dynamic-actions: 
+- # ====== Dynamic Action: EDIT ================================
+  id: 10146235492378115
+  identification: 
+    name: EDIT
+
+  execution: 
+    sequence: 20
+    event-scope: Static
+    type: Immediate
+
+  when: 
+    event: Custom
+    custom-event: tree-edit
+    selection-type: Region
+    region: Vista árbol # 201656199244269324771
+
+  actions: 
+  - # ====== Action: Execute JavaScript Code =====================
+    id: 10146292469378116
+    identification: 
+      action: Execute JavaScript Code
+
+    settings: 
+      code: 'console.log("Edit tree: ")'
+
+    execution: 
+      sequence: 10
+      event: EDIT # 10146235492378115
+      fire-when-event-result-is: True
+      fire-on-initialization: false
+
 - # ====== Dynamic Action: CONTRACT_ALL ========================
   id: 201656200035367324773
   identification: 
@@ -216,7 +329,7 @@ dynamic-actions:
 
     affected-elements: 
       selection-type: Region
-      region: PRUEBATREE # 201656199244269324771
+      region: Vista árbol # 201656199244269324771
 
     execution: 
       sequence: 10
@@ -247,7 +360,7 @@ dynamic-actions:
 
     affected-elements: 
       selection-type: Region
-      region: PRUEBATREE # 201656199244269324771
+      region: Vista árbol # 201656199244269324771
 
     execution: 
       sequence: 10
