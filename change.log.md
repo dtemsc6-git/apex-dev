@@ -1,34 +1,55 @@
 #Control de cambios de la App antes del commit
 ###: 2026-05-31:
-Check estas paginas:
-1
-4
-7
-9
-10
-11
-13
-15
-16
-17
-18
-25
-26
-32
-33
-36
-37
-43
-47
-63
-65
-68
-407
-465
-470
-471
-472
-9999
+Pagina	Nombre	Usuario
+PAGE:00064	Dependencias FO	           marcelo
+PAGE:00066	Detalles Equipos	           marcelo
+PAGE:00067	Vista Global Comentarios	  marcelo
+PAGE:10020	Acerca de esta App	        marcelo
+PAGE:10030	Activity Dashboard	        marcelo
+PAGE:10031	Top Users	                 marcelo
+PAGE:10032	Application Error Log	     marcelo
+PAGE:10033	Page Performance	           marcelo
+PAGE:10034	Page Views	                 marcelo
+PAGE:10035	Automations Log	           marcelo
+PAGE:10036	Log Messages	              marcelo
+
+Cambios
+Pagina	Nombre	Usuario
+PAGE:00001	Home	                       Cecilia
+PAGE:00004	SGT_LST_SALAS	              Cecilia
+PAGE:00007	Historial Equipo	           Cecilia
+PAGE:00010	Grilla enlaces WAN	        marcelo
+PAGE:00011	SGT_LST_RACKS	              Cecilia
+PAGE:00012	SGT_FORM_RACKS	              Cecilia
+PAGE:00013	SGT_LST_EQUIPOS	           Cecilia
+PAGE:00013	SGT_LST_EQUIPOS	           marcelo
+PAGE:00014	SGT_FORM_EQUIPO	           Cecilia
+PAGE:00015	Subir KMZ	                 marcelo
+PAGE:00017	Visor de Servicios	        Cecilia
+PAGE:00018	Servicios	                 Cecilia
+PAGE:00020	Arbol App	                 marcelo
+PAGE:00020	PRUEBATREE	                 Cecilia
+PAGE:00025	SGT_LST_SITIOS	              Cecilia
+PAGE:00025	SGT_LST_SITIOS	              marcelo
+PAGE:00026	SGT_FORM_SITIOS	           Cecilia
+PAGE:00027	SGT_FORM_ENLACES_FO	        Cecilia
+PAGE:00033	Dependencias Salas	        marcelo
+PAGE:00036	SGT_LST_ENLACES_FO_2	        Cecilia
+PAGE:00036	SGT_LST_ENLACES_FO_2	        marcelo
+PAGE:00042	Dependencias Racks	        Cecilia
+PAGE:00043	Tipo de Wan	                 Cecilia
+PAGE:00044	IG_EQUIPOS	                 Cecilia
+PAGE:00045	IG_ENLACES_FO	              Cecilia
+PAGE:00047	MAPA_SITIOS	                 marcelo
+PAGE:00063	Vista Global enlaces wan y servicios	marcelo
+PAGE:00065	Mapa Tendido Fibra	        marcelo
+PAGE:00407	Enlaces WAN	                 Cecilia
+PAGE:00407	Enlaces WAN	                 marcelo
+PAGE:00465	Dependencias equipos	        Cecilia
+PAGE:00470	Subir Fotos	                 Cecilia
+PAGE:00470	Subir Fotos	                 marcelo
+PAGE:10000	Control de Accesos	        marcelo
+
 
 ###: 2026-05-29:
 
